@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">body,img{ padding: 0; margin: 0; }#qrcode{display: none;}</style>
+</head>
+<body><img id="qrcode" width="100%" src="tip.png" /></body>
+</html>
+<script type="text/javascript">
+var u = navigator.userAgent;
+var ua = u.toLowerCase();
+if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) || u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1 || u.indexOf('iPad') > -1){
+	if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+		document.getElementById('qrcode').style.display = 'block';
+	}else{
+		//window.location.href="https://appsto.re/cn/xikP_.i";
+		window.location.href = "https://itunes.apple.com/cn/app/le-xiang-sheng-huo./id1067754007?mt=8";
+	}
+}else if(u.indexOf('Android') > -1 || u.indexOf('Adr') > -1){
+	if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+		document.getElementById('qrcode').style.display = 'block';
+	}else{
+		window.location.href="http://www.dsanke.com/upload/download_mlm/hnlxsh_com.lelele999.www.apk";
+	}
+	
+}else{
+	window.location.href="http://www.dsanke.com/";
+}
+</script>
