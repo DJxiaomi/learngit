@@ -1,0 +1,97 @@
+*{padding:0;margin:0;}
+.seat{width:700px; margin:40px auto 0 auto; min-height:450px;}
+@media screen and (max-width: 360px) {.demo {width:340px}}
+h1{text-align: center;padding:20px 0;font-size: 20px;}
+.front{margin: 5px auto 45px;background-color: #f0f0f0;	color: #666;text-align: center;padding: 3px;border-radius: 5px;width:40%;}
+.booking-details {position: relative;height: 440px;padding-top: 20px; }
+.booking-details h3 {margin: 5px 5px 0 0;font-size: 16px;}
+.booking-details p{line-height:26px; font-size:16px; color:#999;margin:0;}
+.booking-details p span{color:#666}
+.seatCharts-row {height: 35px;text-align: center;}
+div.seatCharts-cell {color: #182C4E;height: 25px;width: 25px;line-height: 25px;margin: 3px;text-align: center;outline: none;font-size: 13px;display:inline-block;}
+div.seatCharts-space{height:auto !important;}
+div.seatCharts-seat {color: #fff;cursor: pointer;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+
+div.seatCharts-seat.available {background-color: #51a5ec;}
+div.seatCharts-seat.focused {background-color: #368bd4;border: none;}
+div.seatCharts-seat.selected {background-color: #d21c1c;}
+div.seatCharts-seat.unavailable {background-color: #ccc;cursor: not-allowed;}
+div.seatCharts-container {padding: 20px;}
+div.seatCharts-legend {padding-left: 0px;bottom: 16px;}
+ul.seatCharts-legendList {padding-left: 0px;}
+.seatCharts-legendItem{float:left; width:90px;margin-top: 10px;line-height: 2;list-style:none;}
+span.seatCharts-legendDescription {margin-left: 5px;line-height: 30px;}
+.checkout-button {display: block; margin: 10px auto;border:1px solid #51a5ec;font-size: 14px; cursor:pointer;background:#51a5ec;color:#fff;padding:5px 15px;border-radius: 5px;outline: none;}
+.checkout-button:hover{background:#368bd4;}
+#selected-seats {max-height: 156px;overflow-y: auto;overflow-x: none;width: 200px;padding-left:0;margin:0;}
+#selected-seats li{float:left; width:72px; height:26px; line-height:26px; border:1px solid #d3d3d3; background:#f7f7f7; margin:6px; font-size:14px; font-weight:bold; text-align:center;list-style:none;}
+.seat_inner{margin:0 auto;}
+*{font-size: 12px;font: 12px/1.5 arial,verdana;box-sizing: content-box;}
+
+.am-container{max-width: 1400px;}
+
+.seat_admin h1{font-size:24px;}
+
+#legend div.seatCharts-seat{float:left;}
+
+.seat_map_warp [class*=am-u-]{padding:0 5px;}
+
+.seat_fun button{margin:5px;}
+
+.seat_inner{width:100%;}
+
+.seat_admin .left{width:400px;float:left;margin-right:30px;}
+.seat_admin .show{float:left;width:800px;height:500px;overflow-x:scroll;overflow-y:scroll;white-space: nowrap;}
+
+/**/
+.seat_item{display:inline-block;width:24px;height:24px;line-height:24px !important;text-align:center;margin:5px;background:#51a5ec;border-radius: 2px;color:#fff;cursor:pointer;border:1px solid #51a5ec;}
+
+
+/*.seat_admin .show .selected{border:1px solid red;background-color:#D6DFF7;color:red;} */
+
+.seat_rows span{display: inline-block;width:20px;}
+
+.seatCharts-row .items_1,.seat_fun .items_1{background:#51a5ec;border-color:#51a5ec;}
+.seatCharts-row .items_2,.seat_fun .items_2{background:#f1800b;border-color:#f1800b;}
+.seatCharts-row .items_3,.seat_fun .items_3{background:#8e0bf1;border-color:#8e0bf1;}
+.seatCharts-row .items_4,.seat_fun .items_4{background:#ce36c8;border-color:#ce36c8;}
+.seatCharts-row .items_5,.seat_fun .items_5{background:#0bf132;border-color:#0bf132;}
+.seatCharts-row .items_6,.seat_fun .items_6{background:#0bf1dd;border-color:#0bf1dd;}
+.seatCharts-row .items_gd,.seat_fun .items_gd{background:#ccc;border-color:#ccc;}
+.seatCharts-row .selected,.seat_fun .selected{background:#d21c1c;border-color:#d21c1c;}
+
+div.seatCharts-seat.cate_style_1{background:#51a5ec;border-color:#51a5ec;}
+div.seatCharts-seat.cate_style_2{background:#f1800b;border-color:#f1800b;}
+div.seatCharts-seat.cate_style_3{background:#8e0bf1;border-color:#8e0bf1;}
+div.seatCharts-seat.cate_style_4{background:#ce36c8;border-color:#ce36c8;}
+div.seatCharts-seat.cate_style_5{background:#0bf132;border-color:#0bf132;}
+div.seatCharts-seat.cate_style_6{background:#0bf1dd;border-color:#0bf1dd;}
+
+div.seatCharts-seat.focused {background-color: #368bd4;border: none;}
+div.seatCharts-seat.selected {background-color: #d21c1c;}
+
+div.seatCharts-seat.unavailable {background-color: #ccc;cursor: not-allowed;}
+
+
+/*修复兼容*/
+.seat_admin{padding:15px 0 0 15px;margin:0;font-size: 14px;}
+.navbar-list{margin:0;}
+h1.topbar-logo{font-size: 18px;margin:0;} 
+.sidebar-title h1{font-size: 18px;}
+ul.sub-menu{margin:0;}
+ul.sidebar-list{padding-left:0;}
+ul.sidebar-list li{padding-left:0;}
+.seat_admin label{font-size: 14px;}
+.seat_admin select{font-size: 14px;}
+
+/*修复后台*/
+
+#menu ul{margin:0;box-sizing: content-box;}
+#menu ul li{box-sizing: content-box;}
+#header p{margin:0;}
+#admin_left ul.submenu{padding-left:0;}
+#admin_left ul.submenu li ul{padding-left:0;margin:0;}
+
+.seat_admin *{box-sizing: border-box;font: 12px arial}
+
+.seat_admin .am-form input[type=text]{font-size:12px;}
