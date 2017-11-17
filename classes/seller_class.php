@@ -301,8 +301,9 @@ class Seller_class
         return ($teacher_info['is_receive_booking'] == 1) ? true : false;
     }
     
-    public static function get_intro_shop_list_by_area_id($area_id = 0, $limit = 10)
+    public static function get_intro_shop_list_by_area_id($city_id = 0, $area_id = 0, $limit = 10)
     {
+        $seller_condition = " and s.city = $city_id";
         $goods_db = new IQuery('goods');
         $goods_db->where = 'is_del = 0';
         $goods_db->fields = 'distinct(seller_id) as seller_id';
@@ -318,7 +319,7 @@ class Seller_class
         }
         if ( $seller_arr )
         {
-            $seller_condition = ' and ' . db_create_in($seller_arr, 's.id');
+            $seller_condition .= ' and ' . db_create_in($seller_arr, 's.id');
         }
         
         $shop_db = new IQuery('seller s');
@@ -330,6 +331,8 @@ class Seller_class
         $shop_db->fields = 's.sale,b.brief,b.id, b.shortname,b.name, s.seller_name, s.address, s.area, b.logo, s.brand_id,b.description';
         $shop_db->order = 's.sale desc';
         $shop_db->limit = $limit;
+        
+        $shop_db->find();
         return $shop_db->find();
     }
     

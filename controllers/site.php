@@ -8,11 +8,7 @@
  * @version 0.6
  * @note
  */
-/**
- * @brief Site
- * @class Site
- * @note
- */
+
 class Site extends IController
 {
     public $layout='site';
@@ -55,6 +51,7 @@ class Site extends IController
 	           $redirect .= '/promote/' . $this->promote;
 	        die("<script>location.href = '$redirect';</script>");
 	    }
+	    
 	}
 	
 	function activity_discount()
@@ -67,15 +64,14 @@ class Site extends IController
 		 $this->redirect('activity_zhuanti');
 	}
 
+	
 	function index()
 	{
 	    $user_id = $this->user['user_id'];
-	    // 根据区域获取推荐的商户
-	    $area_list = area::get_child_area_list(430200);
-	    $arr = array(
-	        'area_id'  =>  0,
-	        'area_name'    => '全部',
-	    );
+	    $my_city_code = city::get_my_city_code();
+	    $area_arr = city::get_city_arr();
+	    $area_list = area::get_child_area_list($my_city_code);
+	    $arr = array('area_id'  =>  0, 'area_name'    => '全部',);
 	    array_unshift($area_list, $arr);
 	    $shop_list = array();
 	    if ( $area_list )
@@ -83,12 +79,15 @@ class Site extends IController
 	        foreach( $area_list as $kk => $vv )
 	        {
 	            if ( !$vv['area_id'])
-	                $shop_list[$vv['area_id']] = seller_class::get_intro_shop_list_by_area_id($vv['area_id'], 200);
+	            {
+                    $shop_list[$vv['area_id']] = seller_class::get_intro_shop_list_by_area_id($my_city_code,$vv['area_id'], 200);
+	            }
 	            else
-	                $shop_list[$vv['area_id']] = seller_class::get_intro_shop_list_by_area_id($vv['area_id']);
+	            {
+	                $shop_list[$vv['area_id']] = seller_class::get_intro_shop_list_by_area_id($my_city_code,$vv['area_id']);
+	            }
 	        }
 	    }
-	     
 	    if ( $shop_list )
 	    {
 	        foreach($shop_list as $kk => $vv )
@@ -127,8 +126,11 @@ class Site extends IController
 		}
 		$this->contents=$contents;
 
-		//获取短期课列表
-    	$dqk_list[] = array('name' => '全部','id' => 0,'list' => brand_chit_class::get_intro_dqk_list_by_category_id(0,0));
+
+
+
+		//获取短期课列表 10课
+    	$dqk_list[] = array('name' => '全部','id' => 0,'list' => brand_chit_class::get_intro_dqk_list_by_category_id($my_city_code,0,10));
     	
     	//获取短期课分类
     	$dqk_category_list = manual_category_class::get_category_list();
@@ -136,7 +138,7 @@ class Site extends IController
     	{
     	    foreach($dqk_category_list as $kk => $vv )
     	    {
-    	        $dqk_list[] = array('name' => $vv['name'],'id' => $vv['id'],'list' => brand_chit_class::get_intro_dqk_list_by_category_id($vv['id']));
+    	        $dqk_list[] = array('name' => $vv['name'],'id' => $vv['id'],'list' => brand_chit_class::get_intro_dqk_list_by_category_id($my_city_code,$vv['id']));
     	    }
     	}
     	
@@ -154,13 +156,15 @@ class Site extends IController
     	        'link'      =>  $share_link,
     	    ));
     	}
-	    
+    	
 	    $this->setRenderData(array(
+	        'city'        =>  str_replace("市","",area::getName($my_city_code)),
+	        'city_arr'    =>  city::get_city_arr(),
 	        'page'        =>  1,
 	        'page_count'  =>  $paging->totalpage,
 	        'shop_list'   =>  $shop_list,
 	        'area_list'   =>  $area_list,
-	        'dqk_list'     =>  $dqk_list,
+	        'dqk_list'    =>  $dqk_list,
 	    ));
 		$this->index_slide = Api::run('getBannerList');
 		$this->index_slide_mobile = Api::run('getBannerMobileList');
@@ -297,7 +301,7 @@ class Site extends IController
 	{
 		$this->catId = IFilter::act(IReq::get('cat'),'int');//分类id
 		$keywords = IFilter::act(IReq::get('keywords'));
-		$area_id = 430200;
+		$area_id = city::get_my_city_code();
 
 		if($this->catId == 0)
 		{
@@ -341,7 +345,7 @@ class Site extends IController
 		    // 获取所有可选区域
 		    $area_arr = array(array(
 		                'value'   =>  $area_id,
-		                'text'    => '株洲市',
+		                'text'    =>  area::getName($area_id),
 		    ));
 		    $area_list = area::get_child_area_list($area_id);
 		    if ( $area_list )
@@ -1753,11 +1757,13 @@ function article_detail2()
 		$category_id   = IFilter::act(IReq::get('id'),'int');
 		$cat_id   = IFilter::act(IReq::get('cat_id'),'int');
 		$category_list = brand_class::get_brand_category_list();
-		$area_list = area::get_child_area_list('430200');
+		$city_id = city::get_my_city_code();
+		$area_list = area::get_child_area_list($city_id);
 		$page = IFilter::act(IReq::get('page'),'int');
 		$page = max( $page, 1 );
 		$where = '';
 		$catname = '';
+		$area_id = $city_id;
 		$area_id = IFilter::act(IReq::get('area_id'),'int');
 		$page_size = ( IClient::getDevice() == IClient::PC ) ? 12 : 100;
 		$keywords = IFilter::act(IReq::get('keywords'));
@@ -1773,6 +1779,7 @@ function article_detail2()
 		{
 		    $where .= " and b.discrict = '$area_id'";
 		}
+		
 		if ( IClient::getDevice() == IClient::PC )
 		{
 		    $brand_db = new IQuery('brand AS b');
@@ -1866,8 +1873,7 @@ function article_detail2()
 		        ),
 		    ));
 		} else {
-		    $area_id = 430200;
-		    
+		    $area_id = $city_id;
 		    if ($cat_id)
 		    {
 		        //查找分类信息
@@ -1901,7 +1907,7 @@ function article_detail2()
 		    // 获取所有可选区域
 		    $area_arr = array(array(
 		        'value'   =>  $area_id,
-		        'text'    => '株洲市',
+		        'text'    => area::getName($area_id),
 		    ));
 		    $area_list = area::get_child_area_list($area_id);
 		    if ( $area_list )
@@ -2491,7 +2497,6 @@ function article_detail2()
 	            'keywords' =>  $keywords,
 	        ));
 	    }
-	    
 	    $this->title = '短期课列表';
 	    $this->redirect('chit1');
 	}
@@ -2731,7 +2736,8 @@ function article_detail2()
 	    $page_size = 10;
 	    $cat_id = IFilter::act(IReq::get('cat_id'),'int');
 	    $keyword = IFilter::act(IReq::get('keyword'));
-	    $where = '';
+	    $my_city_code = city::get_my_city_code();
+	    $where = ' and s.city = '.$my_city_code;
 	    
 	    if ( $cat_id )
 	    {
@@ -2766,7 +2772,6 @@ function article_detail2()
 	            $where .= ' and ' . db_create_in($goods_ids, 'bc.goods_id');
 	        }
 	    }
-
 	    $brand_chit_db = new IQuery('brand_chit as bc');
 	    $brand_chit_db->where = 'g.is_del = 0 and bc.is_del = 0 and bc.category = 2' . $where;
 	    $brand_chit_db->order = 'bc.is_top desc,bc.sale desc';
@@ -3994,8 +3999,9 @@ function article_detail2()
 	    $this->title = '学习通会员专享';
 	    
 	    // 获取所有短期课商户列表
+	    $my_city_code = city::get_my_city_code();
 	    $brand_chit_db = new IQuery('brand_chit as bc');
-	    $brand_chit_db->where = 'g.is_del = 0 and bc.is_del = 0 and bc.category = 2';
+	    $brand_chit_db->where = 'g.is_del = 0 and bc.is_del = 0 and bc.category = 2 and s.city = '.$my_city_code;
 	    $brand_chit_db->order = 'c_sale desc';
 	    $brand_chit_db->join = 'left join goods as g on bc.goods_id = g.id left join seller as s on bc.seller_id = s.id left join brand as b on s.brand_id = b.id';
 	    $brand_chit_db->fields = 'distinct(bc.seller_id) as seller_id,sum(bc.sale) as c_sale,bc.*,s.area,s.shortname as seller_name,g.market_price,b.brief,b.logo as b_logo,s.address';

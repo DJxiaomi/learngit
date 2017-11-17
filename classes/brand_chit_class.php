@@ -272,9 +272,34 @@ class brand_chit_class
         $brand_chit_db->add();
         return true;
     }
-    
+
     // 获取短期课推荐
-    public static function get_intro_dqk_list_by_category_id($category_id = 0, $limit = 10)
+    public static function get_intro_dqk_list_by_category_id($city_id = 430200, $category_id = 0, $limit = 10)
+    {
+        $where = '';
+        if ( $category_id )
+        {
+            $where .= ' and manual_category_id = ' . $category_id;
+        }
+        if ( $city_id )
+        {
+            $where .= ' and s.city = ' . $city_id;
+        }
+        $brand_chit_db = new IQuery('brand_chit as bc');
+        $brand_chit_db->where = 'bc.is_intro = 1 and g.is_del = 0 and bc.category = 2 and bc.is_del = 0' . $where;
+        $brand_chit_db->order = 'bc.is_top desc,bc.sale desc';
+        $brand_chit_db->join = 'left join goods as g on bc.goods_id = g.id left join seller as s on bc.seller_id = s.id';
+        $brand_chit_db->fields = 'distinct(bc.seller_id) as seller_id,bc.*,s.shortname as seller_name,s.address,s.area';
+        if ( $limit )
+        {
+            $brand_chit_db->limit = $limit;
+        }
+        $brand_chit_db->group = 'bc.seller_id';
+        $dqk_list = $brand_chit_db->find();
+        return $dqk_list;
+    }
+    
+    public static function get_intro_dqk_list_by_category_id_2($category_id = 0, $limit = 10)
     {
         $where = '';
         if ( $category_id )
