@@ -1,0 +1,678 @@
+<?php
+/**
+ * @brief 检索商品类
+ * @date 2013/12/1 18:34:35
+ * @author chendeshan
+ */
+class search_goods
+{
+	//商品检索的属性过滤 array(key => array(id,name,value))
+	public static $attrSearch = array();
+
+	//商品检索的品牌过滤 array(key => array(id,name))
+	public static $brandSearch = array();
+
+	//商品检索的价格过滤
+	public static $priceSearch = array();
+
+	/**
+	 * @brief [条件检索url处理]对于query url中已经存在的数据进行删除;没有的参数进行添加
+	 * @param string or array $queryKey 字段名称
+	 * @param string or array $queryVal 字段值
+	 */
+	public static function searchUrl($queryKey,$queryVal = '')
+	{
+		if(is_array($queryKey))
+		{
+			$condition = array();
+			foreach($queryKey as $key => $colum)
+			{
+				$columValue = is_array($queryVal) ? $queryVal[$key] : $queryVal;
+				$condition[]= $colum."=".$columValue;
+			}
+			$condition = join("&",$condition);
+		}
+		else
+		{
+			$condition = $queryKey."=".$queryVal;
+		}
+
+		//生成解析本次要检索的条件
+		parse_str($condition,$inputArray);
+
+		//解析当前URL已经存在的条件
+		$queryArray  = array();
+		$orgUrl      = IUrl::getUri();
+		$parseUrlArr = parse_url($orgUrl);
+		if(isset($parseUrlArr['query']) && $parseUrlArr['query'])
+		{
+			parse_str($parseUrlArr['query'], $queryArray);
+		}
+
+		//对条件进行替换产生最终的条件结果
+		$resultQuery = array_replace_recursive($queryArray,$inputArray);
+		$resultQuery = IFilter::emptyArray($resultQuery);
+
+		//产生跳转的URL地址
+		$parseUrlArr['query'] = "?".http_build_query($resultQuery);
+		return join($parseUrlArr);
+	}
+
+	/**
+	 * @brief 获取排列顺序： asc,desc
+	 * @param string 排列字段 sort,new...来自 self::getOrderType()
+	 * @return string asc:正序;desc:倒序
+	 */
+	public static function getOrderBy($order)
+	{
+		$issetOrder = IReq::get('order');
+		$issetBy    = IReq::get('by');
+		if($order == $issetOrder && $issetBy == "asc")
+		{
+			return "desc";
+		}
+		return "asc";
+	}
+
+	/**
+	 * @brief 获取总的排序方式
+	 * @return array(代号 => 名字)
+	 */
+	public static function getOrderType()
+	{
+		return array('sale' =>'销量','cpoint' =>'评分','price'=>'价格','new'=>'最新上架');
+	}
+
+	/**
+	 * @brief 商品检索,可以直接读取 $_GET 全局变量:attr,order,brand,min_price,max_price
+	 *        在检索商品过程中计算商品结果中的进一步属性和规格的筛选
+	 * @param mixed $defaultWhere string(条件) or array('search' => '模糊查找','category_extend' => '商品分类ID','字段' => 对应数据)
+	 * @param int $limit 读取数量
+	 * @param bool $isCondition 是否筛选出商品的属性，价格等数据
+	 * @return IQuery
+	 */
+	public static function find($defaultWhere = '',$limit = 21,$isCondition = true)
+	{
+		//排序字段
+		$orderArray = array();
+
+		//开始查询
+		$goodsObj           = new IQuery("goods as go");
+		$goodsObj->page     = isset($_GET['page']) ? intval($_GET['page']) : 1;
+		$goodsObj->fields   = 'go.id,go.name,go.sell_price,go.market_price,go.store_nums,go.img,go.sale,go.grade,go.comments,go.favorite,go.keywords,go.brand_id';
+		$goodsObj->pagesize = $limit;
+		$goodsObj->group    = 'go.id';
+
+		/*where条件拼接*/
+		//(1),当前产品分类
+		$where = array('go.is_del = 0');
+		$join  = array();
+
+		//(2),商品属性,规格筛选
+		$attrCond  = array();
+		$attrArray = IReq::get('attr') ? IFilter::act(IReq::get('attr')) : array();
+		if($attrArray)
+		{
+			foreach($attrArray as $attId => $attVal)
+			{
+				$attId = IFilter::act($attId,'int');
+				if($attId && $attVal && !preg_match("|\s+|",$attVal))
+				{
+					$attrCond[] = 'attribute_id = '.$attId.' and FIND_IN_SET("'.$attVal.'",attribute_value)';
+				}
+			}
+
+			if($attrCond)
+			{
+				$temp = array();
+				foreach($attrCond as $key => $val)
+				{
+					$temp[] = " SELECT goods_id FROM goods_attribute as t{$key} WHERE {$val} ";
+				}
+				$join[]  = "left join (select goods_id from (".join(" UNION ALL ",$temp).") as temp group by temp.goods_id having count(*) > {$key}) as ga on ga.goods_id = go.id";
+				$where[] = "ga.goods_id is NOT NULL";
+			}
+		}
+
+		//(3),处理defaultWhere条件 goods, category_extend
+		if($defaultWhere)
+		{
+			//兼容array 和 string 数据类型的goods条件筛选
+			$goodsCondArray = array();
+			if(is_string($defaultWhere))
+			{
+				$goodsCondArray[] = $defaultWhere;
+			}
+			else if(is_array($defaultWhere))
+			{
+				foreach($defaultWhere as $key => $val)
+				{
+					if($val === '' || $val === null)
+					{
+						continue;
+					}
+
+					//商品分类检索
+					if($key == 'category_extend')
+					{
+						//没有点击搜索属性 $attrCond
+						if($val)
+						{
+							$join[]  = "left join category_extend as ce on ce.goods_id = go.id";
+							$where[] = "ce.category_id in (".$val.")";
+						}
+					}
+					//搜索词模糊
+					else if($key == 'search')
+					{
+						$wordWhere     = array();
+						$wordLikeOrder = array();
+
+						//进行分词
+						if(IString::getStrLen($defaultWhere['search']) >= 4 || IString::getStrLen($defaultWhere['search']) <= 100)
+						{
+							$wordData = plugin::trigger("onSearchGoodsWordsPart",$defaultWhere['search']);
+							if(isset($wordData['data']) && count($wordData['data']) >= 2)
+							{
+								foreach($wordData['data'] as $word)
+								{
+									$wordWhere[]     = ' go.name like "%'.$word.'%" ';
+									$wordLikeOrder[] = $word;
+								}
+
+								//分词排序
+								if($wordLikeOrder)
+								{
+									$orderTempArray = array();
+									foreach($wordLikeOrder as $key => $val)
+									{
+										$orderTempArray[] = "(CASE WHEN go.name LIKE '%".$val."%' THEN ".$key." ELSE 100 END)";
+									}
+									$orderArray[] = " (".join('+',$orderTempArray).") asc ";
+								}
+							}
+						}
+
+						//存在分词结果
+						if($wordWhere)
+						{
+							$goodsCondArray[] = join(" and ",$wordWhere).' or find_in_set("'.$defaultWhere['search'].'",go.search_words)';
+						}
+						else
+						{
+							$goodsCondArray[] = ' go.name like "%'.$defaultWhere['search'].'%" or find_in_set("'.$defaultWhere['search'].'",go.search_words) ';
+						}
+					}
+					//其他条件
+					else
+					{
+						$goodsCondArray[] = $key.' = "'.$val.'"';
+					}
+				}
+			}
+
+			//goods 条件
+			if($goodsCondArray)
+			{
+				$where[] = "(".join(" and ",$goodsCondArray).")";
+			}
+		}
+		
+		//商品属性进行检索
+		if($isCondition == true)
+		{
+			/******属性 开始******/
+			$attrTemp            = array();
+			$goodsAttrDB         = new IQuery('goods_attribute as goAttr');
+			$goodsAttrDB->fields = "goAttr.attribute_id,goAttr.attribute_value,att.name";
+			$goodsAttrDB->join   = "left join goods as go on go.id = goAttr.goods_id left join attribute as att on att.id = goAttr.attribute_id ".join("  ",$join);
+			$goodsAttrDB->where  = join(" and ",$where)." and att.search = 1";
+			$goodsAttrData       = $goodsAttrDB->find();
+			foreach($goodsAttrData as $key => $val)
+			{
+				//属性存在
+				if($val['attribute_id'] && $val['name'] && $val['attribute_value'])
+				{
+					if(!isset($attrTemp[$val['name']]))
+					{
+						$attrTemp[$val['name']] = array(
+							'id'    => $val['attribute_id'],
+							'name'  => $val['name'],
+							'value' => array(),
+						);
+					}
+					else if($attrTemp[$val['name']]['id'] != $val['attribute_id'])
+					{
+						continue;
+					}
+
+					$checkSelectedArray = explode(",",$val['attribute_value']);//有复选情况
+					foreach($checkSelectedArray as $k => $v)
+					{
+						if(!in_array( $v,$attrTemp[$val['name']]['value'] ))
+						{
+							$attrTemp[$val['name']]['value'][] = $v;
+						}
+					}
+				}
+			}
+			self::$attrSearch = $attrTemp;
+			/******属性 结束******/
+
+			/******品牌 开始******/
+			$brandQuery        = new IQuery('brand as b');
+			$brandQuery->join  = "left join goods as go on go.brand_id = b.id ".join("  ",$join);
+			$brandQuery->where = join(" and ",$where);
+			$brandQuery->order = "b.sort asc";
+			$brandQuery->fields= "distinct b.id,b.name";
+			$brandQuery->limit = 10;
+			self::$brandSearch = $brandQuery->find();
+			/******品牌 结束******/
+
+			/******价格 开始******/
+			$priceDB = new IQuery('goods as go');
+			$priceDB->fields = "sell_price";
+			$priceDB->join   = join(" ",$join);
+			$priceDB->where  = join(" and ",array_slice($where,1));
+			$priceDB->limit  = 1;
+
+			//最小价格
+			$priceDB->order = "sell_price asc";
+			$minPriceData = $priceDB->find();
+			$minPrice     = $minPriceData ? $minPriceData[0]['sell_price'] : 0;
+
+			//最大价格
+			$priceDB->order = "sell_price desc";
+			$maxPriceData = $priceDB->find();
+			$maxPrice     = $maxPriceData ? $maxPriceData[0]['sell_price'] : 0;
+
+			//计算价格区间
+			self::$priceSearch = goods_class::getGoodsPrice($minPrice,$maxPrice);
+			/******价格 结束******/
+		}
+
+		//(4),商品价格
+		$where[] = floatval(IReq::get('min_price')) ? 'go.sell_price >= '.floatval(IReq::get('min_price')) : '';
+		$where[] = floatval(IReq::get('max_price')) ? 'go.sell_price <= '.floatval(IReq::get('max_price')) : '';
+
+		//(5),商品品牌
+		$where[] = IReq::get('brand') ? 'go.brand_id = '.intval(IReq::get('brand')) : '';
+
+		//排序类别
+		$order = IReq::get('order');
+		$by    = IReq::get('by') == "desc" ? "desc" : "asc";
+		if($order == null)
+		{
+			//获取配置信息
+			$siteConfigObj = new Config("site_config");
+			$site_config   = $siteConfigObj->getInfo();
+			$order         = isset($site_config['order_by']) ? $site_config['order_by'] :'';
+		}
+
+		switch($order)
+		{
+			//销售量
+			case "sale":
+			{
+				$orderArray[] = ' go.sale '.$by;
+			}
+			break;
+
+			//评分
+			case "cpoint":
+			{
+				$orderArray[] = ' go.grade '.$by;
+			}
+			break;
+
+			//最新上架
+			case "new":
+			{
+				$orderArray[] = ' go.id '.$by;
+			}
+			break;
+
+			//价格
+			case "price":
+			{
+				$orderArray[] = ' go.sell_price '.$by;
+			}
+			break;
+
+			//根据排序字段
+			default:
+			{
+				$orderArray[] = ' go.sort asc ';
+			}
+		}
+
+		//设置IQuery类的各个属性
+		$goodsObj->join  = join(" ",array_filter($join));
+		$goodsObj->where = join(" and ",array_filter($where));
+		$goodsObj->order = join(',',array_filter($orderArray));
+		return $goodsObj;
+	}
+	
+	
+	
+	/**
+	 * @brief 商品检索,可以直接读取 $_GET 全局变量:attr,order,brand,min_price,max_price
+	 *        在检索商品过程中计算商品结果中的进一步属性和规格的筛选
+	 * @param mixed $defaultWhere string(条件) or array('search' => '模糊查找','category_extend' => '商品分类ID','字段' => 对应数据)
+	 * @param int $limit 读取数量
+	 * @param bool $isCondition 是否筛选出商品的属性，价格等数据
+	 * @return IQuery
+	 */
+	 //获取折扣商品
+     	public static function get_discount_goods_list($seller_id = 0)
+	{
+	    $time = time();
+	    $seller_id = ($seller_id) ? $seller_id : 367;
+	    $page_size = 12;
+	    $page = IFilter::act(IReq::get('page'),'int');
+	    $page = max($page, 1);
+	    
+	    $goods_db = new IQuery('goods');
+	    $goods_db->where = 'seller_id = ' . $seller_id . ' and is_del = 0 and ( limit_end_time = 0 or limit_end_time > ' . $time . ' )';
+	    $goods_db->fields = 'id,limit_end_time,img,name,goods_brief,content,relative_goods_id';
+	    $goods_db->order = 'sort desc,id desc';
+	    $goods_list1 = $goods_db->find();
+	    
+	    $goods_db2 = new IQuery('goods');
+	    $goods_db2->where = 'seller_id = ' . $seller_id . ' and is_del = 0 and limit_end_time < ' . $time;
+	    $goods_db2->fields = 'id,limit_end_time,img,name,goods_brief,content,relative_goods_id';
+	    $goods_db2->order = 'sort desc,id desc';
+	    $goods_list2 = $goods_db2->find();
+	    
+	    $goods_list = array_merge($goods_list1, $goods_list2);
+	    $list_count = sizeof($goods_list);
+	    
+	    $goods_list = array_chunk($goods_list, $page_size);
+	    $goods_list = $goods_list[$page - 1];
+	    
+	    // 手动分页
+	    $paging = new IPaging();
+	    $paging->getPageInfo($list_count, $page_size, $page);
+	    $page_info = $paging->getPageBar();
+
+	    return array(
+	        'list' => $goods_list,
+	        'page_info' => $page_info,
+	        'totalpage'   =>  $paging->totalpage,
+	    );
+	    
+	}  
+	public static function find2($defaultWhere = '',$limit = 21,$isCondition = true)
+	{
+	    //排序字段
+	    $orderArray = array();
+	
+	    //开始查询
+	    $goodsObj           = new IQuery("goods as go");
+	    $goodsObj->page     = isset($_GET['page']) ? intval($_GET['page']) : 1;
+	    $goodsObj->fields   = 'go.id,go.name,go.sell_price,go.market_price,go.store_nums,go.img,go.sale,go.grade,go.comments,go.favorite,go.seller_id,go.keywords';
+	    $goodsObj->pagesize = $limit;
+	    $goodsObj->group    = 'go.id';
+	
+	    /*where条件拼接*/
+	    //(1),当前产品分类
+	    $where = array('go.is_del = 0');
+	    $join  = array();
+	
+	    //(2),商品属性,规格筛选
+	    $attrCond  = array();
+	    $attrArray = IReq::get('attr') ? IFilter::act(IReq::get('attr')) : array();
+	    if($attrArray)
+	    {
+	        foreach($attrArray as $attId => $attVal)
+	        {
+	            $attId = IFilter::act($attId,'int');
+	            if($attId && $attVal && !preg_match("|\s+|",$attVal))
+	            {
+	                $attrCond[] = 'attribute_id = '.$attId.' and FIND_IN_SET("'.$attVal.'",attribute_value)';
+	            }
+	        }
+	
+	        if($attrCond)
+	        {
+	            $temp = array();
+	            foreach($attrCond as $key => $val)
+	            {
+	                $temp[] = " SELECT goods_id FROM goods_attribute as t{$key} WHERE {$val} ";
+	            }
+	            $join[]  = "left join (select goods_id from (".join(" UNION ALL ",$temp).") as temp group by temp.goods_id having count(*) > {$key}) as ga on ga.goods_id = go.id";
+	            $where[] = "ga.goods_id is NOT NULL";
+	        }
+	    }
+	
+	    //(3),处理defaultWhere条件 goods, category_extend
+	    if($defaultWhere)
+	    {
+	        //兼容array 和 string 数据类型的goods条件筛选
+	        $goodsCondArray = array();
+	        if(is_string($defaultWhere))
+	        {
+	            $goodsCondArray[] = $defaultWhere;
+	        }
+	        else if(is_array($defaultWhere))
+	        {
+	            foreach($defaultWhere as $key => $val)
+	            {
+	                if($val === '' || $val === null)
+	                {
+	                    continue;
+	                }
+	
+	                //商品分类检索
+	                if($key == 'category_extend')
+	                {
+	                    //没有点击搜索属性 $attrCond
+	                    if($val)
+	                    {
+	                        $join[]  = "left join category_extend as ce on ce.goods_id = go.id";
+	                        $where[] = "ce.category_id in (".$val.")";
+	                    }
+	                }
+	                // 区域搜索
+	                else if($key == 'area_extend')
+	                {
+	                    if($val)
+	                    {
+	                        $join[]  = "left join seller as s on s.id = go.seller_id";
+	                        $where[] = "s.area in (".$val.")";
+	                    }
+	                }
+	                //搜索词模糊
+	                else if($key == 'search')
+	                {
+	                    $wordWhere     = array();
+	                    $wordLikeOrder = array();
+	
+	                    //进行分词
+	                    if(IString::getStrLen($defaultWhere['search']) >= 4 || IString::getStrLen($defaultWhere['search']) <= 100)
+	                    {
+	                        $wordData = plugin::trigger("onSearchGoodsWordsPart",$defaultWhere['search']);
+	                        if(isset($wordData['data']) && count($wordData['data']) >= 2)
+	                        {
+	                            foreach($wordData['data'] as $word)
+	                            {
+	                                $wordWhere[]     = ' go.name like "%'.$word.'%" ';
+	                                $wordLikeOrder[] = $word;
+	                            }
+	
+	                            //分词排序
+	                            if($wordLikeOrder)
+	                            {
+	                                $orderTempArray = array();
+	                                foreach($wordLikeOrder as $key => $val)
+	                                {
+	                                    $orderTempArray[] = "(CASE WHEN go.name LIKE '%".$val."%' THEN ".$key." ELSE 100 END)";
+	                                }
+	                                $orderArray[] = " (".join('+',$orderTempArray).") asc ";
+	                            }
+	                        }
+	                    }
+	
+	                    //存在分词结果
+	                    if($wordWhere)
+	                    {
+	                        $goodsCondArray[] = join(" and ",$wordWhere).' or find_in_set("'.$defaultWhere['search'].'",go.search_words)';
+	                    }
+	                    else
+	                    {
+	                        $goodsCondArray[] = ' go.name like "%'.$defaultWhere['search'].'%" or find_in_set("'.$defaultWhere['search'].'",go.search_words) ';
+	                    }
+	                }
+	                //其他条件
+	                else
+	                {
+	                    $goodsCondArray[] = $key.' = "'.$val.'"';
+	                }
+	            }
+	        }
+	
+	        //goods 条件
+	        if($goodsCondArray)
+	        {
+	            $where[] = "(".join(" and ",$goodsCondArray).")";
+	        }
+	    }
+	
+	    //商品属性进行检索
+	    if($isCondition == true)
+	    {
+	        /******属性 开始******/
+	        $attrTemp            = array();
+	        $goodsAttrDB         = new IQuery('goods_attribute as goAttr');
+	        $goodsAttrDB->fields = "goAttr.attribute_id,goAttr.attribute_value,att.name";
+	        $goodsAttrDB->join   = "left join goods as go on go.id = goAttr.goods_id left join attribute as att on att.id = goAttr.attribute_id ".join("  ",$join);
+	        $goodsAttrDB->where  = join(" and ",$where)." and att.search = 1";
+	        $goodsAttrData       = $goodsAttrDB->find();
+	        foreach($goodsAttrData as $key => $val)
+	        {
+	            //属性存在
+	            if($val['attribute_id'] && $val['name'] && $val['attribute_value'])
+	            {
+	                if(!isset($attrTemp[$val['name']]))
+	                {
+	                    $attrTemp[$val['name']] = array(
+	                        'id'    => $val['attribute_id'],
+	                        'name'  => $val['name'],
+	                        'value' => array(),
+	                    );
+	                }
+	                else if($attrTemp[$val['name']]['id'] != $val['attribute_id'])
+	                {
+	                    continue;
+	                }
+	
+	                $checkSelectedArray = explode(",",$val['attribute_value']);//有复选情况
+	                foreach($checkSelectedArray as $k => $v)
+	                {
+	                    if(!in_array( $v,$attrTemp[$val['name']]['value'] ))
+	                    {
+	                        $attrTemp[$val['name']]['value'][] = $v;
+	                    }
+	                }
+	            }
+	        }
+	        self::$attrSearch = $attrTemp;
+	        /******属性 结束******/
+	
+	        /******品牌 开始******/
+	        $brandQuery        = new IQuery('brand as b');
+	        $brandQuery->join  = "left join goods as go on go.brand_id = b.id ".join("  ",$join);
+	        $brandQuery->where = join(" and ",$where);
+	        $brandQuery->order = "b.sort asc";
+	        $brandQuery->fields= "distinct b.id,b.name";
+	        $brandQuery->limit = 10;
+	        self::$brandSearch = $brandQuery->find();
+	        /******品牌 结束******/
+	
+	        /******价格 开始******/
+	        $priceDB = new IQuery('goods as go');
+	        $priceDB->fields = "sell_price";
+	        $priceDB->join   = join(" ",$join);
+	        $priceDB->where  = join(" and ",array_slice($where,1));
+	        $priceDB->limit  = 1;
+	
+	        //最小价格
+	        $priceDB->order = "sell_price asc";
+	        $minPriceData = $priceDB->find();
+	        $minPrice     = $minPriceData ? $minPriceData[0]['sell_price'] : 0;
+	
+	        //最大价格
+	        $priceDB->order = "sell_price desc";
+	        $maxPriceData = $priceDB->find();
+	        $maxPrice     = $maxPriceData ? $maxPriceData[0]['sell_price'] : 0;
+	
+	        //计算价格区间
+	        self::$priceSearch = goods_class::getGoodsPrice($minPrice,$maxPrice);
+	        /******价格 结束******/
+	    }
+	
+	    //(4),商品价格
+	    $where[] = floatval(IReq::get('min_price')) ? 'go.sell_price >= '.floatval(IReq::get('min_price')) : '';
+	    $where[] = floatval(IReq::get('max_price')) ? 'go.sell_price <= '.floatval(IReq::get('max_price')) : '';
+	
+	    //(5),商品品牌
+	    $where[] = IReq::get('brand') ? 'go.brand_id = '.intval(IReq::get('brand')) : '';
+	
+	    //排序类别
+	    $order = IReq::get('order');
+	    $by    = IReq::get('by') == "asc" ? "asc" : "desc";
+	    if($order == null)
+	    {
+	        //获取配置信息
+	        $siteConfigObj = new Config("site_config");
+	        $site_config   = $siteConfigObj->getInfo();
+	        $order         = isset($site_config['order_by']) ? $site_config['order_by'] :'';
+	    }
+	
+	    switch($order)
+	    {
+	        //销售量
+	        case "sale":
+	            {
+	                $orderArray[] = ' go.sale '.$by;
+	            }
+	            break;
+	
+	            //评分
+	        case "cpoint":
+	            {
+	                $orderArray[] = ' go.grade '.$by;
+	            }
+	            break;
+	
+	            //最新上架
+	        case "new":
+	            {
+	                $orderArray[] = ' go.id '.$by;
+	            }
+	            break;
+	
+	            //价格
+	        case "price":
+	            {
+	                $orderArray[] = ' go.sell_price '.$by;
+	            }
+	            break;
+	
+	            //根据排序字段
+	        default:
+	            {
+	                $orderArray[] = ' go.sort asc ';
+	            }
+	    }
+	
+	    //设置IQuery类的各个属性
+	    $goodsObj->join  = join(" ",array_filter($join));
+	    $goodsObj->where = join(" and ",array_filter($where));
+	    $goodsObj->order = join(',',array_filter($orderArray));
+	    return $goodsObj;
+	}
+	
+	
+	
+}
