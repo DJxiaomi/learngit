@@ -1,0 +1,38 @@
+<?php $this->title = '课程列表'; ?>
+{template:'/views/msysseller/layouts/header.html'}
+<link rel="stylesheet" href="/views/msysseller/skin/blue/css/order_list.css">
+{set:$seller_id = $this->seller['seller_id'];$searchArray = Util::getUrlParam('search')}
+{set:$searchParam = http_build_query($searchArray)}
+{set:$condition = Util::search(IReq::get('search'));$where = $condition ? " and ".$condition : "";$join = isset($searchArray['search']['ce.category_id=']) ? " left join category_extend as ce on ce.goods_id = go.id " : ""}
+
+{set:$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1}
+{query:name=goods as go where=go.seller_id eq $seller_id $where page=$page join=$join id=$goodsObject fields=distinct go.id, go.*}
+<div class="mui-card">
+	<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(/{$item['img']})"></div>
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			<p>{$item['name']}</p>
+			<p>
+				{if:$item['goods_brief']}
+				{$item['goods_brief']}
+				{else:}
+				{echo:strp_tags($item['content'])}
+				{/if}
+			</p>
+			<p>&yen;{$item['sell_price']}</p>
+		</div>
+	</div>
+	<div class="mui-card-footer">
+		<a class="mui-card-link" href="{url:/seller/goods_edit/id/$item[id]}">编辑</a>
+		<a class="mui-card-link" href="{url:/seller/goods_del/id/$item[id]}">删除</a>
+	</div>
+</div>
+{/query}
+<div class="mui-content-padded"> 
+	<ul class="mui-pagination"> 
+	{$goodsObject->getPageBar()}
+	</ul>
+</div>
+<div class="mui-content-padded">
+	<button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-block-self" onclick="window.location.href='{url:/seller/goods_edit}'">添加课程</button>
+</div>

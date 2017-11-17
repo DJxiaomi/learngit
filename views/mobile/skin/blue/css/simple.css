@@ -1,0 +1,18 @@
+input {font-family: "Microsort YaHei", "微软雅黑";font-size: 16px;-webkit-tap-highlight-color: transparent;-webkit-tap-highlight-color: transparent;}
+.mui-input-group{ margin-top: 10px; }
+.mui-input-group:first-child{ margin-top: 20px; }
+.mui-btn{padding: 5px;border-radius: 25px;}
+.mui-table-view-cell{color:#999999;font-size:14px;}
+.mui-input-rows {position: relative;clear: left;border-bottom: 5px solid #EFEFF4;display: inline-flex;width: 100%;}
+.mui-input-rows label{width:30%;margin:10px;font-size:16px;}
+.spliter{ color: #999; padding: 0 5px; }
+.link-area {display: block;margin-top: 25px;text-align: center;}
+.gdkey{ position: absolute; right: 10px; top: 2px; z-index: 9; }
+.oauth_login{text-align: center;padding-top: 50px;}
+.oauth_login span{width:100%;display: inline-block;margin-bottom:10px;color: #999999;text-align:-webkit-center;}
+.oauth_login a{padding:0 20px;}
+.link-areas {display: block;margin-top: 25px;text-align: center;}
+.link-areas a#reg {float: left;}
+.link-areas a#forgetPassword {float: right;}
+.sendcode{ position: absolute; right: 0; top: 1px; display: inline-block; height: 40px; line-height: 40px; padding:0 5px; background: #ddd; color: #666; font-size: .875rem;}
+.notice{color:#ff8508;font-size: 100%;}

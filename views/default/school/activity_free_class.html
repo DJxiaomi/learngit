@@ -1,0 +1,75 @@
+<?php
+
+$host = get_host();
+$seller_id = IFilter::act(IReq::get('id'),'int');
+$sellerRow = Api::run('getSellerInfo',$seller_id);
+$_GET['order'] = 'sort';
+$user_id = $this->user['user_id'];
+$member_info = array();
+$goodsObj = search_goods::find(array('go.seller_id' => $seller_id));
+$resultData = $goodsObj->find();
+if ( $user_id )
+    $member_info = member_class::get_member_info($user_id);
+
+if ( !$sellerRow['is_system_seller'] )
+{
+    header("location: " . IUrl::creatUrl('/school/home/id/' . $seller_id));
+    exit();
+}
+
+if(!$sellerRow)
+{
+    IError::show(403,'商户信息不存在');
+}
+
+$this->title = $sellerRow['true_name'];
+
+if ( $resultData )
+{
+  foreach( $resultData as $kk => $vv )
+  {
+    $resultData[$kk]['products_list'] = products_class::get_product_list($vv['id']);
+    if ( $vv['relative_goods_id'] > 0 )
+    {
+      $goods_info = goods_class::get_goods_info($vv['relative_goods_id'] );
+      $resultData[$kk]['relative_seller_id'] = $goods_info['seller_id'];
+    }
+  }
+}
+
+?>
+<link href="{skin:css/free_class.css}" rel="stylesheet" type="text/css" />
+<div class="free_class_content">
+  <div class="free_class_hd">
+    <img src="{skin:images/free_class_img_1.jpg}" />
+  </div>
+  <div class="free_class_bd">
+    {if:$resultData}
+    <ul>
+      {foreach:items=$resultData}
+      {set: $id = ($item['products_list'][0]) ? $item['products_list'][0]['id'] : $item['id']}
+      <li>
+        <div class="class_image">
+          <a href="http://{$host}{url:/site/products/id/$item['id']}"><img data-lazyload="{webroot:$item[img]}" /></a>
+        </div>
+        <div class="class_action">
+          {if:$item['relative_seller_id'] > 0}
+          <a class="class_info" href="http://{$host}{url:/school/home/id/$item['relative_seller_id']}"><img src="{skin:images/class_info_btn.png}" /></a>
+          {else:}
+          <a class="class_info" href="http://{$host}{url:/site/products/id/$item['id']}"><img src="{skin:images/class_info_btn.png}" /></a>
+          {/if}
+          <a class="class_register" href="{if:$item['products_list'][0]}http://{$host}{url:/simple/cart2/id/$id/num/1/type/product}{else:}{url:/simple/cart2/id/$id/num/1/type/goods}{/if}"><img src="{skin:images/class_register_btn.png}" /></a>
+        </div>
+        {if:$item['recommend'] == 2}
+        <span class="boutique"></span>
+        {/if}
+      </li>
+      {/foreach}
+    </ul>
+    {/if}
+  </div>
+</div>
+
+<script language="javascript">
+Lx.common.lazyload();
+</script>

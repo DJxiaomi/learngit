@@ -1,0 +1,37 @@
+<link href="{skin:css/manual_info.css}" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src="{rs:/scripts/layer_mobile/layer.js}"></script>
+<style>
+.mui-media-footer .btns a:last-child {margin-left:14%;}
+</style>
+<div class="mui-content">
+  <ul class="mui-table-view">
+      {foreach:items=$manual_list}
+        <li class="mui-table-view-cell mui-media">
+          <a href="javascript:void(0);">
+            <img class="mui-media-object mui-pull-left" src="<?php echo empty($item['logo'])?'/views/default/skin/default/images/women.jpg':'/' . $item['logo'] ?>">
+            <div class="mui-media-body">
+              <p>姓名：{$item['name']}</p>
+              <p>年龄：{$item['year']}岁</p>
+              <p>性别：{echo: get_sex($item['sex'])}</p>
+              {foreach:items=$item['category'] item=$it key=$kk}
+                <p>{if:!$kk}分类：{/if}
+                {foreach:items=$it item=$i}{$i}&nbsp;{/foreach}
+                </p>
+              {/foreach}
+            </div>
+          </a>
+        </li>
+        <li class="mui-table-view-cell mui-media last">
+          <div class="mui-media-footer">
+            有效期限：{echo:date('Y.m.d', $item['end_time'])}
+            <div class="btns">
+              <a href="{url:/site/manual_use/manual_id/$item['id']/id/$id}">确认使用</a>
+            </div>
+          </div>
+        </li>
+      {/foreach}
+  </ul>
+</div>
+
+
+<script type="text/javascript" src="{theme:javascript/manual_info.js}"></script>

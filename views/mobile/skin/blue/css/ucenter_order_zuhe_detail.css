@@ -1,0 +1,30 @@
+.mui-card {box-shadow: none;background-color:#fff;margin: 10px 0;border-bottom: 7px solid #dcdcdc;}
+.mui-content {background-color:#fff;}
+.mui-card .mui-card-header {position:static;border:0px;color:#281c1c;background:url(/views/mobile/skin/blue/images/seller_name_icon.png) 30px center no-repeat;background-size: 25px 25px;text-indent: 50px;font-size:14px;}
+.mui-card .mui-card-header .t-right {margin-right: 20px;color:#df4102;}
+.mui-card .mui-card-content {border:0px;}
+.mui-card-content .mui-table-view {width: 95%;margin: 0px auto;border:0px;}
+.mui-card .mui-card-content, .mui-card .mui-table-view {background-color:#fff6ee;}
+.mui-table-view-cell p {width:95%;float:left;margin-left: 5%;line-height:25px;}
+.mui-table-view-cell p .t-right {float: right;margin-right:20px;font-size: 20px;color:#281c1c;}
+.mui-table-view-cell p.price {color:#df4102;}
+.mui-media-info {width: 100%;text-align:right;background-color:#fff;padding: 6px 0;border-top: 1px solid #cdcdcd;border-bottom: 1px solid #cdcdcd;padding-right: 20px;}
+.mui-media-info .price {color:#df4102;font-size:20px;}
+.mui-card-footers {text-align: right;margin-right: 10px;padding: 12px 0;}
+.mui-card-footers a {display: inline-block;margin-right: 10px;padding: 0px 10px;height:28px;line-height:28px;border: 1px solid #df4202;border-radius:15px;color:#df4202;background-color:#fff;}
+.mui-table-view, .mui-card-content, .mui-card-header {border:0px;}
+
+.border_table {margin: 0px auto;margin-top:5px;}
+.border_table td {text-align: center; font-size:90%;}
+
+.student_info {padding: 13px 0;background:url(/views/mobile/skin/blue/images/student_info_bg.png) 0 bottom no-repeat;color:#281c1c;}
+.student_info .mui-card-content, .student_info .mui-table-view, .order_log .mui-card-content, .order_log .mui-table-view {background-color:#fff;}
+.student_info .mui-table-view {background:url(/views/mobile/skin/blue/images/addr.png) 22px 8px no-repeat;background-size:25px 31px;padding-left: 65px;}
+.student_info .mui-table-view-cell {padding:0px;border:0px;color:#635151;height:25px;}
+.student_info .mui-table-view-cell:after {height:0px;}
+
+.mui-table-view > li {}
+.mui-table-view > li > div {width:25%;float:left;}
+.mui-table-view > li > div.pname {width:25%;}
+.mui-table-view > li > div.pprice {width:25%;}
+.mui-table-view > li > div.ptime {width:25%;}

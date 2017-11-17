@@ -1,0 +1,84 @@
+{set:$callback = IUrl::creatUrl('/ucenter/account_log');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            账户余额：<span class="ordbigbt-price">￥{$this->memberRow['balance']}</span>
+        </div>
+    </div>
+</div>
+<h5 class="mui-content-padded">我要提现</h5>
+<form action='{url:/ucenter/withdraw_act}' method='post' id='withdrawForm'>
+<div class="mui-card">
+    {if:$trade}
+    <div class="mui-input-group">
+        <div class="mui-input-row">
+            <label>收款人姓名</label>
+            <input type="text" name="name" id="name" value="" placeholder="请填写真实的收款人姓名" />
+        </div>
+        <div class="mui-input-row">
+            <label>银行卡号</label>
+            <input type="text" name="cart_no" id="cart_no" value="" placeholder="请填写开户银行的卡号" />
+        </div>
+        <div class="mui-input-row">
+            <label>银行名称</label>
+            <input type="text" name="bank_name" id="bank_name" value="" placeholder="如：中国建设银行某某支行" />
+        </div>
+        <div class="mui-input-row">
+            <label>提现金额</label>
+            <input type="text" name="amount" id="amount" value="" placeholder="填写提现金额" />
+        </div>
+        <div class="mui-input-row">
+            <label>交易密码</label>
+            <input type="password" name="trade_password" id="trade_password" value="" placeholder="请填写交易密码" />
+        </div>
+    </div>
+    {else:}
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            请先设置交易密码，<a href="{url:/ucenter/update_trade_password_ver}">去设置</a>
+        </div>
+    </div>
+    {/if}
+</div>
+{if:$trade}
+<div class="mui-content-padded">
+    <button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="withdraw">提交提现申请</button>
+</div>
+{/if}
+</form>
+<script language="javascript">
+{if:$message}
+mui.toast('{$message}');
+{/if}
+$(function(){
+    document.getElementById('withdraw').addEventListener('tap', function(){
+        var name = $('#name').val();
+        var cart_no = $('#cart_no').val();
+        var bank_name = $('#bank_name').val();
+        var amount = $('#amount').val();
+        var trade_password = $('#trade_password').val();
+
+        if ( name == '' ) {
+            mui.toast('收款人姓名不能为空');
+            return false;
+        } else if ( cart_no == '' ) {
+            mui.toast('开户银行的卡号不能为空');
+            return false;
+        }else if ( bank_name == '' ) {
+            mui.toast('银行名称不能为空');
+            return false;
+        }else if ( amount == '' ) {
+            mui.toast('提现金额不能为空');
+            return false;
+        }else if ( trade_password == '' ) {
+            mui.toast('交易密码不能为空');
+            return false;
+        }else {
+            $('#withdrawForm').submit();
+            return false;
+        }
+    });
+});
+</script>
+

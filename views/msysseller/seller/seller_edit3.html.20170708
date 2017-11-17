@@ -1,0 +1,472 @@
+{js:my97date}
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<style>
+.hide {display:none;}
+.auto {width: auto;float: none;}
+.tablesorter {width: 90%;margin: 0px auto;}
+.tablesorter label {float: none;width: auto;}
+.tablesorter select {width: auto;}
+</style>
+
+<script language="javascript">
+var _tutor_cate_list = {if:$tutor_cate_list_json}{$tutor_cate_list_json}{else:}new Array(){/if};
+</script>
+
+<h5 class="mui-content-padded">编辑个人教师资料</h5>
+<div class="mui-content-padded" style="margin:0;">
+	<form action="{url:/seller/seller_add3}" method="post" id="sellerForm" enctype='multipart/form-data' class="mui-input-group">
+		<div class="mui-input-row">
+			<label>姓名</label>
+			{$seller_info['shortname']}
+		</div>
+		<div class="mui-input-row">
+			<label>性别</label>
+			<input type="radio" name="sex" value="1" id="sex_1" {if:!$teacher_info || $teacher_info['sex'] != 2}checked{/if} style="width: auto;float: none;"/><label for="sex_1" style="width: auto;float: none;">男</label>&nbsp; &nbsp;
+			<input type="radio" name="sex" value="2" id="sex_2" {if:$teacher_info['sex'] == 2}checked{/if} style="width: auto;float: none;"/><label for="sex_2" style="width: auto;float: none;">女</label>
+		</div>
+		<div class="mui-input-row">
+			<label>手机号</label>
+			{$seller_info['mobile']}
+		</div>
+		<div class="mui-input-row">
+			<label>身份证号</label>
+			<input name="cardsn" type="text" value="{$seller_info['cardsn']}" placeholder="身份证号" />
+		</div>
+		<p>照片</p>
+		<div id="icon-image-list" class="row image-list">
+			{if:$teacher_info['icon']}
+			<div class="image-item space" id="icon_img_prev" style="background:url(/{$teacher_info['icon']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'upphoto_val')">删除</div></div>
+			{/if}
+			<div class="image-item space" id="icon"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="icon" id="icon_val" value="{$teacher_info['icon']}">
+		</div>
+		<div class="mui-input-row">
+			<label>一句话介绍</label>
+			<input type="text" name="brief" value="{$teacher_info['brief']}" />
+		</div>
+		<div class="mui-input-row">
+			<label>毕业院校</label>
+			<input type="text" name="graduate" value="{$teacher_info['graduate']}" />
+		</div>
+		<div class="mui-input-row">
+			<label>学习专业</label>
+			<input type="text" name="major" value="{$teacher_info['major']}"  />
+		</div>
+		<div class="mui-input-row">
+			<label>教学特点</label>
+			<input type="text" name="teaching_direction" value="{$teacher_info['teaching_direction']}"  />
+		</div>
+		<div class="mui-input-row">
+			<label>教龄(年)</label>
+			<input type="text" name="experience" value="{$seller_info['experience']}" />
+		</div>
+		<div class="mui-input-row">
+			<label>教师介绍</label>
+			<input type="text" name="description" value="{$teacher_info['description']}" />
+		</div>
+		<p>身份证正面上传</p>
+		<div id="upphoto-image-list" class="row image-list">
+			{if:$seller_info['upphoto']}
+			<div class="image-item space" id="upphoto_img_prev" style="background:url(/{$seller_info['upphoto']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'upphoto_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="upphoto"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="upphoto" id="upphoto_val" value="{$seller_info['upphoto']}">
+			{/if}
+		</div>
+		<p>身份证背面上传</p>
+		<div id="downphoto-image-list" class="row image-list">
+			{if:$seller_info['downphoto']}
+			<div class="image-item space" id="downphoto_img_prev" style="background:url(/{$seller_info['downphoto']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'downphoto_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="downphoto"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="downphoto" id="downphoto_val" value="{$seller_info['downphoto']}">
+			{/if}
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label>家教年级</label>
+
+			<br />
+			<table class="tablesorter" cellpadding="0">
+				<tbody id="tbody">
+					<tr>
+						<th colspan="2"><label>年级</label>&nbsp; &nbsp; <a href="javascript:void(0);" class="add_grade">增加一行</a></th>
+						<th><label>分类</label></th>
+						<th><label>价格</label></th>
+						<th><label操作</label></th>
+					</tr>
+					{foreach:items=$seller_tutor_list item=$tutor_info}
+					<tr>
+						<td colspan="3">
+							<select name="grade_level[]" class="grade_level">
+								<option value="">请选择分类</option>
+								{foreach:items=$tutor_cate_list}
+									<option value="{$item['id']}" {if:$tutor_info['grade_level'] == $item['id']}selected{/if}>{$item['name']}</option>
+								{/foreach}
+							</select>
+							<select name="grade[]" class="grade">
+								{foreach:items=$tutor_cate_list}
+									{if:$item['id'] == $tutor_info['grade_level']}
+										{foreach:items=$item['child'] item=$it}
+											<option value="{$it['id']}" {if:$tutor_info['grade'] == $it['id']}selected{/if}>{$it['name']}</option>
+										{/foreach}
+									{/if}
+								{/foreach}
+							</select>
+							<select name="category_id[]" class="cate_id">
+								{foreach:items=$tutor_cate_list}
+									{if:$item['id'] == $tutor_info['grade_level']}
+										{foreach:items=$item['child'] item=$it}
+											{if:$it['id'] == $tutor_info['grade']}
+												{foreach:items=$it['child'] item=$i}
+													<option value="{$i['id']}" {if:$tutor_info['cate_id'] == $i['id']}selected{/if}>{$i['name']}</option>
+												{/foreach}
+											{/if}
+										{/foreach}
+									{/if}
+								{/foreach}
+							</select>
+						</td>
+						<td>
+							<input type="text" name="price[]" class="normal small" value="{$tutor_info['price']}" style="width: 80px;" placeholder="价格/时"/>
+							<input type="hidden" name="tutor_id[]" value="{$tutor_info['id']}" />
+						</td>
+						<td><a href="javascript:void(0);" class="del_tutor">删除</a></td>
+					</tr>
+					{/if}
+				</tbody>
+			</table>
+
+		</div>
+		<div class="mui-input-row" style="height: auto;width: 90%;margin: 0px auto;">
+			<label>授课时间</label><a href="javascript:void(0);" class="add_teaching_time">添加一行</a><br />
+			<table border="0" class="add_teaching_time_td tablesorter">
+				{foreach:items=$seller_info['teaching_time'] item=$it}
+				<tr>
+					<td>
+						<select name="time1[]">
+							{foreach:items=$teaching_time_arr key=$key}
+								<option value="{$key}" {if:$it['time1'] == $key}selected{/if}>{$item}</option>
+							{/foreach}
+						</select>
+
+						<select name="time2[]">
+							{foreach:items=$teaching_time_arr3 key=$key}
+								<option value="{$key}" {if:$it['time2'] == $key}selected{/if}>{$item}</option>
+							{/foreach}
+						</select>
+						<input type="text" name="time3[]" onfocus="WdatePicker({dateFmt:'H:mm:ss'})" value="{$it['time3']}" style="width: auto;padding:0px;"/>
+						&nbsp; <a href="javascript:void(0);" class="del_teaching_time">删除</a>
+					</td>
+				</tr>
+				{/foreach}
+			</table>
+		</div>
+		<div class="mui-input-row">
+			<label>授课方式</label>
+			{foreach:items=$teaching_type_arr key=$key}
+			<input type="checkbox" name="teaching_type[]" value="{$key}" {if:!$seller_info['teaching_type'] || in_array($key, $seller_info['teaching_type'])}checked{/if} id="teaching_type_{$key}" style="width: auto;float: none"/>
+			<label for="teaching_type_{$key}" style="width: auto;float: none;padding: 0px;">{$item}</label>&nbsp; &nbsp;
+			{/if}
+		</div>
+		<div class="mui-input-row">
+			<label>对学生的要求</label>
+			<input type="text" name="student_reqiures" value="{$teacher_info['student_reqiures']}"/>
+		</div>
+		<div class="mui-input-row">
+			<label>是否接受预约</label>
+			<select name="is_receive_booking">
+				<option value="1">是</option>
+				<option value="0" {if:$teacher_info['is_receive_booking'] == 0}selected{/if}>否</option>
+			</select>
+		</div>
+		<!-- <div id="bank" style="{if:$this->sellerRow['bank'] == 1 || $this->sellerRow['bank'] == 0}{else:}display:none;{/if}">
+			<div class="mui-input-row">
+				<label>开户银行</label>
+				<input name="bankname" type="text" value="{$seller_info['bankname']}" placeholder="开户银行" />
+			</div>
+			<div class="mui-input-row">
+				<label>银行户名</label>
+				<input name="accountname" type="text" value="{$seller_info['accountname']}" placeholder="银行户名" />
+			</div>
+			<div class="mui-input-row">
+				<label>银行帐号</label>
+				<input name="account" type="text" value="{$seller_info['account']}" placeholder="银行帐号" />
+			</div>
+		</div> -->
+
+		<div class="mui-input-row">
+			<label>账户类型：</label>
+			<select name="bank" onchange="getBank(this)">
+				<option value="1"{if:$seller_info['bank'] == 1} selected{/if}>银行</option>
+				<option value="2"{if:$seller_info['bank'] == 2} selected{/if}>支付宝</option>
+			</select>
+		</div>
+
+		<div id="bank" style="{if:$seller_info['bank'] != 1}display:none;{/if}">
+			<div class="mui-input-row">
+				<label>开户行：</label>
+				<input type="text" class="normal" name="bankname" value="{$seller_info['bankname']}" />
+			</div>
+			<div class="mui-input-row">
+				<label>姓名：</label>
+				<input type="text" class="normal" name="accountname" value="{$seller_info['accountname']}" />
+			</div>
+			<div class="mui-input-row">
+				<label>卡号：</label>
+				<input type="text" class="normal" name="account" value="{$seller_info['account']}" />
+			</div>
+		</div>
+		<div id="alipay" style="{if:$seller_info['bank'] != 2}display:none;{/if}">
+			<div class="mui-input-row">
+				<label>姓名：</label>
+				<input type="text" class="normal" name="alipayname" value="{$seller_info['alipayname']}" />
+			</div>
+			<div class="mui-input-row">
+				<label>支付宝帐号：</label>
+				<input type="text" class="normal" name="alipaysn" value="{$seller_info['alipaysn']}" />
+			</div>
+		</div>
+
+
+		<div class="mui-input-row hide">
+			<label>登录密码</label>
+			<input type="password" name="password" value="" placeholder="需要修改时填写" />
+		</div>
+		<div class="mui-button-row">
+			<input type="hidden" name="bank" value="1" />
+			<input type="hidden" name="accounttype" value="1" />
+			<input type="hidden" name="teacher_id" value="{$teacher_info['id']}" />
+			<button type="button" id="infopost" class="mui-btn mui-btn-primary">提交认证</button>
+			<button type="button" id="infosave" class="mui-btn mui-btn-primary hide">提交认证</button>
+		</div>
+	</form>
+</div>
+
+
+<table class="add_grade_html" style="display:none;">
+	<tr>
+		<td colspan="3">
+			<select name="grade_level[]" class="grade_level">
+				<option value="">请选择分类</option>
+				{foreach:items=$tutor_cate_list}
+					<option value="{$item['id']}">{$item['name']}</option>
+				{/foreach}
+			</select>
+			<select name="grade[]" style="display:none;" class="grade"></select>
+			<select name="category_id[]" style="display:none;" class="cate_id"></select>
+		</td>
+		<td>
+			<input type="text" name="price[]" class="normal small" value="" style="width: 80px;" placeholder="价格/时"/>
+			<input type="hidden" name="tutor_id[]" value="0" />
+		</td>
+		<td><a href="javascript:void(0);" class="del_tutor">删除</a></td>
+	</tr>
+</table>
+
+<table class="add_teaching_time_html" style="display:none;">
+	<tr>
+		<td>
+			<select name="time1[]">
+				{foreach:items=$teaching_time_arr key=$key}
+					<option value="{$key}">{$item}</option>
+				{/foreach}
+			</select>
+
+			<select name="time2[]">
+				{foreach:items=$teaching_time_arr3 key=$key}
+					<option value="{$key}">{$item}</option>
+				{/foreach}
+			</select>
+			<input type="text" name="time3[]" onfocus="WdatePicker({dateFmt:'H:mm:ss'})" style="width: auto;padding:0px;"/>
+			&nbsp; <a href="javascript:void(0);" class="del_teaching_time">删除</a>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<script language="javascript">
+mui.init();
+
+$(function(){
+    document.getElementById('infopost').addEventListener('tap', function(){
+
+			var _cardsn = $('input[name=cardsn]').val();
+			var _bankname = $('input[name=bankname]').val();
+			var _accountname = $('input[name=accountname]').val();
+			var _account = $('input[name=account]').val();
+
+			if ( _cardsn == '')
+			{
+				alert('身份证号不能为空');
+				$('input[name=cardsn]').focus();
+			} else if ( _bankname == '')
+			{
+				alert('开户银行不能为空');
+				$('input[name=bankname]').focus();
+			} else if ( _accountname == '')
+			{
+				alert('银行户名不能为空');
+				$('input[name=accountname]').focus();
+			} else if ( _account == '')
+			{
+				alert('银行账号不能为空');
+				$('input[name=account]').focus();
+			} else {
+	    	$('#sellerForm').attr('action', '{url:/seller/seller_add3}');
+	    	$('#sellerForm').submit();
+			}
+    });
+	{if:$this->sellerRow['is_auth'] == 1}
+	$('input,select,textarea').attr('disabled', true);
+	{/if}
+	{if:$this->sellerRow['is_auth'] != 1}
+	$.jUploader({
+		button: 'icon',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#icon_val').val(response.fileurl);
+	      		if($('#icon_img_prev').length == 1){
+	      			$('#icon_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#icon-image-list').prepend('<div class="image-item space" id="icon_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'upphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#upphoto_val').val(response.fileurl);
+	      		if($('#upphoto_img_prev').length == 1){
+	      			$('#upphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#upphoto-image-list').prepend('<div class="image-item space" id="upphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'downphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#downphoto_val').val(response.fileurl);
+	      		if($('#downphoto_img_prev').length == 1){
+	      			$('#downphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#downphoto-image-list').prepend('<div class="image-item space" id="downphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'cupphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#cupphoto_val').val(response.fileurl);
+	      		if($('#cupphoto_img_prev').length == 1){
+	      			$('#cupphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#cupphoto-image-list').prepend('<div class="image-item space" id="cupphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'cdownphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#cdownphoto_val').val(response.fileurl);
+	      		if($('#cdownphoto_img_prev').length == 1){
+	      			$('#cdownphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#cdownphoto-image-list').prepend('<div class="image-item space" id="cdownphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+	{/if}
+
+	$('.add_grade').click(function(){
+		$('#tbody').append("<tr><td>" + $('.add_grade_html').html()+"</td></tr>");
+	})
+
+	$(document).on('click', '.del_tutor',function(){
+		$(this).parent().parent().remove();
+	});
+
+	$('.add_teaching_time').click(function(){
+		var _html = $('.add_teaching_time_html').html();
+		$('.add_teaching_time_td').append(_html);
+	})
+
+	$(document).on('click', '.del_teaching_time', function(){
+		$(this).parent().parent().remove();
+	})
+});
+
+function deloneimage(obj, item){
+	$(obj).parent().remove();
+	$('#' + item).val('');
+}
+
+function getBank(obj){
+	if($(obj).val() == 1){
+		$('#bank').show();
+		$('#alipay').hide();
+	}else if($(obj).val() == 2){
+		$('#bank').hide();
+		$('#alipay').show();
+	}else{
+		return;
+	}
+}
+</script>

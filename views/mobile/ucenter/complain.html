@@ -1,0 +1,26 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+
+{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+{set:$user_id = $this->user['user_id']}
+{set:$querySuggestionList = Api::run('getUcenterSuggestion',$user_id)}
+{foreach:items = $querySuggestionList->find()}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <p class="ordbigbt"><span>发布时间：</span>{$item['time']}</p>
+            <p class="ordbigbt t-left"><span>建议主题：</span><i class="ordbigbt-price">{$item['title']}</i></p>
+            <p class="ordbigbt t-right"><span>建议内容：</span><i class="ordbigbt-price">{$item['content']}</i></p>
+        </div>
+    </div>
+</div>
+{/foreach}
+
+{if:!$item}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            暂时没有任何建议
+        </div>
+    </div>
+</div>
+{/if}

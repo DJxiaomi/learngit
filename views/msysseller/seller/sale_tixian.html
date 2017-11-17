@@ -1,0 +1,179 @@
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            账户余额：<span class="ordbigbt-price">￥{$sellerRow['sale_balance']}元</span>
+        </div>
+    </div>
+</div>
+<h5 class="mui-content-padded">我要提现</h5>
+<form action='{url:/seller/sale_withdraw/type/1}' method='post' id='withdrawForm'>
+<div class="mui-card">
+    {if:$sellerRow['sale_balance'] > 0 }
+    <div class="mui-input-group">
+        <div class="mui-input-row">
+            <label>提现金额</label>
+            <input type="text" name="sale" id="sale" value="" placeholder="最多可提{$sellerRow['sale_balance']}" onchange="check_balance()" />
+        </div>
+        <div class="mui-input-row" style="display:none;">
+            <label>账户类型</label>
+            {if:$sellerRow['bank'] == 1}银行{else:}支付宝{/if}
+        </div>
+        <div class="mui-input-row">
+            <label>银行名称</label>
+            {$sellerRow['account_bank_name']}
+        </div>
+        <div class="mui-input-row">
+            <label>支行名称</label>
+            {$sellerRow['account_bank_branch']}
+        </div>
+        <div class="mui-input-row">
+            <label>收款账号</label>
+            {$sellerRow['account_cart_no']}
+        </div>
+        <div class="mui-input-row">
+            <label>账户户名</label>
+            {$sellerRow['account_name']}
+        </div>
+        <div class="mui-input-row">
+    			<label>手机验证码</label>
+    			<input type="text" placeholder="请输入手机验证码" value="" name="mobile_code" id="mobile_code" />
+    			<a href="javascript:;" id="sendcode" class="sendcode">发送验证码</a>
+    		</div>
+    </div>
+    {else:}
+    <div class="mui-input-row">
+        &nbsp; &nbsp; <font color="green">销售额不足</font>
+    </div>
+    {/if}
+</div>
+{if:$sellerRow['sale_balance'] > 0 }
+<div class="mui-content-padded">
+    <button type="button" id="withdraw" class="mui-btn mui-btn-primary mui-btn-block">提交申请</button>
+</div>
+{/if}
+<div class="mui-card" style="display:none;">
+    <div class="mui-card-header">结算详情</div>
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <table width="100%" cellpadding="0" cellspacing="0" class="dingtable">
+                <tr>
+                    <th>订单详情</th>
+                    <th>学员姓名</th>
+                    <th>结算状态</th>
+                    <th>未结算</th>
+                    <th>已结算</th>
+                </tr>
+                {set:
+                $page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
+                $orderGoodsQuery = CountSum::getSellerGoodsFeeQuery($seller_id);
+                $orderGoodsQuery->page = $page;
+                }
+                {foreach: items = $orderGoodsQuery->find()}
+                {set:$countData = CountSum::countSellerOrderFee(array($item))}
+                {set:$goods_list = Order_Class::get_order_goods_list($item['id'])}
+                {set:$goods = $goods_list[0]}
+                {set:$goods_array = $goods['goods_array']}
+                {set:$countFee = CountSum::countSellerOrderFee(array($item));}
+                {if:$item['statement'] == 2 && $item['chit_id'] > 0 && $item['order_amount'] <= 0}
+                {elseif:$item['statement'] == 4}
+                {else:}
+                {set:$total_not_settled += $item['not_settled']}
+                {set:$total_settled += $item['settled']}
+                {set:
+                        if( $item['statement'] == 1 )
+                            $template = 'order_show';
+                        else if ( $item['statement'] == 2 )
+                            $template = 'order_show_dai';
+                        else
+                            $template = 'order_show_ding';
+                }
+                <tr>
+                    <td align="center"><a href="{url:/seller/$template/id/$item['id']}">查看订单</a></td>
+                    <td align="center">{$item['accept_name']}</td>
+
+                    <td align="center">{if:$item['is_checkout'] == 1}已结算{elseif:$item['is_checkout'] == 2}部分结算{else:}未结算{/if}</td>
+                    <td align="center">{$item['not_settled']}</td>
+                    <td align="center">{$item['settled']}</td>
+                </tr>
+                {/if}
+                {/foreach}
+                <tr>
+                    <td align="center">结算合计</td>
+                    <td align="center">&nbsp;</td>
+                    <td align="center">&nbsp;</td>
+                    <td align="center">{$total_not_settled}</td>
+                    <td align="center">{$total_settled}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<script type='text/javascript'>
+var _sale_balance = {$sellerRow['sale_balance']};
+var _mobile = '{$mobile}';
+var default_time = 60;
+var s_count = 60;
+var send_status = true;
+document.getElementById('sendcode').addEventListener('tap', function(){
+	{if:!$can_tixian}
+		mui.toast('账户信息不完善，请完善账户信息认证后再重新操作');
+		return false;
+	{/if}
+    if ( s_count == default_time && send_status ){
+        mui.getJSON('{url:/seller/get_withdraw_code_ajax}', {}, function(res){
+            if(res.done !== false){
+                updateState();
+                timer = setInterval(function(){
+                    updateState();
+                }, 1000);
+            }else{
+                mui.toast(res.msg);
+            }
+        });
+    }
+});
+
+function check_balance()
+{
+  var _input_balance = $('#sale').val();
+  if ( _input_balance != '' && parseInt(_input_balance) > _sale_balance )
+  {
+    mui.toast('可用余额不足');
+    $('#sale').val(_sale_balance);
+  }
+}
+
+function updateState(){
+    if ( s_count > 0 ){
+        s_count--;
+        send_status = false;
+        document.getElementById('sendcode').innerText = s_count + ' s后重新发送';
+    } else {
+        s_count = default_time;
+        send_status = true;
+        clearInterval(timer);
+        document.getElementById('sendcode').innerText = '重新发送验证码';
+    }
+}
+$(function(){
+    document.getElementById('withdraw').addEventListener('tap', function(){
+    	var _sale = $('#sale').val();
+		if ( _sale == ''){
+			mui.toast('请输入提现的金额');
+			return false;
+		}
+		if( _sale > _sale_balance){
+			return false;
+		}
+		if ( $('#mobile_code').val() == ''){
+			mui.toast('请输入手机验证码');
+			return false;
+		}
+
+		$('#withdrawForm').submit();
+    });
+});
+</script>

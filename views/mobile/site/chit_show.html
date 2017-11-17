@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="{skin:css/prolist.css}">
+<div class="card-list-box">
+    <div class="box"><h5>详细信息</h5></div>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell mui-media">
+            <div class="mui-media-object mui-pull-left">
+                <p class="tobuy">满{$chit['amount']}元可用</p>
+                <p class="tochit"><em>￥</em>{$chit['max_order_chit']}</p>
+            </div>
+            <div class="mui-media-body">
+                <p><em class="totip">{if:$chit['seller_id'] == 366}通用券{else:}专用券{/if}</em>{if:$chit['type'] == 2}<em class="totip totip-1">赠送</em>{/if}{$chit['shortname']}</p>
+                <p class="tospec limitnum">
+                    {if:$chit['limitnum']}每人限购{$chit['limitnum']}张{else:}无限制数量{/if}
+                </p>
+                <p class="maxprice">{$chit['max_price']}元抢券</p>
+                <a class="buycard" onclick="buy_now_ding_card('{$chit['id']}', '{$chit['max_price']}')">{if:$chit['type'] == 2}点击领券{else:}点击购买{/if}</a>
+            </div>
+        </li>
+        {if:$chit['limitinfo']}
+        <div class="box"><h5>券说明</h5></div>
+        <li class="mui-table-view-cell">
+            <h6>{$chit['limitinfo']}</h6>
+        </li>
+        {/if}
+        {if:$chit['content']}
+        <div class="box"><h5>使用说明</h5></div>
+        <li class="mui-table-view-cell">
+            <div class="rich_media" style="margin:0px auto;padding:0px;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;font-size:medium;">{$chit['content']}</div>
+        </li>
+        {/if}
+    </ul>
+</div>
+<script type="text/javascript">
+function buy_now_ding_card(id, _input_dprice){
+	var buyNums  = 1;
+	//var type = 'chit';
+	var url = '{url:/simple/cart2/id/5280/num/@buyNums@/type/product/statement/2/ischit/1/chitid/@chitid@}';
+		url = url.replace('@chitid@',id).replace('@buyNums@',buyNums);
+	var _input_stime = 1;
+	url += '/stime/' + _input_stime;
+	url += '/dprice/' + _input_dprice;
+
+	window.location.href = url;
+}
+</script>

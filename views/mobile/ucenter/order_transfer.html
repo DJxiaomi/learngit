@@ -1,0 +1,103 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+{set:$site_config=new Config('site_config');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<h5 class="mui-content-padded">发布转让信息</h5>
+<form class="mui-input-group" action="{url:/ucenter/order_transfer_info}" method="post" enctype='multipart/form-data' onsubmit="return checkTransfer();">
+    {if:$order_id}
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell mui-media">
+            <img class="mui-media-object mui-pull-left" src="{url:/pic/thumb/img/$goods['img']/w/80/h/80}">
+            <div class="mui-media-body">
+                课程：{$goods['name']}
+                <p>学校：{$goods['seller']['true_name']}</p>
+                <p>订单编号：{$this->order_info['order_no']}</p>
+            </div>
+        </li>
+    </ul>
+    {/if}
+    {if:!$order_id}
+    <div class="mui-input-row">
+        <label>转让名称</label>
+        <input type="text" placeholder="转让名称" value="" name="transfername" id="transfername" />
+    </div>
+    <div class="mui-input-row">
+        <label>图片</label>
+        <input name="transferpic" type="file" />
+    </div>
+    {/if}
+    <div class="mui-input-row">
+        <label>总课时</label>
+        <input type="text" placeholder="请填写总课时" value="" name="totaltime" id="totaltime" />
+    </div>
+    <div class="mui-input-row">
+        <label>剩余课时</label>
+        <input type="text" placeholder="请填写剩余课时" value="" name="minustime" id="minustime" />
+    </div>
+    {if:!$order_id}
+    <div class="mui-input-row">
+        <label>原价</label>
+        <input type="text" placeholder="请填写初次购买价格" value="" name="sellerprice" id="sellerprice" />
+    </div>
+    {/if}
+    <div class="mui-input-row">
+        <label>转让价格</label>
+        <input type="text" placeholder="请填写转让价格" value="" name="transprice" id="transprice" onkeyup="getCommission(this)" />
+    </div>
+    <div class="mui-input-row">
+        <label>手续费</label>
+        <input type="text" placeholder="收取{$site_config->tcommission}%的手续费" id="commission" disabled />
+    </div>
+    <div class="mui-input-row">
+        <label>简要描述</label>
+        <input type="text" placeholder="请填写描述" value="" name="content" id="content" />
+    </div>
+    <div class="mui-content-padded">
+        <input type="hidden" name="order_id" value="{$order_id}">
+        <input type="hidden" name="seller_id" value="{$goods['seller']['id']}">
+        <input type="hidden" name="goods_id" value="{$goods['id']}">
+        <button type="submit" class="mui-btn mui-btn-primary mui-btn-block">确认转让</button>
+    </div>
+</form> 
+
+</body>
+
+<script type="text/javascript">
+
+function getCommission(obj){
+
+    var price = Number($(obj).val());
+
+    var commission = Number('{$site_config->tcommission}') / 100;
+
+
+
+    $('#commission').val((price * commission).toFixed(2));
+
+}
+
+
+
+function setPayType(obj){
+
+    $('#paytype').val($(obj).attr('paytype'));
+
+}
+
+
+
+function checkTransfer()
+
+{
+
+    if($('#transprice').val() == ''){
+
+        $('#transprice').focus();
+
+        return false;
+
+    }
+
+}
+
+</script>
+

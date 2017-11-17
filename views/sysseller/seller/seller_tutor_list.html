@@ -1,0 +1,60 @@
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">家教列表</h3>
+		{if:$seller_info['is_auth'] == 1}
+    <ul class="tabs">
+      <li><input type="button" class="alt_btn" onclick="window.location.href = '{url:/seller/seller_tutor_edit}'" value="发布" /></li>
+    </ul>
+		{/if}
+	</header>
+
+	{if:$seller_info['is_auth'] == 1}
+	<table class="tablesorter" cellspacing="0">
+		<colgroup>
+			<col width="205px" />
+			<col width="150px" />
+			<col width="120px" />
+			<col width="85px" />
+      <col width="85px" />
+			<col />
+		</colgroup>
+		<thead>
+			<tr>
+				<th>年级</th>
+				<th>分类</th>
+				<th>价格</th>
+				<th>授课方式</th>
+				<th>发布日期</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{foreach:items=$seller_tutor_list}
+			<tr>
+				<td>{echo:tutor_class::get_grade_title($item['grade_level'], $item['grade'])}</td>
+				<td>{$tutor_cate_list[$item['category_id']]['name']}</td>
+				<td>{$item['price']}</td>
+				<td>{echo:tutor_class::get_teaching_type($item['teaching_type'])}</td>
+				<td>{echo:date('Y-m-d', $item['create_time'])}</td>
+        <td>
+					<a href="{url:/seller/seller_tutor_edit/id/$item['id']}">编辑</a>
+					&nbsp; &nbsp; <a href="{url:/seller/seller_tutor_del/id/$item['id']}">删除</a>
+				</td>
+			</tr>
+			{/foreach}
+			{if:!$seller_tutor_list}
+			<tr>
+				<td colspan="6">暂时没有任何信息</td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+	{$page_info}
+
+	{else:}
+		<table class="tablesorter" cellspacing="0">
+			<tr><td>请先进行<a href="{url:/seller/seller_edit3}" style="color: red">身份认证</a>，再执行此操作</td></tr>
+		</table>
+	{/if}
+</article>

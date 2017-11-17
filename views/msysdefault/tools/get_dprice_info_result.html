@@ -1,0 +1,24 @@
+<style>
+
+</style>
+
+<div class="content_box">
+	<h3>代金券占比查询结果</h3>
+	<div class="cont">
+			<li>市场价：{$market_price}</li>
+      {if:$method == 1}<li>折扣：{$discount}</li>{/if}
+			<li>销售价：{$sell_price}元</li>
+    	<li>成本价：{$cost_price}元</li>
+      <li>折扣金额：{$price_diff}</li>
+      <li>最多可用代金券数量：{$dprice} 多收30%:{$rprice}</li>
+      <li>系统计算：最多使用代金券：{$cprice}元 抵用：{$chit}元</li>
+      {if:$update}
+      <li>系统处理：最多使用代金券：{$update_cprice}元 抵用：{$update_chit}元</li>
+      {/if}
+			{if:$input}
+			<li>用户输入：最多使用代金券：{$user_input_cprice}元 抵用：{$user_input_chit}元</li>
+			{/if}
+			<li><button class="submit" type="button" onclick="history.back(-1);"><span>返回</span></button></li>
+		</ul>
+	</div>
+</div>

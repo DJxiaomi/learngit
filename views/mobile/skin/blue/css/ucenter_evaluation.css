@@ -1,0 +1,55 @@
+.nothing {
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  font-size: 80%;
+  text-align: center;
+  margin-top: 25px;
+}
+.layermcont {
+  color: #fff;
+}
+.mui-tab {
+  margin-top: 10px;
+}
+.mui-tab, .mui-tab ul {
+  height: 40px;
+}
+.mui-tab li:first-child {
+  border:0px;
+  border-radius:0px;
+  border-right: 1px solid #aaa;
+}
+.mui-tab li:last-child {
+  border:0px;
+  border-radius:0px;
+}
+.mui-tab li, .mui-tab li.active {
+  width: 49.5%;
+  float:left;
+  border-bottom: 0px;
+  background-color:#fff;
+  height: 38px;
+}
+.mui-tab li.active {
+  border-bottom: 2px solid #de4102;
+}
+.mui-tab li a {
+  color:#666;
+}
+
+.mui-card {box-shadow: none;background-color:#fff;margin: 10px 0;border-bottom: 7px solid #dcdcdc;}
+.mui-content {background-color:#fff;}
+.mui-card .mui-card-header {position:static;border:0px;color:#281c1c;background:url(/views/mobile/skin/blue/images/seller_name_icon.png) 30px center no-repeat;background-size: 25px 25px;text-indent: 50px;font-size:14px;}
+.mui-card .mui-card-header .t-right {margin-right: 20px;color:#df4102;}
+.mui-card .mui-card-content {border:0px;}
+.mui-card-content .mui-table-view {width: 95%;margin: 0px auto;border:0px;}
+.mui-card .mui-card-content, .mui-card .mui-table-view {background-color:#fff6ee;}
+.mui-table-view-cell p {width:95%;float:left;margin-left: 5%;line-height:25px;}
+.mui-table-view-cell p .t-right {float: right;margin-right:20px;font-size: 20px;color:#281c1c;}
+.mui-table-view-cell p.price {color:#df4102;}
+.mui-media-info {width: 100%;text-align:right;background-color:#fff;padding: 6px 0;border-top: 1px solid #cdcdcd;border-bottom: 1px solid #cdcdcd;padding-right: 20px;}
+.mui-media-info .price {color:#df4102;font-size:20px;}
+.mui-card-footers {text-align: right;margin-right: 10px;padding: 12px 0;}
+.mui-card-footers a {display: inline-block;margin-right: 10px;padding: 0px 10px;height:28px;line-height:28px;border: 1px solid #df4202;border-radius:15px;color:#df4202;background-color:#fff;}
+.mui-table-view, .mui-card-content, .mui-card-header {border:0px;}

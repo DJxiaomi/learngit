@@ -1,0 +1,10 @@
+tr,td,th{height: 30px;line-height: 30px;}
+.hd th{background-color: #c9d8e4;border-bottom:1px solid #d4d4d4;font-style: normal;}
+.bd .title {text-align: left; text-indent: 20px;}
+.child .title {text-indent: 40px;}
+.operating_btn {float:left;}
+.content_box {clear:both;}
+table {margin-top:10px;}
+tr.over td {background-color: #e3dcdc;}
+.tab_bottom {display: none;}
+.tab {width: 800px;}

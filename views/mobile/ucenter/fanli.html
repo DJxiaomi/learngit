@@ -1,0 +1,59 @@
+{set: $title = '返利记录';}
+{set:$callback = IUrl::creatUrl('/ucenter/account_log');}
+{template:'/views/mobile/layouts/header_ucenter_2016.html'}
+<link href="/views/mobile/skin/blue/css/index.css" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _page_count = {$page_count};
+var _curr_page = {$page};
+var _page_size = {$page_size};
+var _loading = false;
+var _ajax_data_url = '{url:/ucenter/get_fanli_ajax}';
+</script>
+
+<div class="mingxibox">
+   <div class="zhanghubox clearfix">
+    <div class="fanli-box w-bg">
+        <p class="fanliyue">可用返利额度：<b class="orange f16">￥{$this->fanliInfo['user_real_fanli']}</b></p>
+        <p>冻结待返还额度：<b class="orange f16">￥{$this->fanliInfo['user_all_fanli']}</b></p>
+     </div>
+   </div>
+
+   <div class="mingxixqbox w-bg clearfix">
+      <h3 class="mingxibt orange f16">返利记录</h3>
+    	{foreach:items = $fanli_list}
+      <ul class="mingxinrbox clearfix">
+        <li class="mingxinr-box f12">
+           <p class="jinesty">{$item['note']}</p>
+            <p class="fc9">{echo:date('Y-m-d H:m',$item['time']);}</p>
+           <p class="jinesty f14 orange">当前返利余额：<span class="orange f14">{$item['real_fanli']} 元</span></p>
+         </li>
+      </ul>
+     {/foreach}
+
+     <div id="cc"></div>
+   </div>
+</div>
+
+{template:'/views/mobile/layouts/foot_2016.html'}
+</body>
+
+
+<script language="javascript">
+var loadi;
+$(window).scroll(function(){
+	var a = $(window).scrollTop();
+	var load_position = $('#cc').offset().top;
+	if( a + $(window).height() > load_position -10 && _loading == false && _curr_page < _page_count )
+	{
+		_loading = true;
+		$('#cc').html("<img src='/views/mobile/skin/new/images/loading2.gif'>&nbsp; 努力加载中...");
+		_curr_page = _curr_page + 1;
+		$.get( _ajax_data_url, {page: _curr_page}, function( result ){
+      //console.log( result );
+			$('.mingxixqbox').append( result );
+			$('#cc').html('');
+			_loading = false;
+		});
+	}
+});
+</script>

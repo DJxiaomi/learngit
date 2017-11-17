@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="{theme:javascript/mui/css/mui.picker.min.css}">
+<script type='text/javascript' src="{theme:javascript/mui/js/mui.picker.min.js}"></script>
+<link rel="stylesheet" href="{skin:css/chit_edit.css}" />
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/seller/chit_save}" method="post" enctype='multipart/form-data'>
+		<div class="mui-input-row mui-radio mui-left">
+			<input name="type" type="radio" value="1" checked />
+			<label>出售</label>
+			<input name="type" type="radio" value="2" />
+			<label>赠送</label>
+		</div>
+		<div class="mui-input-row">
+			<label>售价</label>
+			<input type="number" name="max_price" value="{$chit['max_price']}" placeholder="" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row">
+			<label>可抵扣</label>
+			<input type="number" name="max_order_chit" value="{$chit['max_order_chit']}" placeholder="" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row">
+			<label>满多少使用</label>
+			<input type="number" name="max_order_amount" value="{$chit['max_order_amount']}" placeholder="" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row mui-input-row-time">
+			<label>结束时间</label>
+			<input type="text" name="limittime" value="{if:$chit['limittime']}{echo:date('Y-m-d', $chit['limittime'])}{/if}" placeholder="" />
+			<span class="mui-required-right">*</span>
+			<span class="mui-navigate-right"></span>
+		</div>
+		<div class="mui-input-row">
+			<label>限购</label>
+			<input type="text" name="limitnum" value="{$chit['limitnum']}" placeholder="每人限购数量" />
+		</div>
+		<div class="mui-input-row">
+			<label>限购说明</label>
+			<input type="text" name="limitinfo" value="{$chit['limitinfo']}" placeholder="限购简短说明" />
+		</div>
+		<p>使用说明</p>
+		<textarea name="content" id="content" class="txt">{$chit['content']}</textarea>
+		<div class="mui-button-row">
+			<input type="hidden" name="brand_id" value="{$chit['brand_id']}" />
+			<input type="hidden" name="id" value="{$id}" />
+			<button type="button" class="mui-btn mui-btn-primary">确认</button>
+		</div>
+	</form>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/chit_edit.js}"></script>

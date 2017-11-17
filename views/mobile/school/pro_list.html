@@ -1,0 +1,23 @@
+<section class="blog">
+
+	<div class="container mt20">
+
+		<div class="row">
+			{foreach:items=$goods_list}
+			<div class="col-md-4">
+				<div class="thumbnail">
+					<a href="{url:/site/products/id/$item['id']}"><img src="{url:/$item[img]}" alt=""></a>
+					<div class="caption">
+						<h3 class="mb10">{$item['name']}<span>￥{$item['sell_price']}</span></h3>
+						<div class="options mb10">
+							<p> <i>{$item['sale']} 报名</i> | <a href="single.html">{$item['comments']} 评价</a></p>
+						</div>
+						<a href="{url:/site/products/id/$item['id']}" class="hvr-shutter-in-horizontal more">购买课程</a>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+		</div>
+	</div>
+</section>
+<!-- END list -->

@@ -1,0 +1,189 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');}
+
+{set:$seo_data['title'] = $this->catRow['title']?$this->catRow['title']:$this->catRow['name']}
+
+{set:$seo_data['title'].="_".$site_config->name}
+
+{set:$seo_data['keywords']=$this->catRow['keywords']}
+
+{set:$seo_data['description']=$this->catRow['descript']}
+
+{set:seo::set($seo_data);}
+
+
+
+
+
+<div class="position">
+
+	<span>您当前的位置：</span>
+
+	<a href="{url:}">首页</a> >> 商家列表
+
+</div>
+	<div class="brandbox">
+			<div class="title2"><h2><a href="{url:/site/branda}"><img src="{skin:images/front/brand.gif}" alt="本地机构" width="155" height="36" /></a></h2></div>
+			<div class="contclear">
+				<ul>
+					{foreach:items=Api::run('getBrandList',100)}
+					{set:$tmpId=$item['id'];}
+					<li><a href="{url:/site/brand_zone/id/$tmpId}"><img src="{webroot:$item[logo]}"  width="180px" height="100px"/><b>{$item['name']}</b></a></li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+
+
+<div class="wrapper clearfix container_2">
+
+		<div class="cont">
+				<!--课程区域-->
+                {if:$area_list}
+                <dl class="sorting">
+					<dt>区域：</dt>
+					<dd id='price_dd'>
+						<a class="nolimit {if:!$area_id}current{/if}" href="{echo:search_goods::searchUrl('area','')}">不限</a>
+						{foreach:items=$area_list}
+							<a href="{echo:search_goods::searchUrl('area',$item['area_id'])}" {if:$area_id == $item['area_id']}class='current'{/if} id="{$item['area_id']}">{$item['area_name']}</a>
+						{/foreach}
+					</dd>
+                </dl>
+				{/if}
+                <!--课程区域-->
+                
+				<!--课程属性-->
+				{if:$attr_list['value']}
+				<dl class="sorting">
+					<dt>内容：</dt>
+					<dd id='attr_dd'>
+						<a class="nolimit {if:$attr ==''}current{/if}" href="{echo:search_goods::searchUrl('attr','')}">不限</a>
+						{foreach:items=$attr_list['value'] key=$key}
+							<a href="{echo:search_goods::searchUrl('attr',$item)}" {if:$attr_id==$key && $attr != ''}class="current"{/if}>{$item}</a>
+						{/foreach}
+					</dd>
+				</dl>
+				{/if}
+				<!--课程属性-->
+			</div>
+		</div>
+		<!--条件检索-->
+
+
+
+		<!--排序方式-->
+		<div class="display_title">
+			<span class="l"></span>
+			<span class="r"></span>
+			<span class="f_l">排序：</span>
+			<ul>
+				{foreach:items=$order_info key=$key}
+				<li class="{if:$order == $key || $order == $key . '_toggle'}current{/if}">
+					<span class="l"></span><span class="r"></span>
+					<a href="{if:$order == $key}{echo:search_goods::searchUrl('order',$key.'_toggle')}{else:}{echo:search_goods::searchUrl('order',$key)}{/if}">{$item}<span class="{echo:search_goods::isOrderDesc() ? 'desc':''}">&nbsp;</span></a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+        <!--排序方式-->
+
+		<!--商家展示-->
+		{if:$list}
+		<ul class="display_list2 clearfix m_10">
+			{foreach:items=$list}
+			<li class="clearfix {echo:search_goods::getListShow(IFilter::act(IReq::get('show_type')))}">
+				<div class="pic">
+					<a title="{$item['true_name']}" href="{if:$item['brand_info']}{url:/site/brand_zone/id/$item['brand_info']['id']}{else:}javascript:void(0);{/if}" {if:$item['brand_info']}target="_blank"{/if}><img src="{if:$item['brand_info']}{$item['brand_info']['logo']}{/if}" width="{$listSize['width']}" height="{$listSize['height']}" alt="{$item['true_name']}" title="{$item['true_name']}" /></a>
+				</div>
+				<h3 class="title"><a title="{$item['true_name']}" href="{if:$item['brand_info']}{url:/site/brand_zone/id/$item['brand_info']['id']}{else:}javascript:void(0);{/if}" {if:$item['brand_info']}target="_blank"{/if}>{$item['true_name']}</a></h3>
+                <div class="seller_info">
+                	<div class="t_left">
+                    	主营类目：{if:$item['brand_cate_id']}{$item['brand']}{else:}暂无{/if}
+                    </div>
+                    <div class="t_right">
+                    	总销量：{$item['sale']}
+                    </div>
+                </div>
+			</li>
+			{/foreach}
+		</ul>
+		{$page_bar}
+
+		{else:}
+		<p class="display_list mt_10" style='margin-top:50px;margin-bottom:50px'>
+			<strong class="gray f14">对不起，没有找到相关商家</strong>
+		</p>
+		{/if}
+		<!--商家展示-->
+
+	</div>
+
+</div>
+
+
+
+<script type='text/javascript'>
+
+$(document).ready(function(){
+	$('.display_list li .pic').hover(function(){
+		$(this).addClass('active');	
+	}, function(){
+		$(this).removeClass('active');	
+	});	
+});
+
+//价格跳转
+
+
+
+
+//筛选条件按钮高亮
+
+jQuery(function(){
+
+	{set:
+
+		$brand = IFilter::act(IReq::get('brand'),'int');
+
+	}
+
+
+
+	{if:$brand}
+
+	$('#brand_dd>a').removeClass('current');
+
+	$('#brand_{$brand}').addClass('current');
+
+	{/if}
+
+
+
+	{set:$tempArray = IFilter::act(IReq::get('attr'),'url')}
+
+	{if:$tempArray}
+
+		{set:$json = JSON::encode(array_map('md5',$tempArray))}
+
+		var attrArray = {$json};
+
+		for(val in attrArray)
+
+		{
+
+			if(attrArray[val])
+
+			{
+
+				$('#attr_dd_'+val+'>a').removeClass('current');
+
+				document.getElementById('attr_'+val+'_'+attrArray[val]).className = 'current';
+
+			}
+
+		}
+
+	{/if}
+
+});
+
+</script>

@@ -1,0 +1,11 @@
+body,.mui-content {background-color:#fff;}
+.mui-check-left {width:23%;float:left;}
+.mui-card-content {color:#222;padding-left: 15px;padding-right: 11px;padding-top: 10px;border-top: 7px solid #e7e7e7; }
+.mui-input-group p {padding:2px 15px;margin-bottom:0px;color:#666;position:relative;}
+.mui-input-group .icon-angle-right {position:absolute;top:11px;right:17px;}
+#category {color:#666;font-size: .875rem;line-height: 40px;}
+.mui-input-group .mui-input-row-relation {height:auto;}
+#uppic, #downpic {width: 65px;height:65px;}
+#uppic input[type=file], #downpic input[type=file] {width: 65px;height:65px;overflow:hidden;border:1px solid #666;}
+.mui-checkbox.mui-left label {font-size:.9rem;margin-top: 9px;color:#222;}
+.mui-checkbox.mui-left {padding-bottom: 8px;background-color:#e7e7e7;margin:8px 0;}

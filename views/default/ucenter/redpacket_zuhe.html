@@ -1,0 +1,78 @@
+<link href="{skin:css/ucenter_index.css}" rel="stylesheet" type="text/css" />
+<style>
+.new-order-table .goods .img {width: auto;}
+</style>
+<div class="main f_r">
+
+    <div class="new-box">
+        <div class="nt"><i class="icon-shopping-cart"></i>我的代金券组合套餐</div>
+
+        <div class="tab" style="display:none;">
+          <div class="tab-hd">
+            <ul>
+              <li {if:$type == 1}class="active"{/if}><a href="{url:/ucenter/redpacket_zuhe/type/1}">已付款</a></li>
+              <li {if:$type == 2}class="active"{/if}><a href="{url:/ucenter/redpacket_zuhe/type/2}">待付款</a></li>
+              <li {if:$type == 3}class="active"{/if}><a href="{url:/ucenter/redpacket_zuhe/type/3}">已完成</a></li>
+              <li {if:$type == 4}class="active"{/if}><a href="{url:/ucenter/redpacket_zuhe/type/4}">已取消</a></li>
+            </ul>
+          </div>
+        </div>
+		
+        <table class="new-order-table">
+            <colgroup>
+                <col class="num-col">
+                <col class="student-col">
+                <col class="amount-col">
+                <col class="amount-col">
+                <col class="amount-col">
+                <col class="amount-col">
+                <col class="state-col">
+                <col class="ctrl-col">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th><div class="order-detail-txt ac">套餐详情</div></th>
+                    <th>订单类型</th>
+                    <th>课程学费</th>
+					<th>验证码</th>
+                    <th>
+                        <div class="deal-state-cont" id="orderState">
+                            <div class="state-txt">状态</div>
+                        </div>
+                    </th>
+                    <th>操作</th>
+                </tr>
+
+            </thead>
+            {foreach:items = $zuhe_order_list}
+            <tbody>
+            <tr class="tr-spec">
+                <td colspan="11"></td>
+            </tr>
+            <tr class="tr-th">
+                <td colspan="11">
+                    <span class="ordertime">{echo: date('Y-m-d H:s', strtotime( $item['create_time'] ) )}</span>
+                </td>
+            </tr>
+            <tr class="tr-td">
+                    <td>
+                        <div class="goods clearfix">
+                            <div class="img">
+								{$item['name']}
+                            </div>
+                        </div>
+                    </td>
+                    <td>购买代金券套餐</td>
+                    <td>￥{$item['order_amount']}</td>
+					<td>{$item['code']}</td>
+                    <td><b class="{if:$item['order_status_t'] >= 6}green{else:}orange{/if}">{$item['status_str']}</b></td>
+                    <td>
+                        <a class="blue" href="{url:/ucenter/redpacket_zuhe_detail/id/$item[id]}">详情</a>
+                    </td>
+                </tr>
+            </tbody>
+            {/foreach}
+            <tfoot><tr><td colspan="11" class="t_l">{$page_info}</td></tr></tfoot>
+        </table>
+    </div>
+</div>

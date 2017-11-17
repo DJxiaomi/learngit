@@ -1,0 +1,27 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <table class="card-table info" width="100%">
+              <tr>
+                <th></th>
+                <th>推广人名称</th>
+                <th>推广个人用户数量</th>
+                <th>推广的机构用户数量</th>
+                <th>下级推广人数量</th>
+                <th>推广返佣总金额</th>
+              </tr>
+              {foreach:items=$promote_subordinate_user_list}
+              <tr>
+                <td></td>
+                <td>{$item['name']}</td>
+                <td>{$item['promote_user_count']}</td>
+                <td>{$item['promote_seller_count']}</td>
+                <td>{$item['subordinate_promote_user_count']}</td>
+                <td>{$item['commission_count']}</td>
+              </tr>
+              {/foreach}
+            </table>
+        </div>
+    </div>
+</div>

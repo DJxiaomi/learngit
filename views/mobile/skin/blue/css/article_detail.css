@@ -1,0 +1,12 @@
+.content img {max-width: 100%; float: left;}
+.user_icon {width: 16%;float:left;margin-right:4%;}
+.user_icon img {max-width:100%;border-radius: 50%;clear:both;}
+.user_info {width:65%;float:left;}
+.user_info p {width: 100%;}
+.action, .article_action {width: 15%;float:right;}
+.action a, .article_action a {background:url(/views/mobile/skin/blue/images/thumb.png) 0 0 no-repeat;padding-left: 28px;color:#8f8f94}
+
+.reply-box input[type=text] {width:75%;}
+.reply-box input[type=submit] {background:-webkit-linear-gradient(left,#ff9638,#ff4b2b);background:-o-linear-gradient(right,#ff9638,#ff4b2b);background:-moz-linear-gradient(right,#ff9638,#ff4b2b);background:linear-gradient(to right,#ff9638,#ff4b2b); }
+.article-content h4 {color:#000;padding: 5px 0;}
+p {overflow:hidden;clear:both;}

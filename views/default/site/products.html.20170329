@@ -1,0 +1,786 @@
+<?php
+	$site_config=new Config('site_config');
+	$dcommission = $site_config->dcommission;
+	$breadGuide = goods_class::catRecursion($category);
+?>
+{js:zoom}
+{js:bxSlider}
+{js:my97date}
+<script type="text/javascript" src="{theme:javascript/products.js}"></script>
+<link href="{skin:/css/products.css}" rel="stylesheet" type="text/css" />
+<style>
+{if:$goods_spec_array['name']}
+#data_dprice { display:none;}
+{/if}
+</style>
+
+<script language="javascript">
+var _market_price = {$market_price};
+{if:$statement == 2}
+	var _parchse_html = '';
+	var _dprice = {$dprice};
+	var _sell_price = {$sell_price};
+	var _min_dprice = 10;
+	var _max_cprice = {$max_cprice};
+	var _max_order_chit = {$max_order_chit};
+{/if}
+</script>
+<div class="position"><span>您当前的位置：</span><a href="{url:}">首页</a>{foreach:items=$breadGuide} » <a href="{url:/site/pro_list/cat/$item[id]}">{$item['name']}</a>{/foreach} » {$name}</div>
+<div class="wrapper clearfix">
+	<div class="summary">
+		<h2>{$name}</h2>
+
+		<input type='hidden' id='product_id' alt='课程ID' value='' />
+
+		<!--基本信息区域-->
+		<ul>
+			<li>
+				<span class="f_r light_gray">课程编号：<label id="data_goodsNo">{echo:$goods_no?$goods_no:$id}</label></span>
+				{if:isset($brand)}品牌：{$brand}{/if}
+			</li>
+
+			<!--抢购活动,引入 "_products_time"模板-->
+			{if:$promo == 'time' && isset($time)}
+			{include:_products_time}
+			{/if}
+
+			<!--团购活动,引入 "_products_groupon"模板-->
+			{if:$promo == 'groupon' && isset($groupon)}
+			{include:_products_groupon}
+			{/if}
+
+			<!--普通商品购买-->
+			{if:$promo == ''}
+				{if:$group_price}
+				<!--当前用户有会员价-->
+				<li>
+					会员价：<b class="price red2">￥<span class="f30" id="data_groupPrice">{$group_price}</span></b>
+				</li>
+				<li>
+					原售价：￥<s id="data_sellPrice">{$sell_price}</s>
+				</li>
+				{else:}
+				<!--当前用户普通价格-->
+				<li>
+					学&nbsp; &nbsp;费：<b class="price red2"><span class="f30" id="data_marketPrice">￥{$market_price}</span></b>
+				</li>
+				{/if}
+			{/if}
+
+
+			<li style="display: none;">
+				市场价：￥<s id="data_marketPrice">{$market_price}</s>
+			</li>
+
+			<li>学员评分：<span class="grade-star g-star{echo:Common::gradeWidth($grade,$comments)}"></span> (已有{$comments}人评价)</li>
+
+			{if:$point > 0}
+			<li>送积分：单件送{$point}分</li>
+			{/if}
+			{set:$site_config=new Config('site_config');}
+			<!--商家信息 开始-->
+			{if:isset($seller)}
+			<li>学&nbsp; &nbsp; &nbsp; &nbsp;校：<a class="orange" href="{url:/school/show/id/$seller_id}">{$seller['true_name']}</a></li>
+			<li>联系电话：{$site_config->phone}</li>
+			<li>所在地：{echo:join(' ',area::name('',$seller['city'],$seller['area']))} {$seller['address']}</li>
+			{if:$seller['is_authentication'] == 1}
+				{if:$statement == 2 && $max_cprice >= $this->min_cprice && $max_order_chit > $this->min_order_chit && !$promo && !$active_id}
+				<li id="data_dprice">
+					<a href="javascript:;" class="card" onclick="buy_now_ding('{$statement}');">
+						<span class="chit"><i style="font-size:14px">可抵扣</i>￥{$max_order_chit}</br><i style="font-size:14px">购买价</i>￥{$max_cprice}</span>
+						<span class="buy">乐享学习券可全平台使用，</span>
+					</a>
+			</li>
+
+
+			{/if}
+			{/if}
+
+			<li>{set:plugin::trigger("onServiceButton",$seller['id'])}</li>
+			{/if}
+			<!--商家信息 结束-->
+		</ul>
+
+		<!--购买区域-->
+		<div class="current">
+			{if:$seller['is_authentication'] == 1}
+			{if:$is_purchase}
+				{if:$goods_spec_array['name']}
+				<dl class="m_10 clearfix" name="specCols">
+					<dt>{$goods_spec_array['name']}：</dt>
+					<dd class="w_45">
+						{foreach:items=$goods_spec_array['value'] item=$spec_value}
+						<div class="item w_27">
+							<a href="javascript:void(0);" onclick="sele_spec(this);" value='{"id":"{$spec_value['id']}","value":"{$spec_value['cusval']}","classnum":"{$spec_value['classnum']}","month":"{$spec_value['month']}","name":"{$goods_spec_array['name']}"}' >
+								{if:$spec_value['cusval']}{$spec_value['cusval']}{if:$spec_value['classnum']}/{/if}{/if}
+								{if:$spec_value['classnum']}{$spec_value['classnum']}课时{if:$spec_value['month']}/{/if}{/if}
+								{if:$spec_value['month']}/{$spec_value['month']}个月{/if}
+							</a>
+						</div>
+						{/foreach}
+					</dd>
+				</dl>
+				<script type="text/javascript">
+					$(function(){
+						$('[name="specCols"]').find('a').eq(0).click();
+					});
+				</script>
+				{/if}
+
+				<dl class="m_10 clearfix">
+					<dt>报名人数：</dt>
+					<dd>
+						<input class="gray_t f_l" type="text" id="buyNums" value="1" maxlength="5" />
+						<div class="resize">
+							<a class="add" id="buyAddButton" href="javascript:void(0);"></a>
+							<a class="reduce" id="buyReduceButton" href="javascript:void(0);"></a>
+						</div>
+					</dd>
+				</dl>
+
+				<input class="submit_buy" type="button" id="buyNowButton" value="立即报名" />
+				<div class="shop_cart">
+					<input class="submit_join" type="button" id="joinCarButton" value="加入课表" />
+				</div>
+
+				{if:!$promo && !$active_id}
+				<input class="submit_buy" type="button" onclick="buy_now_ding2('{$statement}');" value="支付定金" style="margin-left: 9px;"/>
+				{/if}
+				{else:}
+				<dl class="m_10 clearfix">
+					课程未上架
+				</dl>
+				{/if}
+			{else:}
+			<dl class="m_10 clearfix">
+				学校未认证
+			</dl>
+			{/if}
+		</div>
+	</div>
+
+	<!--图片放大镜-->
+	<div class="preview">
+		<div class="pic_show" style="width:435px;height:435px;position:relative;z-index:5;padding-bottom:5px;">
+			<img id="picShow" rel="" src="" />
+		</div>
+
+		<ul id="goodsPhotoList" class="pic_thumb">
+			{foreach:items=$photo}
+				<li>
+					<a href="javascript:void(0);" thumbimg="{url:/pic/thumb/img/$item['img']/w/435/h/435}" sourceimg="{webroot:$item['img']}">
+						<img src='{url:/pic/thumb/img/$item['img']/w/60/h/60}' width="60px" height="60px" />
+					</a>
+				</li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+
+<div class="wrapper clearfix container_2">
+
+		<div class="uc_title" name="showButton">
+			<label class="current"><span>课程详情</span></label>
+			<label><span>学员评价({$comments})</span></label>
+			<label><span>报名记录({$buy_num})</span></label>
+			<label><span>报名咨询({$refer})</span></label>
+			<label><span>学员讨论({$discussion})</span></label>
+		</div>
+
+		<div name="showBox">
+			<!-- 商品详情 start -->
+			<div>
+				<ul class="saleinfos m_10 clearfix">
+					<li>课程名称：{$name}</li>
+
+					{if:isset($brand) && $brand}
+					<li>课程分类：{$brand}</li>
+					{/if}
+
+					{if:isset($up_time) && $up_time}
+					<li>上架时间：{$up_time}</li>
+					{/if}
+
+					{if:($attribute)}
+					{foreach:items=$attribute}
+					<li>{$item['name']}：{$item['attribute_value']}</li>
+					{/foreach}
+					{/if}
+				</ul>
+				{if:isset($content) && $content}
+				<div class="salebox">
+					<strong class="saletitle block">课程描述：</strong>
+					<p class="saledesc">{echo:str_replace('\r\n', '', strip_tags($content))}</p>
+				</div>
+				{/if}
+			</div>
+			<!-- 商品详情 end -->
+
+			<!-- 顾客评论 start -->
+			<div class="hidden comment_list box">
+				<div class="title3">
+					<img src="{skin:images/front/comm.gif}" width="16px" height="16px" />
+					学员评价<span class="f12 normal">（已有<b class="red2">{$comments}</b>条）</span>
+				</div>
+
+				<div id='commentBox'></div>
+
+				<!--评论JS模板-->
+				<script type='text/html' id='commentRowTemplate'>
+				<div class="item">
+					<div class="user">
+						<div class="ico">
+							<a href="javascript:void(0)">
+								<img src="{webroot:<%=head_ico%>}" width="70px" height="70px" onerror="this.src='{skin:images/front/user_ico.gif}'" />
+							</a>
+						</div>
+						<span class="blue"><%=username%></span>
+					</div>
+					<dl class="desc">
+						<p class="clearfix">
+							<b>评分：</b>
+							<span class="grade-star g-star<%=point%>"></span>
+							<span class="light_gray"><%=comment_time%></span><label></label>
+						</p>
+						<hr />
+						<p><b>评价：</b><span class="gray"><%=contents%></span></p>
+						<%if(recontents){%>
+						<p><b>回复：</b><span class="red"><%=recontents%></span></p>
+						<%}%>
+					</dl>
+					<div class="corner b"></div>
+				</div>
+				<hr />
+				</script>
+			</div>
+			<!-- 顾客评论 end -->
+
+			<!-- 购买记录 start -->
+			<div class="hidden box">
+				<div class="title3">
+					<img src="{skin:images/front/cart.gif}" width="16" height="16" alt="" />
+					报名记录<span class="f12 normal">（已有<b class="red2">{$buy_num}</b>报名）</span>
+				</div>
+
+				<table width="100%" class="list_table m_10 mt_10">
+					<colgroup>
+						<col width="150" />
+						<col width="150" />
+						<col />
+					</colgroup>
+
+					<thead class="thead">
+						<tr>
+							<th>学员</th>
+							<th>报名时间</th>
+							<th>状态</th>
+						</tr>
+					</thead>
+
+					<tbody class="dashed" id="historyBox"></tbody>
+				</table>
+
+				<!--购买历史js模板-->
+				<script type='text/html' id='historyRowTemplate'>
+				<tr>
+					<td><%=username?username:'游客'%></td>
+					<td><%=goods_price%></td>
+					<td class="bold orange"><%=goods_nums%></td>
+					<td class="light_gray"><%=completion_time%></td>
+					<td class="bold blue">成交</td>
+				</tr>
+				</script>
+			</div>
+			<!-- 购买记录 end -->
+
+			<!-- 购买前咨询 start -->
+			<div class="hidden comment_list box">
+				<div class="title3">
+					<span class="f_r f12 normal"><a class="comm_btn" href="{url:/site/consult/id/$id}">我要咨询</a></span>
+					<img src="{skin:images/front/cart.gif}" width="16" height="16" />报名咨询<span class="f12 normal">（共<b class="red2">{$refer}</b>记录）</span>
+				</div>
+
+				<div id='referBox'></div>
+
+				<!--购买咨询JS模板-->
+				<script type='text/html' id='referRowTemplate'>
+				<div class="item">
+					<div class="user">
+						<div class="ico"><img src="{webroot:<%=head_ico%>}" width="70px" height="70px" onerror="this.src='{skin:images/front/user_ico.gif}'" /></div>
+						<span class="blue"><%=username%></span>
+					</div>
+					<dl class="desc gray">
+						<p>
+							<img src="{skin:images/front/ask.gif}" width="16px" height="17px" />
+							<b>咨询内容：</b><span class="f_r"><%=time%></span>
+						</p>
+						<p class="indent"><%=question%></p>
+						<hr />
+						<%if(answer){%>
+						<p class="bg_gray"><img src="{skin:images/front/answer.gif}" width="16px" height="17px" />
+						<b class="orange">学校回复：</b><span class="f_r"><%=reply_time%></span></p>
+						<p class="indent bg_gray"><%=answer%></p>
+						<%}%>
+					</dl>
+					<div class="corner b"></div>
+					<div class="corner tl"></div>
+				</div>
+				<hr />
+				</script>
+			</div>
+			<!-- 购买前咨询 end -->
+
+			<!-- 网友讨论圈 start -->
+			<div class="hidden box">
+				<div class="title3">
+					<span class="f_r f12 normal"><a class="comm_btn" name="discussButton">发表话题</a></span>
+					<img src="{skin:images/front/discuss.gif}" width="18px" height="19px" />
+					学员讨论<span class="f12 normal">（共<b class="red2">{$discussion}</b>记录）</span>
+				</div>
+				<div class="wrap_box no_wrap">
+					<!--讨论内容列表-->
+					<table width="100%" class="list_table">
+						<colgroup>
+							<col />
+							<col width="150">
+						</colgroup>
+
+						<tbody id='discussBox'></tbody>
+					</table>
+
+					<!--讨论JS模板-->
+					<script type='text/html' id='discussRowTemplate'>
+					<tr>
+						<td class="t_l discussion_td" style="border:none;">
+							<span class="blue"><%=username%></span>
+						</td>
+						<td style="border:none;" class="t_r gray discussion_td"><%=time%></td>
+					</tr>
+					<tr><td class="t_l" colspan="2" style="padding:0 7px 0 13px;"><%=contents%></td></tr>
+					</script>
+
+					<!--讨论内容输入框-->
+					<table class="form_table" style="display:none;" id="discussTable">
+						<colgroup>
+							<col width="80px">
+							<col />
+						</colgroup>
+
+						<tbody>
+							<tr>
+								<th>讨论内容：</th>
+								<td valign="top"><textarea id="discussContent" pattern="required" alt="请填写内容"></textarea></td>
+							</tr>
+							<tr>
+								<th>验证码：</th>
+								<td><input type='text' class='gray_s' name='captcha' pattern='^\w{5}$' alt='填写下面图片所示的字符' /><label>填写下面图片所示的字符</label></td>
+							</tr>
+							<tr class="low">
+								<th></th>
+								<td><img src='{url:/site/getCaptcha}' id='captchaImg' /><span class="light_gray">看不清？<a class="link" href="javascript:changeCaptcha();">换一张</a></span></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><label class="btn"><input type="submit" value="发表" name="sendDiscussButton" /></label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- 网友讨论圈 end -->
+		</div>
+</div>
+
+<script type="text/javascript">
+//DOM加载结束后
+$(function(){
+	//初始化商品详情对象
+	var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}");
+
+	//初始化商品轮换图
+	$('#goodsPhotoList').bxSlider({
+		infiniteLoop:false,
+		hideControlOnEnd:true,
+		controls:true,
+		pager:false,
+		minSlides: 5,
+		maxSlides: 5,
+		slideWidth: 72,
+		slideMargin: 15,
+		onSliderLoad:function(currentIndex){
+			//默认初始化显示第一张
+			$('[thumbimg]:eq('+currentIndex+')').trigger('click');
+		}
+	});
+
+	//城市地域选择按钮事件
+	$('.sel_area').hover(
+		function(){
+			$('.area_box').show();
+		},function(){
+			$('.area_box').hide();
+		}
+	);
+	$('.area_box').hover(
+		function(){
+			$('.area_box').show();
+		},function(){
+			$('.area_box').hide();
+		}
+	);
+
+	//详情滑动门按钮绑定
+	$('[name="showButton"]>label').click(function()
+	{
+		//滑动按钮高亮
+		$(this).siblings().removeClass('current');
+		$(this).addClass('current');
+
+		//滑动DIV显示
+		$('[name="showBox"]>div').hide();
+		$('[name="showBox"]>div:eq('+$(this).index()+')').show();
+
+		//滑动按钮绑定事件
+		switch($(this).index())
+		{
+			case 1:
+			{
+				productInstance.comment_ajax();
+			}
+			break;
+
+			case 2:
+			{
+				productInstance.history_ajax();
+			}
+			break;
+
+			case 3:
+			{
+				productInstance.refer_ajax();
+			}
+			break;
+
+			case 4:
+			{
+				productInstance.discuss_ajax();
+			}
+			break;
+		}
+	});
+
+	{if:$statement == 2}
+	$('.input_dprice').on('change', function(){
+		update_parchse();
+	})
+
+	$('.input_stime').on('change', function(){
+		update_parchse();
+	});
+
+	$('.dbtn').hover(function(){
+		$(this).addClass('active');
+	}, function(){
+		$(this).removeClass('active');
+	})
+	{/if}
+
+	$('#buyNums').change(function(){
+			calculation_cprice();
+	});
+});
+
+{if:$statement == 2}
+// 异步更新提示
+function update_parchse()
+{
+	if (check_parchse_param())
+	{
+		var _input_dprice = $('.input_dprice').val();
+		var _input_stime = $('.input_stime').val();
+		var _url = '{url:/site/get_dprice_info_ajax/dprice/@dprice@/stime/@stime@/market_price/@market_price@}';
+		_url = _url.replace('@dprice@', _input_dprice);
+		_url = _url.replace('@stime@', _input_stime);
+		_url = _url.replace('@market_price@', _market_price);
+		$.getJSON(_url, function(data){
+			if ( data.done )
+			{
+				$('.purchase .notice .price_1').html(data.retval.dprice);
+				$('.purchase .notice .price_2').html(data.retval.chit);
+				$('.purchase .notice .price_3').html(data.retval.rest_price);
+				$('.purchase .notice').show();
+			} else {
+				layer.alert('最多可购买' + data.msg + '元', {icon: 2});
+			}
+		})
+	}
+}
+
+function check_parchse_param()
+{
+	var _input_dprice = $('.input_dprice').val();
+	var _input_stime = $('.input_stime').val();
+
+	if ( _input_dprice < _min_dprice )
+	{
+		layer.alert('最小购买金额为' + _min_dprice + '元', {icon: 2});
+		$('.input_dprice').val(_max_cprice);
+		return false;
+	}
+	else if ( _input_dprice > _max_cprice )
+	{
+		layer.alert('最多可购买' + _max_cprice + '元', {icon: 2});
+		$('.input_dprice').val(_max_cprice);
+		return false;
+	}
+	else if ( _input_dprice % 10 != 0 )
+	{
+		layer.alert('购买的金额必须为10的倍数!', {icon: 2});
+		$('.input_dprice').val(_max_cprice);
+		$('.input_dprice').focus();
+		return false;
+	}
+	else if ( _input_stime == '0')
+	{
+		layer.alert('请选择上课时间!', {icon: 2});
+		return false;
+	}
+	return true;
+}
+
+{/if}
+
+function checkSpecSelected()
+{
+	if($('[name="specCols"]').length === $('[name="specCols"] .current').length)
+	{
+		return true;
+	}
+	return false;
+}
+
+function sele_spec(_self)
+{
+	var specObj = $.parseJSON($(_self).attr('value'));
+	//清除同规格下已选数据
+	$('#selectedSpan'+specObj.id).remove();
+
+	$(_self).parent().parent().find('a').removeClass('current');
+	$(_self).addClass('current');
+	//$('#specSelected').text($(_self).text());
+	//检查规格是否选择符合标准
+	if(checkSpecSelected())
+	{
+		//整理规格值
+		var specArray = [];
+		$('[name="specCols"]').each(function(){
+			specArray.push($(this).find('a.current').attr('value'));
+		});
+		var specJSON = '['+specArray.join(",")+']';
+		//获取货品数据并进行渲染
+		$.getJSON('{url:/site/getProduct}',{"goods_id":"{$id}","specJSON":specJSON,"random":Math.random},function(json){
+			if(json.flag == 'success')
+			{
+				//普通课程购买(非团购，抢购等),课程渲染
+				if($('#priceLi').length > 0)
+				{
+					var priceHtml = template.render('priceTemplate',json.data);
+					$('#priceLi').replaceWith(priceHtml);
+				}
+				//非普通课程购买，课程渲染
+				else if($('#data_sellPrice').length > 0)
+				{
+					$('#data_sellPrice').text(json.data.sell_price);
+				}
+
+				//普通货品数据渲染
+				$('#data_goodsNo').text(json.data.products_no);
+				//$('#data_storeNums').text(json.data.student);
+				$('#data_marketPrice').text("￥"+json.data.market_price);
+				$('#data_weight').text(json.data.weight);
+				$('#product_id').val(json.data.id);
+
+				{if:$statement == 2}
+					_dprice = parseFloat(json.data.dprice);
+					_rprice = parseFloat(json.data.rprice);
+					$('.input_dprice').val(_dprice);
+					_max_cprice = json.data.max_cprice;
+					_max_order_chit = json.data.max_order_chit;
+					if ( _max_cprice > 10 && _max_order_chit > 20 && _max_order_chit > _max_cprice )
+					{
+							calculation_cprice();
+							$('#data_dprice').show();
+					}
+					else
+						$('#data_dprice').hide();
+				{/if}
+
+
+				_market_price = json.data.market_price;
+				_sell_price = json.data.sell_price;
+
+				//库存监测
+				checkStoreNums();
+			}
+			else
+			{
+				layer.alert(json.message, {icon: 2});
+				closeBuy();
+			}
+		});
+	}
+}
+
+function checkStoreNums(){
+	return true;
+}
+
+function get_deposit_price()
+{
+	var buyNums  = parseInt($.trim($('#buyNums').val()));
+	return parseFloat( _market_price * {$dcommission} / 100 * buyNums );
+}
+
+function buy_now_ding2()
+{
+	if(!checkSpecSelected())
+	{
+		//tips('请先选择课程的附属属性');
+		layer.alert('请先选择课程的附属属性', {icon: 2});
+		return;
+	}
+
+	var _deposit_price = get_deposit_price();
+	if ( _deposit_price <= 0 )
+	{
+		layer.alert('定金不能小于等于0', {icon: 2});
+		return false;
+	}
+
+	_deposit_html = '<div class="deposit"><div class="hd">请选择要报名的日期：<input type="text" name="choose_date" class="choose_date" value="{echo:date('Y-m-d')}" onFocus="WdatePicker({minDate:\'{echo:date('Y-m-d');}\'})" /></div></div>';
+
+	art.dialog({
+		title:'定金金额',
+		content: _deposit_html,
+		okVal:'购买',
+		ok:function(iframeWin,topWin)
+		{
+			var _choose_date = $('.choose_date').val();
+			if ( _choose_date == '' )
+			{
+				layer.alert('请选择要报名的日期', {icon: 2});
+				return false;
+			}
+
+			//设置必要参数
+			var buyNums  = parseInt($.trim($('#buyNums').val()));
+			var id = {$id};
+
+			if($('#product_id').val())
+			{
+				id = $('#product_id').val();
+				type = 'product';
+			} else {
+				type = 'goods';
+			}
+
+			{if:$promo}
+			//有促销活动（团购，抢购）
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/promo/$promo/active_id/$active_id}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{else:}
+			//普通购买
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/statement/3}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{/if}
+
+			//页面跳转
+			var _input_dprice = $('.input_dprice').val();
+			_deposit_price = _deposit_price / buyNums;
+			url += '/dprice/' + _deposit_price;
+			url += '/choose_date/' + $('.choose_date').val();
+
+			//console.log(url);
+			window.location.href = url;
+		}
+	});
+}
+
+// 购券支付
+function buy_now_ding(statement)
+{
+	if(statement != 2){
+		layer.alert('该课程不支持定金支付', {icon: 2});
+		return false;
+	}
+
+	if(!checkSpecSelected())
+	{
+		//tips('请先选择课程的附属属性');
+		layer.alert('请先选择课程的附属属性', {icon: 2});
+		return;
+	}
+
+	_parchse_html = '	<div class="purchase"><div class="hhd"><img src="/views/default/skin/default/images/xuexiquan.jpg" width="90%" /></div><div class="hd">购买的金额：<input type="text" name="dprice" class="input_dprice" value="' + _max_cprice + '"/>元<input type="hidden" name="stime" value="1" class="input_stime" /></div></div>'
+
+	art.dialog({
+		title:'学习券购买',
+		content: _parchse_html,
+		okVal:'购买',
+		ok:function(iframeWin,topWin)
+		{
+			//对规格的检查
+			if ( !check_parchse_param())
+			{
+				return false;
+			}
+			if(!checkSpecSelected())
+			{
+				//tips('请选择课程的附属属性');
+				layer.alert('请先选择课程的附属属性', {icon: 2});
+				return;
+			}
+
+			//设置必要参数
+			var buyNums  = parseInt($.trim($('#buyNums').val()));
+			var id = {$id};
+
+			if($('#product_id').val())
+			{
+				id = $('#product_id').val();
+				type = 'product';
+			} else {
+				type = 'goods';
+			}
+
+			{if:$promo}
+			//有促销活动（团购，抢购）
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/promo/$promo/active_id/$active_id}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{else:}
+			//普通购买
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/statement/2}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{/if}
+
+			//页面跳转
+			var _input_dprice = $('.input_dprice').val();
+			var _input_stime = $('.input_stime').val();
+			url += '/stime/' + _input_stime;
+			url += '/dprice/' + _input_dprice;
+
+			//console.log(url);
+			window.location.href = url;
+		}
+	});
+}
+
+function calculation_cprice()
+{
+	var _num = parseInt($.trim($('#buyNums').val()));
+	$('#data_dprice .buy').html('￥' + _max_cprice * _num);
+	var _chit = _max_order_chit * _num;
+	_chit = _chit.toFixed(2);
+	$('#data_dprice .chit').html('￥' + _chit);
+}
+</script>

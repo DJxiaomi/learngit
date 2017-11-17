@@ -1,0 +1,117 @@
+		{template:'/views/msysseller/layouts/header.html'}
+        {set:$countData = statistics::sellerAmount($this->seller['seller_id']);}
+        <style>
+		.ubtublubr {
+			
+		}
+		.ubtublubr ul {
+			width: 90%;
+			margin: 0px auto;
+			background-color: #fff;
+			clear: both;
+			overflow: hidden;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+		.ubtublubr li {
+			width: 100%;
+			height: 35px;
+			line-height: 35px;
+			border-bottom: 1px solid #ccc;
+		}
+		.ubtublubr li a {
+			color: #000;
+			font-size: 90%;	
+			font-weight: 600;
+		}
+		.ubtublubr li .t-left {
+			text-indent: 5%;	
+		}
+		.ubtublubr li .t-right {
+			margin-right: 10px;	
+		}
+		</style>
+
+        <div class="uinna7">
+            <div class="ububver">           
+                <div class="ubtublubr">
+					<ul>
+                    	<li>
+                        	<a href="{url:/seller/goods_list}">
+                        	<div class="t-left">
+                            	课程:
+                            </div>
+                            <div class="t-right">
+                            	{echo:statistics::goodsCount($this->seller['seller_id'])} 门
+                            </div>
+                            </a>
+                        </li>
+                    	<li>
+                        	<a href="{url:/seller/refer_list}">
+                        	<div class="t-left">
+                            	咨询:
+                            </div>
+                            <div class="t-right">
+                            	{echo:statistics::referWaitCount($this->seller['seller_id'])} 条
+                            </div>
+                            </a>
+                        </li>
+                    	<li>
+                        	<a href="{url:/seller/comment_list}">
+                        	<div class="t-left">
+                            	评价:
+                            </div>
+                            <div class="t-right">
+                            	{echo:statistics::commentCount($this->seller['seller_id'])} 条
+                            </div>
+                            </a>
+                        </li>
+                    	<li>
+                        	<a href="{url:/seller/comment_list}">
+                        	<div class="t-left">
+                            	退款:
+                            </div>
+                            <div class="t-right">
+                            	{echo:statistics::refundsCount($this->seller['seller_id'])} 条
+                            </div>
+                            </a>
+                        </li>
+                    	<li>
+                        	<a href="{url:/seller/comment_list}">
+                        	<div class="t-left">
+                            	成交:
+                            </div>
+                            <div class="t-right">
+                            	{echo:statistics::sellCountSeller($this->seller['seller_id'])} 笔
+                            </div>
+                            </a>
+                        </li>
+                    	<li>
+                        	<a href="{url:/seller/comment_list}">
+                        	<div class="t-left">
+                            	口碑:
+                            </div>
+                            <div class="t-right">
+                            	{echo:statistics::gradeSeller($this->seller['seller_id'])} 分
+                            </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="umar-at1">
+                <div class="btn ub ub-ac bc-text-head ub-pc bc-btn"  id="btn2">
+                   <a href="/index.php?controller=systemseller&amp;action=logout">退出登录</a>
+                </div>
+            </div>
+        </div>
+
+		{template:'/views/msysseller/layouts/footer.html'}
+      
+		
+
+
+		
+
+
+

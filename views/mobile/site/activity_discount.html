@@ -1,0 +1,51 @@
+<?php
+
+$brand_id = 258;
+$brand_info = brand_class::get_brand_info($brand_id);
+$user_id = $this->user['user_id'];
+$member_info = array();
+$goodsObj = search_goods::find(array('brand_id' => $brand_id));
+$resultData = $goodsObj->find();
+$page_info = $resultData['page_info'];
+$list = $resultData;
+if ( $user_id )
+    $member_info = member_class::get_member_info($user_id);
+
+if(!$brand_info)
+{
+    IError::show(403,'信息不存在');
+}
+
+$this->title = $brand_info['name'];
+$time = time();
+
+?>
+<link href="{skin:css/discount.css}" rel="stylesheet" type="text/css" />
+<div class="free_class_content">
+  <div class="free_class_hd">
+    <img src="{skin:images/discount_img_1.jpg}" />
+  </div>
+  <div class="free_class_bd">
+    {if:$list}
+    <ul>
+      {foreach:items=$list}
+      <li>
+        <div class="class_image">
+          <a href="{url:/site/products/id/$item['id']}"><img src="{webroot:$item[img]}" /></a>
+        </div>
+        <div class="class_action">
+          {$item['name']}
+        </div>
+        <div class="icon {if:$item['limit_end_time'] > 0 && $item['limit_end_time'] <= $time}t2{else:}t1{/if}"></div>
+      </li>
+      {/foreach}
+    </ul>
+    {/if}
+  </div>
+</div>
+
+<script language="javascript">
+$(document).ready(function(){
+  $('.mui-title').html('{$this->title}');
+})
+</script>

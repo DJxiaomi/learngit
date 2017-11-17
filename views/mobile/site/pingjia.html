@@ -1,0 +1,58 @@
+<meta name="viewport" content="width=device-width, target-densitydpi=high-dpi" />
+{set:$comment_total=$this->data['comment_total'];}
+{set:$average_point=$this->data['average_point'];}
+{set:$id=intval(IReq::get('id'));}
+{set:$item=Api::run('getGoodsInfo',array("#id#",$id))}
+{if:!$item}
+{set:IError::show(403,'课程信息不存在')}
+{/if}
+
+<div class="pingjiabox">
+	
+
+	<div class="pingjia-box">
+		<div class="pjbox">
+			<div class="pjbtbox">
+               <div class="pjbt-box">
+				<label><span><a href="{url:/site/pingjia/id/$id}">全部评论<span class="f12 red2">({$comment_total}条)</span></a></span></label>&nbsp;
+				<label><span><a href="{url:/site/pingjia/id/$id/type/good}">好评<span class="f12 red2">({$this->data['point_grade']['good']}条)</span></a></span></label>&nbsp;
+				<label><span><a href="{url:/site/pingjia/id/$id/type/middle}">中评<span class="f12 red2">({$this->data['point_grade']['middle']}条)</span></a></span></label>&nbsp;
+				<label><span><a href="{url:/site/pingjia/id/$id/type/bad}">差评<span class="f12 red2">({$this->data['point_grade']['bad']}条)</span></a></span></label>
+                </div>
+			</div>
+
+			<div class="tabs_content">
+				{foreach:items=$this->data['comment_list'] key=$key item=$item}
+				<div class="node item">
+					<div class="user">
+						<div class="pj-ico"><img src="{webroot:$item[head_ico]}" width="70px" height="70px" onerror="this.src='{skin:images/front/user_ico.gif}'" /></div>
+						<a class="blue">{$item['username']}</a>
+						<p class="gray">{$item['user_group_name']}</p>
+						<p class="gray"></p>
+					</div>
+					<dl class="desc">
+						<p class="clearfix"><b>评分：</b><span class="grade"><i style="width:{echo:Common::gradeWidth($item['point'])}px"></i></span><span class="light_gray">{$dateline}</span><label></label></p>
+						<hr />
+						<p><b>评语：</b><span class="gray">{$item['contents']}</span></p>
+					</dl>
+					<div class="corner b"></div>
+					<div class="corner tl"></div>
+				</div>
+				<hr />
+				{/foreach}
+			</div>
+			{$this->comment_query->getPageBar()}
+		</div>
+	</div>
+</div>
+
+<!--<script type='text/javascript'>
+//DOM加载完毕
+$(function()
+{
+	//tab标签的class设置
+	var urlType  = "{echo:IReq::get('type') ? IReq::get('type') : 'all'}";
+	var tabIndex = {"all":0,"good":1,"middle":2,"bad":3};
+	$('.tabs_menu>label:eq('+tabIndex[urlType]+')').addClass('current');
+});
+</script>-->

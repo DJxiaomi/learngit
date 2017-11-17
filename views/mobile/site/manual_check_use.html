@@ -1,0 +1,36 @@
+<style>
+.seller_name {font-size:.9rem;line-height:40px;}
+</style>
+<div class="mui-content">
+  <form class="mui-input-group" method="POST">
+    <div class="mui-input-row">
+        <label>学校名称</label>
+        <div class="seller_name">{$seller_info['shortname']}</div>
+    </div>
+    <div class="mui-input-row">
+        <label>课程名称</label>
+        <div class="seller_name">{$dqk_info['name']} - {$dqk_info['use_times']}课时</div>
+    </div>
+    <div class="mui-input-row">
+        <label>交易密码</label>
+        <input type="password" class="mui-input-password" name="password" placeholder="请输入交易密码">
+    </div>
+    <div class="mui-button-row">
+        <button type="button" class="mui-btn mui-btn-primary" >确认</button>
+    </div>
+    <input type="hidden" name="id" value="{$id}" />
+    <input type="hidden" name="manual_id" value="{$manual_id}" />
+</form>
+</div>
+
+<script language="javascript">
+$('.mui-btn-primary').click(function(){
+  var pass = $('input[type=password]').val();
+  if ( pass == '')
+  {
+    mui.toast('请输入交易密码');
+  } else {
+    $('form').submit();
+  }
+})
+</script>

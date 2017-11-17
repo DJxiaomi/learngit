@@ -1,0 +1,61 @@
+{js:artTemplate}
+{js:kindeditor}
+{js:my97date}
+<script src="/views/default/javascript/layer/layer.js"></script>
+<style>
+.hide { display: none; }
+#allmap { width: 700px; height: 400px; }
+input.normal {height: 25px;line-height: 25px;text-indent:3px;}
+table{width:100%;}
+th {text-align:right;width:40%;}
+tr{height:40px;}
+span.red {margin-left:3px;}
+</style>
+
+<article class="module width_full">
+	<header>
+		<h3>修改密码</h3>
+	</header>
+
+	<form action="{url:/seller/change_passwd_update}" method="post" name="change_passwd" id="change_passwd">
+		<div class="module_content">
+
+      <table>
+        <tr>
+          <th>新登录密码：</th>
+          <td><input type="password" name="newpassword" id="newpassword" class="normal" pattern="required" alt="新登录密码不能为空" /><span class="red">*</span></td>
+        </tr>
+        <tr>
+          <th>重复新登录密码：</th>
+          <td><input type="password" name="renewpassword" id="renewpassword" class="normal" pattern="required" alt="请重复新登录密码" /><span class="red">*</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <input type="button" value="修改" class="alt_btn" onclick="check_form()" />&nbsp; &nbsp;
+            <input type="reset" value="重置" />&nbsp; &nbsp;
+          </td>
+        </tr>
+      </table>
+
+	</form>
+</article>
+
+<script language="javascript">
+function check_form()
+{
+  var _newpassword = $('#newpassword').val();
+  var _renewpassword = $('#renewpassword').val();
+	if ( _newpassword == '' || _renewpassword == '')
+	{
+		layer.alert( '新密码不能为空', {icon:2} );
+		return false;
+	}
+  if ( _newpassword != _renewpassword )
+  {
+    layer.alert( '两次输入新密码不正确', {icon:2} );
+    return false;
+  }
+  $('#change_passwd').submit();
+}
+
+</script>

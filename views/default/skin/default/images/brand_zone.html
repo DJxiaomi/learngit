@@ -1,0 +1,421 @@
+<?php
+$site_config=new Config('site_config');
+$dcommission = $site_config->dcommission;
+$breadGuide = goods_class::catRecursion($category);
+$brandId  = IFilter::act(IReq::get('id'),'int');
+$brandRow = Api::run('getBrandInfo',$brandId);
+
+if(!$brandRow)
+{
+	IError::show(403,'品牌信息不存在');
+}
+?>
+{js:bxSlider}
+<script language="javascript">
+	var _goods_list = {$seller_info['goods_list_json']};
+	var _goods_id = 0;
+	
+	var _spec_id = 0;
+	var SITE_URL = 'http://{echo:get_host();}';
+	var _seller_id = {$seller_info['id']};
+</script>
+<style> .submit_buy{background:#f8f8f8;font-size:16px;color:#038bd0;border:1px solid #038bd0;border-radius:5px;text-indent: 0;line-height: 0;} .submit_join{background:#f8f8f8;font-size:16px;color:#038bd0;border:1px solid #038bd0;border-radius:5px;text-indent: 0;line-height: 0;}
+.submit_buy:hover{background:#fff;color:#f90;border:1px solid #f90;}
+.submit_join:hover{background:#fff;color:#f90;border:1px solid #f90;}
+.add:hover{
+ color:red;
+}
+.reduce:hover{
+ color:red;
+}
+</style>
+<script type="text/javascript" src="{theme:javascript/home.js}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QDA0aO9Dw8tVx22vuULQuGXOGFV5a5ZD"></script>
+<script type="text/javascript" src="{rs:/scripts/layer/layer.js}"></script>
+<link href="{skin:/css/home.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:/css/brand_zone.css}" rel="stylesheet" type="text/css" />
+<div class="position"><span>您当前的位置：</span><a href="{url:}">首页</a> » <a href="{url:/site/brand}">培训机构</a> » {$seller_info['shortname']}</div>
+<div class="wrapper clearfix" >    
+	<div class="main f_r" >		
+		{set:$goodsObj = search_goods::find(array('brand_id' => $brandId));$resultData = $goodsObj->find();}
+		<!--商品条件筛选-->		 
+		{if:$resultData}
+	
+ 
+   <!--图片放大镜-->
+   
+	<div class="preview">
+		<div class="pic_show">
+			<img id="picShow" rel="" class="lazy" data-original="{url:$resultData['0'][img]}" />
+		</div>
+		<ul id="goodsPhotoList" class="pic_thumb">
+			{foreach:items=$resultData}
+				<li >
+					<a href="javascript:void(0);" thumbimg="{url:/pic/thumb/img/$item[img]}" sourceimg="{webroot:$item['img']}">
+						<img class="lazy" data-original='{url:/pic/thumb/img/$item[img]}' width="60px" height="60px" />
+					</a>
+				</li>
+			{/foreach}
+		</ul>
+	</div>
+	<!-- end -->
+	<!--右侧信息栏 -->
+	<div class="clearfix"></div>
+	 <div class="summary">
+	  
+		<h2>{$seller_info['shortname']}</h2>
+		<!--基本信息区域-->
+		<div class="lesson_price">
+            <div class="price">
+                <p class="dis_price">参考价：<strong id="data_marketPrice">￥{$seller_info['price_level']}</strong></p>
+            </div>
+            <div class="attach comment">
+                <p>{$seller_info['comments']}</p>
+                <p>累计评价</p>
+            </div>
+            <div class="attach">
+                <p>{$seller_info['sale']}</p>
+                <p>交易成功</p>
+            </div>
+            {if:$seller_info['is_support_props'] == 1}
+            <div class="ticket">			   
+            	<p>满<span class="ticket_amount">{$ticket['amount']}</span>元可使用<span class="ticket_prop">{$ticket['prop']}</span>元代金券<a href="javascript:void(0);" class="receive">领取</a></p>
+				   <p>可用券数量以实际支付金额为准，可在确定应付金额后选择相对应的代金券抵扣现金</p>
+            </div>
+            {/if}
+        </div>
+        <div class="quan" >
+        	<div class="card-list-box">
+				<div class="card_left">
+					<input type="hidden" name="prop" class="prop" >
+					<p class="tochit"><em>￥</em><span>50</span></p>
+                	<p class="tobuy">购券<span>25</span>可抵扣</p>
+				</div>
+				<div class="card_right">
+					<p><em class="totip">通用券</em><span class="mui-seller">代金券</span></p>
+	                <p class="tospec limittime">有效期至 <span>2023-03-29</span></p>
+	                <p class="tospec chit_info">满300可用，限新学员在指定商家使用，线下线上通用，与其他优惠叠加</p>
+	                <a class="buycard" onclick="buy_now_ding_card('90', '25')">点击购买</a>
+				</div>			    
+			</div>
+        </div>
+        <script>
+        	$(function(){
+        		$('.receive').on('click',function(){
+        			var prop = $('.prop').text();
+        			if(prop){
+        				$.getJSON('/site/get_chit_info',{'prop':prop},function(content){
+        					if(content){
+        						$('.tochit').find('span').text($('.prop').text());
+        						$('.tobuy').find('span').text(content.max_price);
+        						$('.limittime').find('span').text(content.limittime);
+        						$('.chit_info').text(content.limitinfo);
+        						$('.buycard').attr('onclick',"buy_now_ding_card('"+content.id+"', '"+ content.max_price+"')");
+
+        					}
+        				})
+        			}
+        			
+        			console.log($('.tochit').find('span').text());
+				    layer.open({
+						  type: 1,
+						  title:'代金券',
+						  closeBtn:1,
+						  skin: 'layui-layer-rim', //加上边框
+						  area: ['450px', '200px'], //宽高
+						  content: $('.quan')
+						});
+				    
+				})
+        	})
+
+        	function buy_now_ding_card(id, _input_dprice){
+				var buyNums  = 1;
+				//var type = 'chit';
+				var url = '/simple/cart2/id/2196/num/@buyNums@/type/product/statement/2/ischit/1/chitid/@chitid@';
+					url = url.replace('@chitid@',id).replace('@buyNums@',buyNums);
+				var _input_stime = 1;
+				url += '/stime/' + _input_stime;
+				url += '/dprice/' + _input_dprice;
+				window.location.href = 'http://www.lelele999.com' + url;
+			}
+        </script>
+
+		<!--购买区域-->
+		<div class="current">
+			{if:$seller_info['is_authentication'] == 1}
+				<dl class="m_10 clearfix" name="specCols">
+					<dt>课程分类：</dt>
+					<dd class="w_45">
+						{foreach:items=$seller_info['goods_list']}
+						<div class="item w_27">
+							<a href="javascript:void(0);" onclick="sele_goods(this);" _id={$item['id']}>
+								{$item['name']}
+							</a>
+						</div>
+						{/foreach}
+					</dd>
+				</dl>
+				<dl class="m10 clearfix spec_list_row">
+					<dt>价格属性：</dt>
+					<dd class="w_45 spec_list">
+
+					</dd>
+				</dl>
+				<dl class="m_10 clearfix">
+					<dt>报名人数：</dt>
+					<dd>
+
+						<div class="resize">
+							<a class="add"   id="buyAddButton" onclick="setAmount.reduce('#buyNums')" href="javascript:void(0);">-</a>
+							<input class="gray_t f_l" type="text" id="buyNums" onkeyup="setAmount.modify('#buyNums')" value="1" maxlength="5"  />
+							<a class="reduce"  id="buyReduceButton" onclick="setAmount.add('#buyNums')" href="javascript:void(0);">+</a>
+						</div>
+					</dd>
+				</dl>
+				<input class="submit_buy" type="button" id="buyNowButton" onclick="buy_now();" value="立即报名" />
+				<div class="shop_cart">
+					<input class="submit_join" type="button" id="joinCarButton" onclick="joinCart();" value="加入课表" />
+				</div>
+			{else:}
+			<dl class="m_10 clearfix">
+				学校未认证
+			</dl>
+			{/if}
+		</div>
+	  </div> 
+	
+	<!--end-->       						
+		<div name="showBox">
+			<!-- 商品详情 start -->
+			<div class="product_info">				
+				<div class="shiting_booking">
+					<div class="bg"><img class="lazy" data-original="{skin:images/shiting_booking.jpg}" /></div>
+					<div class="shiting_info"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+				</div>
+				<a name="location"></a>
+				<div class="module">
+					<div class="module_hd"></div>
+					<div class="module_bd">
+						{if:$seller_info['address']}
+							<div class="shop_map">
+								<div id="container"></div>
+							</div>
+						{/if}
+						<div class="shop_info">
+							<div class="shop_name">{$seller_info['shortname']}</div>
+							<div class="shop_info_list">
+								<ul>
+									<li>地址：{echo:join(' ',area::name($seller_info['province'],$seller_info['city'],$seller_info['area']))} {$seller_info['address']}</li>
+									<li class="shopinfo">客服：<a><img class="lazy" data-original="{skin:/images/tel.jpg}"/></a>
+								<a href="tencent://message/?Menu=yes&amp;uin=2821518520&amp;Service=58&amp;SigT=A7F6FEA02730C9881B11E0AE7AF2E2413E3090997F5951E7CFC7F66A8EF4F5D7A3233F568A8EBC2B984019AC21FF99093F241FB5CD7A7DD4C39596B28D63C849FBCF4A5AED55184EFE696F36F9FF6428EEC729D42EF963C0FD5E9BAC2AD18620E7ADFC9387D83C4B46A7B0C2DC4B63341934EE44C822C196"><img class="lazy" data-original="{skin:/images/qq.jpg}"/></a></li>
+								     {if:$attrArr}
+									<li class="times_list">上课时间：<br />
+										{foreach:items=$attrArr}
+										<div>{$item}</div>
+										{/foreach}
+
+									</li>
+									{/if}
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<a name="class_desc" ></a>
+				<div class="module">
+					<div class="module_hd module_hd2"></div>
+					<div class="module_bd module_bd2">
+						{if:$seller_info['brand_info']['class_desc_img']}
+						<div class="class_desc_img">
+							{foreach:items=$seller_info['brand_info']['class_desc_img']}
+								<img class="lazy" data-original="{webroot:$item}" />
+							{/foreach}
+						</div>
+						{/if}
+						<div class="class_list">
+							<div class="class_list_hd">
+								<img class="lazy" data-original="{skin:images/class_list_top_bg.png}" />
+							</div>
+							<div class="class_list_bd">
+								<table cellspacing="0">
+									<tr>
+										<th width="20%">课程</th>
+										<th>简介</th>
+									</tr>
+									  {foreach:items=$seller_info['goods_list']}
+									<tr>
+										<td>{$item['name']}</td>
+										<td>{$item['goods_brief']}</td>
+									</tr>
+									{/foreach}
+								</table>
+							</div>
+						</div>
+				{if:$seller_info['brand_info']['shop_desc_img'][0]}
+		        <div class="shop_desc">
+		            <img class="lazy" data-original="{webroot:$seller_info['brand_info']['shop_desc_img'][0]}" />
+		        </div>
+		    
+			
+               {elseif:$seller_info['brand_info']['shop_desc_img'][1]}
+		        <div class="shop_desc">
+		            <img class="lazy" data-original="{webroot:$seller_info['brand_info']['shop_desc_img'][1]}" />
+		        </div>
+				{elseif:$seller_info['content']}
+				   <div class="content">
+				     {$seller_info['content']}
+				   </div>
+				
+                  {/if}
+						<div class="class_list_desc">
+							<div class="class_list_desc_hd">
+								<img class="lazy" data-original="{skin:images/class_list_desc.jpg}" />
+							</div>
+							{if:$seller_info['goods_list']}
+								{set:$index = 1}
+								{foreach:items=$seller_info['goods_list']}
+								
+									<div class="class_list_desc_bd class_list_style_{$index}">
+										<div class="class_title">
+											<div class="title_name">{$item['name']}</div>
+											<div>{$item['class_target']}</div>
+										</div>
+										<div class="clear"></div>
+										
+										{if:$item['content']}
+										<div class="class_description" >
+										{set:$item['content']=str_replace(
+										'\r','<br />', $item['content']);}
+									  	{echo:str_replace(
+										'\n','<br />', $item['content']);}
+											
+										</div>
+                                       {else:}
+                                        <br />
+										{/if}
+
+										{if:$item['class_details']}
+										<div class="class_description_list">
+											<ul>
+												{foreach:items=$item['class_details'] item=$it}
+												<li><div class="desc_str">{$it}</div></li>
+												{/foreach}
+											</ul>
+										</div>
+										{/if}
+									</div>
+									{if:$index == 9}
+										{set:$index = 1}
+									{else:}
+										{set:$index++}
+									{/if}
+								{/foreach}
+							{/if}
+						</div>
+					</div>
+				</div>
+
+				<a name="teacher_desc"></a>
+				{if:$seller_info['teacher_list']}
+				<div class="module">
+					<div class="module_hd module_hd3"></div>
+					<div class="module_bd">
+						<div class="teacher_list">
+							<ul>
+								{foreach:items=$seller_info['teacher_list']}
+								<li>
+									<div class="teacher_logo">
+										<img class="lazy" data-original="{webroot:$item['icon']}" onerror="javascript:this.src='../skin/default/images/avatar.jpg';"/>
+									</div>
+									<div class="teacher_desc">
+										<div>{$item['name']}</div>
+										<p>
+										{set:$item['description']=str_replace(
+										'\r','<br />', $item['description']);}
+									  	{echo:str_replace(
+										'\n','<br />', $item['description']);}
+										</p>
+									</div>
+								</li>
+								{/if}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{/if}
+
+				<a name="shop_desc"></a>
+				{if:$seller_info['album']}
+				<div class="module">
+					<div class="module_hd module_hd4"></div>
+					<div class="module_bd">
+						<div class="shop_image_list">
+							<ul>
+								{foreach:items=$seller_info['album']}
+									<li><img src="{webroot:$item}" /></li>
+								{/foreach}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{/if}
+
+			</div>
+			<!-- 商品详情 end -->
+		</div>
+<!-- 			<div class="product_right">
+		
+			<div class="product_r">
+			<ul>
+			<li>
+			<a class="name"><img src="/upload/pic/xue.png"/></a>
+			<span>课程名称</span>
+			<a class="pic" href=""><img src="/upload/pic/shiting.jpg"/></a>
+			<div class="font"><a>课程的一句话简介了解艺术的多元化与丰富性，学习不同门,强化学员对线、形、色的好奇，。</a>
+			<p>试听课学校简称</p>
+			</div>
+			</li>
+			</ul>
+			<ul>
+			<li>
+			<a class="name"><img src="/upload/pic/xue.png"/></a>
+			<span>精品试听课</span>
+			<a class="pic" href=""><img src="/upload/pic/jiqi.jpg"/></a>
+			<div class="font"><a>课程的一句话简介，第一行艺术拓展学习旨在拓展学生艺术视野，了解艺术的多元化与丰富性，学习不同门,强化学员对线、形、色的好奇，。</a>
+			<p>试听课学校简称</p>
+			</div>
+			</li>
+			</ul>
+			</div>
+
+			</div> -->
+</div>
+			<!-- 商品详情 end -->
+		</div>
+		
+		
+	
+		{/if}
+	
+
+<script type='text/html' id='spec_list_template'>
+	<div class="item w_28">
+		<a href="javascript:void(0);" onclick="sele_spec(this)" _spec="<%=id%>">
+			<%if(cusval != ''){%><%=cusval%><%}%> <%if(classnum){%><%=classnum%>课时<%}%> <%if(month){%><%=month%>个月<%}%>
+		</a>
+	</div>
+</script>
+
+{if:$seller_info['address']}
+<script type="text/javascript">
+var _shop_address = "{echo:join('',area::name($seller_info['province'],$seller_info['city'],$seller_info['area']))}{$seller_info['address']}";
+</script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=2cd83299402829a3177894489a4cf556" type="text/javascript"></script>
+<script type='text/javascript' src="{theme:/javascript/school_show_map.js}"></script>
+{/if}
+
+
+	

@@ -1,0 +1,82 @@
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>代金券管理</span><span>></span><span>代金券列表2</span></div>
+</div>
+<div class="content">
+	<form method='post' action='#'>
+		<table class="list_table">
+			<colgroup>
+        <col width="40px" />
+				<col width="120px" />
+				<col width="70px" />
+        <col width="70px" />
+				<col width="70px" />
+        <col width="100px" />
+				<col width="70px" />
+				<col width="70px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+          <th></th>
+					<th>面额</th>
+					<th>创建时间</th>
+          <th>所属用户</th>
+          <th>学校</th>
+          <th>交易订单</th>
+					<th>退款</th>
+					<th>状态</th>
+				</tr>
+			</thead>
+
+			<tbody>
+        {if:$prop_list}
+          {foreach:items=$prop_list}
+          <tr>
+            <td></td>
+            <td>{$item['value']}</td>
+            <td>{$item['start_time']}</td>
+            <td>{$item['username']}</td>
+            <td>{$item['seller_info']['true_name']}</td>
+            <td><a href="{url:/order/order_show/id/$item['order_info']['id']}">{$item['order_info']['order_no']}</a></td>
+						<td>{if:$item['is_checkout'] == 2}已退款{else:}{if:$item['is_checkout'] == 1 && $item['is_userd']==0 && $item['is_pay'] == 1}是{else:}否{/if}{/if}</td>
+            <td>
+							{if:$item['is_close']==1}<span class="bold gray">已完成</span>
+							{elseif:$item['is_userd']==1}<span class="bold orange">已使用</span>
+							{elseif:$item['is_close']==2}<span class="bold gray">临时锁定</span>
+							{elseif:(strtotime('now')-strtotime($item['end_time']))>0}<span class="bold light_gray">已过期</span>
+							{else:}<span class="bold green">可使用</span>
+							{/if}
+            </td>
+          </tr>
+          {/foreach}
+
+          {if:$page_info}
+          <tr>
+            <td colspan="8">{$page_info}</td>
+          </tr>
+          {/if}
+        {/if}
+			</tbody>
+		</table>
+	</form>
+</div>
+
+<script type='text/javascript'>
+	//创建优惠券
+	function create_dialog(ticket_id)
+	{
+		art.dialog.prompt('请输入生成线下实体代金券数量：',function(num)
+		{
+			var num = parseInt(num);
+			if(isNaN(num) || num <= 0)
+			{
+				alert('请填写正确的数量');
+				return false;
+			}
+
+			var url = '{url:/market/ticket_create/ticket_id/@ticket_id@/num/@num@}';
+			    url = url.replace('@ticket_id@',ticket_id).replace('@num@',num);
+			window.location.href = url;
+		});
+	}
+</script>

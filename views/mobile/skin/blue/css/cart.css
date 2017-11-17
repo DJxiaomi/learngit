@@ -1,0 +1,45 @@
+.list{ padding-bottom: 60px;}
+.mui-media {background-color: #fff6ee;}
+.mui-media-body{ color: #666; font-size: .875rem; width:60%;margin-left:28%; padding-bottom:10px;}
+.mui-table-view .mui-media-object{height: 80px;line-height: 80px;max-width: 80px;width: 80px;margin-left:3%;}
+.mui-media-body .spec{ color: #999; font-size: .875rem; margin: 3px 0; }
+.mui-numbox{ height: 28px; margin-bottom:5px;}
+.cart-box{ position: absolute; right: 10px; top: 50px; }
+.cart-goods-price .price{ color: #0088cc;font-size: 1.0rem; }
+.cart-box a{ display: block; color: #999; font-size: 1.5rem; padding-left:10px; }
+.cart-checkout{position: fixed;bottom:50px;width: 100%;  height:60px; box-sizing: border-box;-webkit-box-sizing:border-box;padding: 10px 15px;border-top: 1px solid #d8d8d8;background: #fefefe;}
+.cart-checkbox{float:left;display: inline-block;width: 28%;line-height: 31px;vertical-align: top;}
+.cart-checkbox label{vertical-align: middle;font-size:0.875em;color:#666;}
+.cart-counter{display:inline-block;line-height: 18px;}
+.total-price{color:#df4102;font-size:1em;line-height: 35px}
+.total-save{color:#666;font-size: 0.875em;}
+.ui-btn-pink{position: absolute;top: 10px;right: 5px;padding: 6px 20px;background:linear-gradient(to right,#ff9638,#ff4b2b);display:block;color:#fff;border-radius: 3px;text-decoration: none;}
+.mui-table-view-cell span.red3,.red3{ color: #f60;}
+.amount{ font-size: 2rem; }
+.amount p{ color: #f60;}
+.confirmbox{padding: 10px 0; font-size: 1rem; color: #666;}
+.confirmbox .icon-ok{ margin-right: 10px; color: #4cd964; font-size: 2rem; }
+.mui-table-view-cell b,.mui-table-view-cell span{ font-size: 1rem; font-weight: 100; color: #df4102; }
+.mui-table-view-cell span.red2,.red2{ color: #ff3c00; }
+
+
+.mui-media .mui-media-header {position:static;border:0px;color:#281c1c;background:url(/views/mobile/skin/blue/images/seller_name_icon.png) 10px center no-repeat #fff;height:40px;line-height:40px;background-size: 25px 25px;text-indent: 30px;font-size:14px;margin-bottom:10px;}
+.mui-media .mui-media-header .t-left {padding-left: 15px;}
+.mui-media .mui-media-header .t-right {margin-right: 20px;color:#df4102;}
+.mui-card .mui-card-content {border:0px;}
+.mui-card-content .mui-table-view {width: 95%;margin: 0px auto;border:0px;}
+.mui-card .mui-card-content, .mui-card .mui-table-view {background-color:#fff6ee;}
+.mui-table-view-cell {padding:0px;}
+.mui-table-view-cell p {width:95%;float:left;line-height:18px;}
+.mui-table-view-cell p .t-right {float: right;margin-right:20px;font-size: 20px;color:#281c1c;}
+.mui-table-view-cell p.price {color:#df4102;}
+.mui-media-info {width: 100%;text-align:right;background-color:#fff;padding: 6px 0;border-top: 1px solid #cdcdcd;border-bottom: 1px solid #cdcdcd;padding-right: 20px;}
+.mui-media-info .price {color:#df4102;font-size:20px;}
+.mui-card-footers {text-align: right;margin-right: 10px;padding: 12px 0;}
+.mui-card-footers a {display: inline-block;margin-right: 10px;padding: 0px 10px;height:28px;line-height:28px;border: 1px solid #df4202;border-radius:15px;color:#df4202;background-color:#fff;}
+.mui-table-view, .mui-card-content, .mui-card-header {border:0px;}
+
+.border_table {margin: 0px auto;margin-top:5px;}
+.border_table td {text-align: center; font-size:90%;}
+
+.mui-tip {background:url(/views/default/skin/default/images/ticket_icon.png) 10px center no-repeat;color:#320000;font-size:14px;padding-left:3%;text-indent:27%;margin: 8px 0;}

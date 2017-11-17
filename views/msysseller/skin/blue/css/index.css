@@ -1,0 +1,14 @@
+.index_header {width:100%;height:auto;background:url(/views/mobile/skin/blue/images/ucenter_index_header_bg.jpg) 0 0 no-repeat;background-size:100% 100%;position:relative; padding-bottom:15px;}
+.index_header img {max-width:100%;}
+.index_header .mui-media {text-align:center;}
+.index_header .mui-media a {width:80px;height:80px;display: inline-block;margin:0px;padding:0px;border-radius: 50%;}
+.index_header .mui-media-body {color:#fff;padding-top:10px;}
+.index_header .mui-media .mui-media-header {position:absolute;width:30%;height:30px;top:6px;right:5px;z-index:2;text-align:right;}
+.index_header .mui-media .mui-media-header a {width: 24px;height:24px;color:#fff;margin-right:6px;font-size: 28px;}
+
+.mui-content .mui-grid-view {padding: 15px 0;}
+.mui-grid-view .mui-col-sm-3 a > img {max-width:55%; height:40px;}
+.mui-table-view-cell .mui-navigate-right .t-right {float:right;margin-right:20px;font-size:14px;}
+.mui-col-xs-2 {width:20%;}
+.mui-grid-12 .mui-col-sm-3 a > img {max-width:85%;height: 55px;}
+.mui-table-view-cell>a>.mui-badge {top:20%;right:5px;}

@@ -1,0 +1,253 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');}
+
+{set:$seo_data['title'] = '商家列表';}
+
+{set:$seo_data['title'].="_".$site_config->name}
+
+{set:$seo_data['keywords']=$this->catRow['keywords']}
+
+{set:$seo_data['description']=$this->catRow['descript']}
+
+{set:seo::set($seo_data);}
+
+
+<style>
+.searchbox{position:relative;z-index:14;display:inline;float:left;width:295px;height:29px;margin-left:28px;margin-left:0px;border:1px solid #038bd0;background:#fff;border-radius: 3px;}
+
+	.searchbox input{border:none;background:none;vertical-align:top}
+
+		.searchbox input.text{width:210px;height:15px;margin-top:4px;padding:3px 5px 0 11px;color:#828282}
+
+		.searchbox input.btn{width:65px;height:29px;padding:7px 0 9px;padding:8px 0\9;cursor:pointer;text-align:center;color:#fff;background:#038bd0;border:1px solid #038bd0;border-radius:0 3px 3px 0; }
+.display_title{border: 1px solid #ccc;background:#f2f2f2;}
+		.display_title ul li{position:relative;float:left;height:31px;line-height:31px;margin:0 0 0 6px;background:#dedede;border-radius:3px 3px 0 0;}
+
+		.display_title ul li.current{background:#038bd0;border-radius:3px 3px 0 0;}
+
+			.display_title ul li a{padding:0 15px 0 15px;font-size:14px;font-weight:bold;text-decoration:none;color:#666;}
+
+			.display_title a.hover{text-decoration:none}
+
+			.display_title ul li.current a{color:##038bd0;line-height:31px;}
+
+				.display_title ul li a span{margin:0 4px;padding:0 7px 0 0;padding:0 4px 0 0\9;background:url(../images/front/sprites_2.gif) -25px -180px no-repeat;}
+
+				.display_title ul li.current a span{background-position:-36px -180px;}
+
+				.display_title ul li.current a span.desc{background-position:-41px -198px}
+dl.sorting{position:relative;width:auto;border-bottom:1px solid #dedede;padding:5px 60px 3px 0;text-align:left;overflow:hidden;}
+				dl.sorting dd{padding-left:145px;    line-height: 24px;}
+
+				dl.sorting dd a{display:inline-block;margin:2px 5px 0;padding:0 3px;_padding-top:2px}
+
+				dl.sorting dd a:link,dl.sorting dd a:visited{color:#666;}
+
+				dl.sorting dd a.nolimit{position:absolute;top:6px;left:100px;line-height:22px;}
+
+				dl.sorting dd a.current{margin-bottom:-2px;line-height:11px;padding: 5px 8px 3px;border-radius: 2px;font-weight:bold;background:#038bd0;text-decoration:none;_padding-top:3px;}
+
+				dl.sorting dd a.current:link,dl.sorting dd a.current:visited,dl.sorting dd a.current:hover,dl.sorting dd a.current:active{color:#fff;}
+.display_title{position:relative;z-index:10;height:35px;border-bottom:2px solid #038bd0;padding-left:5px;_width:745px;overflow:hidden}
+input.mini {line-height: 21px;}
+
+/*列表 */
+.display_list2 ul { padding-left: 8px; }
+.display_list2 li { float: left; width: 22%; border: 1px solid #ccc; margin-left: 2%; margin-top: 15px; }
+.display_list2 li .pic { width: 90%; margin: 0px auto; height: 160px; overflow: hidden; margin-top: 8px; overflow: hidden; }
+.display_list2 li .pic img { max-width: 100%; }
+.display_list2 li .t_left { float: left; margin-left: 10px; }
+.display_list2 li h3.title a{font-size:14px;font-weight:normal;color:#f90;line-height: 30px;}
+.display_list2 li .t_right { float: right; margin-right: 13px; }
+.display_list2 li .seller_info { height: 25px; line-height: 25px;color:#666; }
+
+		/* pages */
+
+		.pages_bar{text-align:right;color:#444;padding-top: 8px; padding-bottom: 6px;}
+
+			.pages_bar a,.pages_bar span{display:inline-block;height:17px;border:1px solid #d5d5d5;margin-right:6px;padding:3px 10px 3px;text-align:center;color:#1a66b3;font-weight:bold;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px}
+
+			.pages_bar a.current_page{border:1px solid #038bd0;background-color:#038bd0;color:#fff}
+
+			.pages_bar span{color:#878787}
+
+		.box .pages_bar{margin:5px 20px 25px}
+		.display_list2 li .title { border-bottim: 0px;}
+</style>
+
+
+
+<div class="position">
+
+	<span>您当前的位置：</span>
+
+	<a href="{url:}">首页</a> >> 教学机构
+
+</div>
+
+
+
+<div class="wrapper clearfix container_2">
+
+		<div class="cont">
+				<!--分类-->
+                {if:$category_list}
+                <dl class="sorting">
+					<dt>类别：</dt>
+					<dd id='price_dd'>
+						<a class="nolimit {if:!$category_id}current{/if}" href="{echo:search_goods::searchUrl('category_id','')}">不限</a>
+						{foreach:items=$category_list}
+							<a href="{echo:search_goods::searchUrl('category_id',$item['id'])}" {if:$category_id == $item['id']}class='current'{/if} id="{$item['id']}">{$item['name']}</a>
+						{/foreach}
+					</dd>
+                </dl>
+				{/if}
+                <!--分类-->
+				<!--课程区域-->
+                {if:$area_list}
+                <dl class="sorting">
+					<dt>区域：</dt>
+					<dd id='price_dd'>
+						<a class="nolimit {if:!$area_id}current{/if}" href="{echo:search_goods::searchUrl('area','')}">不限</a>
+						{foreach:items=$area_list}
+							<a href="{echo:search_goods::searchUrl('area',$item['area_id'])}" {if:$area_id == $item['area_id']}class='current'{/if} id="{$item['area_id']}">{$item['area_name']}</a>
+						{/foreach}
+					</dd>
+                </dl>
+				{/if}
+                <!--课程区域-->
+
+				<!--课程属性-->
+				{if:$attr_list['value']}
+				<dl class="sorting" style="border-bottom:0;">
+					<dt>内容：</dt>
+					<dd id='attr_dd'>
+						<a class="nolimit {if:$attr ==''}current{/if}" href="{echo:search_goods::searchUrl('attr','')}">不限</a>
+						{foreach:items=$attr_list['value'] key=$key}
+							<a href="{echo:search_goods::searchUrl('attr',$item)}" {if:$attr_id==$key && $attr != ''}class="current"{/if}>{$item}</a>
+						{/foreach}
+					</dd>
+				</dl>
+				{/if}
+				<!--课程属性-->
+			</div>
+		</div>
+		<!--条件检索-->
+
+
+
+		<!--排序方式-->
+		<div class="display_title">
+			<span class="f_l">排序：</span>
+			<ul>
+				{foreach:items=$order_info key=$key}
+				<li class="{if:$order == $key || $order == $key . '_toggle'}current{/if}">
+					<a href="{if:$order == $key}{echo:search_goods::searchUrl('order',$key.'_toggle')}{else:}{echo:search_goods::searchUrl('order',$key)}{/if}">{$item}</a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+        <!--排序方式-->
+
+		<!--商家展示-->
+		{if:$list}
+		<ul class="display_list2 clearfix m_10">
+			{foreach:items=$list}
+			<li class="clearfix {echo:search_goods::getListShow(IFilter::act(IReq::get('show_type')))}">
+				<div class="pic">
+					<a title="{$item['true_name']}" href="{url:/site/seller/id/$item['id']}" target="_blank">
+						<img src="{webroot:$item['logo']}" width="237" height="160" alt="{$item['true_name']}" title="{$item['true_name']}" />
+					</a>
+				</div>
+				<h3 class="title" style="border-bottom: 0px;"><a title="{$item['true_name']}" href="{url:/site/seller/id/$item['id']}" target="_blank">{$item['true_name']}</a></h3>
+                <div class="seller_info" style="height: 20px;line-height: 20px; padding: 6px 0">
+                	<div class="t_left" style="width: 64%;overflow: hidden;height: 20px;text-align: left;">
+                    	主要课程：{if:$item['category']}{$item['category']}{else:}暂无{/if}
+                    </div>
+                    <div class="t_right" style="width: 27%;overflow: hidden;height: 20px;">
+                    	总销量：{$item['sale']}
+                    </div>
+                </div>
+			</li>
+			{/foreach}
+		</ul>
+		{$page_bar}
+
+		{else:}
+		<p class="display_list mt_10" style='margin-top:50px;margin-bottom:50px'>
+			<strong class="gray f14">对不起，没有找到相关商家</strong>
+		</p>
+		{/if}
+		<!--商家展示-->
+
+	</div>
+
+</div>
+
+
+
+<script type='text/javascript'>
+
+$(document).ready(function(){
+	$('.display_list li .pic').hover(function(){
+		$(this).addClass('active');
+	}, function(){
+		$(this).removeClass('active');
+	});
+});
+
+//价格跳转
+
+
+
+
+//筛选条件按钮高亮
+
+jQuery(function(){
+
+	{set:
+
+		$brand = IFilter::act(IReq::get('brand'),'int');
+
+	}
+
+
+
+	{if:$brand}
+
+	$('#brand_dd>a').removeClass('current');
+
+	$('#brand_{$brand}').addClass('current');
+
+	{/if}
+
+
+
+	{set:$tempArray = IFilter::act(IReq::get('attr'),'url')}
+
+	{if:$tempArray}
+
+		{set:$json = JSON::encode(array_map('md5',$tempArray))}
+
+		var attrArray = {$json};
+
+		for(val in attrArray)
+
+		{
+
+			if(attrArray[val])
+
+			{
+
+				$('#attr_dd_'+val+'>a').removeClass('current');
+
+				document.getElementById('attr_'+val+'_'+attrArray[val]).className = 'current';
+
+			}
+
+		}
+
+	{/if}
+
+});
+
+</script>

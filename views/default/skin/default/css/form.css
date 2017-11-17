@@ -1,0 +1,6 @@
+.signUp{height:505px;width:640px;background:url(../../../upload/image/20170411/20170411104916_79956.jpg);}
+.signUp form{margin:40px 0 0 80px;}
+.signUp p{margin-bottom: 20px;}
+.signUp label{font-size:26px;width:140px;display:inline-block;}
+.signUp input{height:40px;line-height: 40px;border-radius: 5px;width:300px;font-size: 26px;}
+.signUp .btn_sign{width:180px;font-size: 26px;color:#fff;background:-webkit-linear-gradient(#ef9249,#8e5c13);background:-o-linear-gradient(#ef9249,#8e5c13);background:-moz-linear-gradient(#ef9249,#8e5c13);background:linear-gradient(#ef9249,#8e5c13);border-radius: 5px;height:50px;float:right;margin-right: 110px;cursor:pointer;}

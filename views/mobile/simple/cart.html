@@ -1,0 +1,198 @@
+<link href="{skin:css/cart.css}" rel="stylesheet" type="text/css" />
+{if:$this->goodsList}
+<div class="list">
+	<ul class="mui-table-view">
+		{foreach:items=$this->goodsList}
+		{set:$item_json = JSON::encode($item)}
+	    <li class="mui-table-view-cell mui-media">
+				<div class="mui-media-header">
+					<div class='t-left'>{$item['seller_info']['shortname']} > </div>
+	        <div class='t-right'>{$item['status_str']}</div>
+				</div>
+	    	<img class="mui-media-object mui-pull-left" src="{url:/pic/thumb/img/$item[img]/w/60/h/60}">
+    		<div class="mui-media-body">
+    			<div class="mui-numbox" data-numbox-min="1" data-numbox-max="{$item['student']}">
+						<button class="mui-btn mui-btn-numbox-minus" type="button" id="reduce" onclick='cart_reduce({$item_json});'>-</button>
+						<input class="mui-input-numbox" type="number" value="{$item['count']}" id="count_{$item['goods_id']}_{$item['product_id']}" onchange='cartCount({$item_json});'>
+						<button class="mui-btn mui-btn-numbox-plus" type="button" id="add" onclick='cart_increase({$item_json});'>+</button>
+					</div>
+					<p>{$item['name']}</p>
+					{if:$item['spec']}<p class="spec">{$item['spec']}</p>{/if}
+					<p class="price"><span class="price" id="sum_{$item['goods_id']}_{$item['product_id']}">&yen; {$item['sum']}</span> </p>
+    		</div>
+    		<div class="cart-box">
+    			<a href='javascript:removeCartByJSON({$item_json});'><i class="icon-trash"></i></a>
+    		</div>
+				{if:$item['seller_info']['is_support_props']}
+				<div class="mui-tip">
+					此课程参与第三课优惠活动，<a href="{url:/school/home/id/366}">点击领取</a>
+				</div>
+				{/if}
+	    </li>
+	    {/foreach}
+	</ul>
+</div>
+{else:}
+<div class="mui-content-padded">
+	没有课程，<a href="{url:/site/index}">去看看</a>
+</div>
+{/if}
+{if: $this->goodsList}
+<div class="cart-checkout">
+		<div class="cart-checkbox">
+
+		</div>
+		<div class="cart-counter">
+			  <p class="total-price">合计 : <em class="">&yen; {$this->sum}</em></p>
+		</div>
+	  <a href="javascript:check_finish();" id="M_Checkout" class="ui-btn-pink">结算</a>
+ </div>
+ {/if}
+
+<script language="javascript">
+document.getElementById('reduce').addEventListener('tap', function(){
+	this.click();
+});
+document.getElementById('add').addEventListener('tap', function(){
+	this.click();
+});
+//增加课程数量
+function cart_increase(obj)
+{
+	//库存超量检查
+	var countInput = $('#count_'+obj.goods_id+'_'+obj.product_id);
+	if(parseInt(countInput.val()) + 1 > parseInt(obj.store_nums))
+	{
+		mui.toast('超过限额');
+	}
+	else
+	{
+		//countInput.val(parseInt(countInput.val()) + 1);
+		countInput.change();
+	}
+}
+
+//减少数量
+function cart_reduce(obj)
+{
+	//库存超量检查
+	var countInput = $('#count_'+obj.goods_id+'_'+obj.product_id);
+	if(parseInt(countInput.val()) - 1 <= 0)
+	{
+		mui.toast('购买的数量必须大于1件');
+	}
+	else
+	{
+		//countInput.val(parseInt(countInput.val()) - 1);
+		countInput.change();
+	}
+}
+
+// 重新统计
+function cartCount(obj)
+{
+	var countInput = $('#count_'+obj.goods_id+'_'+obj.product_id);
+	var countInputVal = parseInt(countInput.val());
+	var oldNum = countInput.data('oldNum') ? countInput.data('oldNum') : obj.count;
+
+	//课程数大于1
+	if(isNaN(countInputVal) || (countInputVal <= 0))
+	{
+		mui.toast('购买的数量必须大于1件');
+		countInput.val(1);
+		countInput.change();
+	}
+
+	//可售数量小于预设数量
+	else if(countInputVal > parseInt(obj.store_nums))
+	{
+		mui.toast('超过限额');
+		countInput.val(parseInt(obj.store_nums));
+		countInput.change();
+	}
+	else
+	{
+		var diff = parseInt(countInputVal) - parseInt(oldNum);
+		if(diff == 0)
+		{
+			return;
+		}
+
+		//修改按钮状态
+		toggleSubmit("lock");
+		var goods_id   = obj.product_id > 0 ? obj.product_id : obj.goods_id;
+		var goods_type = obj.product_id > 0 ? "product"      : "goods";
+
+		//更新购物车
+		//alert( '{url:/simple/joinCart}&goods_id=' + goods_id + '&type=' + goods_type + '&goods_num=' + diff );
+		$.getJSON("{url:/simple/joinCart}",{"goods_id":goods_id,"type":goods_type,"goods_num":diff,"random":Math.random()},function(content){
+			if(content.isError == true)
+			{
+				alert(content.message);
+				countInput.val(1);
+				countInput.change();
+
+				//修改按钮状态
+				toggleSubmit("open");
+			}
+			else
+			{
+				var goodsId   = [];
+				var productId = [];
+				var num       = [];
+				$('[id^="count_"]').each(function(i)
+				{
+					var idValue = $(this).attr('id');
+					var dataArray = idValue.split("_");
+
+					goodsId.push(dataArray[1]);
+					productId.push(dataArray[2]);
+					num.push(this.value);
+				});
+
+				countInput.data('oldNum',countInputVal);
+				$.getJSON("{url:/simple/promotionRuleAjax}",{"goodsId":goodsId,"productId":productId,"num":num,"random":Math.random()},function(content){
+
+					// 更新数据new
+					$('.cart-counter .total-price em').html( '&yen;' + content.market_sum);
+					$('.cart-counter .total-save span').html( '&yen;' + content.reduce);
+					$('#sum_'+obj.goods_id+'_'+obj.product_id).html('&yen;' + (obj.market_price * countInputVal));
+
+					//修改按钮状态
+					toggleSubmit('open');
+				});
+			}
+		});
+	}
+}
+
+//检测购买完成量
+function check_finish()
+{
+	if($.trim($('.btn_pay').val()) == 'wait')
+	{
+		window.setInterval("check_finish()", 400);
+	}
+	else
+	{
+		window.location.href = '{url:/simple/cart2}';
+	}
+}
+
+//锁定提交
+function toggleSubmit(isOpen)
+{
+	isOpen == 'open' ? $('.btn_pay').val('ok') : $('.btn_pay').val('wait');
+}
+
+//移除购物车
+function removeCartByJSON(obj)
+{
+	var goods_id   = obj.product_id > 0 ? obj.product_id : obj.goods_id;
+	var goods_type = obj.product_id > 0 ? "product"      : "goods";
+	$.getJSON("{url:/simple/removeCart}",{"goods_id":goods_id,"type":goods_type,"random":Math.random()},function()
+	{
+		window.location.reload();
+	});
+}
+</script>

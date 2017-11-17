@@ -1,0 +1,15 @@
+{set:$seller_id = $this->seller['seller_id']}
+{set:$condition = Util::search(IReq::get('search'));$where = $condition ? " and ".$condition : "";}
+{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+{query: name=comment as c join=left join goods as goods on c.goods_id eq goods.id left join user as u on c.user_id eq u.id fields=c.*,u.username,goods.id as goods_id,goods.name as goods_name page=$page where=c.status eq 1 and goods.seller_id eq $seller_id $where order = c.id desc}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			<p>评价人：{$item['username']}</p>
+			<p>课后评价：<a href="javascript:void(0);" target="_blank">{$item['goods_name']}</a></p>
+			<p>评价时间：{$item['time']}</p>
+			<p>评价内容：{$item['contents']}</p>
+		</div>
+	</div>
+</div>
+{/query}

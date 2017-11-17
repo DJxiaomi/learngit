@@ -1,0 +1,105 @@
+{js:artTemplate}
+{js:areaSelect}
+
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>商户管理</span><span>></span><span>商户结算设置</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/seller_add4}" method="post" name="sellerForm" enctype='multipart/form-data'>
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+
+				<tbody>
+					<tr>
+						<th>商户名称：</th>
+						<td>
+							<select class="auto selectpicker show-tick form-control" name="seller_id" data-live-search="true">
+								<option value="">请选择商户</option>
+								{query:name=seller where=is_del eq 0 order=id desc}
+								<option value="{$item['id']}"{if:$item['id'] == $this->sellerRow['id']} selected{/if}>{$item['true_name']}-{$item['seller_name']}</option>
+								{/query}
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<th>商户真实全称：</th>
+						<td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
+					</tr>
+
+					<tr>
+						<th>保证金数额：</th>
+						<td><input type="text" class="normal" name="cash" pattern="float" empty /><label>人民币（元）</label></td>
+					</tr>
+				<tr>
+					<th>发票税率：</th>
+					<td><input type='text' name='tax' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>当买家需要发票的时候就要增加<商品金额>*<税率>的费用</label></td>
+				</tr>
+				<tr>
+					<th>商家结算手续费：</th>
+					<td><input type='text' name='commission' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>商家结算时，扣除<应结算总额>的百分比，最终商家结算金额为：<应结算总额> - <应结算总额> * <商家结算手续费></label></td>
+				</tr>
+				<tr>
+					<th>商品定金比例：</th>
+					<td><input type='text' name='deposit' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>用于分期付款首付比例设置</label></td>
+				</tr>
+				<tr>
+					<th>学校折扣</th>
+					<td><input type='text' name='discount' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>前期有一部分只对折扣比例做了约定的商家，折扣统一作为服务费收入</label></td>
+				</tr>
+					<tr>
+						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+//DOM加载完毕
+$(function()
+{
+
+$('select[name=seller_id]').change(function(){
+	var seller_id = $(this).val();
+	$.getJSON('{url:/member/get_seller_info}',{seller_id:seller_id},function(res){
+		if(res.status == 1){
+			var data = res.data;
+			$('input[name=true_name]').val(data.true_name);
+			$('input[name=cash]').val(data.cash);
+			$('input[name=tax]').val(data.tax);
+			$('input[name=commission]').val(data.commission);
+			$('input[name=deposit]').val(data.deposit);
+			$('input[name=discount]').val(data.discount);
+		}
+	})
+})
+
+	//修改模式
+	{if:$this->sellerRow}
+	var formObj = new Form('sellerForm');
+	formObj.init({echo:JSON::encode($this->sellerRow)});
+
+	//锁定字段一旦注册无法修改
+	if($('[name="id"]').val())
+	{
+		var lockCols = ['seller_name'];
+		for(var index in lockCols)
+		{
+			$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+			$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+		}
+	}
+	{/if}
+
+	//地区联动插件
+	var areaInstance = new areaSelect('province');
+	areaInstance.init({echo:JSON::encode($this->sellerRow)});
+});
+</script>

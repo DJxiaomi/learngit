@@ -1,0 +1,86 @@
+<style>
+.cost_price_li {display: none;}
+.content_box ul {list-style: none;}
+.content_box li {height:30px;line-height: 30px;margi-bottom:5px;}
+.content_box input[type=text] {height:25px;line-height: 25px;}
+.content_box input[type=radio], .content_box label {cursor: pointer;}
+.content_box input[type=button] {width: 120px;height:35px;line-height:35px;}
+</style>
+
+<div class="content_box">
+	<h3>代金券占比查询</h3>
+	<div class="cont">
+		<form name="form1" id="form1" action="{url:/tools/get_dprice_info_result}" method="post">
+		<p>统计方法：</p>
+		<p>
+			<input type="radio" name="method" value="1" id="method_1" checked="checked"><label for="method_1">折扣</label>
+			<input type="radio" name="method" value="2" id="method_2"><label for="method_2">成本价</label>
+		<ul>
+			<li>请输入市场价：<input type="text" name="market_price" id="market_price" value="" /></li>
+			<li class="cost_price_li">请输入成本价：<input type="text" name="cost_price" id="cost_price" value="" /></li>
+			<li class="discount_li">请输入折&nbsp; &nbsp; 扣：<input type="text" name="discount" id="discount" value="" /></li>
+			<li>实际购买代金券：<input type="text" name="input_cprice" id="input_cprice" value="" /></li>
+			<li><button class="submit" type="button"><span>确 定</span></button></li>
+		</ul>
+	</form>
+	</div>
+</div>
+
+<script language="javascript">
+$(document).ready(function(){
+	$('.submit').click(function(){
+		var _method = $('input[type=radio]:checked').val();
+		var _market_price = ( $('#market_price').val() == '' ) ? 0 : parseFloat($('#market_price').val());
+		var _cost_price = ( $('#cost_price').val() == '' ) ? 0 : parseFloat($('#cost_price').val());
+		var _discount = ( $('#discount').val() == '' ) ? 0 : parseFloat($('#discount').val());
+
+		var _return = true;
+		switch( _method )
+		{
+			case '1':
+				if ( _market_price <= 0 || isNaN( _market_price ))
+				{
+					alert('市场价不正确');
+					_return = false;
+				} else if ( _discount <= 0 || isNaN(_discount))
+				{
+					alert('折扣不正确');
+					_return = false;
+				}
+				//$('#cost_price').val('');
+				break;
+			case '2':
+				if ( _market_price <= 0 || isNaN( _market_price ) )
+				{
+					alert('市场价不正确');
+					_return = false;
+				} else if ( _cost_price <= 0 || isNaN(_cost_price))
+				{
+					alert('成本价不正确');
+					_return = false;
+				}
+				//$('#discount').val('');
+				break;
+		}
+
+		if ( _return )
+			$('#form1').submit();
+	})
+
+	// 统计方法切换效果
+	$('input[type=radio]').click(function(){
+		var _val = $(this).val();
+		switch( _val )
+		{
+			case '1':
+				$('.discount_li').show();
+				$('.cost_price_li').hide();
+				break;
+			case '2':
+				$('.discount_li').hide();
+				$('.cost_price_li').show();
+				break;
+		}
+	})
+})
+</script>

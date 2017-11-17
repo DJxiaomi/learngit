@@ -1,0 +1,196 @@
+
+<div class="headbar">
+	<div class="position"><span>学校</span><span>></span><span>学校管理</span><span>></span><span>学校配置</span></div>
+</div>
+<link rel="stylesheet" href="{rs:/scripts/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{rs:/scripts/layui/layui.js}"></script>
+<link rel="stylesheet" href="{skin:css/brand_config.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{theme:javascript/brand_config.js}"></script>
+<div class="content_box">
+
+  <form name="form" action="{url:/brand/brand_config_save}" method="POST">
+  <div class="layui-tab">
+    <ul class="layui-tab-title">
+      <li class="layui-this">基本权限设置</li>
+      <li>功能权限设置</li>
+      <li>交易权限设置</li>
+    </ul>
+      <div class="layui-tab-content layui-form layui-form-pane">
+          <div class="layui-tab-item layui-show">
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否开通</label>
+              <div class="layui-input-block">
+                <input type="checkbox" {if:!$seller_info['is_lock']}checked=""{/if} value="1" name="is_lock" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux">关闭后账号无法登陆</div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否VIP</label>
+              <div class="layui-input-block">
+                <input type="checkbox" {if:$seller_info['is_vip']}checked=""{/if} value="1" name="is_vip" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux">非VIP商品上传需要审核</div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否认证</label>
+              <div class="layui-input-block">
+                <input type="checkbox" {if:$seller_info['is_authentication']}checked=""{/if} value="1" name="is_authentication" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux">未认证商家无法进行交易</div>
+            </div>
+
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">上级推广人</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="promo_code" min="0" autocomplete="off" class="layui-input" value="{$seller_info['promo_code']}">
+                </div>
+								<div class="layui-form-mid layui-word-aux">请输入上级推广码</div>
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否支持通用代金券</label>
+              <div class="layui-input-block">
+                <input type="checkbox" {if:$seller_info['is_support_props']}checked=""{/if} value="1" name="is_support_props" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+          </div>
+
+          <div class="layui-tab-item">
+
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-inline">
+                  <input type="number" name="sort" min="0" autocomplete="off" class="layui-input" value="{$seller_info['sort']}">
+                </div>
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否特定商户</label>
+              <div class="layui-input-block">
+                <input type="checkbox" {if:$seller_info['is_system_seller']}checked=""{/if} value="1" name="is_system_seller" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">特定商户列表模板</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="template" autocomplete="off" class="layui-input" value="{$seller_info['template']}">
+                </div>
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">特定商户详情模板</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="product_template" autocomplete="off" class="layui-input" value="{$seller_info['product_template']}">
+                </div>
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否支持在线课堂</label>
+              <div class="layui-input-block">
+                <input type="checkbox" value="1" name="is_support_zxkt" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否支持订票</label>
+              <div class="layui-input-block">
+                <input type="checkbox" value="1" name="is_support_dp" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+          </div>
+          <div class="layui-tab-item">
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否支付宝服务商</label>
+              <div class="layui-input-block">
+                <input type="checkbox" value="1" name="is_support_zfb" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否微信服务商</label>
+              <div class="layui-input-block">
+                <input type="checkbox" value="1" name="is_support_wechat" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否锁定</label>
+              <div class="layui-input-block">
+                <input type="checkbox" {if:$seller_info['is_auth']}checked=""{/if} value="1" name="is_auth" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">学校折扣</label>
+                <div class="layui-input-inline">
+                  <input type="number" name="discount" min="0" autocomplete="off" class="layui-input" value="{$seller_info['discount']}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">%，服务费比例</div>
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">结算方式</label>
+              <div class="layui-input-inline">
+                <select name="settlement_method" lay-filter="aihao">
+                  <option value="0" selected>方式一</option>
+                  <option value="1">方式二</option>
+                  <option value="2">方式三</option>
+                </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                方式一：市场价-成本价，无折扣，实际价格成交正常结算方式<br />
+                方式二：定金结算方式<br />
+                方式三：代金券结算方式<br />
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否推广人</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="is_promotor" value="1" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">是否支持股权</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="is_support_gq" value="1" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+              </div>
+              <div class="layui-form-mid layui-word-aux"></div>
+            </div>
+
+          </div>
+
+					<input type="hidden" name="id" value="{$seller_info['id']}" />
+					<input type="hidden" name="page" value="{$page}" />
+          <button class="layui-btn" lay-submit=""> 保 存 </button>
+      </div>
+  </div>
+  </form>
+
+</div>

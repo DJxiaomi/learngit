@@ -1,0 +1,24 @@
+<div class="main f_r">
+	<div class="new-box">
+        <div class="nt"><i class="icon-group"></i>推广记录</div>
+        <table class="new-table">
+            <tr><th>您推广的商户</th><th>当月销售额</th></tr>
+            {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+			{set:$user_id = $this->user['user_id']}
+			{set:$getTuiGuangList = Api::run('getTuiGuangList',$user_id)}
+			{foreach:items = $getTuiGuangList->find()}
+			<tr>
+			<td>{$item['seller_name']}</td>
+			<td>
+			{if:Lexiangshenghuo::getTuiGuangNum($item['id'])>0}
+			{echo:Lexiangshenghuo::getTuiGuangNum($item['id']);}
+			{else:}
+			0.00
+			{/if}
+			</td>
+			</tr>
+			{/foreach}
+            <tfoot><tr><td colspan="2" class="t_l">{$getTuiGuangList->getPageBar()}</td></tr></tfoot>
+        </table>
+    </div>
+</div>

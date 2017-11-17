@@ -1,0 +1,40 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+{set:$user_ico = $this->user['head_ico']}
+<link rel="stylesheet" href="{skin:css/ucenter.css}" type="text/css" />
+<script src="{theme:javascript/crop/touch.min.js}"></script>
+<script src="{theme:javascript/crop/jquery.crop.js}"></script>
+
+<div class="headpic">
+    <div class="imageBox" id="imageBox"></div>
+</div>
+<script type="text/javascript">
+$(function(){
+    var w = $(window).width();
+    var h = $(window).height();
+    $('.headpic').css({width: w, height: h - 90});
+    $('.imageBox').crop({
+        w:w>h?h:w,
+        h:h - 90,
+        r:(w-30)*0.5,
+        res:'',
+        callback:function(ret){
+            Lx.common.loading();
+            $.ajax({
+                type: 'post',
+                url: '{url:/ucenter/save_icon}',
+                data: {imgurl: ret},
+                dataType: 'json',
+                success: function(json){
+                    if(json.msg == 1){
+                        mui.toast('头像上传成功');
+                        setTimeout(function(){window.location.href = '{url:/ucenter}';}, 1000);
+                    }else{
+                        mui.toast('头像上传失败');
+                    }
+                    Lx.common.loadingClose();
+                }
+            });
+        }
+    });
+});
+</script>

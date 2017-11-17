@@ -1,0 +1,64 @@
+{js:my97date}
+
+{set:$seller_id = $this->seller['seller_id']}
+{set:$sellerRow =Lexiangshenghuo::getsellerFanli($seller_id);}
+
+
+<article class="module width_full">
+
+	<header>
+
+		<h3 class="tabs_involved">销售额给返利账户充值</h3>
+
+	</header>
+
+
+
+	<form action="{url:/seller/sale_withdraw/type/3}"  method="post" name="bill_edit">
+
+		<div class="module_content">
+
+			<fieldset>
+
+				<label>充值额度：</label>
+
+				<div class="box">
+
+					<input type="text" pattern="float" name="sale" alt="请输入一个正确的数字" >
+
+				</div>
+				<label>您销售额的账户余额为{$sellerRow['sale_balance']}元，请不要超过此数额，如果输入超过两位小数，将会自动保留两位小数。</label>
+			</fieldset>
+
+		</div>
+
+
+
+		<footer>
+
+			<div class="submit_link">
+
+				<input type="submit" class="alt_btn" value="确 定"  onclick='return check_form();'/>
+
+			</div>
+
+		</footer>
+
+	</form>
+
+</article>
+<script type='text/javascript'>
+
+	function check_form()
+	{
+
+		if($('[name="sale"]').val() > {$sellerRow['sale_balance']})
+		{
+			alert('申请提现的额度请不要超出你的账户余额');
+			return false;
+		}
+	}
+</script>
+
+
+

@@ -1,0 +1,29 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+
+{if:$consult_list}
+<ul class="mui-table-view">
+	{foreach:items=$consult_list}
+    <li class="mui-table-view-cell mui-media">
+        <a href="{url:/site/products/id/$item['gid']}">
+            <img class="mui-media-object mui-pull-left" src="{url:/pic/thumb/img/$item['img']/w/80/h/80}">
+            <div class="mui-media-body">
+                {$item['name']}
+                <p class="ordbigbt">{$item['question']}</p>
+                <p class="ordbigbt"><?php echo date('Y-m-d', strtotime( $item['time'] ) ); ?></p>
+                {if:$item['answer']}<p class="ordbigbt">{$item['answer']}</p>{/if}
+            </div>
+        </a>
+    </li>
+    {/foreach}
+</ul>
+{else:}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+						暂时没有任何咨询
+        </div>
+    </div>
+</div>
+{/if}

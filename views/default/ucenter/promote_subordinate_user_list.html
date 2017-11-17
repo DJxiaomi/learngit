@@ -1,0 +1,29 @@
+<link href="{skin:css/ucenter_promote.css}" rel="stylesheet" type="text/css" />
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-group"></i>推广个人用户列表</div>
+
+        <div class="">
+            <table class="new-table info">
+                <tr>
+                  <th></th>
+                  <th>推广人名称</th>
+                  <th>推广个人用户数量</th>
+                  <th>推广的机构用户数量</th>
+                  <th>下级推广人数量</th>
+                  <th>推广返佣总金额</th>
+                </tr>
+                {foreach:items=$promote_subordinate_user_list}
+                <tr>
+                  <td></td>
+                  <td>{$item['name']}</td>
+                  <td>{$item['promote_user_count']}</td>
+                  <td>{$item['promote_seller_count']}</td>
+                  <td>{$item['subordinate_promote_user_count']}</td>
+                  <td>{$item['commission_count']}</td>
+                </tr>
+                {/foreach}
+            </table>
+        </div>
+    </div>
+</div>

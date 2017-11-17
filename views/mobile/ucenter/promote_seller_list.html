@@ -1,0 +1,23 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <table class="card-table info" width="100%">
+                  <tr>
+                    <th></th>
+                    <th>机构名称</th>
+                    <th>注册时间</th>
+                    <th>交易次数</th>
+                  </tr>
+                  {foreach:items=$promote_seller_list}
+                  <tr>
+                    <td></td>
+                    <td>{$item['shortname']}</td>
+                    <td>{$item['create_time']}</td>
+                    <td>{$item['order_count']}</td>
+                  </tr>
+                  {/foreach}
+            </table>
+        </div>
+    </div>
+</div>

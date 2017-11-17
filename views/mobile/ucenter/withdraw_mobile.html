@@ -1,0 +1,74 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<h5 class="mui-content-padded">手机验证</h5>
+<form class="mui-input-group" action="{url:/ucenter/withdraw_mobile_act}" method="post" enctype='multipart/form-data' id="withdrawForm">
+	<div class="mui-input-row">
+		<label>手机号码</label>
+		<input type="text" placeholder="请输入手机号码" value="" name="mobile" id="mobile" />
+		<a href="javascript:;" id="sendcode" class="sendcode">发送验证码</a>
+	</div>
+	<div class="mui-input-row">
+		<label>验证码</label>
+		<input type="text" placeholder="验证码" value="" name="mobile_code" id="mobile_code" />
+	</div>
+	<div class="mui-content-padded">
+		<input type="hidden" name="withid" value="{$withid}" />
+        <button type="button" id="withdraw" class="mui-btn mui-btn-primary mui-btn-block">确 定</button>
+    </div>
+</form> 
+
+<script type='text/javascript'>
+var default_time = 60;
+var s_count = 60;
+var send_status = true;
+document.getElementById('sendcode').addEventListener('tap', function(){
+    var mobile = document.getElementById('mobile').value;
+    var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+	if(!myreg.test(mobile))
+	{
+		mui.toast('手机号码不正确');
+		return false;
+	}
+    if ( s_count == default_time && send_status ){
+        mui.get('{url:/ucenter/send_password_sms}', {"mobile":mobile, "type":7}, function(res){
+            if(res == 'success'){
+                updateState();
+                timer = setInterval(function(){
+                    updateState();
+                }, 1000);
+            }else{
+                mui.toast(res);
+            }
+        });
+    }
+});
+
+function updateState(){
+    if ( s_count > 0 ){
+        s_count--;
+        send_status = false;
+        document.getElementById('sendcode').innerText = s_count + ' s后重新发送';
+    } else {
+        s_count = default_time;
+        send_status = true;
+        clearInterval(timer);
+        document.getElementById('sendcode').innerText = '重新发送验证码';
+    }
+}
+$(function(){
+    document.getElementById('withdraw').addEventListener('tap', function(){
+    	var _mobile = $('#mobile').val();
+		var _mobile_code = $('#mobile_code').val();
+
+		if ( _mobile == '' ) {
+			mui.toast('手机号码不能为空');
+			return false;
+		} else if ( _mobile_code == '' ) {
+			mui.toast('请填写正确的手机验证码');
+			return false;
+		}else {
+			$('#withdrawForm').submit();
+			return false;
+		}
+    });
+});
+</script>

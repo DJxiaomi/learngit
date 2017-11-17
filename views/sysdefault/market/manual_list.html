@@ -1,0 +1,88 @@
+<script type="text/javascript" src="/resource/scripts/layer/layer.js"></script>
+<link rel="stylesheet" href="/resource/scripts/layer/skin/layer.css" />
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>教育手册</span><span>></span><span>手册列表</span></div>
+	<div class="searchbar">
+		<form action="{url:/}" method="get" name="searchListForm">
+			<input type='hidden' name='controller' value='market' />
+			<input type='hidden' name='action' value='manual_list' />
+			<select class="auto" name="search[user_id]">
+				<option value="">选择用户</option>
+				{foreach:items=$manual_user_list}
+				<option value="{$item['user_id']}" {if:$search['user_id'] == $item['user_id']}selected{/if}>{$item['username']}</option>
+				{/foreach}
+			</select>
+			<select class="auto" name="search[is_activation]">
+				<option value="">是否激活</option>
+				<option value="1" {if:$search[is_activation] == 1}selected{/if}>已激活</option>
+				<option value="2" {if:$search[is_activation] == 2}selected{/if}>未激活</option>
+			</select>
+			<button class="btn" type="submit"><span class="sel">过 滤</span></button>
+			<button class="btn" type="button" onclick="add_manual();"><span class="sel">添加手册</span></button>
+		</form>
+	</div>
+</div>
+<div class="content">
+	<form method='post' action='#'>
+		<table class="list_table">
+			<colgroup>
+				<col width="40px" />
+				<col width="120px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="140px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>绑定用户</th>
+					<th>激活时间</th>
+					<th>过期时间</th>
+					<th>激活码</th>
+					<th>是否激活</th>
+					<th>下载激活二维码</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items=$manual_list}
+				<tr>
+					<td></td>
+					<td>{echo:($item['username']) ? $item['username'] : '无'}</td>
+					<td>{if:$item['is_activation']}{echo:date('Y-m-d',$item['start_time'])}{else:}{/if}</td>
+					<td>{if:$item['is_activation']}{echo:date('Y-m-d',$item['end_time'])}{else:}{/if}</td>
+					<td>{$item['activation_code']}</td>
+					<td>{echo: ($item['is_activation']) ? '已激活' : '未激活'}</td>
+					<td><a href="http://{echo:$_SERVER['HTTP_HOST']}/plugins/phpqrcode/index.php?data=http://www.dsanke.com/site/manual_activation/code/{$item['activation_code']}" target="_blank">点击查看</a></td>
+				</tr>
+				{/foreach}
+				{if:$page_info}
+				<tr>
+					<td colspan="7">{$page_info}</td>
+				</tr>
+				{/if}
+			</tbody>
+		</table>
+	</form>
+</div>
+
+<script type='text/javascript'>
+function add_manual()
+{
+	layer.prompt({title: '请输入要添加的数量（最多100个）', formType: 0}, function(value, index, elem){
+  	layer.close(index);
+		var nums = parseInt(value);
+		if ( nums <= 0 || nums > 1000 )
+		{
+			layer.alert('参数不正确');
+		} else {
+			var url = '{url:/market/create_manual/nums/@nums@}';
+			url = url.replace('@nums', nums);
+			location.href = url;
+		}
+	});
+}
+</script>

@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="{skin:css/goods_list.css}" />
+<style>
+.mui-media-object img {width:100px;height: 100px;}
+.mui-media-body {width: 65%;float:right;margin-left: 20px;}
+.mui-media-body a {margin-top: 15px;}
+.mui-btn-primary {width:90%;margin: 0px auto;border-radius:5px;background:linear-gradient(to right,#ff9638,#ff4b2b);border:0px;}
+</style>
+{if:$teacher_list_info['result']}
+<ul>
+	{foreach:items=$teacher_list_info['result']}
+		<li class="mui-table-view-cell mui-media">
+			<div class="mui-media-object mui-pull-left"><img src="{webroot:$item['icon']}" /></div>
+			<div class="mui-media-body">
+					<p class="goods_name">{$item['name']}&nbsp; <?php echo get_sex( $item['sex']); ?></p>
+					<p class="goods_brief">{$item['description']}</p>
+					<a class="buycard editcard" href="{url:/seller/teacher_edit/id/$item[id]}">编辑</a>
+					<a class="buycard delcart" href="javascript:delModel({link:'{url:/seller/teacher_del/id/$item[id]}'})">删除</a>
+			</div>
+		</li>
+	{/foreach}
+</ul>
+{else:}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			没有教师
+		</div>
+	</div>
+</div>
+{/if}
+<div class="mui-content-padded">
+	<button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-block-self" onclick="window.location.href='{url:/seller/teacher_edit}'">添加老师</button>
+</div>

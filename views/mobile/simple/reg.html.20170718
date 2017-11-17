@@ -1,0 +1,124 @@
+{set:$callback = IReq::get('callback') ? IFilter::clearUrl(IReq::get('callback')) :IUrl::getRefRoute()}
+<link rel="stylesheet" type="text/css" href="{skin:css/simple.css}" />
+<script language="javascript">
+var _callback = '{$callback}';
+var _this_callback = '{$this->callback}';
+var _reg_url = '{url:/simple/reg?callback=$callback}';
+var _login_url = '{url:/simple/login_pc_ajax?callback=$callback}';
+var _oauth_login_url = '{url:/simple/oauth_login}';
+</script>
+<form id='reg-form' class="mui-input-group">
+    <div class="mui-input-rows">
+        <input type="text" class="mui-input" name="mobile" id="mobile" placeholder="请输入手机号">
+        <a href="javascript:;" id="sendcode" class="sendcode">发送验证码</a>
+    </div>
+    <div class="mui-input-rows promo_code_div" style="display:none;">
+        <input type="text" class="mui-input-clear mui-input" name="mobile_code" id="mobile_code" placeholder="请输入手机验证码">
+    </div>
+
+    <div class="mui-input-rows">
+        <input type="password" class="mui-input-clear mui-input" name="password" id="password" placeholder="请输入密码">
+    </div>
+    <div class="mui-input-rows" style="display:none;">
+        <input type="password" class="mui-input-clear mui-input" name="repassword" id="repassword" placeholder="再次输入密码">
+    </div>
+    <div class="mui-input-rows">
+        <input type="text" class="mui-input-clear mui-input" name="promo_code" id="promo_code" placeholder="没有推广人可不填">
+    </div>
+
+</form>
+<div class="mui-content-padded">
+    <button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+</div>
+<div class="mui-content-padded oauth_login">
+<span>-----------  其他方式登录  -----------</span>
+    {foreach:items=Api::run('getOauthList')}
+    {if:$item['id'] == 5}
+    <a href="{url:simple/quick_signup}"><img src='{webroot:$item[logo]}' /></a>
+    {else:}
+    <a href="javascript:oauthlogin('{$item['id']}');"><img src='{webroot:$item[logo]}' /></a>
+    {/if}
+    {/foreach}
+</div>
+<script type="text/javascript">
+var default_time = 60;
+var s_count = 60;
+var send_status = true;
+document.getElementById('sendcode').addEventListener('tap', function(){
+    var mobile = document.getElementById('mobile').value;
+    if ( s_count == default_time && send_status ){
+        mui.get('{url:/simple/send_reg_sms}', {mobile: mobile}, function(res){
+            if(res == 'success'){
+                $('.promo_code_div').show();
+                updateState();
+                timer = setInterval(function(){
+                    updateState();
+                }, 1000);
+            }else{
+                mui.toast(res);
+            }
+        });
+    }
+});
+
+function updateState(){
+    if ( s_count > 0 ){
+        s_count--;
+        send_status = false;
+        document.getElementById('sendcode').innerText = s_count + ' s后重新发送';
+    } else {
+        s_count = default_time;
+        send_status = true;
+        clearInterval(timer);
+        document.getElementById('sendcode').innerText = '重新发送验证码';
+    }
+}
+
+document.getElementById('reg').addEventListener('tap', function(){
+    var password = document.getElementById('password').value,
+        repassword = document.getElementById('repassword').value,
+        mobile = document.getElementById('mobile').value,
+        mobile_code = document.getElementById('mobile_code').value,
+        promo_code = document.getElementById('promo_code').value;
+        //captcha = document.getElementById('captcha').value;
+
+    if(mobile == ''){
+        mui.toast('请输入手机号码');
+        return false;
+    }
+    if(mobile_code == ''){
+        mui.toast('请输入手机验证码');
+        return false;
+    }
+    if(password == ''){
+        mui.toast('请输入密码');
+        return false;
+    }
+    // if(password != repassword){
+    //     mui.toast('两次密码不一致');
+    //     return false;
+    // }
+    mui.post('{url:/simple/reg_ajax}', {password: password, repassword: repassword, mobile: mobile, mobile_code: mobile_code, promo_code: promo_code}, function(json){
+        if(json.message == 1){
+            {if:$this->callback}
+            window.location.href = '{$this->callback}';
+            {else:}
+            window.location.href = '{url:/ucenter/index}';
+            {/if}
+        }else{
+            mui.toast(json.message);
+        }
+    }, 'json');
+});
+mui('.mui-content .mui-switch').each(function() {
+    this.addEventListener('toggle', function(event) {
+        document.getElementById('autoLogin').value = event.detail.isActive ? '1' : '0';
+    });
+});
+$('.captcha').click(function(){
+  $(this).removeAttr('src');
+  var timestamp = new Date().getTime();
+  $(this).attr('src', '{url:/simple/getCaptcha/w/120/h/36}' + '?' + timestamp);
+})
+</script>
+<script type='text/javascript' src="{theme:/javascript/login.js}"></script>

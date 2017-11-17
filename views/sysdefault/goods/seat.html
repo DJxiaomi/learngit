@@ -1,0 +1,184 @@
+
+
+<div class="headbar clearfix">
+
+	<div class="position">
+
+			<span>商品</span>
+
+			<span>></span>
+
+			<span>订票系统</span>
+
+			<span>></span>
+
+			<span>添加订票信息</span>
+
+	</div>
+
+	<ul class="tab" name="menu1">
+
+		<li id="li_1" class="selected"><a href="javascript:void(0)" hidefocus="true" onclick="select_tab('1')">商品信息</a></li>
+
+		<li id="li_3" style="display: none;"><a href="javascript:void(0)" hidefocus="true" onclick="select_tab('3')">推广设置</a></li>
+
+	</ul>
+
+</div>
+
+
+
+<div class="content_box">
+
+	<div class="content form_content">
+
+		<form action="{url:/goods/seat_edit}" name="goodsForm" method="post">
+
+
+
+			<div id="table_box_1">
+
+				<table class="form_table">
+
+					<col width="150px" />
+
+					<col />
+
+
+
+
+					<tr>
+
+						<th>所属商户：</th>
+
+						<td>
+
+							<select class="auto" name="seller_id" id="seller_id">
+								<option value="">请选择所属商户</option>
+								{foreach:items=$seller_list}
+
+
+								<option value="{$item['id']}">{$item['true_name']}-{$item['seller_name']}</option>
+
+								{/foreach}
+
+							</select>
+
+							
+
+						</td>
+
+					</tr>
+
+
+					<tr>
+
+						<th>所属课程：</th>
+
+						<td>
+
+							<select class="auto" name="goods_id" id="goods_id">
+
+								<option value="">请选择所属商品</option>
+
+							</select>
+							
+
+						</td>
+
+					</tr>
+
+
+
+
+
+
+
+
+				</table>
+
+			</div>
+
+			<table class="form_table">
+
+				<col width="150px" />
+
+				<col />
+
+				<tr>
+
+					<td></td>
+
+					<td>
+
+       
+
+            <button class="submit" type="button" style="width: 140px;"><span>确&nbsp; &nbsp; 定</span></button>
+
+					</td>
+
+				</tr>
+
+			</table>
+
+
+
+		</form>
+
+
+
+
+
+		</form>
+
+	</div>
+
+</div>
+
+
+<script type="text/javascript">
+	$(function(){
+		$('#seller_id').on('change',function(){
+			var id = $(this).val();
+			$.ajax({
+				type:'post',
+				data:'id='+id,
+				url:"{url:goods/get_goods_by_seller}",
+				success:function(data){
+					var parseData = $.parseJSON(data);
+					if(parseData.status == 1){
+						var str = '';
+						// console.log(parseData.list[1]);
+						for(var i = 0; i < parseData.num; i++){
+							str += '<option value="' + parseData.list[i].id + '">' + parseData.list[i].name + '</option>';
+						}
+
+						$('#goods_id').append(str);
+						
+					}else{
+						alert(parseData.info);
+					}
+				}
+			})
+		})
+
+		$('.submit').on('click',function(){
+			var myForm = $(this).parents('form[name=goodsForm]');
+			
+			if($('#seller_id').val() == ''){
+				alert('请选择商户！');
+				return false;
+			}
+			if($('#goods_id').val() == ''){
+				alert('请选择课程！');
+				return false;
+			}
+
+			myForm.submit();
+		})
+	})
+			
+</script>
+
+
+

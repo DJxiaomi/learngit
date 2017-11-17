@@ -1,0 +1,119 @@
+<?php $this->title ='返利充值'; ?>
+{template:'/views/msysseller/layouts/header.html'}
+{js:form}
+{js:validate}
+<style>
+.module_content { font-size: 80%; width: 90%; margin: 0px auto; margin-top: 15px; }
+tr { line-height: 30px; }
+.btn2 { background-color: #f77114; border: 0px; color: #fff; border-radius: 5px; font-weight: 700; }
+</style>   
+<article class="module width_full">
+
+	<div class="module_content">
+
+
+
+		<div class="form_content">
+
+
+
+		<form action='/index.php?controller=block&action=doPay' method='post'>
+
+			<table class="border_table" cellpadding="0" cellspacing="0" width='100%'>
+
+				<col width="100%" />
+
+				<tr>
+
+					<th>充值金额:</th>
+
+				</tr>
+
+				<tr>
+
+					<td><input type='text' class="textwen" class="small" name="fanli" pattern="float" alt='请输入充值的金额'  /><br/><label>请输入充值的金额</label></td>
+
+				</tr>
+
+				<tr>
+
+					<th>选择充值方式:</th>
+
+				</tr>
+
+				<tr>
+
+					<td>
+
+					<label class='attr'><input class="radio" name="payment_id" title="支付宝即时到帐" type="radio" value="10" />支付宝即时到帐</label>
+
+						，手续费：0.00%	<br /><label class='attr'><input class="radio" name="payment_id" title="支付宝网银直连" type="radio" value="11" />支付宝网银直连</label>
+
+						，手续费：0.00%<br />
+
+					</td>
+
+				</tr>
+
+				<tr>
+
+					<td>
+
+					<label class="btn">
+
+					<input type="submit" style="height:35px;width: 80%;" value="确定充值" onclick='return check_form();' class="btn2" /></label>
+
+					</td>
+
+				</tr>
+
+
+
+			</table>
+
+		</form>
+
+	</div>
+
+
+
+	</div>
+
+
+{template:'/views/msysseller/layouts/footer.html'}
+
+</article>
+
+<script type='text/javascript'>
+
+
+
+	function check_form()
+
+	{
+
+		if($('[name="payment_id"]:checked').length == 0)
+
+		{
+
+			alert('请选择支付方式');
+
+			return false;
+
+		}
+
+
+
+		if($('[name="fanli"]').val() < 1)
+
+		{
+
+			alert('要充值的金额必须大于1元');
+
+			return false;
+
+		}
+
+	}
+
+</script>

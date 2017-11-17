@@ -1,0 +1,250 @@
+{set:$callback = IUrl::creatUrl('/ucenter/article_list');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src="{theme:javascript/jquery.juploader.js}"></script>
+<script type="text/javascript" src="/plugins/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/plugins/ueditor/ueditor.all.min.js"></script>
+<style>
+    .format{clear:both;margin:5px 0;}
+    #contentbox img{width:100%;}
+    .img_outer{position:relative;}
+    .img_outer .img_modify{position:absolute;top:10px;left:2px;     font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42;
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    cursor: pointer;
+    -webkit-transition: all;
+    transition: all;
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
+    -webkit-transition-duration: .2s;
+    transition-duration: .2s;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #fff;
+    background-clip: padding-box;}
+    .img_outer .img_del{position:absolute;top:10px;right:2px;}
+    .headpic{position: fixed; top:44px;left:0;z-index:9999;display: none;}
+    .rules {width: 96%;margin-left:3%;}
+    .rules img {max-width: 100%;}
+    .slides img {max-width: 100%;}
+</style>
+<div class="article-add">
+    <form method="post" action="{url:/ucenter/article_update_mobile2}" enctype='multipart/form-data' id="articleForm">
+        {if:$article['id']}<input type="hidden" name="id" value="{$article['id']}"  />{/if}
+        <input type="hidden" name="content" id="content" />
+        <input type="hidden" name="formatcontent" id="formatcontent" />
+        <div class="slides"><img src="/views/mobile/skin/blue/images/yjzy_header.jpg" /></div>
+		<h5 class="mui-content-padded">发布您的课程报告</h5>
+        <div class="mui-card">
+            <div class="mui-input-group">
+                <div class="mui-input-row">
+                    <!-- <label>标题</label> -->
+                    <input type="text" name="name" id="name" value="{$article['name']}" placeholder="姓名" />
+                </div>
+            </div>
+        </div>
+        <div class="mui-card">
+            <div class="mui-input-group">
+                <div class="mui-input-row">
+                    <!-- <label>标题</label> -->
+                    <input type="text" name="tel" id="tel" value="{$article['tel']}" placeholder="电话号码" />
+                </div>
+            </div>
+        </div>
+        <div class="mui-card">
+            <div class="mui-input-group">
+                <div class="mui-input-row">
+                    <!-- <label>标题</label> -->
+                    <input type="text" name="title" id="title" value="{$article['title']}" placeholder="课程报告标题" />
+                </div>
+            </div>
+        </div>
+        <!-- <h5 class="mui-content-padded">文章内容</h5> -->
+        <div class="mui-input-row mui-textarea-row" id="contentbox">
+             {if:$article['formats']}
+                {set:$index = 0}
+            {foreach:$items=$article['formats']}
+                {if:!empty($item)}
+                {if:preg_match('/img/', $item)}
+                <div class="img_outer">{$item}<a class="img_modify" id="img_{$index}" href="javascript:void(0);">修改</a><button class="img_del">删除</button></div>
+                {set:$index++}
+                {else:}
+                <textarea rows="5" class="format" id="content_c{$key}" data-type="txt" placeholder="课程报告内容">{$item}</textarea>
+                {/if}
+                {/if}
+            {/foreach}
+            {else:}
+            <textarea rows="5" class="format" id="content_m" data-type="txt" placeholder="课程报告内容">
+学校位置：
+学校环境：
+学费：
+上课的内容及感受：
+您的建议：</textarea>
+            {/if}
+
+
+        </div>
+        <div class="mui-content-padded" style="height:1%;overflow:hidden;">
+            <button type="button" class="muiprimary" id="uppic" data-btn="">插入图片</button>
+            <button type="button" class="muidanger" onclick="addContent('content')" style="display:none;">插入内容</button>
+        </div>
+        <div class="mui-content-padded">
+            <button type="button" id="postarticle" class="mui-btn mui-btn-primary mui-btn-block" data-loading-text = "提交中" data-loading-icon-position="right">发表课程报告</button>
+        </div>
+    </form>
+
+    <div class="rules">
+      <img src="/views/mobile/skin/blue/images/yjzj_1.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_2.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_3.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_4.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_5.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_6.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_7.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_8.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_9.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_10.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_11.jpg" />
+      <img src="/views/mobile/skin/blue/images/yjzj_12.jpg" />
+    </div>
+
+</div>
+
+
+
+
+<div class="headpic" data-btn=""></div>
+
+<script>
+if($('#content_m').length > 0){
+    //createEditor('content_m');
+}
+
+$(function(){
+    $('#postarticle').on('click',function(){
+        getContent();
+    })
+
+    $('textarea[id^=content_c]').each(function(i){
+        var vname = $(this).attr('id');
+        createEditor(vname);
+    })
+
+    $('#contentbox').find('img').each(function(i){
+        $(this).addClass('format').attr('data-type','image');
+    })
+
+    $('#contentbox').on('tap','.img_del',function(){
+        $(this).parent('.img_outer').remove();
+    })
+
+    $(document).on('tap','.img_modify',function(){
+        $('.headpic').attr('data-btn',$(this).attr('id'));
+        $('#jUploader-file1').click();
+    })
+
+});
+
+$.jUploader({
+    button: 'uppic',
+    action: '{url:/ucenter/article_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+    onComplete: function(fileName, response){
+      if(response.success){
+        var img_id = $('.headpic').attr('data-btn');
+        if(img_id != ''){
+            $('#'+img_id).siblings('img').attr('src','/'+response.fileurl);
+            $('.headpic').attr('data-btn','');
+        }else{
+            var num = $('.img_outer').length;
+            $('#contentbox').append('<div class="img_outer"><img width="100%" class="format" data-type="image" src="/' + response.fileurl + '" /><a class="img_modify" id="img_'+num+'">修改</a><button class="img_del" style="display:none;">删除</button></div>');
+        }
+      }else{
+        alert('上传失败');
+      }
+    }
+});
+
+function createEditor(_str){
+    UE.getEditor(_str,{
+        elementPathEnabled : false,
+        toolbars: [
+            ['justifyleft', 'justifyright', 'justifycenter', 'justifyjustify','fontsize' ]
+        ],
+    });
+}
+
+function addContent(type){
+    var num = $('.format').length;
+    var cname = 'content'+num;
+    var imgurl = '<input type="file" class="file" name="imgurl[]">',
+        content = '<textarea rows="5" class="format" id="'+cname+'" data-type="txt" placeholder="文章内容"></textarea>';
+    if(type == 'file'){
+        $('#contentbox').append(imgurl);
+    }else if(type = 'content'){
+        $('#contentbox').append(content);
+        createEditor(cname);
+    }else{
+        return;
+    }
+}
+
+function getContent(){
+    if($('#name').val() == ''){
+        mui.toast('请输入姓名');
+        return false;
+    }
+    if($('#tel').val() == ''){
+        mui.toast('请输入电话号码');
+        return false;
+    }
+    var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    if(!myreg.test($('#tel').val()))
+    {
+      mui.toast('手机号码格式不正确');
+      return false;
+    }
+    if($('#title').val() == ''){
+        mui.toast('请输入试听报告标题');
+        return false;
+    }
+    var content = '', formatcontent = '';
+
+    $('.format').each(function(i, el){
+
+        var type = $(el).attr('data-type');
+        var src = $(el).attr('src');
+        var txt = $(el).val();
+        if(type == 'image'){
+            content += '<img src="' + src + '">';
+            formatcontent += '<img src="' + src + '">' + '||';
+        }else if(type == 'txt'){
+            content += txt;
+            formatcontent += txt + '||';
+        }else{
+            content += '';
+            formatcontent += '';
+        }
+    });
+    if ( content == '')
+    {
+      mui.toast('请输入试听报告的内容');
+      return false;
+    }
+
+    $('#content').val(content);
+    $('#formatcontent').val(formatcontent);
+
+    $('#articleForm').submit();
+}
+</script>

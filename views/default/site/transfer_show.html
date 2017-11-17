@@ -1,0 +1,342 @@
+{set:
+	$seo_data=array();
+	$site_config=new Config('site_config');
+	$seo_data['title']='转让课程_'.$transfer['goods']['name']."_".$site_config->name;
+}
+
+{js:artTemplate}
+{js:cookie}
+{set:$shareInstance = new Share();$shareInstance->show();}
+{set:$breadGuide = goods_class::catRecursion($category);}
+
+<link rel="stylesheet" type="text/css" href="{theme:javascript/jquery.jqzoom/css/jquery.jqzoom.css}" />
+<script type="text/javascript" src="{theme:javascript/jquery.jqzoom/js/jquery.jqzoom-core-pack.js}"></script>
+<link rel="stylesheet" type="text/css" href="{theme:javascript/jquery.bxSlider/jquery.bxslider.css}" />
+<script type="text/javascript" src="{theme:javascript/jquery.bxSlider/jquery.bxSlider.min.js}"></script>
+<link href="{skin:css/transfer_show.css}" rel="stylesheet" type="text/css" />
+
+<div class="position"><span>您当前的位置：</span><a href="{url:}">首页</a> » {if:$transfer['transfername']}{$transfer['transfername']}{else:}转让-{$transfer['goods']['name']}{/if}</div>
+
+<div class="wrapper clearfix">
+	<div class="summary">
+	<form action="{url:/simple/trasnferorder}" method="post">
+		<h2 class="">{if:$transfer['transfername']}{$transfer['transfername']}{else:}转让-{$transfer['goods']['name']}{/if}</h2>
+
+		<!--基本信息区域-->
+		<ul>
+			{if:$transfer['goods_id']}
+			<li>
+				<span class="f_r light_gray">课程编号：<label id="data_goodsNo">{echo:$transfer['goods']['goods_no']?$transfer['goods']['goods_no']:$transfer['goods']['id']}</label></span>
+			</li>
+			{/if}
+			<li>转让人：{$transfer['username']}</li>
+			<li>总课时：{$transfer['totaltime']}</li>
+			<li>剩余课时：{$transfer['minustime']}</li>
+			{if:$item['istalk']}
+			<li>已与商家沟通好</li>
+			{/if}
+			<li>原价：<b class="price red2" style=" text-decoration: line-through;"><span class="f30">￥{if:$transfer['sellerprice']}{$transfer['sellerprice']}{else:}{$transfer['goods']['sell_price']}{/if}</span></b></li>
+			<li>转让价：<b class="price red2"><span class="f30">￥{$transfer['transprice']}</span></b></li>
+			<li id='priceLi'></li>
+			{if:$transfer['seller']['id']}
+			<!--商家信息 开始-->
+			<li>商家：<a class="blue-font" href="{url:/site/seller/id/$transfer['seller']['id']}" target="_blank">{$transfer['seller']['true_name']}</a></li>
+			<li>联系电话：{$transfer['seller']['phone']}</li>
+			<li>所在地：{echo:join(' ',area::name($transfer['seller']['province'],$transfer['seller']['city'],$transfer['seller']['area'])).' '.$transfer['seller']['address']}</li>
+			{/if}
+			<!--商家信息 结束-->
+		</ul>
+
+		<!--购买区域-->
+		<div class="current">
+		    <input type="hidden" name="goods_id" value="{$transfer['goods']['id']}">
+		    <input type="hidden" name="goods_name" value="{$transfer['goods']['name']}">
+		    <input type="hidden" name="selleruid" value="{$transfer['uid']}">
+		    <input type="hidden" name="sellerid" value="{$transfer['seller_id']}">
+		    <input type="hidden" name="transferid" value="{$transfer['id']}">
+			<input class="submit_buy" type="submit" id="buyNowButton" value="立即购买" placeholder="立即购买" />
+		</div>
+
+	</div>
+
+	<!--图片放大镜-->
+	<div class="preview">
+		<div class="pic_show" style="width:435px;height:435px;position:relative;z-index:5;padding-bottom:5px;">
+			<img src="{skin:images/front/nopic_435_435.gif}" style="border:none;" id="smallPicBox" alt="缩略图" />
+		</div>
+
+		<ul id="thumblist" class="pic_thumb">
+			{if:$transfer['transferpic']}
+			<li>
+				<a href='javascript:void(0);' rel="{gallery:'goodsPhoto',smallimage:'{webroot:}{echo:Thumb::get($transfer['transferpic'],435,435)}',largeimage:'{webroot:$transfer['transferpic']}'}">
+					<img src='{url:/pic/thumb/img/$transfer[transferpic]/w/80/h/80}' width="80px" height="80px" />
+				</a>
+			</li>
+			{else:}
+			{foreach:items=$transfer['goods']['photo']}
+			<li>
+				<a href='javascript:void(0);' rel="{gallery:'goodsPhoto',smallimage:'{webroot:}{echo:Thumb::get($item['img'],435,435)}',largeimage:'{webroot:$item[img]}'}">
+					<img src='{url:/pic/thumb/img/$item[img]/w/80/h/80}' width="80px" height="80px" />
+				</a>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+</div>
+
+<div class="wrapper clearfix container_2">
+
+	<!--滑动面tab标签-->
+	<div class="main f_r" style="overflow:hidden">
+
+		<div class="uc_title" name="showButton">
+			{if:$transfer['goods_id']}
+			<label class="current"><span>课程详情</span></label>
+			<label><span>转让详情</span></label>
+			{else:}
+			<label class="current"><span>转让详情</span></label>
+			{/if}
+
+		</div>
+
+		<div name="showBox">
+
+			<!-- 课程详情 start -->
+			{if:$transfer['goods_id']}
+			<div>
+				<ul class="saleinfos m_10 clearfix">
+					<li>课程：{$transfer['goods']['name']}</li>
+					{if:$transfer['goods']['category']}<li>课程分类：{$transfer['goods']['category']}</li>{/if}
+					{if:($transfer['goods']['attribute'])}
+					{foreach:items=$transfer['goods']['attribute']}
+					<li>{$item['name']}：{$item['attribute_value']}</li>
+					{/foreach}
+					{/if}
+				</ul>
+
+				{if:isset($transfer['goods']['content']) && $transfer['goods']['content']}
+
+				<div class="salebox">
+
+					<strong class="saletitle block">课程简介：</strong>
+
+					<p class="saledesc">{$transfer['goods']['content']}</p>
+
+				</div>
+
+				{/if}
+
+				{if:isset($transfer['goods']['focus']) && $transfer['goods']['focus']}
+
+				<div class="salebox">
+
+					<strong class="saletitle block">教学大纲：</strong>
+
+					<p class="saledesc">{$transfer['goods']['focus']}</p>
+
+				</div>
+
+				{/if}
+
+				{if:isset($transfer['goods']['awards']) && $transfer['goods']['awards']}
+
+				<div class="salebox">
+
+					<strong class="saletitle block">获奖荣誉：</strong>
+
+					<p class="saledesc">{$transfer['goods']['awards']}</p>
+
+				</div>
+
+				{/if}
+
+				{if:isset($transfer['goods']['expense_list']) && $transfer['goods']['expense_list']}
+
+				<div class="salebox">
+
+					<strong class="saletitle block">费用说明：</strong>
+
+					<p class="saledesc">{$transfer['goods']['expense_list']}</p>
+
+				</div>
+
+				{/if}
+
+				{if:isset($transfer['goods']['course_imgs']) && $transfer['goods']['course_imgs']}
+
+				<div class="salebox">
+
+					<strong class="saletitle block">课堂照片：</strong>
+                   {foreach:items=$transfer['goods']['course_imgs_arr']}
+					<p class="saledesc">
+                   <img src="/{$item}" />
+                   </p>
+                  {/foreach}
+				</div>
+
+				{/if}
+
+				{if:isset($transfer['goods']['students_imgs']) && $transfer['goods']['students_imgs']}
+
+				<div class="salebox">
+
+					<strong class="saletitle block">学员展示：</strong>
+                    {foreach:items=$transfer['goods']['students_imgs_arr']}
+					<p class="saledesc">
+                      <img src="/{$item}" />
+                    </p>
+                   {/foreach}
+				</div>
+
+				{/if}
+			</div>
+
+			<!-- 课程详情 end -->
+			<!-- 转让详情 start -->
+
+			<div class="hidden">
+				<div class="salebox">
+
+					<strong class="saletitle block">转让详情：</strong>
+
+					<p class="saledesc">{$transfer['content']}</p>
+
+				</div>
+			</div>
+			<!-- 转让详情 end -->
+			{else:}
+			<!-- 转让详情 start -->
+
+			<div>
+				<div class="salebox">
+
+					<strong class="saletitle block">转让详情：</strong>
+
+					<p class="saledesc">{$transfer['content']}</p>
+
+				</div>
+			</div>
+			<!-- 转让详情 end -->
+			{/if}
+		</div>
+
+	</div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+deliveryProvince = 0;
+
+deliveryProvinceString = '';
+
+
+
+$(function(){
+
+
+
+//图片初始化
+
+var goodsSmallPic = "{skin:images/front/nopic_435_435.gif}";
+
+var goodsBigPic   = "{skin:images/front/nopic_435_435.gif}";
+
+
+
+//存在图片数据时候
+
+{if:isset($transfer['goods']['photo']) && $transfer['goods']['photo']}
+
+goodsSmallPic = "{webroot:}{echo:Thumb::get($transfer['goods']['photo'][0]['img'],435,435)}";
+
+goodsBigPic   = "{webroot:}{$transfer['goods']['photo'][0][0]['img']}";
+
+{/if}
+
+
+
+//初始化课程轮换图
+
+var bxObj = $('#thumblist').bxSlider({
+
+	infiniteLoop: false,
+
+	hideControlOnEnd: true,
+
+	pager:false,
+
+	minSlides: 5,
+
+	maxSlides: 5,
+
+	slideWidth: 72,
+
+	slideMargin: 15,
+
+	controls:true,
+
+	onSliderLoad:function(currentIndex){
+
+		//设置图片
+
+		$('#smallPicBox').attr('src',goodsSmallPic);
+
+		$('#bigPicBox').attr('href',goodsBigPic);
+
+
+
+		//开启放大镜
+		/**
+		$('.jqzoom').jqzoom({
+
+			title:false,
+
+			lens:true,
+
+			preloadText:'加载中...',
+
+			zoomWidth:300,
+
+			zoomHeight:300,
+
+			xOffset:15,
+
+		    zoomType: 'standard',
+
+		    preloadImages: false
+
+		});
+		**/
+
+	}
+
+});
+
+$('[name="showButton"]>label').click(function(){
+
+	$(this).siblings().removeClass('current');
+
+	if($(this).hasClass('current') == false)
+
+	{
+
+		$(this).addClass('current');
+
+	}
+
+	$('[name="showBox"]>div').addClass('hidden');
+
+	$('[name="showBox"]>div:eq('+$(this).index()+')').removeClass('hidden');
+
+
+});
+
+
+
+});
+
+</script>

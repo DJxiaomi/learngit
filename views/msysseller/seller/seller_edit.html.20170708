@@ -1,0 +1,360 @@
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{skin:css/seller_edit.css}" />
+<div class="mui-content-padded" style="margin:0;">
+	<form action="{url:/seller/seller_add}" method="post" id="sellerForm" enctype='multipart/form-data' class="mui-input-group">
+		<div class="mui-input-row">
+			<label>工商注册名称</label>
+			<input name="true_name" type="text" value="{$this->sellerRow['true_name']}" />
+			<input type="hidden" name="brand_id" value="{$this->sellerRow['brand_id']}">
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row">
+			<label>营业执照号码</label>
+			<input name="papersn" type="text" placeholder="营业执照号码" value="{$this->sellerRow['papersn']}" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<p>营业执照上传<span class="mui-required-right">*</span></p>
+		<div id="paper-image-list" class="row image-list">
+			{if:$this->sellerRow['paper_img']}
+			<div class="image-item space" id="paper_img_prev" style="background:url(/{$this->sellerRow['paper_img']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'paper_img_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="paper_img"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="paper_img" id="paper_img_val" value="{$this->sellerRow['paper_img']}">
+			{/if}
+		</div>
+		<div class="mui-input-row">
+			<label>法人代表</label>
+			<input name="legal" type="text" value="{$this->sellerRow['legal']}" placeholder="法人代表" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row">
+			<label>法人身份证号</label>
+			<input name="cardsn" type="text" value="{$this->sellerRow['cardsn']}" placeholder="法人身份证号" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<p>法人身份证正面上传<span class="mui-required-right">*</span></p>
+		<div id="upphoto-image-list" class="row image-list">
+			{if:$this->sellerRow['upphoto']}
+			<div class="image-item space" id="upphoto_img_prev" style="background:url(/{$this->sellerRow['upphoto']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'upphoto_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="upphoto"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="upphoto" id="upphoto_val" value="{$this->sellerRow['upphoto']}">
+			{/if}
+		</div>
+		<p>法人身份证背面上传<span class="mui-required-right">*</span></p>
+		<div id="downphoto-image-list" class="row image-list">
+			{if:$this->sellerRow['downphoto']}
+			<div class="image-item space" id="downphoto_img_prev" style="background:url(/{$this->sellerRow['downphoto']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'downphoto_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="downphoto"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="downphoto" id="downphoto_val" value="{$this->sellerRow['downphoto']}">
+			{/if}
+		</div>
+		<div class="mui-input-row">
+			<label>联系人</label>
+			<input name="contacter" type="text" value="{$this->sellerRow['contacter']}" placeholder="联系人" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row">
+			<label>联系人身份证号</label>
+			<input name="contactcardsn" type="text" value="{$this->sellerRow['contactcardsn']}" placeholder="联系人身份证号" />
+			<span class="mui-required-right">*</span>
+		</div>
+		<p>联系人身份证正面上传<span class="mui-required-right">*</span></p>
+		<div id="cupphoto-image-list" class="row image-list">
+			{if:$this->sellerRow['cupphoto']}
+			<div class="image-item space" id="cupphoto_img_prev" style="background:url(/{$this->sellerRow['cupphoto']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'cupphoto_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="cupphoto"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="cupphoto" id="cupphoto_val" value="{$this->sellerRow['cupphoto']}">
+			{/if}
+		</div>
+		<p>联系人身份证背面上传<span class="mui-required-right">*</span></p>
+		<div id="cdownphoto-image-list" class="row image-list">
+			{if:$this->sellerRow['cdownphoto']}
+			<div class="image-item space" id="cdownphoto_img_prev" style="background:url(/{$this->sellerRow['cdownphoto']}) no-repeat center center;background-size:100% auto;"><div class="image-close" onclick="deloneimage(this, 'cdownphoto_val')">删除</div></div>
+			{/if}
+			{if:$this->sellerRow['is_auth'] != 1}
+			<div class="image-item space" id="cdownphoto"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="cdownphoto" id="cdownphoto_val" value="{$this->sellerRow['cdownphoto']}">
+			{/if}
+		</div>
+		<div class="mui-input-row" id="accounttxt">
+			<label>账户主体</label>
+			<span>
+				{if:$this->sellerRow['accounttype'] == 1}法人账户{/if}
+				{if:$this->sellerRow['accounttype'] == 2}负责人账户{/if}
+				{if:$this->sellerRow['accounttype'] == 3}机构账户{/if}
+			</span>
+			<input type="hidden" name="accounttype" id="accounttype" />
+			<i class="icon-angle-right"></i>
+			<span class="mui-required-right">*</span>
+		</div>
+		<div class="mui-input-row" id="banktxt">
+			<label>账户类型</label>
+			<span>
+				{if:$this->sellerRow['bank'] == 1}银行{/if}
+				{if:$this->sellerRow['bank'] == 2}支付宝{/if}
+			</span>
+			<input type="hidden" name="bank" id="bankval" />
+			<i class="icon-angle-right"></i>
+			<span class="mui-required-right">*</span>
+		</div>
+		<div id="bank" style="{if:$this->sellerRow['bank'] == 1 || $this->sellerRow['bank'] == 0}{else:}display:none;{/if}">
+			<div class="mui-input-row">
+				<label>开户银行</label>
+				<input name="bankname" type="text" value="{$this->sellerRow['bankname']}" placeholder="开户银行" />
+				<span class="mui-required-right">*</span>
+			</div>
+			<div class="mui-input-row">
+				<label>银行户名</label>
+				<input name="accountname" type="text" value="{$this->sellerRow['accountname']}" placeholder="银行户名" />
+				<span class="mui-required-right">*</span>
+			</div>
+			<div class="mui-input-row">
+				<label>银行帐号</label>
+				<input name="account" type="text" value="{$this->sellerRow['account']}" placeholder="银行帐号" />
+				<span class="mui-required-right">*</span>
+			</div>
+		</div>
+		<div id="alipay" style="{if:$this->sellerRow['bank'] == 2}{else:}display:none;{/if}">
+			<div class="mui-input-row">
+				<label>支付宝户名</label>
+				<input name="alipayname" type="text" value="{$this->sellerRow['alipayname']}" placeholder="支付宝户名" />
+			</div>
+			<div class="mui-input-row">
+				<label>支付宝帐号</label>
+				<input name="alipaysn" type="text" value="{$this->sellerRow['alipaysn']}" placeholder="支付宝帐号" />
+			</div>
+		</div>
+		<div class="mui-input-row" style="display:none;">
+			<label>安全手机号码</label>
+			<input name="mobile" id="mobile_val" type="text" value="{$this->sellerRow['mobile']}" placeholder="安全手机号码" />
+			<a href="javascript:;" id="sendcode" class="sendcode">发送验证码</a>
+		</div>
+		<div class="mui-input-row" style="display:none;">
+			<label>验证码</label>
+			<input name="mobile_code" type="text" value="" placeholder="验证码" value="" />
+		</div>
+		<div class="mui-input-row" style="display:none;">
+			<label>登录密码</label>
+			<input type="password" name="password" value="" placeholder="需要修改时填写" />
+		</div>
+		<div class="mui-button-row">
+			<button type="button" id="infopost" class="mui-btn mui-btn-primary">提交认证</button>
+			<button type="button" id="infosave" class="mui-btn mui-btn-primary">资料保存</button>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<script language="javascript">
+mui.init();
+mui.ready(function(){
+	var data = "[{value: 1, text: '法人账户'}, {value: 2, text: '负责人账户'}, {value: 3, text: '机构账户'}]";
+	var userPicker = new mui.PopPicker();
+	userPicker.setData(eval('(' + data + ')'));
+	var showUserPickerButton = document.getElementById('accounttxt');
+	showUserPickerButton.addEventListener('tap', function(event) {
+		userPicker.show(function(items) {
+			$('#accounttype').val(items[0].value);
+			$('#accounttxt').find('span').text(items[0].text);
+		});
+	}, false);
+
+	var bankdata = "[{value: 1, text: '银行'}, {value: 2, text: '支付宝'}]";
+	var bankPicker = new mui.PopPicker();
+	bankPicker.setData(eval('(' + bankdata + ')'));
+	var showBankPickerButton = document.getElementById('banktxt');
+	showBankPickerButton.addEventListener('tap', function(event) {
+		bankPicker.show(function(items) {
+			$('#bankval').val(items[0].value);
+			$('#banktxt').find('span').text(items[0].text);
+			if(items[0].value == 1){
+				$('#bank').show();
+				$('#alipay').hide();
+			}
+			if(items[0].value == 2){
+				$('#bank').hide();
+				$('#alipay').show();
+			}
+		});
+	}, false);
+});
+
+$(function(){
+	document.getElementById('infosave').addEventListener('tap', function(){
+    	$('#sellerForm').attr('action', '{url:/seller/seller_add}');
+    	$('#sellerForm').submit();
+    });
+
+    document.getElementById('infopost').addEventListener('tap', function(){
+    	$('#sellerForm').attr('action', '{url:/seller/seller_add}');
+    	$('#sellerForm').submit();
+    });
+	{if:$this->sellerRow['is_auth'] == 1}
+	$('input,select,textarea').attr('disabled', true);
+	{/if}
+	{if:$this->sellerRow['is_auth'] != 1}
+	$.jUploader({
+		button: 'paper_img',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#paper_img_val').val(response.fileurl);
+	      		if($('#paper_img_prev').length == 1){
+	      			$('#paper_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#paper-image-list').prepend('<div class="image-item space" id="paper_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'upphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#upphoto_val').val(response.fileurl);
+	      		if($('#upphoto_img_prev').length == 1){
+	      			$('#upphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#upphoto-image-list').prepend('<div class="image-item space" id="upphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'downphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#downphoto_val').val(response.fileurl);
+	      		if($('#downphoto_img_prev').length == 1){
+	      			$('#downphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#downphoto-image-list').prepend('<div class="image-item space" id="downphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'cupphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#cupphoto_val').val(response.fileurl);
+	      		if($('#cupphoto_img_prev').length == 1){
+	      			$('#cupphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#cupphoto-image-list').prepend('<div class="image-item space" id="cupphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+
+	$.jUploader({
+		button: 'cdownphoto',
+		action: '{url:/seller/pic_upload}',
+		allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+		onUpload: function(fileName){
+	    	Lx.common.loading();
+	    },
+		onComplete: function(fileName, response){
+			if(response.success){
+				$('#cdownphoto_val').val(response.fileurl);
+	      		if($('#cdownphoto_img_prev').length == 1){
+	      			$('#cdownphoto_img_prev').css('background-image', 'url(/' + response.fileurl + ')');
+	      		}else{
+	      			$('#cdownphoto-image-list').prepend('<div class="image-item space" id="cdownphoto_img_prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+	      		}
+			}else{
+				mui.toast('上传失败');
+			}
+			Lx.common.loadingClose();
+		}
+	});
+	{/if}
+});
+
+function deloneimage(obj, item){
+	$(obj).parent().remove();
+	$('#' + item).val('');
+}
+
+var default_time = 60;
+var s_count = 60;
+var send_status = true;
+document.getElementById('sendcode').addEventListener('tap', function(){
+	var mobile   = $('#mobile_val').val();
+	var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+	if(!myreg.test(mobile))
+	{
+		mui.toast('手机号不正确');
+		return false;
+	}
+    if ( s_count == default_time && send_status ){
+    	Lx.common.loading();
+        mui.get('{url:/seller/send_sms}', {"mobile":mobile,"type":2}, function(res){
+            if(res  == 'success'){
+            	Lx.common.loadingClose();
+                updateState();
+                timer = setInterval(function(){
+                    updateState();
+                }, 1000);
+            }else{
+                mui.toast(res);
+            }
+        });
+    }
+});
+
+function updateState(){
+    if ( s_count > 0 ){
+        s_count--;
+        send_status = false;
+        document.getElementById('sendcode').innerText = s_count + ' s后重新发送';
+    } else {
+        s_count = default_time;
+        send_status = true;
+        clearInterval(timer);
+        document.getElementById('sendcode').innerText = '重新发送验证码';
+    }
+}
+</script>

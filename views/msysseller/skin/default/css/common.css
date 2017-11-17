@@ -1,0 +1,28 @@
+html{padding: 0; margin: 0;}
+body{font-family: "Microsort YaHei", "微软雅黑"; color: #666;}
+.clearfix:after{content:"."; display:block; height:0; clear:both;visibility:hidden;}
+*html{background-image:url(about:blank);background-attachment:fixed;}
+*html .clearfix{height:1%;}
+*+html .clearfix{height:1%;}
+ul,li{ list-style: none; padding: 0; margin: 0; }
+i,em{ font-style: normal; }
+.mui-bar .mui-btn-link{ color: #fff; }
+.mui-bar .mui-icon-my{ font-size: 1.2rem; position: relative;top: 3px;width: 24px;height: 24px;padding-top: 0;padding-bottom: 0;font-style: normal;line-height: 1;z-index: 20;}
+.mui-bar-tab .mui-tab-item .mui-icon-my~.mui-tab-label {font-size: 14px;display: block;overflow: hidden;text-overflow: ellipsis;}
+.mui-bar-nav{ background:linear-gradient(to right,#ff9638,#ff4b2b);color: #fff; box-shadow: none; }
+.mui-bar-tab .mui-tab-item.mui-hot{ color: #f23030; }
+.mui-bar-tab .mui-tab-item.mui-hot.mui-active{ color: #08c; }
+.mui-bar-nav a.mui-action-back{ color: #fff; }
+.mui-bar-nav .mui-title{ color: #fff; }
+.mui-scroll-wrapper{ top: 50px; bottom: 51px; }
+.mui-input-row label{font-family: "Microsort YaHei", "微软雅黑", 'Helvetica Neue',Helvetica,sans-serif; color: #666; font-size: .875rem;}
+.mui-btn-block{ padding: 8px 0; }
+.mui-checkbox input[type=checkbox],.mui-radio input[type=radio]{top: 10px;width: 20px;height: 20px;}
+.mui-checkbox input[type=checkbox]:before,.mui-radio input[type=radio]:before{ font-size: 1.2rem; }
+.mui-checkbox.mui-left label,.mui-radio.mui-left label{ padding-left: 38px; }
+.mui-checkbox.mui-left input[type=checkbox],.mui-radio.mui-left input[type=radio]{left: 14px;}
+.mui-textarea-row{ margin: 10px; }
+.mui-table-view .mui-media-object{height: 80px;line-height: 80px;max-width: 80px;width: 80px;}
+
+.lx-loading{ position: fixed; top: 50%; left: 50%; z-index: 999; width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; border-radius: 10px;background: rgba(23, 23, 23, 0.6); text-align: center; line-height: 80px; }
+.lx-loading i{ font-size: 2rem; color: #fff; }

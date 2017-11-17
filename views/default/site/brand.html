@@ -1,0 +1,108 @@
+<link href="{skin:css/brand.css}" rel="stylesheet" type="text/css" />
+<div class="position"> <span>您当前的位置：</span> <a href="{url:}"> 首页</a> » 商品品牌 </div>
+
+<div class="wrapper clearfix container_2">
+
+<div class="wrapper clearfix container_2">
+	<div class="sidebar f_l">
+		<div class="box_2 m_10">
+			<div class="title" color="red">学校分类</div>
+			<div class="content">
+				<ul class="brand_list">
+				{foreach:items=$category_list}
+				<li {if:$item['id']==$id}class='current'{/if}><a href="{url:/site/brand/id/$item[id]/name/$item[name]}">{$item['name']}</a></li>
+				{/foreach}
+				</ul>
+			</div>
+		</div>
+
+	</div>
+         
+	<div class="sidebar f_l">
+		<table id="index_category" class="sort_table m_10" width="100%" >
+			<col width="100px" />
+			<col/>
+			{foreach:items=Api::run('getCategoryListTop') item=$first}
+			<tr>
+				<th><a href="{url:/site/brand/id/$category_id/cid/$second[id]}">{$first['name']}</a></th>
+				<td>
+					{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+					<a href="{url:/site/brand/id/$category_id/cid/$second[id]}">{$second['name']}</a>
+					{/foreach}
+				</td>
+			</tr>
+			{/foreach}
+		</table>
+	</div>
+
+	<div class="main f_r">
+		<div class="box"  >
+		{if:isset($name) && $name != ''}
+			<div class="title" >{$name}</div>
+			<div class="cont">
+				<ul class="piclist_2">
+
+					{foreach:items=$brand_list}
+					<li class="intro_goods1">
+						<div class="cont_img">
+							<a class="pic" href="{url:/site/brand_zone/id/$item[id]}">
+								<img class="lazy" data-original="{webroot:$item[logo]}"/>
+							</a>
+						</div>
+						<div class="intro1">
+					    <a href="{url:/site/brand_zone/id/$item[id]}">
+								<p class="intro_title">{$item['name']}</p>
+					      <p class="intro_key">{echo:strip_tags($item['description'])}</p>
+								<p class="intro_short">{$item['shortname']}</p>
+								<p class="intro_address">{$item['address']}</p>
+							</a>
+						</div>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		{else:}
+			
+			<div class="title">推荐品牌</div>
+		       
+
+			<div class="cont">
+				<ul class="piclist_2">
+				   {if:!$brand_list}
+					<div class="cont_none">对不起 没有找到相关商品</div>
+				   {/if}
+					{foreach:items=$brand_list}
+					{set:$temid=$brand_list['id']}
+					<li class="intro_goods1">
+						<div class="cont_img">
+							<a class="pic" href="{url:/site/brand_zone/id/$item[id]}">
+								<img class="lazy" data-original="{webroot:$item[logo]}" />
+							</a>
+						</div>
+						<div class="intro1">
+							<p class="intro_title">
+								<a href="{url:/site/brand_zone/id/$item[id]}">{$item['name']}</a>
+							</p>
+				      <p class="intro_key">{echo:strip_tags($item['description'])}</p>
+							<p class="intro_short">{$item['shortname']}</p>
+							<p class="intro_address">{$item['address']}</p>
+						</div>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		{/if}
+		</div>
+		<div class="sitepage mt20 mb20 clearfix">
+            {$page_info}
+  	   </div>
+	</div>
+</div>
+
+ <script>
+		$('.intro_goods1').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+ </script>

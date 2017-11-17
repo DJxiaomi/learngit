@@ -1,0 +1,28 @@
+<!-- list -->
+<section class="blog">
+		
+	<div class="container">
+		
+		<div class="row">
+		  {if:$teacher_list}
+			{foreach:items=$teacher_list}
+			<div class="col-md-4">
+				<div class="thumbnail">
+					<img src="{url:/pic/thumb/img/$item[icon]/w/270/h/270}" alt="">
+					<div class="caption">
+						<h3 class="mb10">{$item['name']} {if:$item['teaching_direction']}<a href="###" class="mr20"><i class="fa fa-user"></i> 课程：{$item['teaching_direction']}</a>{/if}
+							{if:$item['teaching_experience']}<a href="###"><i class="fa fa-eye"></i> 资历：{$item['teaching_experience ']}</a>{/if}</h3>
+						<p class="mb10 teacher-info" style="height: 60px; overflow: hidden; line-height: 20px;">{$item['description']}</p>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+			{else:}
+			<div class="nothing" style="width: 100%;padding: 10px 0; text-align: center;padding-top: 40px;">
+				没有找到相关信息
+			</div>
+			{/if}
+		</div>
+	</div>
+</section>
+<!-- END list -->

@@ -1,0 +1,30 @@
+<div class="consultbox">
+	<p>课程：{$this->goodsRow['name']}</p>
+	<form action='{url:/site/discussion_act}' method='post' name='consult'>
+		<input type='hidden' name='goods_id' value='' />
+		<input type='hidden' name='callback' value='' />
+		<h3>讨论内容</h3>
+		<div class="mc">
+			<textarea name="contents" pattern='required' class="input"></textarea>
+		</div>
+		<div class="mc">
+			<input type="submit" class="cbtn" value="发表讨论" />
+		</div>
+	</form>
+</div>
+
+
+
+<script type='text/javascript'>
+
+var formObj = new Form('consult');
+
+formObj.init({
+	'goods_id':'{$this->goods_id}',
+
+	'callback':'{$this->callback}'
+
+});
+
+</script>
+

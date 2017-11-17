@@ -1,0 +1,66 @@
+{set:$callback = IReq::get('callback') ? IUrl::creatUrl(IReq::get('callback')) :IUrl::getRefRoute()}
+<link rel="stylesheet" type="text/css" href="{skin:css/simple.css}" />
+<script language="javascript">
+var _callback = '{$callback}';
+var _this_callback = '{$this->callback}';
+var _reg_url = '{url:/simple/reg?callback=$callback}';
+var _login_url = '{url:/simple/login_pc_ajax?callback=$callback}';
+var _oauth_login_url = '{url:/simple/oauth_login}';
+</script>
+<form id='login-form' class="mui-input-group">
+    <div class="mui-input-rows">
+        <input type="text" class="mui-input-clear mui-input" name="login_info" id="login_info" placeholder="用户名/手机号/邮箱">
+    </div>
+    <div class="mui-input-rows">
+        <input type="password" class="mui-input-clear mui-input" name="password" id="password" placeholder="密码">
+    </div>
+</form>
+<form class="mui-input-group">
+    <ul class="mui-table-view mui-table-view-chevron">
+        <li class="mui-table-view-cell">
+            保持登录状态
+            <div class="mui-switch">
+                <div class="mui-switch-handle"></div>
+            </div>
+        </li>
+        <input type="hidden" name="autoLogin" id="autoLogin" value="0" />
+    </ul>
+</form>
+<div class="mui-content-padded">
+    <button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+    {set:$callback = $this->callback;}
+    <div class="link-areas"><a id='reg' href="{url:simple/reg/}?callback={$callback}">手机注册</a> <a href="{url:simple/find_password}" id='forgetPassword'>忘记密码</a></div>
+</div>
+
+<script type="text/javascript">
+document.getElementById('login').addEventListener('tap', function(){
+    var login_info = document.getElementById('login_info').value,
+        password = document.getElementById('password').value;
+    if(login_info == ''){
+        mui.toast('请输入用户名');
+        return false;
+    }
+    if(password == ''){
+        mui.toast('请输入密码');
+        return false;
+    }
+    mui.post('{url:/simple/login_ajax}', {login_info: login_info, password: password}, function(json){
+        if(json.message == 1){
+            {if:$this->callback}
+            window.location.href = '{$this->callback}';
+            {else:}
+            window.location.href = '{url:/ucenter/index}';
+            {/if}
+        }else{
+            mui.toast(json.message);
+        }
+    }, 'json');
+});
+mui('.mui-content .mui-switch').each(function() {
+    this.addEventListener('toggle', function(event) {
+        document.getElementById('autoLogin').value = event.detail.isActive ? '1' : '0';
+    });
+});
+</script>
+
+<script type='text/javascript' src="{theme:/javascript/login.js}"></script>

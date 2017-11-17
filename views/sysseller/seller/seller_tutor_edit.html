@@ -1,0 +1,73 @@
+{js:my97date}
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">发布家教信息</h3>
+	</header>
+
+	<form action="{url:/seller/seller_tutor_save}" method="post" enctype='multipart/form-data'>
+		<!--课程信息 开始-->
+		<div class="module_content" id="table_box_1">
+
+      <fieldset>
+				<label>年级：</label>
+        <select name="grade_level" class="normal" style="width: 120px;">
+          {foreach:items=$grade_arr key=$key}
+          <option value="{$key}" {if:$tutor_info['grade_level'] == $key}selected{/if}>{$item}</option>
+          {/foreach}
+        </select>
+        <select name="grade" class="normal grade" style="width: 120px;">
+          <option value="1" {if:$tutor_info['grade'] == 1}selected{/if}>1</option>
+          <option value="2" {if:$tutor_info['grade'] == 2}selected{/if}>2</option>
+          <option value="3" {if:$tutor_info['grade'] == 3}selected{/if}>3</option>
+          <option value="4" {if:$tutor_info['grade'] == 4}selected{/if}>4</option>
+          <option value="5" {if:$tutor_info['grade'] == 5}selected{/if}>5</option>
+          <option value="6" {if:$tutor_info['grade'] == 6}selected{/if}>6</option>
+        </select>年级
+
+        <select name="category_id" pattern="required" style="width: 120px;">
+          {foreach:items=$tutor_cate_list}
+            <option value="{$item['id']}" {if:$tutor_info['category_id'] == $item['id']}selected{/if}>{$item['name']}</option>
+          {/foreach}
+        </select>
+			</fieldset>
+
+      <fieldset>
+        <label>价格/时：</label>
+        <input type="text" name="price" value="{$tutor_info['price']}" placeholder="价格/时" pattern="float" alt="价格不正确"/>
+      </fieldset>
+
+      <fieldset>
+				<label>授课方式：</label>
+        {foreach:items=$teaching_type_arr key=$key}
+				<input type="checkbox" name="teaching_type[]" value="{$key}" {if:!$tutor_info['teaching_type'] || in_array($key, $tutor_info['teaching_type'])}checked{/if} id="teaching_type_{$key}" /><label for="teaching_type_{$key}">{$item}</label>&nbsp; &nbsp;
+        {/if}
+			</fieldset>
+
+			<fieldset>
+				<label>对学生的要求：</label>
+				<input type="text" name="student_reqiures" value="{$tutor_info['student_reqiures']}" placeholder="" />
+			</fieldset>
+
+			<fieldset>
+				<label>是否接受预约：</label>
+				<select name="is_receive_booking">
+					<option value="1">是</option>
+					<option value="0" {if:$tutor_info['is_receive_booking'] == 0}selected{/if}>否</option>
+				</select>
+			</fieldset>
+
+      <fieldset>
+        <label>说明</label>
+        <textarea name="description" id="description" class="txt">{$tutor_info['description']}</textarea>
+        <input type="hidden" name="id" value="{$tutor_info['id']}" />
+      </fieldset>
+
+		</div>
+
+    <footer>
+      <div class="submit_link">
+        <input type="submit" class="alt_btn" value="确 定"/>
+      </div>
+    </footer>
+	</form>
+</article>

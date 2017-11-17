@@ -1,0 +1,103 @@
+{js:kindeditor}
+{js:my97date}
+<script type="text/javascript" src="/plugins/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/plugins/ueditor/ueditor.all.min.js"></script>
+
+<div class="headbar">
+	<div class="position"><span>学校</span><span>></span><span>学校管理</span><span>></span><span>优惠券</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/brand/brand_chit_save2}" method="post" enctype='multipart/form-data'>
+			<table class="form_table" cellpadding="0" cellspacing="0">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>名称：</th>
+					<td><input class="normal" name="name" type="text" value="{$chit2['name']}" pattern="required" alt="券名称不能为空" />
+					</td>
+				</tr>
+				<tr>
+					<th>logo：</th>
+					<td>
+						{if:$chit2['logo']}<img src="{webroot:$chit2['logo']}" width="80" height="80" /><br />{/if}
+						<input class="normal" name="logo" type="file" value="{$chit2['logo']}"  />
+						<input class="normal" name="logo2" type="hidden" value="{$chit2['logo']}"  />
+					</td>
+				</tr>
+				<tr>
+					<th>价格：</th>
+					<td><input class="normal" name="max_price" type="float" value="{$chit2['max_price']}" pattern="required" alt="券价格不能为空" />
+					</td>
+				</tr>
+				<tr>
+					<th>套餐价格：</th>
+					<td><input class="normal" name="tc_price" type="float" value="{$chit2['tc_price']}" pattern="required" alt="套餐价格不能为空" />
+					</td>
+				</tr>
+				<tr>
+					<th>原价：</th>
+					<td><input class="normal" name="max_order_chit" type="float" value="{$chit2['max_order_chit']}" pattern="required" alt="原价不能为空" />
+					</td>
+				</tr>
+				<tr>
+					<th>商家返还：</th><td><input class="normal" name="commission" type="float" value="{$chit2['commission']}" /></td>
+				</tr>
+				<tr>
+					<th>结束时间：</th>
+					<td><input class="normal" name="limittime" type="text" value="{if:$chit2['limittime']}{echo:date('Y-m-d', $chit2['limittime'])}{/if}" onfocus='WdatePicker()' />
+					</td>
+				</tr>
+				<tr>
+					<th>限购次数：</th><td><input class="normal" name="limitnum" type="number" value="{if:!$chit2['limitnum']}0{else:}{$chit2['limitnum']}{/if}" /></td>
+				</tr>
+				<tr>
+					<th>总课时：</th><td><input class="normal" name="use_times" type="number" value="{if:!$chit2['use_times']}1{else:}{$chit2['use_times']}{/if}" /></td>
+				</tr>
+				<tr>
+					<th>每次：</th><td><input class="normal" name="each_times" type="number" value="{if:!$chit2['each_times']}1{else:}{$chit2['each_times']}{/if}" />课时</td>
+				</tr>
+				<tr>
+					<th>上课时间：</th><td><input class="normal" name="class_time" type="text" value="{if:!$chit2['class_time']}{else:}{$chit2['class_time']}{/if}" /></td>
+				</tr>
+				<tr>
+					<th>是否需要预约：</th><td><input name="is_booking" type="radio" value="1" {if:$chit2['is_booking']}checked{/if}/>是&nbsp; &nbsp; <input name="is_booking" type="radio" value="0" {if:!$chit2['is_booking']}checked{/if} />否</td>
+				</tr>
+				<tr>
+					<th>是否推荐：</th><td><input name="is_intro" type="radio" value="1" {if:$chit2['is_intro']}checked{/if}/>是&nbsp; &nbsp; <input name="is_intro" type="radio" value="0" {if:!$chit2['is_intro']}checked{/if} />否</td>
+				</tr>
+				<tr>
+					<th>预约说明：</th><td><input class="normal" name="booking_desc" type="text" value="{if:!$chit2['booking_desc']}请提前电话预约上课时间！{else:}{$chit2['booking_desc']}{/if}" /></td>
+				</tr>
+				<tr>
+					<th>上下架：</th><td><input name="is_del" type="radio" value="1" {if:$chit2['is_del']}checked{/if}/>下架&nbsp; &nbsp; <input name="is_del" type="radio" value="0" {if:!$chit2['is_del']}checked{/if} />上架</td>
+				</tr>
+				<tr>
+					<th>是否置顶：</th><td><input name="is_top" type="radio" value="1" {if:$chit2['is_top']}checked{/if}/>是&nbsp; &nbsp; <input name="is_top" type="radio" value="0" {if:!$chit2['is_top']}checked{/if} />否</td>
+				</tr>
+				<tr>
+					<th>课程介绍：</th><td><textarea class="normal" name="content" id="content" type="text" style="width:700px;height:400px;">{$chit2['content']}</textarea></td>
+				</tr>
+				<tr>
+					<th>使用说明：</th><td><textarea class="normal" name="limitinfo" id="limitinfo" type="text" style="width:700px;height:200px;">{$chit2['limitinfo']}</textarea></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="hidden" name="isedit" value="{$isedit}" />
+						<input type="hidden" name="id" value="{$chit2['id']}" />
+						<input type="hidden" name="page" value="{$page}" />
+						<input type="hidden" name="brand_id" id="brand_id" value="{$chit2['brand_id']}" />
+						<button class="submit" type="submit"><span>确 定</span></button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+$(function(){
+	UE.getEditor('content');
+	UE.getEditor('limitinfo');
+})
+</script>

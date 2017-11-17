@@ -1,0 +1,95 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.left { float:left; }
+.right { float:right; }
+.center {margin:0 auto; text-align:center;}
+.inline {display:inline;}
+
+
+#main {
+	margin:20px auto;
+	width:1184px;
+	  clear: both;
+}
+#allcontent {
+	width:100%;
+}
+#content {
+	width:842px;
+	float:left;
+	border:0;
+}
+#content-right {
+	width:342px;
+	float:right;
+	border:0;
+}
+.clear {clear:both;}
+
+.con-title {
+	border-bottom:2px solid #b62827; clear:both;
+	width:100%;height:35px;line-height: 35px; font-size: 16px;
+}
+.con-title h3{
+	text-align:center; width:150px;height:35px; background:#b62827; color:#fff; font-size: 16px;
+}
+
+.errowpage {
+	width:400px;
+	height:50px;
+	margin:30px auto;
+	background:url(../images/icon037.gif) no-repeat 50px 100px;
+	color:#ef833c;
+	font-size:16px;
+	padding:100px 0 0 90px;
+	text-align:left;
+}
+
+/*  表单 统一样式   */
+
+
+.Tex1{width:310px;height:35px;line-height:35px;padding-left:10px;color:#999;margin-bottom: 15px; border:1px solid #ccc; background:#f3f3f3;}
+
+.searchTex2 {width:150px;height:20px;line-height:20px;color:#999;border:1px solid #ccc; background:#f3f3f3; margin:0 5px;}
+.searchBut {border:1px solid #ccc; background:#ccc;height:20px;line-height:20px;color:#666;
+}
+.Tex3 {height:35px;line-height:35px;border:1px solid #ccc; color:#666; background:#d2d2d2;}
+
+.But001{
+	height:40px;font-size: 16px; padding:5px 25px; font-weight:bold; color:white;cursor:pointer;font-family:"微软雅黑"; border-radius:3px; margin:0px 20px 10px 0; border:1px solid #bc2828; float:right;
+background: #bc2828;
+/*background: -webkit-gradient(linear, left top, left bottom, from(#e43a3a), to(#bc2828) );
+background: -moz-linear-gradient(-90deg, #e43a3a, #bc2828);            filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#e43a3a', EndColorStr='#bc2828';*/
+}
+.But002{height:35px;font-size: 14px; padding:5px 15px; font-weight:normal; color:white;cursor:pointer;font-family:"微软雅黑"; border-radius:3px; margin:15px 10px; border:1px solid #bc2828; float:right;
+background:#bc2828;}
+.But003{height:35px;font-size: 14px; padding:5px 15px; font-weight:normal; color:white;cursor:pointer;font-family:"微软雅黑"; border-radius:3px; margin:15px 10px; border:1px solid #bc2828;
+background:#bc2828;}
+.But004{height:35px;font-size: 14px; padding:5px 15px; font-weight:normal; color:#666;cursor:pointer;font-family:"微软雅黑"; border-radius:3px; margin:15px 10px; border:1px solid #999; float:right;
+background:#dedede;}
+
+.submit:active {background:#bc2828;}
+.submit:hover {
+background: #e43a3a;            background: -webkit-gradient(linear, left top, left bottom, from(#bc2828), to(#e43a3a) );            background: -moz-linear-gradient(-90deg, #bc2828, #e43a3a);            filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#bc2828', EndColorStr='#e43a3a');      
+}
+
+select{width:105px;height:30px; line-height:35px;border:1px solid #ccc;color: #333;padding-left: 10px;margin-bottom: 15px;}
+.prov{margin-right: 15px;}
+
+
+/* 通用按钮样式 */
+
+.ButtonA {
+	padding:8px 15px;
+	background: #f36f20;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: "微软雅黑";
+  margin-bottom: 5px;
+  margin-left: 5px;
+  border-radius:2px;
+}
+p.BDtips {color:#666;font-size:12px; line-height:20px; margin-bottom:15px; padding-left:130px; display:block;}

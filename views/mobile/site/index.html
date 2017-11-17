@@ -1,0 +1,303 @@
+<link href="{skin:css/index.css}" rel="stylesheet" type="text/css" />
+<link href="{rs:/scripts/swiper/swiper.min.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<script type="text/javascript" src="{theme:javascript/index.js}"></script>
+<script type='text/javascript' src="{rs:/scripts/layer_mobile/layer.js}"></script>
+
+<div class="search_content">
+  <div class="search_info">
+    <div class="search_form">
+      <div class="region">株洲</div>
+      <form method="get">
+      <input type="text" value="" id="keywords2" placeholder="搜索您感兴趣的内容"/>
+      <input type="button" value="" />
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- 搜索弹出窗 start -->
+<div class="pop_search_content">
+  <div class="search_content">
+    <div class="search_info">
+      <div class="search_form">
+        <form method="get" id="form1" action="{url:/site/chit1}" onSubmit="return check_search();">
+        <input type="text" value="" id="keywords" name="keywords" placeholder="搜索您感兴趣的内容"/>
+        <input type="button" value="" />
+        <a href="javascript:void(0)" onclick="close_pop_search();" class="cancel_search">取消</a>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="search_tab">
+    <ul>
+      <li><a href="javascript:void(0);" onclick="search_cc('dqk');" class="active">短期课</a></li>
+      <li><a href="javascript:void(0);" onclick="search_cc('seller');">学校</a></li>
+      <li><a href="javascript:void(0);" onclick="search_cc('goods');">课程</a></li>
+    </ul>
+  </div>
+</div>
+<!-- 搜索弹出窗 end -->
+
+<!--轮播-->
+<div class="swiper-container" style="margin-top:41px;">
+    <div class="swiper-wrapper">
+        {if:$this->index_slide_mobile}
+            {foreach:items=$this->index_slide_mobile}
+            <div class="swiper-slide">
+                <a href="{url:$item[url]}"><img width="100%" src="{url:/pic/thumb/img/$item['img']}" /></a>
+            </div>
+            {/foreach}
+        {/if}
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+<!--轮播-->
+
+<!--栏目-->
+<div class="index-category">
+    <div class="swiper-wrapper">
+        <ul class="clearfix swiper-slide">
+            <li>
+                <a href="{url:/site/brand?&cat_id=1}">
+                    <div class="img"><img src="{skin:images/index_icon_1.png}" /></div>
+                    <div class="ct">婴幼儿</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/brand?&cat_id=2}">
+                    <div class="img"><img src="{skin:images/index_icon_2.png}" /></div>
+                    <div class="ct">中小学</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/brand?&cat_id=4}">
+                    <div class="img"><img src="{skin:images/index_icon_3.png}" /></div>
+                    <div class="ct">文学艺术</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/brand?&cat_id=196}">
+                    <div class="img"><img src="{skin:images/index_icon_4.png}" /></div>
+                    <div class="ct">益智体育</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/tutor}">
+                    <div class="img"><img src="{skin:images/index_icon_5.png}" /></div>
+                    <div class="ct">家教辅导</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/article2}">
+                    <div class="img"><img src="{skin:images/index_icon_10.png}" /></div>
+                    <div class="ct">试听体验</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/activity_zhuanti}">
+                    <div class="img"><img src="{skin:images/index_icon_7.png}" /></div>
+                    <div class="ct">热点专题</div>
+                </a>
+            </li>
+            <li>
+                <a href="{url:/site/article/cid/2}">
+                    <div class="img"><img src="{skin:images/index_icon_10.png}" /></div>
+                    <div class="ct">新闻资讯</div>
+                </a>
+            </li>
+        </ul>
+        <ul class="clearfix swiper-slide">
+            <li>
+                <a href="{url:/site/user_tutor_list}">
+                    <div class="img"><img src="{skin:images/index_icon_14.png}" /></div>
+                    <div class="ct">找学生</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="index-category-pagination"></div>
+</div>
+<script type="text/javascript">
+var swiper = new Swiper('.index-category', {
+    pagination: '.index-category-pagination',
+    paginationClickable: true,
+    loop : false,
+    autoplay: false
+});
+</script>
+<!--栏目-->
+
+<!--短期课列表-->
+<div class="goodslist dqk_list">
+    <div class="hd">
+      <div class="title">
+        <a href="#"><img src="{skin:images/shop_list_hd_bg.png}" /></a>短期课
+      </div>
+      <div class="area_list">
+        <ul>
+          {foreach:items=$dqk_list}
+          {set:$j++;}
+          <li {if:$j == 1}class="active"{/if}><a href="javascript:void(0);" onclick="show_intro_dqk(this,'{$item['id']}')">{$item['name']}</a></li>
+          {/foreach}
+        </ul>
+      </div>
+    </div>
+    <div class="bd">
+      {foreach:items=$dqk_list key=$key}
+      {set:$i++;}
+      <ul class="mui-table-view mui-grid-view brand-list" _id="{$item['id']}" {if:$i > 1}style="display:none;"{/if}>
+            {foreach:items=$item['list'] item=$it}
+              <li class="mui-table-view-cell mui-media mui-col-xs-6 brand-cell">
+                  <a href="{url:/site/chit1_detail/id/$it['seller_id']}" class="thumb">
+                      <div class="goodsimage">
+                        <img class="mui-media-object" src="{url:$it[logo]}">
+                      </div>
+
+                      <div class="goodsinfo">
+                        <div class="goodsname">
+                            {$it['seller_name']}短期课-{$it['use_times']}课时
+                        </div>
+                        <div class="goodsaddr">
+                          [{if:$it['area']}{echo:area::getName($it['area'])}{/if}{$it['address']}]
+                        </div>
+                        <div class="goodsdesc">
+                          {echo:strip_tags($it['content'])}
+                        </div>
+                        <div class="goodsprice">
+                          <div class="t-left">
+                            &yen;{$it['max_price']}
+                            <span class="market_price">
+                              原价：{$it['max_order_chit']}
+                            </div>
+
+                            <div class="t-right">
+                              已售：{$it['sale']}
+                            </div>
+                        </div>
+                      </div>
+                  </a>
+              </li>
+            {/foreach}
+      </ul>
+      {/foreach}
+    </div>
+</div>
+<!--短期课列表-->
+
+<!--列表-->
+{set:$j = 0; $i = 0;}
+<div class="goodslist">
+    <div class="hd">
+      <div class="title">
+        <a href="#"><img src="{skin:images/shop_list_hd_bg.png}" /></a>学校推荐
+      </div>
+      <div class="area_list">
+        <ul>
+          {foreach:items=$area_list}
+          {set:$j++;}
+          <li {if:$j == 1}class="active"{/if}><a href="javascript:void(0);" onclick="show_intro_shop(this,'{$item['area_id']}')">{$item['area_name']}</a></li>
+          {/foreach}
+        </ul>
+      </div>
+    </div>
+    <div class="bd">
+      {foreach:items=$shop_list key=$key}
+      {set:$i++;}
+      <ul class="mui-table-view mui-grid-view brand-list" _id="{$key}" {if:$i > 1}style="display:none;"{/if}>
+            {foreach:items=$item item=$it}
+              <li class="mui-table-view-cell mui-media mui-col-xs-6 brand-cell">
+                  <a href="{url:/site/brand_zone/id/$it['id']}" class="thumb">
+                      <div class="goodsimage">
+                        <img class="mui-media-object" src="{url:$it[logo]}">
+                      </div>
+
+                      <div class="goodsinfo">
+                        <div class="goodsname">
+                            {if:$it['shortname']}{$it['shortname']}{else:}{echo: mb_substr($it['name'], 0, 12,'utf-8')}{/if}
+                        </div>
+                        <div class="goodsdesc">
+                          {$it['brief']}
+                        </div>
+                        <div class="goodsaddr">
+                          [{if:$it['area']}{echo:area::getName($it['area'])}{/if}{$it['address']}]
+                        </div>
+                        <div class="goodssalecount">已售：{$it['sale']}</div>
+                      </div>
+                  </a>
+              </li>
+            {/foreach}
+      </ul>
+      {/foreach}
+    </div>
+</div>
+<div class="bl_more"><a href="javascript:;" id="bl_more"></a></div>
+
+<script type="text/javascript">
+var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    paginationClickable: true,
+    loop : true,
+    autoplay: 3000
+});
+</script>
+
+
+{if:$this->iswechat == 1}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"> </script>
+<script type="text/javascript">
+sharedata = {$this->sharedata};
+wx.config({
+    //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{$this->signPackage['appId']}', // 必填，公众号的唯一标识
+    timestamp: '{$this->signPackage['timestamp']}' , // 必填，生成签名的时间戳
+    nonceStr: '{$this->signPackage['nonceStr']}', // 必填，生成签名的随机串
+    signature: '{$this->signPackage['signature']}',// 必填，签名，见附录1
+    jsApiList: [
+      'checkJsApi',
+  		'onMenuShareTimeline',
+  		'onMenuShareAppMessage',
+  		'onMenuShareQQ',
+  		'onMenuShareWeibo',
+  		'hideMenuItems',
+  		'showMenuItems',
+  		'hideAllNonBaseMenuItem',
+  		'showAllNonBaseMenuItem',
+  		'translateVoice',
+  		'startRecord',
+  		'stopRecord',
+  		'onRecordEnd',
+  		'playVoice',
+  		'pauseVoice',
+  		'stopVoice',
+  		'uploadVoice',
+  		'downloadVoice',
+  		'chooseImage',
+  		'previewImage',
+  		'uploadImage',
+  		'downloadImage',
+  		'getNetworkType',
+  		'openLocation',
+  		'getLocation',
+  		'hideOptionMenu',
+  		'showOptionMenu',
+  		'closeWindow',
+  		'scanQRCode',
+  		'chooseWXPay',
+  		'openProductSpecificView',
+  		'addCard',
+  		'chooseCard',
+  		'openCard'
+    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
+wx.ready(function(){
+  wx.onMenuShareAppMessage(sharedata);
+  wx.onMenuShareTimeline(sharedata);
+  wx.onMenuShareQQ(sharedata);
+  wx.onMenuShareWeibo(sharedata);
+});
+wx.error(function (res) {
+  	//alert("调用微信jsapi返回的状态:"+res.errMsg);
+});
+</script>
+{/if}

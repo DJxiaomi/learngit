@@ -1,0 +1,603 @@
+{js:bxSlider}
+<script language="javascript">
+	//var _goods_list = {$goods_list_json};
+	var _goods_id = 0;
+	var _spec_id = 0;
+	var SITE_URL = 'http://{echo:get_host();}';
+	//var _seller_id = {$goods_list['0']['seller_id']};
+</script>
+{js:artTemplate}
+{js:zoom}
+{js:bxSlider}
+<script type="text/javascript" src="{rs:/scripts/layer/layer.js}"></script>
+<script type="text/javascript" src="{theme:javascript/products.js}"></script>
+<link rel="stylesheet" href="{skin:css/products.css}">
+<style>
+.salebox img {max-width: 100%;}
+.summary ul li .price i {font-size:14px;}
+</style>
+
+{set:$breadGuide = goods_class::catRecursion($category);}
+<div class="position"><span>您当前的位置：</span><a href="{url:}">首页</a>{foreach:items=$breadGuide} » <a href="{url:/site/pro_list/cat/$item[id]}">{$item['name']}</a>{/foreach} » {$name}</div>
+
+<div class="wrapper clearfix">
+	<div class="summary">
+		<h2>{$name}</h2>
+    {foreach:items=$seller_info['goods_list']}
+			<div class="item w_27">
+				<a href="javascript:void(0);" _id={$item['id']}>
+					{$item['name']}
+				</a>
+			</div>
+		{/foreach}
+		<!--基本信息区域-->
+
+		<ul>
+			<li>
+				<span class="f_r light_gray">商品编号{$goods_list['seller_id']}：<label id="data_goodsNo">{echo:$goods_no?$goods_no:$id}</label></span>
+			</li>
+
+			<!--抢购活动,引入 "_products_time"模板-->
+			{if:$promo == 'time' && isset($time)}
+			{include:_products_time}
+			{/if}
+
+			<!--团购活动,引入 "_products_groupon"模板-->
+			{if:$promo == 'groupon' && isset($groupon)}
+			{include:_products_groupon}
+			{/if}
+
+			<!--普通商品购买-->
+			{if:$promo == ''}
+				{if:$group_price}
+				<!--当前用户有会员价-->
+
+				<li>
+					会员价：<b class="price red2">￥<span class="f30" id="data_groupPrice"></span></b>
+				</li>
+				<li>
+					原售价：￥<s id="data_sellPrice">{$sell_price}</s>
+				</li>
+				{else:}
+				<!--当前用户普通价格-->
+				<li>
+					销售价：<b class="price red2"><span class="f30" id="data_sellPrice">{if:$sell_price != $this->hide_price}{$sell_price}{else:}<i>{$this->hide_price_str}</i>{/if}</span></b>
+				</li>
+				{/if}
+			{/if}
+
+			<li>
+				市场价：￥<s id="data_marketPrice">{$market_price}</s>
+			</li>
+
+			<li>
+				库存：现货<span>(<label id="data_storeNums">{$store_nums}</label>)</span>
+				<a class="favorite" onclick="favorite_add_ajax({$id},this);" href="javascript:void(0)">收藏此商品</a>
+			</li>
+
+
+
+			{if:$point > 0}
+			<li>送积分：单件送{$point}分</li>
+			{/if}
+
+			<!-- 商家信息 开始 -->
+			{if:isset($seller)}
+			<li>商家：<a class="orange" href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></li>
+			{if:$seller['phone']}<li>联系电话：{$seller['phone']}</li>{/if}
+			<li>所在地：{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</li>
+			<li>{set:plugin::trigger("onServiceButton",$seller['id'])}</li>
+			{/if}
+			<!--商家信息 结束-->
+		</ul>
+
+		<!--购买区域-->
+		{if:$sell_price != $this->hide_price}
+		<div class="current">
+		{if:$store_nums <= 0}
+			该商品已售完，不能购买，您可以看看其它商品！(<a href="{url:/simple/arrival/goods_id/$id}" class="orange">到货通知</a>)
+		{else:}
+
+			<!--商品规格选择 开始-->
+
+				{if:$goods_spec_array['value']}
+				<dl class="m_10 clearfix" name="specCols">
+					<dt>课程属性：</dt>
+					<dd class="w_45">
+						{foreach:items=$goods_spec_array['value'] item=$spec_value}
+						<div class="item w_27">
+							<!-- <a href="javascript:void(0);" onclick="sele_goods(this);" _id={$item['id']}> -->
+							<a href="javascript:void(0);" name="specColls" onclick="sele_spec(this);" id="{$spec_value['id']}" value='{"id":"{$spec_value['id']}","value":"{$spec_value['cusval']}","classnum":"{$spec_value['classnum']}","month":"{$spec_value['month']}","name":"{$goods_spec_array['name']}"}'>
+								{if:$spec_value['cusval']}
+									{$spec_value['cusval']}{if:$spec_value['classnum'] || $spec_value['month']}/{/if}
+								{/if}
+								{if:$spec_value['classnum']}
+									{$spec_value['classnum']}课时{if:$spec_value['month']}/{/if}
+								{/if}
+								{if:$spec_value['month']}{$spec_value['month']}个月{/if}
+							</a>
+						</div>
+						{/foreach}
+					</dd>
+				</dl>
+				{/if}
+
+
+			<!--商品规格选择 结束-->
+
+
+			<div class="chit_info"></div>
+
+			<dl class="m_10 clearfix">
+					<dt>报名人数：</dt>
+					<dd>
+
+						<div class="resize">
+							<a class="add" id="buyAddButton" href="javascript:void(0);">-</a>
+							<input class="gray_t f_l" type="text" id="buyNums" onkeyup="setAmount.modify('#buyNums')" value="1" maxlength="5"  />
+							<a class="reduce" id="buyReduceButton" href="javascript:void(0);">+</a>
+						</div>
+					</dd>
+				</dl>
+
+		    <input  type="button" id="buyNowButton" value="立即付款" />
+				<input type="button" id="joinCarButton" value="加入课表" />
+
+		{/if}
+		</div>
+		{/if}
+	</div>
+
+
+	<!--图片放大镜-->
+	<div class="preview">
+		<div class="pic_show">
+			<img id="picShow" rel="" src="" />
+		</div>
+
+		<ul id="goodsPhotoList" class="pic_thumb">
+			{foreach:items=$photo}
+			<li>
+				<a href="javascript:void(0);" thumbimg="{url:/pic/thumb/img/$item['img']/w/435/h/435}" sourceimg="{webroot:$item['img']}">
+					<img class="lazy" data-original='{url:/pic/thumb/img/$item['img']/w/60/h/60}'/>
+				</a>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+
+
+
+<div class="wrapper clearfix container_2">
+
+	<!--左边栏-->
+	<div class="sidebar f_l">
+
+		<!--热卖商品-->
+		<div class="box m_10">
+			<div class="title">热卖商品</div>
+			<div class="content">
+				<ul  class="ranklist">
+				{foreach:items=Api::run('getCommendHot')}
+					<li class="current">
+						<a href="{url:/site/products/id/$item[id]}"><img alt="{$item['name']}" class="lazy" data-original="{url:/pic/thumb/img/$item[img]}" /></a>
+						<a title="{$item['name']}" class="p_name" href="{url:/site/products/id/$item[id]}">{$item['name']}</a>
+						<b>￥{$item['sell_price']}</b>
+					</li>
+				{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--热卖商品-->
+	</div>
+
+	<!--滑动面tab标签-->
+	<div class="main f_r">
+
+		<div class="uc_title" name="showButton">
+			<label class="current"><span>商品详情</span></label>
+			<label><span>顾客评价({$comments})</span></label>
+			<label><span>购买记录({$buy_num})</span></label>
+			<label><span>购买前咨询({$refer})</span></label>
+			<label><span>网友讨论圈({$discussion})</span></label>
+		</div>
+
+		<div name="showBox">
+			<!-- 商品详情 start -->
+			<div>
+				<ul class="saleinfos m_10 clearfix">
+					<li>商品名称：{$name}</li>
+
+					{if:isset($brand) && $brand}
+					<li>品牌：{$this->brandname}</li>
+					{/if}
+
+					{if:isset($weight) && $weight}
+					<li>商品毛重：<label id="data_weight">{$weight}</label></li>
+					{/if}
+
+					{if:isset($unit) && $unit}
+					<li>单位：{$unit}</li>
+					{/if}
+
+					{if:isset($up_time) && $up_time}
+					<li>上架时间：{$up_time}</li>
+					{/if}
+
+					{if:($attribute)}
+					{foreach:items=$attribute}
+					<li>{$item['name']}：{$item['attribute_value']}</li>
+					{/foreach}
+					{/if}
+				</ul>
+				{if:isset($content) && $content}
+				<div class="salebox">
+					<strong class="saletitle block">产品描述：</strong>
+					<p class="saledesc">{$content}</p>
+				</div>
+				{/if}
+			</div>
+			<!-- 商品详情 end -->
+
+			<!-- 顾客评论 start -->
+			<div class="hidden comment_list box">
+				<div class="title3">
+					<img class="lazy" data-original="{skin:images/front/comm.gif}" width="16px" height="16px" />
+					商品评论<span class="f12 normal">（已有<b class="red2">{$comments}</b>条）</span>
+				</div>
+
+				<div id='commentBox'></div>
+
+				<!--评论JS模板-->
+				<script type='text/html' id='commentRowTemplate'>
+				<div class="item">
+					<div class="user">
+						<div class="ico">
+							<a href="javascript:void(0)">
+								<img src="{webroot:<%=head_ico%>}" onerror="this.src='{skin:images/front/user_ico.gif}'" />
+							</a>
+						</div>
+						<span class="blue"><%=username%></span>
+					</div>
+					<dl class="desc">
+						<p class="clearfix">
+							<b>评分：</b>
+							<span class="grade-star g-star<%=point%>"></span>
+							<span class="light_gray"><%=comment_time%></span><label></label>
+						</p>
+						<hr />
+						<p><b>评价：</b><span class="gray"><%=contents%></span></p>
+						<%if(recontents){%>
+						<p><b>回复：</b><span class="red"><%=recontents%></span></p>
+						<%}%>
+					</dl>
+					<div class="corner b"></div>
+				</div>
+				<hr />
+				</script>
+			</div>
+			<!-- 顾客评论 end -->
+
+			<!-- 购买记录 start -->
+			<div class="hidden box">
+				<div class="title3">
+					<img src="{skin:images/front/cart.gif}" alt="" />
+					购买记录<span class="f12 normal">（已有<b class="red2">{$buy_num}</b>购买）</span>
+				</div>
+
+				<table width="100%" class="list_table m_10 mt_10">
+					<colgroup>
+						<col width="150" />
+						<col width="120" />
+						<col width="120" />
+						<col width="150" />
+						<col />
+					</colgroup>
+
+					<thead class="thead">
+						<tr>
+							<th>购买人</th>
+							<th>出价</th>
+							<th>数量</th>
+							<th>购买时间</th>
+							<th>状态</th>
+						</tr>
+					</thead>
+
+					<tbody class="dashed" id="historyBox"></tbody>
+				</table>
+
+				<!--购买历史js模板-->
+				<script type='text/html' id='historyRowTemplate'>
+				<tr>
+					<td><%=username?username:'游客'%></td>
+					<td><%=goods_price%></td>
+					<td class="bold orange"><%=goods_nums%></td>
+					<td class="light_gray"><%=completion_time%></td>
+					<td class="bold blue">成交</td>
+				</tr>
+				</script>
+			</div>
+			<!-- 购买记录 end -->
+
+			<!-- 购买前咨询 start -->
+			<div class="hidden comment_list box">
+				<div class="title3">
+					<span class="f_r f12 normal"><a class="comm_btn" href="{url:/site/consult/id/$id}">我要咨询</a></span>
+					<img src="{skin:images/front/cart.gif}" width="16" height="16" />购买前咨询<span class="f12 normal">（共<b class="red2">{$refer}</b>记录）</span>
+				</div>
+
+				<div id='referBox'></div>
+
+				<!--购买咨询JS模板-->
+				<script type='text/html' id='referRowTemplate'>
+				<div class="item">
+					<div class="user">
+						<div class="ico"><img src="{webroot:<%=head_ico%>}" width="70px" height="70px" onerror="this.src='{skin:images/front/user_ico.gif}'" /></div>
+						<span class="blue"><%=username%></span>
+					</div>
+					<dl class="desc gray">
+						<p>
+							<img src="{skin:images/front/ask.gif}" width="16px" height="17px" />
+							<b>咨询内容：</b><span class="f_r"><%=time%></span>
+						</p>
+						<p class="indent"><%=question%></p>
+						<hr />
+						<%if(answer){%>
+						<p class="bg_gray"><img src="{skin:images/front/answer.gif}" width="16px" height="17px" />
+						<b class="orange">商家回复：</b><span class="f_r"><%=reply_time%></span></p>
+						<p class="indent bg_gray"><%=answer%></p>
+						<%}%>
+					</dl>
+					<div class="corner b"></div>
+					<div class="corner tl"></div>
+				</div>
+				<hr />
+				</script>
+			</div>
+			<!-- 购买前咨询 end -->
+
+			<!-- 网友讨论圈 start -->
+			<div class="hidden box">
+				<div class="title3">
+					<span class="f_r f12 normal"><a class="comm_btn" name="discussButton">发表话题</a></span>
+					<img src="{skin:images/front/discuss.gif}" width="18px" height="19px" />
+					网友讨论圈<span class="f12 normal">（共<b class="red2">{$discussion}</b>记录）</span>
+				</div>
+				<div class="wrap_box no_wrap">
+					<!--讨论内容列表-->
+					<table width="100%" class="list_table">
+						<colgroup>
+							<col />
+							<col width="150">
+						</colgroup>
+
+						<tbody id='discussBox'></tbody>
+					</table>
+
+					<!--讨论JS模板-->
+					<script type='text/html' id='discussRowTemplate'>
+					<tr>
+						<td class="t_l discussion_td" style="border:none;">
+							<span class="blue"><%=username%></span>
+						</td>
+						<td style="border:none;" class="t_r gray discussion_td"><%=time%></td>
+					</tr>
+					<tr><td class="t_l" colspan="2"><%=contents%></td></tr>
+					</script>
+
+					<!--讨论内容输入框-->
+					<table class="form_table" style="display:none;" id="discussTable">
+						<colgroup>
+							<col width="80px">
+							<col />
+						</colgroup>
+
+						<tbody>
+							<tr>
+								<th>讨论内容：</th>
+								<td valign="top"><textarea id="discussContent" pattern="required" alt="请填写内容"></textarea></td>
+							</tr>
+							<tr>
+								<th>验证码：</th>
+								<td><input type='text' class='gray_s' name='captcha' pattern='^\w{5}$' alt='填写下面图片所示的字符' /><label>填写下面图片所示的字符</label></td>
+							</tr>
+							<tr class="low">
+								<th></th>
+								<td><img src='{url:/site/getCaptcha}' id='captchaImg' /><span class="light_gray">看不清？<a class="link" href="javascript:changeCaptcha();">换一张</a></span></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><label class="btn"><input type="submit" value="发表" name="sendDiscussButton" /></label></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- 网友讨论圈 end -->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var _goods_id = {$id};
+var _promo = '{$promo}';
+var _spec_url = '{url:/site/getProduct}';
+var _join_url = '{url:/simple/joinCart}';
+var _show_cart_url = '{url:/simple/showCart}';
+var _store_nums = {$store_nums};
+
+//DOM加载结束后
+$(function(){
+	//初始化商品详情对象
+	var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}");
+
+	//初始化商品轮换图
+	$('#goodsPhotoList').bxSlider({
+		infiniteLoop:false,
+		hideControlOnEnd:true,
+		controls:true,
+		pager:false,
+		minSlides: 5,
+		maxSlides: 5,
+		slideWidth: 72,
+		slideMargin: 15,
+		onSliderLoad:function(currentIndex){
+			//默认初始化显示第一张
+			$('[thumbimg]:eq('+currentIndex+')').trigger('click');
+
+			//放大镜
+			//$("#picShow").imagezoom();
+		}
+	});
+
+	//城市地域选择按钮事件
+	$('.sel_area').hover(
+		function(){
+			$('.area_box').show();
+		},function(){
+			$('.area_box').hide();
+		}
+	);
+	$('.area_box').hover(
+		function(){
+			$('.area_box').show();
+		},function(){
+			$('.area_box').hide();
+		}
+	);
+
+	//详情滑动门按钮绑定
+	$('[name="showButton"]>label').click(function()
+	{
+		//滑动按钮高亮
+		$(this).siblings().removeClass('current');
+		$(this).addClass('current');
+
+		//滑动DIV显示
+		$('[name="showBox"]>div').hide();
+		$('[name="showBox"]>div:eq('+$(this).index()+')').show();
+
+		//滑动按钮绑定事件
+		switch($(this).index())
+		{
+			case 1:
+			{
+				productInstance.comment_ajax();
+			}
+			break;
+
+			case 2:
+			{
+				productInstance.history_ajax();
+			}
+			break;
+
+			case 3:
+			{
+				productInstance.refer_ajax();
+			}
+			break;
+
+			case 4:
+			{
+				productInstance.discuss_ajax();
+			}
+			break;
+		}
+	});
+});
+
+/**
+ * 规格的选择
+ * @param _self 规格本身
+ */
+function sele_spec(_self)
+{
+	$('.tospec').removeClass('active');
+	var _parent = $(_self).parent().parent().find('a').removeClass('current');
+	$(_self).addClass('current');
+	if ( _promo == '')
+	{
+		$('.pro-price i').html('');
+	} else if ( _promo == 'time') {
+		$('.pro-discount span').html('');
+	} else if ( _promo == 'groupon') {
+		$('.pro-discount span').html('');
+	}
+
+	//检查规格是否选择符合标准
+	if(checkSpecSelected())
+	{
+		//整理规格值
+		var specArray = [];
+		$('[name="specColls"]').each(function(){
+			specArray.push($(this).attr('value'));
+		});
+		var specJSON = '['+specArray.join(",")+']';
+		var product_id = $(_self).attr('id');
+
+		//获取货品数据并进行渲染
+		$.getJSON(_spec_url,{"goods_id":_goods_id,"product_id":product_id,"specJSON":specJSON,"random":Math.random},function(json){
+			if(json.flag == 'success')
+			{
+				if ( json.data.sell_price != {$this->hide_price})
+				{
+					$('#buyNowButton').show();
+					$('#joinCarButton').show();
+
+					$('#data_goodsNo').text(json.data.products_no);
+					$('#data_storeNums').text(json.data.store_nums);$('#data_storeNums').trigger('change');
+					$('#data_groupPrice').text(json.data.group_price);
+					$('#data_sellPrice').text(json.data.sell_price);
+					$('#data_marketPrice').text(json.data.market_price);
+					$('#data_weight').text(json.data.weight);
+					$('#product_id').val(json.data.id);
+
+					//库存监测
+					checkStoreNums();
+				} else {
+					$('#data_sellPrice').html('<i>{$this->hide_price_str}</i>');
+					$('#buyNowButton').hide();
+					$('#joinCarButton').hide();
+				}
+			} else {
+				layer.alert(json.message);
+			}
+		});
+	}
+}
+
+/**
+ * 检查规格选择是否符合标准
+ * @return boolen
+ */
+function checkSpecSelected()
+{
+  var current_length = 0;
+  $('[name="specColls"]').each(function(){
+    if ($(this).hasClass('current'))
+      current_length++;
+  })
+  if ($('[name="specColls"]').length === current_length || current_length > 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+/**
+ * 监测库存操作
+ */
+function checkStoreNums()
+{
+	var storeNums = parseInt(_store_nums);
+	if(storeNums > 0)
+	{
+		//openBuy();
+	} else {
+		//closeBuy();
+	}
+}
+</script>

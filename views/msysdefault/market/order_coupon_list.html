@@ -1,0 +1,90 @@
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>定金结算列表</span><span>></span><span>结算列表</span></div>
+</div>
+<div class="content">
+	<form method='post' action='#'>
+		<table class="list_table">
+			<colgroup>
+        <col width="40px" />
+				<col width="120px" />
+				<col width="70px" />
+        <col width="70px" />
+				<col width="70px" />
+        <col width="100px" />
+				<col width="70px" />
+				<col width="180px" />
+				<col width="100px" />
+				<col width="100px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+          <th></th>
+					<th>订单号</th>
+					<th>订金总金额</th>
+          <th>要退还商户的金额</th>
+          <th>商户名称</th>
+          <th>商户收款账户名称</th>
+					<th>收款账户卡号</th>
+					<th>收款银行名称</th>
+					<th>是否结算</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+        {if:$order_list}
+          {foreach:items=$order_list}
+          <tr>
+            <td></td>
+            <td><a href="{url:/order/order_show/id/$item['id']}">{$item['order_no']}</a></td>
+            <td>&yen; {$item['dprice']}</td>
+            <td>&yen; {$item['rprice']}</td>
+            <td>{$item['seller_info']['true_name']}</td>
+            <td>{$item['seller_info']['account_name']}</td>
+            <td>{$item['seller_info']['account_cart_no']}</td>
+            <td>{$item['seller_info']['account_bank_name']}</td>
+						<td>{if:$item['is_checkout']}<font color="green">已结算</font>{else:}<font color="orange">未结算</font>{/if}</td>
+						<td>{if:!$item['is_checkout']}<a href="javascript:void(0);" onclick="checkout_coupon_order('{$item['id']}');">结算</a>{else:}{/if}</td>
+          </tr>
+          {/foreach}
+
+          {if:$page_info}
+          <tr>
+            <td colspan="10">{$page_info}</td>
+          </tr>
+          {/if}
+        {/if}
+			</tbody>
+		</table>
+	</form>
+</div>
+
+<script type='text/javascript'>
+	//创建优惠券
+	function create_dialog(ticket_id)
+	{
+		art.dialog.prompt('请输入生成线下实体代金券数量：',function(num)
+		{
+			var num = parseInt(num);
+			if(isNaN(num) || num <= 0)
+			{
+				alert('请填写正确的数量');
+				return false;
+			}
+
+			var url = '{url:/market/ticket_create/ticket_id/@ticket_id@/num/@num@}';
+			    url = url.replace('@ticket_id@',ticket_id).replace('@num@',num);
+			window.location.href = url;
+		});
+	}
+
+	function checkout_coupon_order(order_id)
+	{
+		art.dialog.confirm('您确定要结算该订单吗', function(){
+			var _url = '{url:/market/order_coupon_checkout/id/@id@/page/$page}';
+			_url = _url.replace('@id@', order_id);
+			window.location.href = _url;
+		});
+	}
+</script>

@@ -1,0 +1,29 @@
+<?php $this->title = '轮播图列表'; ?>
+{template:'/views/msysseller/layouts/header.html'}
+{if:$ad_list}
+{foreach:items=$ad_list}
+<div class="mui-card">
+	<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url({webroot:$item['content']})"></div>
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			<p>{$item['name']}</p>
+		</div>
+	</div>
+	<div class="mui-card-footer">
+		<a class="mui-card-link" href="{url:/seller/ad_edit/id/$item[id]}">编辑</a>
+		<a class="mui-card-link" href="javascript:delModel({link:'{url:/seller/ad_del/id/$item[id]}'})">删除</a>
+	</div>
+</div>
+{/foreach}
+{else:}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			没有轮播图
+		</div>
+	</div>
+</div>
+{/if}
+<div class="mui-content-padded">
+	<button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-block-self" onclick="window.location.href='{url:/seller/ad_edit}'">添加轮播图</button>
+</div>

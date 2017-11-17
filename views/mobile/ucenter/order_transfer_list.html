@@ -1,0 +1,35 @@
+{set: $type = $_GET['type'] + 0;}
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+{if:$transfer_list}
+{foreach:items = $transfer_list}
+<div class="mui-card">
+    <div class="mui-card-header">
+        {if:$item['goods_id']}
+        <a href="{url:/site/products/id/$item[goods_id]}" class="orange" target="_blank">{$item['goods_name']}</a>
+        {else:}
+        {$item['transfername']}
+        {/if}
+    </div>
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            {if:$item['seller_id']}
+            <p class="ordbigbt-tit"><a href="{url:/site/seller/id/$item['seller_id']}" class="orange" target="_blank">{$item['true_name']}</a></p>
+            {/if}
+            <p class="ordbigbt"><span>价格:</span>{$item['transprice']}</p>
+            <p class="ordbigbt"><span>手续费:</span>{$item['commission']}</p>
+            <p class="ordbigbt"><span>编号:</span>{$item['transfersn']}</p>
+            <p class="ordbigbt"><span>状态:</span><b class="orange">{if:$item['state'] == 1}转让成功{else:}转让中{/if}</b></p>
+        </div>
+    </div>
+</div>
+{/foreach}
+{else:}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            暂时没有转让信息
+        </div>
+    </div>
+</div>
+{/if}

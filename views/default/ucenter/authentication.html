@@ -1,0 +1,187 @@
+{set:$callback = urlencode(IUrl::creatUrl('/ucenter/user_ico_upload'))}
+{js:artTemplate}
+<script type='text/javascript' src='{theme:javascript/artTemplate/area_select.js}'></script>
+<script type='text/javascript' src="/views/sysseller/javascript/jquery.juploader.js"></script>
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+{js:my97date}
+<script language="javascript">
+var _photo_upload_url = '{url:/block/photo_upload?callback=$callback}';
+</script>
+<style>
+.cc .tt {width: 100px;text-align: right;margin-right:5px;font-size:14px;}
+.notice {height: 35px;line-height: 35px;background-color: #28b77d; width: 530px;color: #fff;margin-bottom: 15px;border-radius: 3px;margin-top: 40px;}
+.notice td {text-indent: 10px;}
+.notice td span {margin-right: 5px;}
+</style>
+
+<div class="main f_r">
+	<div class="new-box">
+		<div class="nt">
+			<i class="icon-user"></i>实名认证
+		</div>
+
+		<div class="menu">
+			<ul>
+				<li><a href="{url:/ucenter/info}"><i class="icon-user"></i>个人信息</a></li>
+				<li class="active"><a href="{url:/ucenter/authentication}"><i class="icon-user"></i>实名认证</a></li>
+				<li><a href="{url:/ucenter/passwordver}"><i class="icon-lock"></i>修改密码</a></li>
+				<li><a href="{url:/ucenter/update_trade_password_ver}"><i class="icon-lock"></i>修改交易密码</a></li>
+			</ul>
+		</div>
+
+		<div class="tabbox">
+			<form action='{url:/ucenter/authentication_edit_act}' method='post' name='user_info'>
+				<dl class="clearfix">
+					<dt>认证状态：</dt>
+					<dd><b>{if:$this->memberRow['is_auth'] == 0}未认证{elseif:$this->memberRow['is_auth'] == 1}已认证{else:}认证中{/if}</b></dd>
+				</dl>
+
+				<!-- <dl class="clearfix">
+					<dt style="width: 130px;"><span class="red">*</span> 申请成为推广人：</dt>
+					<dd>
+						<input type="radio" name="is_promoter" value="1" {if:$this->memberRow['is_promoter']}checked{/if}>是&nbsp; &nbsp;
+						<input type="radio" name="is_promoter" value="0" {if:!$this->memberRow['is_promoter']}checked{/if}>否
+					</dd>
+				</dl> -->
+			<dl class="clearfix">
+				<dt><span class="red">*</span> 姓名：</dt>
+				<dd><input class="ntxt" type="text" name="true_name" pattern='required' alt='请填写真实姓名' value="<?php echo $this->memberRow['true_name']; ?>" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} /></dd>
+			</dl>
+      <dl class="clearfix">
+				<dt><span class="red">*</span> 身份证号码：</dt>
+				<dd><input class="ntxt" type="text" name="id_card" pattern='required' alt='请填写身份证号码' value="<?php echo $this->memberRow['id_card']; ?>" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} /></dd>
+			</dl>
+      <!-- <dl class="clearfix">
+        <dt><span class="red">*</span> 联系电话：</dt>
+        <dd>{$this->memberRow['mobile']}</dd>
+      </dl> -->
+			<dl class="clearfix" style="display: none;">
+				<dt><span class="red">*</span> 地区：</dt>
+				<dd>
+					<select name="province" child="city,area" onchange="areaChangeCallback(this);"></select>
+					<select name="city" child="area" parent="province" onchange="areaChangeCallback(this);"></select>
+					<select name="area" parent="city" pattern="required"></select>
+				</dd>
+			</dl>
+			<!-- <dl class="clearfix">
+				<dt><span class="red">*</span> 详细地址：</dt>
+				<dd><input type='text' class='ntxt' name='contact_addr' pattern='required' alt='请填写地址' {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} /></i></dd>
+			</dl> -->
+
+			{if:!$this->memberRow['is_auth']}
+			<dl class="clearfix">
+				<dt><span class="red">*</span> 开户银行：</dt>
+				<dd><input class="ntxt" type="text" name="bankname" pattern='required' alt='请输入开户银行' value="<?php echo $this->memberRow['bankname']; ?>" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} /></dd>
+			</dl>
+
+			<dl class="clearfix">
+				<dt><span class="red">*</span> 银行账户：</dt>
+				<dd><input class="ntxt" type="text" name="accountname" pattern='required' alt='请输入银行账户' value="<?php echo $this->memberRow['accountname']; ?>" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} /></dd>
+			</dl>
+
+			<dl class="clearfix">
+				<dt><span class="red">*</span> 卡号：</dt>
+				<dd><input class="ntxt" type="text" name="account" pattern='required' alt='请输入银行卡号' value="<?php echo $this->memberRow['account']; ?>" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} /></dd>
+			</dl>
+			{/if}
+
+      <table class="cc">
+        <tr>
+          <td class="tt"><span class="red">*</span> 身份证正面：</td>
+          <td>
+            {if:$this->memberRow['upphoto']}
+  					<img src="{webroot:$this->memberRow['upphoto']}" width="100" id="upphoto_prev"><br />
+  					{else:}
+  					<img width="100" id="upphoto_prev" style="display:none;"><br />
+  					{/if}
+            {if:$this->memberRow['is_auth'] != 1}
+            <span id="upphoto">身份证正面(请上传 jpg,png,gif 图片)</span>
+            {/if}
+						<input type="hidden" name="upphoto" id="upphoto_val" value="{$this->memberRow['upphoto']}">
+          </td>
+        </tr>
+        <tr>
+          <td class="tt"><span class="red">*</span> 身份证反面：</td>
+          <td>
+            {if:$this->memberRow['downphoto']}
+            <img src="{webroot:$this->memberRow['downphoto']}" width="100" id="downphoto_prev"><br />
+            {else:}
+            <img width="100" id="downphoto_prev" style="display:none;"><br />
+            {/if}
+            {if:$this->memberRow['is_auth'] != 1}
+            <span id="downphoto">身份证反面(请上传 jpg,png,gif 图片)</span>
+            {/if}
+						<input type="hidden" name="downphoto" id="downphoto_val" value="{$this->memberRow['downphoto']}">
+          </td>
+        </tr>
+      </table>
+
+			{if:$this->memberRow['is_auth'] == 1}
+			<table class="notice">
+					<tr><td><span class="red">*</span>认证后不支持修改认证信息，身份证换证请联系客服!</td></tr>
+			</table>
+			{/if}
+
+			{if:$this->memberRow['is_auth'] == 0}
+			<dl class="clearfix">
+				<dt>&nbsp;</dt>
+				<dd><label class="btn">
+					<input type="hidden" name="back" value="{$back}" />
+					<input type="hidden" name="type" value="1" />
+					<input type="button" class="send_btn" value="保存" {if:$this->memberRow['is_auth'] > 0}disabled="disabled" style="cursor:normal;";{/if} />
+					&nbsp; &nbsp; <input type="button" class="send_btn_2" value="保存并提交认证" />
+				</label></dd>
+			</dl>
+			{/if}
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<script type='text/javascript'>
+//表单回填
+var formObj = new Form('user_info');
+formObj.init({echo:JSON::encode($this->memberRow)});
+
+{if:!$this->memberRow['is_auth']}
+$(document).ready(function(){
+  $.jUploader({
+    button: 'upphoto',
+    action: '{url:/ucenter/pic_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+    onComplete: function(fileName, response){
+      if(response.success){
+        $('#upphoto_prev').attr('src', '/' + response.fileurl).show();
+        $('#upphoto_val').val(response.fileurl);
+      }else{
+        alert('上传失败');
+      }
+    }
+  });
+
+  $.jUploader({
+    button: 'downphoto',
+    action: '{url:/ucenter/pic_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+    onComplete: function(fileName, response){
+      if(response.success){
+        $('#downphoto_prev').attr('src', '/' + response.fileurl).show();
+        $('#downphoto_val').val(response.fileurl);
+      }else{
+        alert('上传失败');
+      }
+    }
+  });
+
+	$('.send_btn').click(function(){
+		$('form[name=user_info]').submit();
+	});
+
+	$('.send_btn_2').click(function(){
+		$('input[name=type]').val('2');
+		$('form[name=user_info]').submit();
+	})
+})
+{/if}
+</script>

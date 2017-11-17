@@ -1,0 +1,56 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div class="headbar">
+	<div class="position"><span>退款单申请列表</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel()"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+	</div>
+</div>
+<form name="orderForm" action="{url:/order/refundment_doc_del}" method="post">
+	<div class="content">
+		<table class="list_table">
+			<colgroup>
+				<col width="8%" />
+				<col width="15%" />
+				<col width="20%" />
+				<col width="20%" />
+				<col />				<col width="15%" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th></th>
+					<th>单号</th>
+					<th>申请时间</th>
+					<th>商品</th>					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{set:$page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query: name=refundment_doc where=if_del eq 0 and pay_status eq 0 order=id desc page=$page id=$refundDB}
+				<tr>
+					<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
+					<td></td>
+					<td>{$item['order_no']}</td>
+					<td>{$item['time']}</td>
+					<td>
+						{query:name=order_goods where=id in ($item[order_goods_id]) item=$itemGoods}
+						{set:$goods = JSON::decode($itemGoods['goods_array'])}
+						<p>
+							<a href="{url:/site/products/id/$itemGoods['goods_id']}" target="_blank">{$goods['name']} X {$itemGoods['goods_nums']}</a>
+							{if:$item['seller_id']}
+							<a href="{url:/site/home/id/$item[seller_id]}" target="_blank"><img src="{skin:images/admin/seller_ico.png}" /></a>
+							{/if}
+						</p>
+						{/query}
+					</td>					<td><a href="{url:/order/refundment_doc_show/id/$item[id]}">查看</a></td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</div>
+	{$refundDB->getPageBar()}
+</form>

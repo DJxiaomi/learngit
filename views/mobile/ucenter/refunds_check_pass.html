@@ -1,0 +1,27 @@
+<h5 class="mui-content-padded">验证交易密码</h5>
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<form class="mui-input-group" action="{url:/ucenter/refunds_check_pass_update}" method="post" enctype='multipart/form-data' id="passwordForm">
+	<div class="mui-input-row">
+		<label>交易密码</label>
+		<input type="password" placeholder="请输入交易密码" value="" name="passwd" id="trade_password" />
+	</div>
+	<div class="mui-content-padded">
+		<input type="hidden" name="order_id" value="{$order_id}" />
+        <button type="button" id="postpassword" class="mui-btn mui-btn-primary mui-btn-block">确定</button>
+    </div>
+</form>
+<script language="javascript">
+$(function(){
+    document.getElementById('postpassword').addEventListener('tap', function(){
+    	var _trade_password = $('#trade_password').val();
+
+		if ( _trade_password == '' ) {
+			mui.toast('交易密码不能为空');
+			return false;
+		} else {
+			$('#passwordForm').submit();
+			return false;
+		}
+    });
+});
+</script>

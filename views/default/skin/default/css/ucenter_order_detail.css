@@ -1,0 +1,11 @@
+.hide { display: none;}
+.q {
+  position:relative;
+  background:url(/views/mobile/skin/blue/images/card.png) 0 0 no-repeat;
+  background-size: 100% 100%;
+  width:120px;
+  height:60px;
+  color:#fff;
+  margin-left: 20px;
+	display: block;
+}

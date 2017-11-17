@@ -1,0 +1,5 @@
+.mui-required-right {width:10px;height:10px;color:#de4002;position:absolute;right:15px;top:5px;font-size:20px;}
+.mui-input-row i {right:30px;}
+.icon-angle-right:before {color:#de4002;}
+#infopost {border-radius:5px;background:linear-gradient(to right,#ff9638,#ff4b2b);border:0px;}
+#infosave {border-radius:5px;background:#fff;border:1px solid #de4002;color:#de4002;}

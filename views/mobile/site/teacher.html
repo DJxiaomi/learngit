@@ -1,0 +1,94 @@
+<?php $this->title ='教师 - ' . $teacher_info['name']; ?>
+{template:'/views/mobile/layouts/header2.html'}
+    <link rel="stylesheet" href="/views/mobile/skin/blue/css/product.css">
+    {js:form}
+    {js:validate}
+    {js:dialog}
+    {js:artTemplate}
+<script type='text/javascript' src="{theme:javascript/common.js}"></script>
+<style>
+.guigebox {
+margin-top: 10px;
+}
+.guigebox div a {
+padding: 5px 10px;
+float: left;
+border: 1px solid #ccc;
+margin-right: 8px;
+margin-bottom: 8px;
+}
+.guigebox div a.current {
+border: 1px solid #ff5500;
+background-color: #ff5500;
+color: #fff;
+}
+.guigebox div a{
+text-decoration: none;
+}
+.content img {
+max-width: 100%;
+}
+#content {
+padding-bottom: 40px;
+}
+.content .title {
+margin-bottom: 10px;
+}
+</style>
+
+
+
+  <div class="ub ub-ver">
+      <div id='' class=' ub-fh  uof'>
+          <div id='slider' class='slider'></div>
+      </div>
+      <div class="ub ub-ver uinn-a7 sc-bg">
+
+          <div class="uinn-a1 ubb bc-border">
+              <div class="ububa">
+                <p><a>教师姓名：</a><span>{$teacher_info['name']}</span></p>
+                <p><a>性别：</a><span><?php echo get_sex( $teacher_info['sex']); ?></span></p>
+                <p><a>学习专业：</a><span>{$teacher_info['major']}</span></p>
+                <p><a>毕业院校：</a><span>{$teacher_info['teaching_direction']}</span></p>
+                <p><a>授课方向：</a><span>{$teacher_info['graduate']}</span></p>
+                <p><a>教师简介：</a><br /><span>{$teacher_info['description']}</span></p>
+                <p><a>获奖荣誉：</a><br /><span>{$teacher_info['awards']}</span></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+{template:'/views/mobile/layouts/float_menu.html'}
+{template:'/views/mobile/layouts/footer.html'}
+
+<script>
+    appcan.ready(function() {
+        appcan.initBounce();
+        goodsImg();
+    })
+    function goodsImg() {
+        var slider = appcan.slider({
+            selector : '#slider',
+            aspectRatio : 9 / 16,
+            hasLabel : false,
+            index : 0
+        });
+        slider.set([{"img":"{webroot:$teacher_info['icon']}"}]);
+        slider.on("clickItem", function(index, data) {
+            console.log(index, data);
+
+        })
+    }
+
+
+    appcan.button(".btn", "ani-act", function() {
+
+    })
+
+goodsImg();
+
+
+</script>

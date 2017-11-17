@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="{skin:css/form.css}">
+<link rel="stylesheet" href="{skin:css/chit.css}" />
+<script language="javascript">
+var chit_del = '{url:/seller/chit_del/id}';
+</script>
+<div class="card-list-box">
+    <div class="mui-button-row">
+      <button type="button" class="mui-btn mui-btn-primary">添加代金券</button>&nbsp;&nbsp;
+    </div>
+    <ul class="mui-table-view">
+        {foreach:items=$brand_chit_list}
+        <li class="mui-table-view-cell mui-media">
+            <div class="mui-media-object mui-pull-left">
+                <p class="tobuy">满{$item['max_order_amount']}元可使用</p>
+                <p class="tochit"><em>￥</em>{$item['max_order_chit']}</p>
+            </div>
+            <div class="mui-media-body">
+                <p><em class="totip">专用券</em>{if:$item['type'] == 2}<em class="totip totip-1">免费赠送</em>{/if}{$item['max_price']}元抢卷</p>
+                <a class="buycard delcart" href="javascript:void(0);" onclick="del({$item['id']});">删除</a>
+                <a class="buycard editcard" href="{url:/seller/chit_edit/id/$item['id']}">编辑</a>
+            </div>
+        </li>
+        {/foreach}
+    </ul>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/chit.js}"></script>

@@ -1,0 +1,1075 @@
+{js:artTemplate}
+{js:my97date}
+{js:jquery}
+<style>
+.hide { display: none;}
+.hd {font-size:14px;margin-top: 14px;height: 30px;line-height: 30px;text-align: right;}
+.hd input[type=text] { border: 1px solid #ccc; width: 50px; margin-left: 8px; text-align: center; height: 23px;line-height: 23px; margin-right: 3px;}
+.hd input[type=checkbox] {cursor: pointer;vertical-align: middle;margin-right: 3px;}
+.bd { margin-top: 8px;}
+.bd ul {padding-left: 15px;}
+.bd li { float: left; margin-right: 20px;}
+.bd li input[type=checkbox],.bd li label {cursor: pointer;vertical-align: middle;}
+.coupon_notice {text-align:left;margin-left: 5px;}
+.wrap_box .tutor_detail input, .wrap_box .tutor_detail label{cursor:pointer;}
+.list_table {text-align: left;}
+.notice {font-size:12px;}
+.notice b{color:red;}
+.list_table .tt {text-align: right;}
+.teaching_time2 li {text-indent: 67px; font-size:14px; margin-bottom:5px;}
+.teaching_time2 li input, .tutor_num input {border: 1px solid #666; width: 50px; height: 22px; text-align:center;}
+.form_table2 input {width: 70px;text-align:center;}
+</style>
+<script type='text/javascript' src='{theme:javascript/artTemplate/area_select.js}'></script>
+<script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
+<script type='text/javascript'>
+var _tutor_cate_list = {if:$tutor_cate_list_json}{$tutor_cate_list_json}{else:}new Array(){/if};
+
+//创建订单表单实例
+orderFormInstance = new orderFormClass();
+sellerList = {echo:JSON::encode($this->seller)};
+ticketList = {echo:JSON::encode($this->prop)};
+addressList = {if:$this->addressListJson}{$this->addressListJson}{else:}array(){/if};
+sell_count = {$this->sell_count};
+market_count = {$this->market_count};
+order_chit = {$this->order_chit};
+
+{if:$this->statement != 2}
+var _max_cprice = {$this->max_cprice};
+var _max_order_chit = {$this->order_chit};
+var _cprice = {$this->max_cprice};
+var _order_chit = {$this->order_chit};
+var _order_amount = {$this->final_sum};
+{/if}
+
+{if:$this->is_show_tutor_detail}
+function show_tutor_detail()
+{
+	if ( $('#tutor_detail_1').get(0).checked)
+	{
+		$('.list_table').show();
+	} else {
+		$('.list_table').hide();
+	}
+}
+{/if}
+
+//DOM加载完毕
+jQuery(function(){
+
+	$(document).ready(function(){
+	  $(document).on('change', '.grade_level',function(){
+	    set_category($(this),$(this).val());
+	  });
+
+		$('.add_teaching_time').click(function(){
+			$('.teaching_time2 ul').append('<li>' + $('.teaching_time2 li').eq(0).html() + '</li>');
+		})
+	})
+
+	{if:$this->is_show_tutor_detail}
+		$('.submit_order').click(function(){
+			if ( $('#tutor_detail_1').get(0).checked)
+			{
+				if ( $("select[name=grade_level]").val() == '')
+				{
+					alert('请选择年级');
+				} else if ($("select[name=grade]").val() == '') {
+					alert('请选择分类');
+				} else if ( $('input[name=lowest_reward]').val() == '')
+				{
+					alert('请输入最低支付的报酬');
+				} else {
+					$('form[name=order_form]').submit();
+				}
+			} else {
+				$('form[name=order_form]').submit();
+			}
+		})
+	{/if}
+
+	{if:$this->statement == 4 && $this->is_rehired}
+	$('.tutor_num input').change(function(){
+		var _num = parseInt($(this).val());
+		if ( _num <= 0 )
+		{
+			alert('请输入正确的课时');
+			$('.tutor_num input').focus();
+			return false;
+		} else {
+			{if:$this->seller_tutor_info}
+				$.post('/simple/get_tutor_order_count', {seller_tutor_id: {$this->seller_tutor_id}, num: _num}, function(data){
+			{elseif:$this->user_tutor_info}
+				$.post('/simple/get_tutor_order_count', {user_tutor_id: {$this->user_tutor_id}, num: _num}, function(data){
+			{/if}
+				//console.log(data);
+				if ( data == '0')
+				{
+					alert('操作失败，该家教信息可能已被删除');
+				} else if ( data == '-1') {
+					alert('操作失败，参数不正确');
+				} else {
+					{if:$this->user_tutor_info}
+						$('.form_table2 tr').each(function(i){
+							if (i > 0)
+							{
+								var _money = parseFloat($(this).find("input").eq(3).val());
+								data = parseFloat(data) + _money;
+							}
+						})
+					{/if}
+					$('.yf_count').html(data);
+					$("input[name=direct_num]").val(_num);
+				}
+			})
+		}
+	});
+	{/if}
+
+	$('.submit_order').click(function(){
+		{if:$this->statement == 4 && $this->is_rehired}
+			var _val = $('.teaching_time2 li').eq(0).find("input").val();
+			if ( _val == '')
+			{
+				alert('请选择上课时间');
+				//$('.teaching_time2 li').eq(0).find("input").focus();
+			} else {
+				$('form[name=order_form]').submit();
+			}
+		{else:}
+			$('form[name=order_form]').submit();
+		{/if}
+	});
+
+	{if:$this->statement == 4 && $this->user_tutor_info }
+	$('.add_test').click(function(){
+		var _html = $('.add_test_html tbody').html();
+		console.log(_html);
+		$('.form_table2').html( $('.form_table2 tbody').html() + _html );
+	});
+
+	$(document).on('click', '.del_test', function(){
+		$(this).parent().parent().remove();
+		var _num = $('.tutor_num input').val();
+		$('.tutor_num input').change();
+	});
+	{/if}
+
+
+	//初始化地域联动JS模板
+	template.compile("areaTemplate",areaTemplate);
+
+	//收货地址数据
+	orderFormInstance.addressInit("{$this->defaultAddressId}", "{$this->mtruename}", "{$this->mtelephone}");
+
+	//配送方式初始化
+	//orderFormInstance.deliveryInit("{$this->custom['delivery']}");
+
+	//自提点初始化
+	//$('[name="takeself"]').val({$this->custom['takeself']});
+
+	//支付方式
+	orderFormInstance.paymentInit("{$this->custom['payment']}");
+
+	//课程价格
+	orderFormInstance.goodsSum = "{$this->final_sum}";
+
+	//统计总价格
+	orderFormInstance.doAccount();
+
+	// 使用学习券的交互
+	$('input[name=coupon_nums]').change(function(){
+		var _val = $(this).val();
+		var _stm = $("input[name=statement]").val();
+		if ( _val < 0 )
+		{
+			alert('学习券金额不能小于0');
+			$(this).val(_max_cprice);
+		} else if ( _val % 10 != 0 )
+		{
+			alert('学习券必须为10的倍数');
+			$(this).val(_max_cprice);
+		} else if ( _val > _max_cprice )
+		{
+			alert('学习券最多只能使用' + _max_cprice + '元');
+			$(this).val(_max_cprice);
+		} else {
+			//console.log('ajax');
+			var _url = '{url:/site/get_order_chit_ajax/cprice/@cprice@/stime/1/statement/@stm@/id/@id@/type/@type@/num/@num@}';
+			_url = _url.replace('@cprice@', _val);
+			_url = _url.replace('@stm@', _stm );
+			_url = _url.replace('@id@', {$this->gid} );
+			_url = _url.replace('@type@', '{$this->type}' );
+			_url = _url.replace('@num@', '{$this->num}' );
+			$.getJSON(_url, function(data){
+				if ( data.done )
+				{
+					$('.prop_value').html(data.retval.chit);
+					_order_chit = data.retval.chit;
+					update_use_coupon();
+				}
+			});
+		}
+	});
+
+	{if:$this->statement == 1 or $this->statement == 3}
+	$('input[name=use_coupon]').click(function(){
+		update_use_coupon();
+	});
+
+	function update_use_coupon()
+	{
+		if ( $('input[name=use_coupon]').is(':checked') )
+		{
+			var _coupon_nums = $("input[name=coupon_nums]").val();
+			$('input[name=coupon_nums]').removeAttr('disabled');
+			$('.dai_nums').html(_coupon_nums );
+		} else {
+			$('.dai_nums').html('0');
+			$('input[name=coupon_nums]').attr('disabled', 'disabled');
+		}
+
+		caculate();
+	}
+	{/if}
+
+	function caculate()
+	{
+		if ( $('input[name=use_coupon]').is(':checked') )
+		{
+			var _sum = market_count - _order_chit;
+			var _t_yh = _order_chit - parseFloat($("input[name=coupon_nums]").val());
+			$('.yh').html( _t_yh );
+		} else {
+			var _sum = market_count;
+		}
+
+		$('.yf_count').html(_sum);
+	}
+
+	// 支付方式自动保存
+	$('input[name=payment]').click(function(){
+		orderFormInstance.paymentSave();
+	})
+
+	// 地址自动保存
+
+	$('.addr_list input[name=radio_address]').click(function(){
+		var _radio_id = $(this).val();
+		if ( _radio_id != '' )
+		{
+			address_save();
+		}
+	})
+});
+
+/**
+ * 生成地域js联动下拉框
+ * @param name
+ * @param parent_id
+ * @param select_id
+ */
+function createAreaSelect(name,parent_id,select_id)
+{
+	//生成地区
+	$.getJSON("{url:/block/area_child}",{"aid":parent_id,"random":Math.random()},function(json)
+	{
+		$('[name="'+name+'"]').html(template.render('areaTemplate',{"select_id":select_id,"data":json}));
+	});
+}
+
+//[address]保存到常用的地址
+function address_save()
+{
+	if(orderFormInstance.addressCheck())
+	{
+		if ( addressList.length > 0 )
+		{
+			var _accept_name = $('input[name=accept_name]').val();
+			var _mobile = $('input[name=mobile]').val();
+			if ( _accept_name == '' || _mobile == '')
+			{
+				alert('姓名或联系方式不能为空');
+				return false;
+			}
+			for( var i = 0; i < addressList.length; i++)
+			{
+				if ( addressList[i]['accept_name'] == _accept_name && addressList[i]['mobile'] == _mobile )
+				{
+					$('.addr_list').find("input[type=radio]").eq(i).attr("checked","checked");
+					orderFormInstance.addressSave();
+					return;
+				}
+			}
+		}
+
+		$.getJSON('{url:/simple/address_add}',$('form[name="order_form"]').serialize(),function(content){
+			if(content.data)
+			{
+				var addressLiHtml = template.render('addressLiTemplate',{"item":content.data});
+				$('.addr_list').prepend(addressLiHtml);
+				$('input:radio[name="radio_address"]:first').trigger('click');
+			}
+			orderFormInstance.addressSave();
+		});
+
+		var _address_info = array();
+		var _accept_name = $('input[name=accept_name]').val();
+		var _mobile = $('input[name=mobile]').val();
+		_address_info['accept_name'] = _accept_name;
+		_address_info['mobile'] = _mobile;
+		addressList.push(_address_info);
+	}
+}
+
+//[delivery]根据省份地区ajax获取配送方式
+function get_delivery()
+{
+	var province = $('[name="province"]').val();
+	var delivery = $('[name="delivery_id"]:checked').val();
+	if(!province || !delivery)
+	{
+		return;
+	}
+
+	var goodsId   = [];
+	var productId = [];
+	var num       = [];
+	$('[id^="deliveryFeeBox_"]').each(function(i)
+	{
+		var idValue = $(this).attr('id');
+		var dataArray = idValue.split("_");
+
+		goodsId.push(dataArray[1]);
+		productId.push(dataArray[2]);
+		num.push(dataArray[3]);
+	});
+
+	$.getJSON("{url:/block/order_delivery}",{"province":province,"distribution":delivery,"goodsId":goodsId,"productId":productId,"num":num,"random":Math.random()},function(content){
+		//无此服务
+		if(content.if_delivery == 1)
+		{
+			$("#deliveryPrice").html('无此服务');
+			alert('无此服务');
+		}
+		else
+		{
+			$("#deliveryPrice").html('￥'+content.price);
+			orderFormInstance.protectPrice  = parseFloat(content.protect_price);
+			orderFormInstance.deliveryPrice = parseFloat(content.price);
+			orderFormInstance.doAccount();
+		}
+	});
+}
+
+//选择自提点
+function selectTakeself(deliveryId)
+{
+	art.dialog.open("{url:/block/takeself}",{
+		title:'选择店铺',
+		okVal:'选择',
+		ok:function(iframeWin, topWin)
+		{
+			var takeselfJson = $(iframeWin.document).find('[name="takeselfItem"]:checked').val();
+
+			if(!takeselfJson)
+			{
+				alert('请选择店铺');
+				return false;
+			}
+			var json = $.parseJSON(takeselfJson);
+			$('#takeself'+deliveryId).empty();
+			$('[name="takeself"]').val(json.id);
+			$('#takeself'+deliveryId).html(template.render('takeselfTemplate',{"item":json}));
+			return true;
+		}
+	});
+}
+
+function set_category(obj, grade_level, grade, cate_id)
+{
+	var _grade_html = '';
+	var _cate_id_html = '';
+	if ( obj && grade_level )
+	{
+			for( var i in _tutor_cate_list )
+			{
+				if ( _tutor_cate_list[i]['id'] == grade_level && _tutor_cate_list[i]['child'] )
+				{
+						for( var j in _tutor_cate_list[i]['child'] )
+						{
+							var _selected = (grade && _tutor_cate_list[i]['child'][j]['id'] == grade ) ? 'selected' : '';
+							_grade_html += "<option value='" + _tutor_cate_list[i]['child'][j]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['name'] + "</option>";
+
+							if ( _tutor_cate_list[i]['child'][j]['id'] == grade && _tutor_cate_list[i]['child'][j]['child'])
+							{
+								for ( var k in _tutor_cate_list[i]['child'][j]['child'] )
+								{
+									var _selected = (cate_id && _tutor_cate_list[i]['child'][j]['child'][k]['id'] == cate_id ) ? 'selected' : '';
+									_cate_id_html += "<option value='" + _tutor_cate_list[i]['child'][j]['child'][k]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['child'][k]['name'] + "</option>";
+								}
+
+								obj.parent().find('.cate_id').html(_cate_id_html);
+								obj.parent().find('.cate_id').show();
+							}
+						}
+
+						obj.parent().find(".grade").html(_grade_html);
+						obj.parent().find(".grade").show();
+				}
+			}
+	}
+}
+</script>
+
+<div class="wrapper clearfix">
+	<div class="position mt_10"><span>您当前的位置：</span> <a href="{url:}"> 首页</a> » 核对报名表</div>
+	<div class="myshopping m_10">
+		<ul class="order_step">
+			<li class="current_prev"><span class="first"><a href='{if:IReq::get('id')}javascript:window.history.go(-1);{else:}{url:/simple/cart}{/if}'>1、查看报名表</a></span></li>
+			<li class="current"><span>2、核对报名表</span></li>
+			<li class="last"><span>3、成功提交订单</span></li>
+		</ul>
+	</div>
+
+	<form action='{url:/simple/cart3}' method='post' name='order_form' callback='orderFormInstance.isSubmit();'>
+
+		<input type='hidden' name='timeKey' value='{echo:time()}' />
+		<input type='hidden' name='direct_gid' value='{$this->gid}' />
+		<input type='hidden' name='direct_type' value='{$this->type}' />
+		<input type='hidden' name='direct_num' value='{$this->num}' />
+		<input type='hidden' name='direct_promo' value='{$this->promo}' />
+		<input type='hidden' name='direct_active_id' value='{$this->active_id}' />
+		<input type='hidden' name='takeself' value='0' />
+		<input type='hidden' name='dprice' value='{$this->dprice}' />
+		<input type='hidden' name='stime' value='{$this->stime}' />
+		<input type='hidden' name='statement' value='{$this->statement}' />
+		<input type="hidden" name="choose_date" value="{$this->choose_date}" />
+		<input type="hidden" name="ischit" value="{$this->ischit}" />
+		<input type="hidden" name="chitid" value="{$this->chitid}" />
+		<input type="hidden" name="seller_tutor_id" value="{$this->seller_tutor_id}" />
+		<input type="hidden" name="user_tutor_id" value="{$this->user_tutor_id}" />
+		<input type="hidden" name="seller_id" value="{$this->seller_id}" />
+
+		<div class="cart_box m_10">
+			<div class="title">填写核对订单信息</div>
+			<div class="cont">
+
+				<!--地址管理 开始-->
+				<div class="wrap_box">
+					<h3>
+						<span class="orange">学员信息</span>
+						<span id="addressShowBox" onclick="orderFormInstance.addressModToggle();"></span>
+					</h3>
+
+					<!--地址展示 开始-->
+					<table class="form_table" id="address_show_box">
+						<col width="120" />
+						<col />
+
+						<!--收货地址展示模板-->
+						<script type='text/html' id='addressShowTemplate'>
+						姓名：</th><td><%=accept_name%>&nbsp; &nbsp; 手机：</th><td><%=mobile%>
+						</script>
+					</table>
+					<!--地址展示 结束-->
+
+					<!--收货表单信息 开始-->
+					<div class="prompt_4 m_10" id='address_often' style='display:none'>
+						<strong>地址</strong>
+						<ul class="addr_list">
+							{foreach:items=$this->addressList}
+							<li>
+								<label><input class="radio" name="radio_address" type="radio" value="{$item['id']}" onclick='orderFormInstance.addressSelected({echo:JSON::encode($item)});' data-json='{echo:JSON::encode($item)}' />{$item['accept_name']}&nbsp;&nbsp;&nbsp;&nbsp;{$item['mobile']}</label>
+							</li>
+							{/foreach}
+							<li>
+								<label><input type='radio' name='radio_address' onclick='orderFormInstance.addressEmpty();' value='' />新学员</label>
+							</li>
+						</ul>
+
+						<!--收货地址项模板-->
+						<script type='text/html' id='addressLiTemplate'>
+						<li>
+							<label><input class="radio" name="radio_address" type="radio" value="<%=item['id']%>" onclick='orderFormInstance.addressSelected(<%=jsonToString(item)%>);' /><%=item['accept_name']%>&nbsp;&nbsp;&nbsp;&nbsp;<%=item['province_val']%> <%=item['city_val']%> <%=item['area_val']%> <%=item['address']%></label>
+						</li>
+						</script>
+					</div>
+
+					<div class="box" id='address_form' style='display:none'>
+						<table class="form_table">
+							<col width="90px" />
+							<col />
+
+							<tbody>
+								<tr>
+									<th>联系人姓名：</th><td><input class="normal" type="text" name="accept_name" pattern='required' alt='姓名不能为空' /> <span>(*) 联系人的姓名</span> </td>
+								</tr>
+								<tr>
+									<th>手机号码：</th><td><input class="middle" name='mobile' type="text" pattern='mobi' alt='格式不正确' /> <span>(*)</span></td>
+								</tr>
+								<input type="hidden" name="province" value="111111">
+								<input type="hidden" name="city" value="111111">
+								<input type="hidden" name="area" value="111111">
+								<input type="hidden" name="address" value="默认地址">
+								<input type="hidden" name="phone" value="123456">
+								<input type="hidden" name="zip" value="000000">
+							</tbody>
+						</table>
+					</div>
+					<!--收货表单信息 结束-->
+
+					<label class="btn_orange3" id='address_save_button' style='display:none'><input type="button" value="确定" onclick="address_save();" /></label>
+				</div>
+				<!--地址管理 结束-->
+
+				<!--配送方式 开始-->
+				<div class="wrap_box hide" id='deliveryBox'>
+					<h3>
+						<span class="orange">配送方式</span>
+						<a class="normal f12" href="javascript:void(0)" id='deliveryToggleButton' onclick="orderFormInstance.deliveryModToggle();">[关闭]</a>
+					</h3>
+
+					<!--配送展示 开始-->
+					<table class="form_table" id="delivery_show_box" style='display:none'>
+						<col width="120px" />
+						<col />
+
+						<tbody id="deliveryShowBox"></tbody>
+
+						<!--配送方式展示模板-->
+						<script type='delivery' id='deliveryShowTemplate'>
+						<tr><th>接送方式：</th><td><%=name%></td></tr>
+						<tr><th>运费：</th><td id="deliveryPrice"></td></tr>
+						</script>
+					</table>
+					<!--配送展示 结束-->
+
+					<!--配送修改 开始-->
+					<table width="100%" class="border_table m_10" id='delivery_form'>
+						<col width="180px" />
+						<col />
+
+						<tbody>
+							{set:$deliveryData = Api::run('getDeliveryList')}
+							{foreach:items = $deliveryData}
+							<tr>
+								<th><label><input type="radio" name="delivery_id" value="{$item['id']}" paytype="{$item['type']}" onclick='orderFormInstance.deliverySelected({echo:JSON::encode($item)});' />{$item['name']}</label></th>
+								<td>
+									{$item['description']}
+
+									{if:$item['type'] == 2}
+									<a href="javascript:selectTakeself({$item['id']});"><span class="red">选择店铺</span></a>
+									<span id="takeself{$item['id']}"></span>
+									{/if}
+								</td>
+							</tr>
+							{/foreach}
+						</tbody>
+
+						<script type='text/html' id='takeselfTemplate'>
+							<%=item['province_str']%> <%=item['city_str']%> <%=item['area_str']%> <%=item['address']%> <%=item['name']%> <%=item['phone']%> <%=item['mobile']%>
+						</script>
+
+						<tfoot>
+							<th>指定接送时间：</th>
+							<td>
+								<label class='attr'><input type='radio' name='accept_time' checked="checked" value='任意' />任意</label>
+								<label class='attr'><input type='radio' name='accept_time' value='上午' />上午</label>
+								<label class='attr'><input type='radio' name='accept_time' value='中午' />中午</label>
+								<label class='attr'><input type='radio' name='accept_time' value='晚上' />晚上</label>
+							</td>
+						</tfoot>
+					</table>
+					<!--配送修改 结束-->
+
+					<label class="btn_orange3" id="delivery_save_button"><input type="button" onclick="orderFormInstance.deliverySave();" value="保存接送方式" /></label>
+				</div>
+				<!--配送方式 结束-->
+
+				<!--支付方式 开始-->
+				<div class="wrap_box" id='paymentBox'>
+					<h3>
+						<span class="orange">支付方式</span>
+						<span id="paymentShowBox" onclick="orderFormInstance.paymentModToggle();"></span>
+					</h3>
+
+					<table width="100%" class="border_table" id='payment_form'>
+						<colgroup>
+							<col width="200px" />
+							<col />
+						</colgroup>
+						{set:$paymentList=Api::run('getPaymentList')}
+						{foreach:items = $paymentList}
+						{set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],$this->sum);}
+						{set:unset($item['config_param'])}
+						{set:unset($item['description'])}
+						<tr>
+							<th><label><input class="radio" name="payment" alt="{$paymentPrice}" onclick='orderFormInstance.paymentSelected({echo:JSON::encode($item)});' title="{$item['name']}" type="radio" value="{$item['id']}" />{$item['name']}</label></th>
+							<td>{$item['note']} 支付手续费：￥{$paymentPrice}</td>
+						</tr>
+						{/foreach}
+					</table>
+
+					<table class="form_table" id="payment_show_box" style='display:none'>
+						<col width="120px" />
+						<col />
+
+					</table>
+
+					<!--支付方式模板-->
+					<script type='text/html' id='paymentShowTemplate'>
+						<tr>
+							<th>支付方式：</th>
+							<td><%=name%></td>
+						</tr>
+					</script>
+				</div>
+				<!--支付方式 结束-->
+
+				<!--付款对象 开始-->
+				{if:$this->statement == 4 && $this->is_rehired}
+				<div class="wrap_box" id='receive_method'>
+					<h3>
+						<span class="orange">付款对象</span>
+						<span><input type="radio" name="receive_method" value="1" checked id="receive_method_1" /><label for="receive_method_1">平台</label>&nbsp; &nbsp; <input type="radio" name="receive_method" value="2" id="receive_method_2" />家教教师</span>
+					</h3>
+				</div>
+				{/if}
+				<!--付款对象 结束-->
+
+				<!--课时 开始-->
+				{if:$this->statement == 4 && $this->is_rehired}
+				<div class="wrap_box tutor_num">
+					<h3>
+						<span class="orange">输入课时</span>
+						<span><input type="text" name="num" value="1" pattern="int" alt="请输入正确的课时"/></span>
+					</h3>
+				</div>
+				{/if}
+				<!--课时 结束-->
+
+				<!--上课时间 开始-->
+				{if:$this->statement == 4 && $this->is_rehired}
+				<div class="wrap_box" id='teaching_time2'>
+					<h3>
+						<span class="orange">上课时间</span>
+						<span>
+							<a href="javascript:void(0);" class="add_teaching_time">增加一行</a>
+							<div class="teaching_time2">
+								<ul>
+									<li>
+										每周：
+										<select name="teaching_time[]">
+											{foreach:items=$teaching_time2 key=$key}
+												<option value="{$key}">
+													{$item}
+												</option>
+											{/foreach}
+										</select>
+										<input type="text" name="teaching_time2[]" onfocus="WdatePicker({dateFmt:'H:mm'})" />
+									</li>
+								</ul>
+							</div>
+						</span>
+					</h3>
+				</div>
+				{/if}
+				<!--上课时间 结束-->
+
+				{if:!$this->seller_tutor_id && !$this->user_tutor_id}
+				<!--订单留言 开始-->
+				<div class="wrap_box">
+					<h3>
+						<span class="orange">订单附言</span>
+						<a class="normal f12" href="javascript:void(0)" id='messageToggleButton' onclick="orderFormInstance.messageModToggle();">[留言]</a>
+					</h3>
+
+					<table width="100%" class="border_table" id='message_show_box'>
+						<col width="120px" />
+						<col />
+						<tbody>
+							<tr>
+								<td id="messageShowBox" colspan="2"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table width="100%" class="form_table" id='message_form' style='display:none'>
+						<col width="120px" />
+						<col />
+						<tr>
+							<td colspan="2"><input class="normal" type="text" name='message' /></td>
+						</tr>
+					</table>
+
+					<label class="btn_orange3" id='message_save_button' style='display:none'><input type="button" onclick="orderFormInstance.messageSave();" value="保存订单附言" /></label>
+				</div>
+				<!--订单留言 结束-->
+				{/if}
+
+				<!-- 高级家教需求 开始-->
+				{if:$this->user_tutor_id}
+				<!--订单留言 开始-->
+				<div class="wrap_box">
+					<h3 class="tutor_detail">
+						<span class="orange">家教详细需求</span>
+					</h3>
+
+					<table class="list_table" width="400px" cellpadding="0" cellspacing="0">
+						<tr>
+							<td class="tt" width="98">性别：</td>
+							<td>
+								{echo:get_gender_title($this->user_tutor_info['gender'])}
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">年龄：</td>
+							<td>
+								{echo:$this->user_tutor_info['age']}岁
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">年级：</td>
+							<td>
+								{echo:category_class::get_category_title($this->user_tutor_info['grade_level'])} {echo:category_class::get_category_title($this->user_tutor_info['grade'])}
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">最近一次考分：</td>
+							<td><input name="lastest_scores" type="text" pattern='float' empty alt='请输入最近一次考分' class="normal small" value="{$this->user_tutor_info['lastest_scores']}" /></td>
+						</tr>
+
+						<tr>
+							<td class="tt">期望的考分：</td>
+							<td><input name="expected_scores" type="text" pattern='float' empty alt='请输入期望的考分' class="normal small" value="{$this->user_tutor_info['expected_scores']}" /></td>
+						</tr>
+
+						<tr>
+							<td class="tt">支付的最低报酬：</td>
+							<td>{$this->user_tutor_info['lowest_reward']} 元/时</td>
+						</tr>
+						<tr>
+							<td class="tt">支付的最高报酬：</td>
+							<td><input name="highest_reward" type="text" pattern='float' empty alt='请输入最高报酬' class="normal small" value="{$this->user_tutor_info['highest_reward']}" /> 元/时</td>
+						</tr>
+						<tr>
+							<td class="tt">预计补课的课时：</td>
+							<td>
+								<input name="expected_hours" type="text" pattern='float' empty alt='请输入预计补课的课时' class="normal small" value="{$this->user_tutor_info['expected_hours']}" /> 时
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">接受补课的时间：</td>
+							<td><input name="teaching_time_s" type="text" empty alt='请输入接受补课的时间段' class="normal small" value="" /></td>
+						</tr>
+
+						<tr>
+							<td class="tt">是否提供交通费用：</td>
+							<td>
+								<input type="radio" name="is_provide_transportation_fee" value="1" checked id="transportation_fee_1" /><label for="transportation_fee_1">是</label>
+								<input type="radio" name="is_provide_transportation_fee" value="0" id="transportation_fee_0" /><label for="transportation_fee_0">否</label>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">是否提供就餐：</td>
+							<td>
+								<input type="radio" name="is_provide_repast" value="1" checked id="is_provide_repast_1" /><label for="is_provide_repast_1">是</label>
+								<input type="radio" name="is_provide_repast" value="0" id="is_provide_repast_0" /><label for="is_provide_repast_0">否</label>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">补课区域：</td>
+							<td>
+									<select name="region_id" pattern="required">
+										{foreach:items=$region_list}
+											<option value="{$item['area_id']}" >{$item['area_name']}</option>
+										{/foreach}
+									</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="tt">补课街道：</td>
+							<td>
+									<input type="text" name="address" value="" class="normal small" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tt">补课小区：</td>
+							<td>
+									<input type="text" name="address2" value="" class="normal small" />
+							</td>
+						</tr>
+						<tr>
+							<td class="tt"><b style="color:red;">奖励机制</b>：</td>
+							<td><a href="javascript:void(0);" class="add_test">增加一行</a></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+
+									<table border="0" class="form_table2" width="500">
+		                    <tr>
+		                        <td>关键考试时间</td>
+		                        <td>关键考试类型</td>
+		                        <td>关键考试的分数</td>
+		                        <td>关键考试的奖励金额</td>
+		                        <td></td>
+		                    </tr>
+		                    {foreach:items=$this->user_tutor_info['test_reward']}
+		                    <tr>
+		                        <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small" value="{$item['test_time']}"/></td>
+		                        <td><input type="text" name="test_type[]" class="normal small" value="{$item['test_type']}" /></td>
+		                        <td><input type="text" name="test_condition[]" class="normal small" value="{$item['test_condition']}" />分</td>
+		                        <td><input type="text" name="test_money[]" class="normal small" value="{$item['test_money']}" />元</td>
+		                        <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+		                    </tr>
+		                    {/foreach}
+		                    {if:!$this->user_tutor_info['test_reward']}
+		                    <tr>
+		                        <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small"/></td>
+		                        <td><input type="text" name="test_type[]" class="normal small"/></td>
+		                        <td><input type="text" name="test_condition[]" class="normal small" />分</td>
+		                        <td><input type="text" name="test_money[]" class="normal small"/>元</td>
+		                        <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+		                    </tr>
+		                    {/if}
+		              </table>
+
+
+
+
+
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!--订单留言 结束-->
+				{/if}
+				<!-- 高级家教需求 结束 -->
+
+				<!--购买清单 开始-->
+				{if:$this->ischit || $this->seller_tutor_id || $this->user_tutor_id}
+
+				{else:}
+				<div class="wrap_box">
+
+					<h3><span class="orange">报名的课程</span></h3>
+
+					<div class="cart_prompt f14 t_l m_10" {if:empty($this->promotion)}style="display:none"{/if}>
+						<p class="m_10 gray"><b class="orange">恭喜，</b>您的订单可以参加以下优惠活动！</p>
+						{foreach:items = $this->promotion}
+						<p class="indent blue">{$item['plan']}，{$item['info']}</p>
+						{/foreach}
+					</div>
+
+					{if:$this->statement == 1}
+					<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col />
+							<col width="120px" />
+							<col width="150px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>课程</th>
+								<th>课程属性</th>
+								<th>学校</th>
+								<th>订单类型</th>
+								<th>使用学习券</th>
+								<th>定金</th>
+								<th>未付学费</th>
+								<th>人数</th>
+								<th>课程学费</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- 课程展示 开始-->
+							{foreach:items = $this->goodsList}
+							<tr>
+								<td><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}" title="{$item['name']}" /></td>
+								<td class="t_l"><a href="{url:/site/products/id/$item[goods_id]}" class="blue">{$item['name']}</a></td>
+								<td>{$item['spec']}</td>
+								<td>{$item['seller_info']['true_name']}</td>
+								<td>{echo:order_class::get_order_type($this->statement);}</td>
+								<td class="dai_nums">0</td>
+								<td>0</td>
+								<td>{if:$item['rest_price'] > 0 }&yen;{$item['rest_price']}{else:}0{/if}</td>
+								<td>{$item['count']}</td>
+								<td>&yen;{echo:number_format($item['market_price'] * $item['count'], 2, '.', '');}</td>
+							</tr>
+							{/foreach}
+							<!-- 课程展示 结束-->
+						</tbody>
+					</table>
+					{elseif:$this->statement == 2}
+					<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col />
+							<col width="180px" />
+							<col width="120px" />
+							<col width="120px" />
+							<col width="120px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>课程</th>
+								<th>课程属性</th>
+								<th>学校</th>
+								<th>订单类型</th>
+								<th>学习券</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- 课程展示 开始-->
+							{foreach:items = $this->goodsList}
+							<tr>
+								<td><img src="/views/default/skin/default/images/xuexiquan.jpg" width="151px" height="66px" alt="{$item['name']}" title="{$item['name']}" /></td>
+								<td class="t_l"><a href="{url:/site/products/id/$item[goods_id]}" class="blue">{$item['name']}</a></td>
+								<td>{$item['spec']}</td>
+								<td>{$item['seller_info']['true_name']}</td>
+								<td>{echo:order_class::get_order_type($this->statement);}</td>
+								<td class="dai_nums">{echo:$item['sell_price']*$item['count']}</td>
+							</tr>
+							{/foreach}
+							<!-- 课程展示 结束-->
+						</tbody>
+					</table>
+					{else:}
+					<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col />
+							<col width="120px" />
+							<col width="150px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>课程</th>
+								<th>课程属性</th>
+								<th>课程学费</th>
+								<th>学校</th>
+								<th>订单类型</th>
+								<th>使用学习券</th>
+								<th>定金</th>
+								<th>未付学费</th>
+								<th>人数</th>
+								<th>上课时间</th>
+								<th>付款金额</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- 课程展示 开始-->
+							{foreach:items = $this->goodsList}
+							<tr>
+								<td><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}" title="{$item['name']}" /></td>
+								<td class="t_l"><a href="{url:/site/products/id/$item[goods_id]}" class="blue">{$item['name']}</a></td>
+								<td>{$item['spec']}</td>
+								<td>&yen;{echo:number_format($item['market_price'] * $item['count'], 2, '.', '');}</td>
+								<td>{$item['seller_info']['true_name']}</td>
+								<td>{echo:order_class::get_order_type($this->statement);}</td>
+								<td class="dai_nums">0</td>
+								<td>{$item['sell_price']}</td>
+								<td>{if:$item['rest_price'] > 0 }&yen;{$item['rest_price']}{else:}0{/if}</td>
+								<td>{$item['count']}</td>
+								<td>{echo:date('Y年m月d日', strtotime($this->choose_date));}</td>
+								<td>{$this->market_count}</td>
+							</tr>
+							{/foreach}
+							<!-- 课程展示 结束-->
+						</tbody>
+					</table>
+					{/if}
+				</div>
+				{/if}
+				<!--购买清单 结束-->
+
+			</div>
+		</div>
+
+		<!--金额结算-->
+		<div class="cart_box" id='amountBox'>
+			<div class="cont_2">
+				<div class="pink_box">
+					{if:$this->statement != 2 && $this->user_prop_count > 0}
+						<p class="f14 t_l">
+								<div class="hd">
+								<p style="text-align: right;">
+									{if:$this->order_chit > 0 && $this->sell_count > $this->order_chit }
+										<input type="checkbox" value="1" name="use_coupon" /> 可用代金券{$this->max_cprice}元
+										<input type="hidden" name="coupon_nums" value="{$this->max_cprice}" />
+									{/if}
+								</p>
+								</div>
+						</p>
+					{/if}
+				</div>
+
+				<hr class="dashed" />
+				<div class="pink_box gray m_10 hide">
+					<table width="100%" class="form_table t_l">
+						<colgroup>
+							<col width="220px" />
+							<col />
+							<col width="250px" />
+						</colgroup>
+
+						<tr>
+							<td>是否需要发票？(税金:￥{$this->goodsTax}) <input class="radio" onclick="orderFormInstance.doAccount();$('#tax_title').toggle();" name="taxes" type="checkbox" value="{$this->goodsTax}" /></td>
+							<td><label id="tax_title" class='attr' style='display:none'>发票抬头：<input type='text' class='normal' name='tax_title' /></label></td>
+							<td class="t_r"><b class="price f14">应付总额：<span class="red2">￥<b id='final_sum' style="font-size: 18px;">{$this->final_sum}</b></span>元</b></td>
+						</tr>
+					</table>
+				</div>
+
+
+				<p class="m_10 t_r" style="line-height: 44px;margin-top:10px;">
+					{if:$this->statement == 4 && $this->seller_tutor_info['price'] < 200 && !$this->is_rehired}<span class="notice"><b>温馨提示：少于200元/课时的家教，平台统一收取200元定金</b></span>{/if}
+										&nbsp; &nbsp; &nbsp; &nbsp; 应付金额<b class="red2 yf_count" style="font-size: 18px;">{$this->market_count}</b>元</span>
+					<input type="button" class="submit_order" style="float:right;margin-left: 20px;" />
+				</p>
+
+			</div>
+		</div>
+	</form>
+</div>
+
+<table border="0" class="add_test_html" style="display:none;">
+  <tbody>
+    <tr>
+        <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small"/></td>
+        <td><input type="text" name="test_type[]" class="normal small"/></td>
+        <td><input type="text" name="test_condition[]" class="normal small" />分</td>
+        <td><input type="text" name="test_money[]" class="normal small"/>元</td>
+        <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+    </tr>
+  </tbody>
+</table>

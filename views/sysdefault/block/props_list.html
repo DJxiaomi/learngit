@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>代金券列表</title>
+<link rel="stylesheet" href="{skin:css/admin.css}" />
+{js:jquery}
+{js:dialog}
+</head>
+<body>
+<div class="pop_win" style="width:690px;height:550px;overflow-y:scroll">
+	<div class="content">
+		<table class="border_table" style="width:100%">
+			<colgroup>
+				<col width="150px" />
+				<col />
+				<col width="120px" />
+				<col width="90px" />
+				<col width="70px" />
+			</colgroup>
+			<thead>
+					<tr>
+						<td>名称</td>
+						<td>商户</td>
+						<td>价格</td>
+						<td>使用条件</td>
+						<td>使用说明</td>
+						<td>限购</td>
+					</tr>
+			</thead>
+			<tbody>
+				{if:$brand_chit_list}
+				{foreach:items = $brand_chit_list}
+					{if:$item['category'] == 1}
+					<tr>
+						<td>
+							<label class='attr'>
+								<input type='{echo:($this->type == null) ? 'checkbox' : $this->type}' name='id[]' value="{$item['id']}" data='{echo:JSON::encode($item)}' />
+								{$item['max_order_chit']}元代金券
+							</label>
+						</td>
+						<td>{$item['shortname']}</td>
+						<td>{$item['max_price']}</td>
+						<td>
+							满{$item['max_order_amount']}元可使用
+						</td>
+						<td>
+							{$item['limitinfo']}
+						</td>
+						<td>限购{$item['limitnum']}</td>
+					</tr>
+					{else:}
+					<tr>
+						<td>
+							<label class='attr'>
+								<input type='{echo:($this->type == null) ? 'checkbox' : $this->type}' name='id[]' value="{$item['id']}" data='{echo:JSON::encode($item)}' />
+								{$item['name']}
+							</label>
+						</td>
+						<td>{$item['shortname']}</td>
+						<td>{$item['max_price']}</td>
+						<td>
+							无
+						</td>
+						<td>
+							{$item['limitinfo']}
+						</td>
+						<td>限购{$item['limitnum']}</td>
+					</tr>
+					{/if}
+				{/foreach}
+				{else:}
+				<tr>
+					<td colspan="6">对不起，没有找到相关代金券</td>
+				</tr>
+				{/if}
+
+				{if:$page_info}
+					<tr><td colspan="6">{$page_info}</td></tr>
+				{/if}
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>

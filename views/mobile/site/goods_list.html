@@ -1,0 +1,126 @@
+{js:bxSlider}
+
+
+		<!--团购-->
+		<div class="group_on box m_10">
+			<div class="title"><h2>团购商品</h2><a class="more" href="{url:/site/groupon}">更多...</a></div>
+			<div class="cont">
+				<ul class="ranklist">
+
+					{foreach:items=Api::run('getRegimentList',5)}
+					<li class="current">
+						{set:$tmpId=$item['id'];}
+						<a href="{url:/site/groupon/id/$tmpId}"><img width="60px" height="60px" alt="{$item['title']}" src="{webroot:$item[img]}"></a>
+						<a class="p_name" title="{$item['title']}" href="{url:/site/groupon/id/$tmpId}">{$item['title']}</a><p class="light_gray">团购价：<em>￥{$item['regiment_price']}</em></p>
+					</li>
+					{/foreach}
+
+				</ul>
+			</div>
+		</div>
+		<!--团购-->
+
+
+		<!--限时抢购-->
+		<div class="buying box m_10">
+			<div class="title"><h2>限时抢购</h2></div>
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=Api::run('getPromotionList',5)}
+					{set:$free_time = ITime::getDiffSec($item['end_time'])}
+					{set:$countNumsItem[] = $item['p_id'];}
+					<li>
+						<p class="countdown">倒计时:<br /><b id='cd_hour_{$item['p_id']}'>{echo:floor($free_time/3600);}</b>时<b id='cd_minute_{$item['p_id']}'>{echo:floor(($free_time%3600)/60);}</b>分<b id='cd_second_{$item['p_id']}'>{echo:$free_time%60;}</b>秒</p>
+						{set:$tmpGoodsId=$item['goods_id'];$tmpPId=$item['p_id'];}
+						<a href="{url:/site/products/id/$tmpGoodsId/promo/time/active_id/$tmpPId}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" title="{$item['name']}" /></a>
+						<p class="pro_title"><a href="{url:/site/products/id/$tmpGoodsId/promo/time/active_id/$tmpPId}">{$item['name']}</a></p>
+						<p class="light_gray">抢购价：<b>￥{$item['award_value']}</b></p>
+						<div></div>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--限时抢购-->
+
+
+		<!--热卖商品-->
+		<div class="hot box m_10">
+			<div class="title"><h2>热卖商品</h2></div>
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=Api::run('getCommendHot',8)}
+					{set:$tmpId=$item['id']}
+					<li>
+						<a href="{url:/site/products/id/$tmpId}"><img src="{url:/pic/thumb/img/$item[img]/w/85/h/85}" width="85" height="85" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown"><b>￥{$item['sell_price']}</b></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--热卖商品-->
+		
+				<!--最新商品-->
+		<div class="box yellow m_10">
+			<div class="title2">
+				<h2><img src="{skin:images/front/new_product.gif}" alt="最新商品" width="160" height="36" /></h2>
+			</div>
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=Api::run('getCommendNew',8)}
+					{set:$tmpId=$item['id'];}
+					<li style="overflow:hidden">
+						<a href="{url:/site/products/id/$tmpId}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown">惊喜价：<b>￥{$item['sell_price']}</b></p>
+						<p class="light_gray">市场价：<s>￥{$item['market_price']}</s></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--最新商品-->
+		
+					<!--特价商品-->
+		<div class="box yellow m_10">
+			<div class="title2">
+				<h2><img src="{skin:images/front/new_product.gif}" alt="特价商品" width="160" height="36" /></h2>
+			</div>
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=Api::run('getCommendPrice',8)}
+					{set:$tmpId=$item['id'];}
+					<li style="overflow:hidden">
+						<a href="{url:/site/products/id/$tmpId}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown">惊喜价：<b>￥{$item['sell_price']}</b></p>
+						<p class="light_gray">市场价：<s>￥{$item['market_price']}</s></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--特价商品-->
+
+				<!--推荐商品-->
+		<div class="box yellow m_10">
+			<div class="title2">
+				<h2><img src="{skin:images/front/new_product.gif}" alt="推荐商品" width="160" height="36" /></h2>
+			</div>
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=Api::run('getCommendRecom',8)}
+					{set:$tmpId=$item['id'];}
+					<li style="overflow:hidden">
+						<a href="{url:/site/products/id/$tmpId}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown">惊喜价：<b>￥{$item['sell_price']}</b></p>
+						<p class="light_gray">市场价：<s>￥{$item['market_price']}</s></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--推荐商品-->		

@@ -1,0 +1,82 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+{set:$seller_id = $this->seller['seller_id']}
+<article class="module width_full">
+	<header>
+	<div class="headtext">
+      <div class="biao"><a href="javascript:history.go(-1)"><img src="{skin:images/fanhui.png}"></a></div>
+	   <div class="biaoxi"><h4>属性列表</h4></div>
+	   <div class="biaoduo" onclick="return click_a('divOne_1')">...</div> 
+	   <div class="biao_gai"id="divOne_1">
+	        <ul class="tabs">
+			<li>
+			<input type="button" class="alt_btn" onclick="addNewSpec();" value="添加属性" /></li>
+			<li><input type="button" class="alt_btn" onclick="selectAll('id[]')" value="全选" /></li>
+			<li><input type="button" class="alt_btn" onclick="delModel();" value="批量删除" /></li>
+		</ul>
+	   </div>
+	   <script>
+	      function click_a(divOne_1){
+		    if(document.getElementById(divOne_1).style.display!="block")
+		     {
+		       document.getElementById(divOne_1).style.display="block";
+			   }
+			   else{
+			      document.getElementById(divOne_1).style.display="none";
+			   }
+		 }
+	  </script>	
+	</header>
+<div class="zhu"style="height:100px;">
+				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query:name=spec where=is_del eq 0 and seller_id eq $seller_id order=id desc page=$page}
+	
+		<form action='{url:/seller/spec_del}' method='post' name='specForm'>
+			属性名称:<a href="javascript:addNewSpec({$item['id']});"class="zla">{$item['name']}{echo:$item['note']?"【".$item['note']."】":"";}</a><br/>
+			显示方式:{if:$item['type']==1}文字{else:}图片{/if}<br/>
+			属性数据:{foreach:items=JSON::decode($item['value']) item=$rs}
+							{if:$item['type']==1}
+							{$rs},
+							{else:}
+							<img class="spec_photo" src={webroot:$rs} />
+							{/if}
+						{/foreach}<br/>
+			<p>操作:<a href="javascript:addNewSpec({$item['id']});"><img src="{skin:images/main/icn_edit.png}" alt="修改" /></a>&nbsp;&nbsp;
+			<a href='javascript:void(0)' onclick="delModel({link:'{url:/seller/spec_del/id/$item[id]}'});"><img src="{skin:images/main/icn_del.png}" alt="删除" title="删除" /></a>&nbsp;&nbsp;
+			<input class="dian"type="checkbox" name="id[]" value="{$item['id']}" />	</p>		
+				{/query}
+		</form>
+		
+	
+	{$query->getPageBar()}</div>
+</article>
+
+<script type='text/javascript'>
+//添加新属性
+function addNewSpec(spec_id)
+{
+	var url = '{url:/goods/spec_edit/id/@spec_id@/seller_id/$seller_id}';
+	url = url.replace('@spec_id@',spec_id?spec_id:0);
+
+	art.dialog.open(url,{
+		id:'addSpecWin',
+	    title:'属性设置',
+	    okVal:'确定',
+	    ok:function(iframeWin, topWin){
+	    	var formObject = iframeWin.document.forms['specForm'];
+			$.post(formObject.action,$(formObject).serialize(),function(json){
+				if(json.flag == 'success')
+				{
+					window.location.reload();
+					return true;
+				}
+				else
+				{
+					alert(json.message);
+					return false;
+				}
+			},'json');
+	    }
+	});
+}
+</script>

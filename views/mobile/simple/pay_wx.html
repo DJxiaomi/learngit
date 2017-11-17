@@ -1,0 +1,39 @@
+<link href="{skin:css/cart.css}" rel="stylesheet" type="text/css" />
+<div class="mui-content-padded">
+	<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="confirm">立即支付</button>
+</div>
+
+<script type='text/javascript'>
+document.getElementById('confirm').addEventListener('tap', function(){
+    jsApiCall();
+});
+//调用微信JS api 支付
+function jsApiCall()
+{
+	WeixinJSBridge.invoke(
+		'getBrandWCPayRequest',
+		{$jsApiParameters},
+		function(res){
+			//WeixinJSBridge.log(res.err_msg);
+			//alert(res.err_code+res.err_desc+res.err_msg);
+			if(res.err_msg == "get_brand_wcpay_request:ok"){
+			   window.location.href = SITE_URL + 'ucenter';
+		   	}
+		}
+	);
+}
+
+function callpay()
+{
+	if (typeof WeixinJSBridge == "undefined"){
+		if( document.addEventListener ){
+			document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		}else if (document.attachEvent){
+			document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+			document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		}
+	}else{
+		jsApiCall();
+	}
+}
+</script>

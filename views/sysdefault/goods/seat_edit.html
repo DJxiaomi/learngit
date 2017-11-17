@@ -1,0 +1,393 @@
+<link rel="stylesheet" href="{rs:}/scripts/layer/skin/layer.css"/>
+<link rel="stylesheet" href="{rs:}/public/assets/css/amazeui.min.css"/>
+<link rel="stylesheet" href="{rs:}/public/assets/css/amazeui.datetimepicker.css"/>
+<link rel="stylesheet" href="{rs:}/public/css/seats_h.css"/>
+<script type="text/javascript" src="{rs:}/scripts/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="{rs:}/scripts/layer/layer.js"></script>
+<script type="text/javascript" src="{rs:}/public/js/jquery.seat-charts.min.js"></script>
+<script type="text/javascript" src="{rs:}/public/assets/js/amazeui.min.js"></script>
+<script type="text/javascript" src="{rs:}/public/assets/js/amazeui.datetimepicker.min.js"></script>
+
+<div class="headbar clearfix">
+	<div class="position">
+			<span>商品</span>
+			<span>></span>
+			<span>在线订票</span>
+			<span>></span>
+			<span>添加订票信息</span>
+	</div>
+	<ul class="tab" name="menu1">
+		<li id="li_1" class="selected"><a href="javascript:void(0)" hidefocus="true" onclick="select_tab('1')">订票信息</a></li>
+	</ul>
+</div>
+
+<div class="am-container seat_admin">
+	<h1>电影票</h1>
+	<div class="am-g">
+		<div class="left">
+			<div class="seat_map_warp">
+				<form class="am-form am-form-horizontal" name="seat_form">
+					<div class="am-g">
+						<div class="am-u-sm-12">
+							<div class="am-form-group">
+								<label class="am-u-sm-3 am-form-label">座位排列</label>
+								<div class="am-u-sm-3">
+									<input type="text" class="seat_map" data-name="row" name="row" placeholder="排" value="{$data['row']}" {if:$data['row'] != ''}readonly{/if}>
+								</div>
+								<div class="am-u-sm-3">
+									<input type="text" class="seat_map" data-name="col" name="col" placeholder="座" value="{$data['col']}" {if:$data['col'] != ''}readonly{/if}>
+								</div>
+								<div class="am-u-sm-3">
+									<button type="button" class="am-btn am-btn-warning am-radius" id="seat_confirm" {if:$data['row'] != ''}disabled="disabled"{/if}>确认座位排列</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="am-g grade_warp">
+						{if:$grade_list}
+						{foreach:$items=$grade_list}
+						<div class="am-u-sm-12 g_item">
+							<div class="am-form-group">
+								<label class="am-u-sm-3 am-form-label">座位等级</label>
+								<div class="am-u-sm-3">
+									<input type="text" class="grade" name="grade_{$item['flag']}" placeholder="等级名称" value="{$item['info']}" {if:$item['flag'] != ''}disabled="disabled"{/if}>
+								</div>
+								<div class="am-u-sm-3">
+									<input type="text" class="price" name="price_{$item['flag']}" placeholder="等级价格" value="{$item['price']}" {if:$item['price'] != ''}disabled="disabled"{/if}>
+								</div>
+								<div class="am-u-sm-3">
+
+									
+								</div>
+							</div>
+						</div>								
+						{/foreach}
+						{else:}
+						<div class="am-u-sm-12 g_item">
+							<div class="am-form-group">
+								<label class="am-u-sm-3 am-form-label">座位等级</label>
+								<div class="am-u-sm-3">
+									<input type="text" class="grade" name="grade_1" placeholder="等级名称" value="{$item['info']}">
+								</div>
+								<div class="am-u-sm-3">
+									<input type="text" class="price" name="price_1" placeholder="等级价格" value="{$item['price']}">
+								</div>
+								<div class="am-u-sm-3">
+
+									{if:$key > 0}
+									<a class="am-btn am-btn-link btn-del">删除</a>									
+									{else:}
+									<a class="am-btn am-btn-link add_grade">增加等级</a>
+									{/if}
+								</div>
+							</div>
+						</div>			
+						{/if}
+
+					</div>
+					
+					<div class="am-g">
+						<div class="am-u-sm-12">
+							<div class="am-form-group">
+								<label class="am-u-sm-3 am-form-label">送票规则</label>
+								
+								<div class="am-u-sm-1">
+									<label>买</label>
+								</div>
+								<div class="am-u-sm-2">
+									<input type="text" class="buy" name="buy" value="{$data['buy']}" {if:$data['buy'] != ''}disabled="disabled"{/if}/>
+								</div>
+								<div class="am-u-sm-1">
+									<label>送</label>
+								</div>
+								<div class="am-u-sm-2">
+									<input type="text" class="give" name="give" value="{$data['give']}" {if:$data['give'] != ''}disabled="disabled"{/if}/>
+								</div>
+
+								<div class="am-u-sm-3">
+									<select name="give_grade" class="give_grade">
+									  <option value="">送票等级</option>
+									</select>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="am-g">
+						<div class="am-form-group">
+
+							<label class="am-u-sm-3 am-form-label">名称</label>			   
+
+							<div class="am-u-sm-9">
+								<input type="text" name="name" value="{$data['name']}" {if:$data['name'] != ''}disabled="disabled"{/if}/>
+							</div>
+						</div>
+					  
+					</div>
+
+					<div class="am-g">
+						<div class="am-form-group">
+
+							<label class="am-u-sm-3 am-form-label">设置日期</label>			   
+
+							<div class="am-u-sm-9">
+								
+
+								<div class="am-input-group date" id="datetimepicker" data-date="" data-date-format="">
+  <input size="16" type="text" value="{$data['time']}" class="am-form-field" name='time' readonly>
+  <span class="am-input-group-label add-on"><i class="icon-th am-icon-calendar"></i></span>
+</div>
+							</div>
+						</div>
+					  
+					</div>
+					<div class="am-g">
+						<div class="am-u-sm-12" style="text-align: center;">
+
+							<button type="button" class="am-btn am-btn-primary" id="param_btn" {if:$data['id'] != ''}disabled="disabled"{/if}>提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="show">
+
+			<div class="seat_inner">
+				<div id="seat-map">
+					<div class="map"></div>
+				</div>
+			</div>
+
+			<div class="am-u-sm-12 seat_fun">
+				<button type="button" data-sort='gd' class="am-btn am-btn-primary items_gd">过道</button>
+			</div>
+			<div class="am-u-sm-12">
+				<div id="legend"></div>
+			</div>
+			
+		</div>		
+	</div>
+</div>
+<script type="text/javascript" src="{rs:}/public/js/seat.js"></script>
+<script type="text/javascript">
+function draw_seat(_row,_col){
+	var str = '';
+	for(var i = 1; i <= _row; i++){
+		str += '<div class="seat_rows"><span>'+i+ '</span>';
+		for(var j = 1; j <= _col; j++){
+			str += '<div id="'+i+'_'+j+'" class="seat_item fileDiv">'+j+'</div>';
+		}
+		str += '</div>';
+	}
+	$('.map').html(str);
+}
+
+$(function(){
+	var seat_id = $('#sub_data').children('input[name=seat_id]').val();
+	var map = {$map};
+	var grade = {$grade};
+	var legend = {$legend};
+	var sold = {$sold};
+
+	
+
+	if(seat_id != ''){
+		initchart(map,grade,legend,sold);
+	}	
+	
+	
+
+	$('#seat_confirm').on('click',function(){
+		var form_obj = $("form[name=seat_form]");
+		var row = parseInt(form_obj.find('input[name=row]').val());
+		var col = parseInt(form_obj.find('input[name=col]').val());
+		var id = {$id};
+
+		if(row && col){
+			$.ajax({
+				type:'post',
+				data:'id='+id+'&row='+row+'&col='+col,
+				url:"{url:/goods/seat_scene}",
+				success:function(returnData){
+					// console.log(returnData);
+					var data = $.parseJSON(returnData);
+					if(data.status == 1){
+						var map = data.map;
+						
+						$('#seat-map').html('');
+						initchart(map,{"a":{"price":0,"classes":"cate_style_1","category":"普通"}},legend);
+						
+						/*layer.alert(data.info,{icon:1},function(index){
+							draw_seat(row,col);
+							layer.close(index);
+						});*/
+					}else{
+						layer.alert(data.info,{icon:2});
+					}
+				}
+			})			
+		}else{
+			layer.alert('座位不能为空！',{icon:2});
+		}
+	})
+
+	//增加
+	$('.add_grade').click(function(){
+		var num =$(this).parents('.grade_warp').children('div').length + 1;
+		if(num < 7){
+			var str =  '<div class="am-u-sm-12 g_item">';
+				str += '<div class="am-form-group">';
+				str += '<label class="am-u-sm-3 am-form-label">座位等级</label>';
+				str += '<div class="am-u-sm-3">';
+				str += '<input type="text" class="grade" name="grade_'+num+'" placeholder="等级名称">';
+				str += '</div>';
+				str += '<div class="am-u-sm-3">';
+				str += '<input type="text" class="price" name="price_'+num+'" placeholder="等级价格">';
+				str += '</div>';
+				str += '<div class="am-u-sm-3">';
+				str += '<a class="am-btn am-btn-link btn-del">删除</a>';
+				str += '</div>';
+				str += '</div>';
+				str += '</div>';
+			$(this).parents('.grade_warp').append(str);
+		}
+	});
+
+	//删除
+	$(document).on('click','.btn-del',function(){
+		$(this).parents('.g_item').remove();
+		var sort = $(this).parents('.g_item').find('.grade').attr('name');
+		sort = sort.split('_');
+		$('.seat_fun').children('.items_'+sort[1]).remove();
+	})
+	
+	$(document).on('click','.seat_fun button',function(){
+		var sort = $(this).data('sort');
+		var str = '';
+		
+		$('#seat-map').find('.selected').each(function(index){	
+
+			$(this).attr('class','seatCharts-seat seatCharts-cell');
+
+			if(sort != 1){
+				$(this).addClass('items_'+sort);
+			}			
+
+			$(this).attr('data-flag',sort);//添加标识，传输数据用
+		})
+
+		
+	})
+
+	$(document).on('change','.give_grade',function(){
+		$('#sub_data').children('input[name=give_grade]').val($(this).val());
+	})
+	
+
+	//添加图例
+	$(document).on('blur','.grade',function(){
+		var name = $(this).val();
+		var grade_name = $(this).attr('name');
+		var grade_sort = grade_name.split('_');
+
+		if(name != ''){
+			var ident = 1;
+			$('.seat_fun').children('button').each(function(){
+				if($(this).text() == name){
+					ident = 0;
+				}
+			})
+			if(ident){
+				var fun_str = '<button type="button" data-sort="'+grade_sort[1]+'" class="am-btn am-btn-primary items_'+grade_sort[1]+'">'+name+'</button>';
+				var insert_target = $('.seat_fun').children('button:last');
+				insert_target.before(fun_str);
+
+
+				$('.give_grade').append('<option value="'+grade_sort[1]+'">'+name+'</option>');
+			}			
+		}		
+	})
+
+	//点击座位
+	/*$(document).on('click','.seat_item',function(){
+		$(this).toggleClass('selected');
+	})*/
+
+
+	$('#param_btn').on('click',function(){
+		var form_obj = $("form[name=seat_form]");
+		var row = form_obj.find('input[name=row]').val();
+		var col = form_obj.find('input[name=col]').val();
+		var buy = form_obj.find('input[name=buy]').val();
+		var give = form_obj.find('input[name=give]').val();		
+		var name = form_obj.find('input[name=name]').val();
+		var time = form_obj.find('input[name=time]').val();
+
+		$('#sub_data').children('input[name=row]').val(row);
+		$('#sub_data').children('input[name=col]').val(col);
+		$('#sub_data').children('input[name=buy]').val(buy);
+		$('#sub_data').children('input[name=give]').val(give);		
+		$('#sub_data').children('input[name=name]').val(name);
+		$('#sub_data').children('input[name=time]').val(time);
+
+		
+
+		grade_arr = new Array();
+
+		$('.grade').each(function(i){
+			if($(this).val() != ''){
+				var g_sort = $(this).attr('name').split('_');
+				var g_price = $(this).parents('.am-form-group').find('.price').val();				
+				var grade_str = '<input type="hidden" name="grade[]" value="flag='+g_sort[1] + ',info=' + $(this).val() + ',price=' + g_price +'">';
+				$('#sub_data').append(grade_str);				
+			}
+		});
+
+		$('.seatCharts-row').children('div[class*=items_]').each(function(index){
+			var d_sort = $(this).data('flag');
+			var d_id = $(this).attr('id');
+			
+			var seat_str = '<input type="hidden" name="seat[]" value="flag='+d_sort+',seat='+d_id+'"/>';
+			$('#sub_data').append(seat_str);	
+		})
+
+		$('form[name=submit_data]').submit();
+		
+	})
+
+	$.fn.datetimepicker.dates['zh-CN'] = {
+		days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+		daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+		daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+		months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+		monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+		today: "今天",
+		suffix: [],
+		meridiem: ["上午", "下午"]
+	};
+
+	$('#datetimepicker').datetimepicker({
+	  format: 'yyyy-mm-dd hh:ii',
+	  language:  'zh-CN'
+	});
+})
+
+
+
+</script>
+<form action="{url:goods/seat_add}" name="submit_data" id="sub_data" method="post">	
+	<input type="hidden" name="id" value="{$id}">
+	<input type="hidden" name="seat_id" value="{$data['id']}">
+	<input type="hidden" name="row" value="">
+	<input type="hidden" name="col" value="">
+	<input type="hidden" name="buy" value="">
+	<input type="hidden" name="give" value="">
+	<input type="hidden" name="give_grade" value="">
+	<input type="hidden" name="name" value="">
+	<input type="hidden" name="time" value="">
+</form>
+
+

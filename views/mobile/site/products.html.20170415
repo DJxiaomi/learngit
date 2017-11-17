@@ -1,0 +1,43 @@
+<?php    $site_config=new Config('site_config');	$dcommission = $site_config->dcommission;?>
+<link rel="stylesheet" href="{skin:css/product.css}">
+<link rel="stylesheet" href="{rs:/scripts/swiper/swiper.min.css}">
+<link rel="stylesheet" href="{theme:javascript/mui/css/mui.picker.min.css}">
+<style>
+.swiper-container-autoheight, .swiper-container-autoheight .swiper-slide {
+		height: auto;
+}
+.shop-nav-bot.cxd-1 a:last-child {
+	width: 100%;
+}
+.container_2 img {
+	max-width: 100%;
+	display: block;
+}
+{if:$seller_id == 377}
+.swiper-container {display:none;}
+.content {width: 100%;margin: 0px;}
+.content img {max-width: 100%; float: left;}
+{/if}
+</style>
+<script type='text/javascript' src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<script type='text/javascript' src="{theme:javascript/payfor.js}"></script>
+<script type='text/javascript' src="{theme:javascript/mui/js/mui.picker.min.js}"></script>
+<!--<div class="mui-content-padded">
+	<div class="content">
+		<p>{$content}</p>
+	</div>
+</div>-->
+
+<div class="container_2 wrapper clearfix w-bg">
+	<div class="main f_r article-con">
+		<h3 class="hc_title" style="display:none;">{$name}</h3>
+		<div class="c_box">
+			<div class="textcontent">
+				{$content}
+			</div>
+            {if:$time < $limit_end_time && $products[0]['market_price'] > 0 && $id != 829}
+            <a href="javascript: void(0);" class="toindex f_r" onclick="location.href='{url:/simple/cart2/id/$products[0]['id']/num/1/type/product}'">立即报名</a>
+            {/if}
+		</div>
+	</div>
+</div>

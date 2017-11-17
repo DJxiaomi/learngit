@@ -1,0 +1,36 @@
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{skin:css/brand_edit2.css}" />
+<script type="text/javascript" src="/plugins/newupload/plupload.full.min.js"></script>
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/seller/seller_add4}" method="post" enctype='multipart/form-data' id="brandFrom">
+		<div class="mui-input-row">
+			<label>开户银行名称：</label>
+			<input type="text" name="account_bank_name" value="{$this->sellerRow['account_bank_name']}" placeholder="请输入开户银行名称" />
+		</div>
+		<div class="mui-input-row">
+			<label>开户支行：</label>
+			<input type="text" name="account_bank_branch" value="{$this->sellerRow['account_bank_branch']}" placeholder="请输入开户支行名称" />
+		</div>
+		<div class="mui-input-row">
+			<label>账户姓名：</label>
+			<input type="text" name="account_name" value="{$this->sellerRow['account_name']}" placeholder="开户账户姓名" />
+		</div>
+		<div class="mui-input-row">
+			<label>银行卡号：</label>
+			<input type="text" name="account_cart_no" value="{$this->sellerRow['account_cart_no']}" placeholder="银行卡号" />
+		</div>
+		<div class="mui-input-row" style="display:none;">
+			<label>保证金数额(人民币（元）)：</label>
+			<input type="text" name="cash" value="{$this->sellerRow['cash']}" placeholder="" />
+		</div>
+		<div class="mui-input-row" style="display:none;">
+			<label>商品定金比例：</label>
+			<input type="text" name="deposit" value="{$this->sellerRow['deposit']}" placeholder="用于分期付款首付比例设置" />
+		</div>
+		<div class="mui-button-row">
+			<button type="submit" class="mui-btn mui-btn-primary">确认</button>
+		</div>
+	</form>
+</div>
+<!-- 弹出菜单 -->

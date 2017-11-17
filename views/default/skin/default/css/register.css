@@ -1,0 +1,37 @@
+
+.module_content{width:100%;background:url(../images/reg_bg.jpg) center top no-repeat;background-size:100%;}
+.wrapper {background:transparent;}
+.wrap_box{background:none;padding-top: 80px;}
+.wrapper .box{text-align: center;border:none;}
+.wrap_box table.form_table{background:rgba(255,255,255,0.4);margin:0 auto;clear:both;}
+.notice{width:309px;height:95px;margin:0 auto;background:url(../images/new/logo.png) center top no-repeat;}
+.notice a{display:block;width:100%;height:100%;}
+.tips{display:none;}
+.agreement{display:none;}
+.form_table{background:none;}
+.form_list{width:700px;margin:0 auto;background:rgba(255,255,255,0.4);padding:40px 0 40px 40px;}
+.form_list h2{color:#04407c;font-size: 22px;text-align: left;}
+.form_list li{position:relative;text-align: left;margin-bottom:15px;}
+.form_list li em{position:absolute;left:10px;top:0;z-index: 2;color:#0a4d6f;height:40px;line-height: 40px;}
+.form_list li input{width:240px;text-indent:100px;width:400px;height:40px;line-height: 40px;background:#fff;border:1px solid #fff;padding:0;font-size: 16px;}
+.form_list li.sanzi input{text-indent:80px;}
+.form_list li.wuzi input{text-indent:110px;}
+.form_list li label{color:#e5901d;}
+
+.form_list li input.send_sms{display:inline-block;width:auto;background:#5089bb;text-indent: 0;color:#fff;font-size: 14px;padding:0 5px;border-radius: 5px;height:26px;line-height: 26px;cursor:pointer;}
+.form_list li input.send_sms:hover{background:#3d7ab0;}
+
+.form_table .send_sms_notice {margin-top: 10px;background: url(../images/right.png) 0 3px no-repeat;background-size: 13px 13px;padding-left: 18px;display: none;}
+
+.form_list li input#captcha{width:220px;}
+.agree{width:700px;margin:0 auto;text-align: left;color:#e5901d;}
+.agree a{font-size: 16px;text-decoration: underline;}
+.reg_sub{padding-top:30px;}
+.submit_reg{width:179px;height:50px;background:url(../images/btn_submit.png) center top no-repeat;}
+.agreement{width:auto;height:auto;border:none;padding:20px;}
+.agreement p{margin-bottom:10px;text-indent: 2em;}
+/* .layui-layer-title, .layui-layer-setwin{display:block;} */
+
+.light_gray{color:#666;}
+.light_gray a{font-size: 14px;}
+.close{width:20px;height:30px;background:red}

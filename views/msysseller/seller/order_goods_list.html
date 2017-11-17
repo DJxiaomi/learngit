@@ -1,0 +1,83 @@
+<?php $this->title="成交明细"; ?>
+{template:'/views/msysseller/layouts/header.html'}
+{set:$seller_id = $this->seller['seller_id']}
+{set:$siteConfig = new Config("site_config")}
+
+<style>
+  .uinn-a6 { padding: 1em 0.65em 0 0.65em; }
+  .alt_btn { padding: 5px; }
+  .uinn-t-rank {font-size: 80%; margin-top: 12px; font-family:"微软雅黑"; }
+  .uinn-t-rank li { width: 96%; padding-left: 2%; padding-right: 2%; background-color: #fff; margin-bottom: 10px; }
+  .uinn-t-rank li a { color: #000; text-decoration: none; }
+  .uinn-t-rank .order_no, .uinn-t-rank .order_static { height: 25px; line-height: 25px; }
+  .uinn-t-rank .order_action { height: 25px; overflow: hidden; width: 100%; }
+  .uinn-t-rank .order_action .t-right { width: 20%; }
+  .uinn-t-rank .order_action a.send { width: 100%; height: 23px; line-height: 23px; overflow: hidden; background-color: #ff5500; color: #fff; text-align: center; display: block; border-radius: 5px; }
+  .uinn-t-rank .gray { color: #919090; }
+  .uinn-t-rank .order_goods_list { clear: both; overflow: hidden; }
+  .uinn-t-rank .order_goods_list .goods_info { margin-top: 5px; margin-bottom: 5px; clear: both; }
+  .uinn-t-rank .order_static .format { color: #ff5500; }
+  .uinn-t-rank .order_goods_list .goods_image { float: left; width: 50px; height: 50px; background-color: #f4f4f4; }
+  .uinn-t-rank .order_goods_list .goods_image img { max-width: 100%; height: 100%; }
+  .uinn-t-rank .order_goods_list .goods_infos { float: left; margin-left: 2%; line-height: 25px; }
+  .uinn-t-rank .order_goods_list .goods_amount { float: left; color: #ff5500; margin-left: 3%; line-height: 25px; }
+  .uinn-t-rank .notice { height: 25px; line-height: 25px; color: red; }
+			.pages_bar { text-align: center; }
+			.pages_bar a { color: red; margin-right: 3px; }
+</style>
+
+
+<div class="ub ub-ver">
+    <div class="ub ub-ver uinn-a1">
+        <div class="ub-img-rank rank-bg uinn-t-rank">
+        	<div class="notice">
+            	仅统计已使用的在线支付非货到付款的课程
+            </div>
+            <ul>
+			{set:
+				$page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
+				$orderGoodsQuery = CountSum::getSellerGoodsFeeQuery($seller_id);
+				$orderGoodsQuery->page = $page;
+			}
+			{foreach: items = $orderGoodsQuery->find()}
+
+			{set:$countData = CountSum::countSellerOrderFee(array($item))}
+
+                <li>
+                    <div class="order_no">
+                        <div class="t-left">
+                            订单号：<span class="gray">{$item['order_no']}</span>
+                        </div>
+                    </div>
+                    <div class="order_static">
+                        下单时间：<span class="gray">{$item['create_time']}</span>
+                    </div>
+
+                    <div class="order_static">
+	                    小计：<span class="format">&yen;{$item['order_amount']}</span>
+                    </div>
+
+                    <div class="order_static">
+	                    促销活动：￥{$countData['platformFee']}<br/>
+                    </div>
+
+                    <div class="order_static">
+                    	退款金额：￥{$countData['refundFee']}<br/>
+                    </div>
+
+                    <div class="order_action">
+                        <div class="t-left">
+                            订单状态：{echo:Order_class::getOrderPayStatusText($item)}-{echo:Order_class::getOrderDistributionStatusText($item)}
+                        </div>
+                        <div class="t-right">
+                            <a href="{url:/seller/order_show/id/$item[id]}" class="send">详情</a>
+                        </div>
+                    </div>
+                </li>
+
+            {/foreach}
+            </ul>
+            {$orderGoodsQuery->getPageBar()}
+        </div>
+    </div>
+</div>

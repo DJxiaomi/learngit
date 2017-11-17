@@ -1,0 +1,25 @@
+{set:
+	$myCartObj  = new Cart();
+	$myCartInfo = $myCartObj->getMyCart();
+	$siteConfig = new Config("site_config");
+	$callback   = IReq::get('callback') ? urlencode(IFilter::act(IReq::get('callback'),'url')) : '';
+}
+<link href="{skin:css/cart.css}" rel="stylesheet" type="text/css" />
+<div class="mui-content-padded">
+	<div class="confirmbox">
+		<h4 style="text-align:center;">订单信息</h4>
+	</div>
+</div>
+<ul class="mui-table-view">
+	 <li class="mui-table-view-cell"><b>订单编号：</b><span class="f12 bold red2">{$this->order_num}</span></li>
+	 <li class="mui-table-view-cell"><b>{if:$statement != 2}支付价格{else:}购买学习券{/if}：</b><span class="f12 bold red2">{$this->final_sum}</span></li>
+	 <li class="mui-table-view-cell"><b>学员姓名：</b><span class="f12 bold red2">{$accept_name}</span></li>
+	 <li class="mui-table-view-cell"><b>联系方式：</b><span class="f12 bold red2">{$mobile}</span></li>
+</ul>
+<div class="mui-input-group">
+	<div class="mui-button-row">
+		{if:$this->deliveryType != 1 && $this->paymentType == 1}
+			<button type="button" class="mui-btn mui-btn-primary" onclick="javascript:window.location.href = '{url:/block/doPay/order_id/$this->order_id}'">立即支付</button>
+		{/if}
+	</div>
+</div>

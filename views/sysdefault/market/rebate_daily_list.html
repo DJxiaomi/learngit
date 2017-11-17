@@ -1,0 +1,36 @@
+{js:my97date}
+{set:$search = IReq::get('search') ? IFilter::act(IReq::get('search'),'strict') : array();}
+
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>每日返利统计</span><span>></span><span>返利列表</span></div>
+	<div class="operating">
+		<div class="search f_l">
+		</div>
+	</div>
+</div>
+
+<div class="content">
+	<table class="list_table">
+		<colgroup>
+			<col width="180px" />
+			<col width="120px" />
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>日期</th>
+				<th>返利金额</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{foreach:items=$rebate_list}
+			<tr>
+				<td>{echo: date('Y-m-d H:i:s', strtotime($item['time']));}</td>
+				<td>{$item['count']}</td>
+			</tr>
+			{/query}
+		</tbody>
+	</table>
+</div>
+{$page_info}

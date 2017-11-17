@@ -1,0 +1,30 @@
+<link href="{skin:css/ucenter_promote.css}" rel="stylesheet" type="text/css" />
+<article class="module width_full">
+	<header><h3>推广商户列表</h3></header>
+	<div class="module_content">
+    <div class="main f_r">
+        <div class="new-box">
+            <div class="">
+                <table class="tablesorter info">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>机构名称</th>
+                      <th>注册时间</th>
+                      <th>交易次数</th>
+                    </tr>
+                  </thead>
+                    {foreach:items=$promote_seller_list}
+                    <tr>
+                      <td></td>
+                      <td>{$item['shortname']}</td>
+                      <td>{$item['create_time']}</td>
+                      <td>{$item['order_count']}</td>
+                    </tr>
+                    {/foreach}
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+</article>

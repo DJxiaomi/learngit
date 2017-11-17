@@ -1,0 +1,46 @@
+
+{set:$callback = IReq::get('callback') ? IUrl::creatUrl(IReq::get('callback')) :IUrl::getRefRoute()}
+
+<link href="{skin:css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/login.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _callback = '{$callback}';
+var _this_callback = '{$this->callback}';
+var _reg_url = '{url:/simple/reg?callback=$callback}';
+var _login_url = '{url:/simple/login_pc_ajax?callback=$callback}';
+var _oauth_login_url = '{url:/simple/oauth_login}';
+</script>
+<div class="new-loginbox clearfix">
+	<div class="login-banner"></div>
+	<div class="loginbox">
+		<h3>用户登录</h3>
+		<p class="tip" id="tip">请填写登陆信息</p>
+		<p class="inbox clearfix">
+        	<span><i class="icon-user"></i></span><input placeholder="用户名/邮箱/手机号" autocomplete="off" type="text" name="login_info" id="login_info" value="{echo:ICookie::get('loginName');}" tabindex="1">
+        </p>
+        <p class="inbox clearfix">
+        	<span><i class="icon-lock"></i></span>
+        	<input placeholder="请输入密码" type="password" id="password" name="password" tabindex="2">
+        </p>
+        <p class="clearfix">
+        	<label style="cursor:pointer;"><input class="radio" type="checkbox" name="remember" value='1' />记住登录名</label>
+        	<a class="forget" href="{url:/simple/find_password}">忘记密码</a>
+        </p>
+        <p class="clearfix">
+        	<input class="submit-btn" type="button" value="登 录" onclick="onlogin()" />
+        </p>
+        <p class="auth clearfix"  style="display:none;">
+        	{foreach:items=Api::run('getOauthList')}
+
+			<a href="javascript:oauthlogin('{$item['id']}');"  style="float:left"><img width="20" src='{webroot:$item[logo]}'/></a>
+
+			{/foreach}
+        </p>
+        <p class="clearfix">
+        	<a class="forget reg" href="{url:/simple/reg}">立即注册</a>
+        	<input type="hidden" name="callback" id="callback">
+        </p>
+	</div>
+</div>
+<script type='text/javascript' src="{theme:/javascript/login.js}"></script>
+

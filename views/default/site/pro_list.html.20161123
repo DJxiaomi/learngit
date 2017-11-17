@@ -1,0 +1,477 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');}
+
+{set:$seo_data['title'] = $this->cat_info['title']?$this->cat_info['title']:$this->cat_info['name']}
+
+{set:$seo_data['title'].="_".$site_config->name}
+
+{set:$seo_data['keywords']=$this->cat_info['keywords']}
+
+{set:$seo_data['description']=$this->cat_info['descript']}
+
+{set:seo::set($seo_data);}
+<link href="{skin:css/pro_list.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/common.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _page_count = {$page_count};
+var _curr_page = {$page};
+var _page_size = {$page_size};
+var _loading = false;
+var _ajax_data_url = {if:$ajax_url == '/site/get_pro_list_ajax'}'{$ajax_url}?type=1&perpage=12'{else:}'{$ajax_url}&type=1&perpage=12'{/if};
+</script>
+
+
+<style>
+.searchbox{position:relative;z-index:14;display:inline;float:left;width:295px;height:29px;margin-left:28px;margin-left:0px;border:1px solid #038bd0;background:#fff;border-radius: 3px;}
+
+	.searchbox input{border:none;background:none;vertical-align:top}
+
+		.searchbox input.text{width:210px;height:15px;margin-top:4px;padding:3px 5px 0 11px;color:#828282}
+
+		.searchbox input.btn{width:65px;height:29px;padding:7px 0 9px;padding:8px 0\9;cursor:pointer;text-align:center;color:#fff;background:#038bd0;border:1px solid #038bd0;border-radius:0 3px 3px 0; }
+		.display_title ul{ height: 35px; top: 0; }
+		.display_title ul li{position:relative;float:left;height:35px;line-height:35px;margin:0 0 0 6px;background:#dedede;}
+
+		.display_title ul li.current{background:#038bd0;}
+
+			.display_title ul li a{padding:0 15px 0 15px;font-size:14px;font-weight:bold;text-decoration:none;color:#666;}
+
+			.display_title a.hover{text-decoration:none}
+
+			.display_title ul li.current a{color:##038bd0;line-height:31px;}
+
+				.display_title ul li a span{margin:0 4px;padding:0 7px 0 0;padding:0 4px 0 0\9;background:url(../images/front/sprites_2.gif) -25px -180px no-repeat;}
+
+				.display_title ul li.current a span{background-position:-36px -180px;}
+
+				.display_title ul li.current a span.desc{background-position:-41px -198px}
+dl.sorting{position:relative;width:auto;border-bottom:0px solid #dedede;border-top: 1px solid #dedede;padding:5px 60px 3px 0;text-align:left;overflow:hidden;}
+				dl.sorting dd{padding-left:145px;    line-height: 24px;}
+
+				dl.sorting dd a{display:inline-block;margin:2px 5px 0;padding:0 3px;_padding-top:2px}
+
+				dl.sorting dd a:link,dl.sorting dd a:visited{color:#666;}
+
+				dl.sorting dd a.nolimit{position:absolute;top:6px;left:100px;line-height:22px;}
+
+				dl.sorting dd a.current{margin-bottom:-2px;line-height:11px;padding: 5px 8px 3px;border-radius: 2px;font-weight:bold;background:#038bd0;text-decoration:none;_padding-top:3px;}
+
+				dl.sorting dd a.current:link,dl.sorting dd a.current:visited,dl.sorting dd a.current:hover,dl.sorting dd a.current:active{color:#fff;}
+.display_title{position:relative;z-index:10;height:35px; width: 1200px; background: #eee; padding-left: 0; background: #dcdcdc;}
+.display_title span.f_l{ line-height: 35px; }
+input.mini {line-height: 21px;}
+.container_2 .uc_title label.current span {color:#038bd0;}
+.container_2 .uc_title {background:none;border-bottom: 1px solid #038bd0;}
+.container_2 .uc_title label.current {background:#038bd0;color:#fff;}
+/*列表 */
+.displaybox{ width: 1200px; }
+.display_list{width:1220px;margin: 0px;}
+
+	.display_list li{float: left;overflow:hidden;
+    display: inherit;
+    width: 285px;
+    box-shadow: 0 0 5px #bbb;
+    height: auto;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    /*border: 1px solid #ccc;*/margin-top:10px; padding-bottom: 10px; position:relative;}
+
+	.display_list li.active { border: 1px solid #ccc; }
+
+		.display_list li .pic{float:left;border:0; width: 285px;height: 285px;padding:0px;overflow: hidden; position: relative; }
+		.display_list li .pic .school-bg{height: 25px; line-height: 25px; padding: 0 10px; width: 265px; background: #000; opacity: 0.7; position: absolute; left: 0; bottom: 0; z-index: 99;}
+		.display_list li .pic .school{ height: 25px; line-height: 25px; color: #fff; padding: 0 10px; width: 265px;position: absolute; left: 0; bottom: 0; z-index: 100; }
+		.display_list li .pic .school a{ color: #fff; }
+		.display_list li .goods_brief{ margin: 8px 0; line-height: 18px; height: 36px; color: #999; overflow: hidden; float: left; padding: 0 10px; width: 265px; }
+		.display_list li .price-c{line-height: 30px;font-size: 16px;font-weight: 400;height: 30px;overflow: hidden; color: #f60; float: left; width: 265px;padding: 0 10px;}
+		.display_list li .title{float:left;padding:10px;margin:0;width:250px;height:12px;overflow: hidden;margin-bottom: 7px;font-weight:normal;text-align:left;line-height:20px;}
+.display_list li .title a.p_name{color:#038bd0;font-size:16px;line-height: 20px;}
+			.display_list li .title a{color:#000 padding-top: 3px; padding-bottom: 3px; padding-left: 25px;}
+			.display_list li .title a.t {background: url(/views/default/skin/default/images/new/t_icon.png) 0 0px no-repeat;}
+			.display_list li .title a.s {background: url(/views/default/skin/default/images/new/s_icon.png) 0 0px no-repeat;}
+
+			.display_list li .title em{ float: right; }
+
+			.display_list li .title i.stats{ display:inline-block;width:31px;height:17px;line-height:17px;margin-left:3px;text-align:center;font-style:normal;color:#fff;background:url(../images/front/sprites_2.gif) -60px -741px no-repeat}
+
+				.display_list li .title span{display:block;color:#666;margin-top:5px}
+
+					.display_list li .title span a{margin-left:10px;color:#36c}
+
+		.display_list li .handle,.display_list li .price{width:135px;margin-top: 25px;}
+
+			.display_list li .price{color:#f90;font:bold 18px "yahei";text-align:left;margin:0;padding:0 10px;float:none;width:250px;font-family:'Arial'}
+
+				.display_list li .price s{display:block;color:#999;font-size:14px;font-weight:normal;text-indent:3px}
+				.display_list li .handle{clear:both;width:265px;  margin-top:10px; padding: 0 10px;}
+				.display_list li .handle label.btn_gray_m{float:left;margin-bottom:7px;text-align:left;background:none;border:1px solid #00a1ea;border-radius: 3px;}
+
+					.display_list li .handle label.btn_gray_m input{font-weight:normal;color:#00a1ea;background:none;}
+
+					.display_list li .handle label.btn_gray_m img{margin:3px 3px 5px 0}
+					.display_list li .handle label.btn_gray_m i.shopcar{width:20px;height:20px;display:inline-block;background:url(/views/default/skin/blue/images/front/cart_active.png) 2px 5px no-repeat;background-size:16px 16px;}
+					.display_list li .handle label.btn_gray_m i.shoucang{width:20px;height:20px;display:inline-block;background:url(/views/default/skin/blue/images/front/shoucj.png) 2px 5px no-repeat;background-size:15px 15px;}
+	.display_list li.win{float: left;width: 24.5%;height: 368px;padding:0;margin: 20px 2px 10px 2px;text-align:left;border:none;_margin:20px 18px 10px;overflow:hidden;}
+	.display_list li .handle .collect{ float: left; border:1px solid #08c; padding: 5px 10px 5px 40px;background:url(/views/default/skin/blue/images/front/shoucj.png) 12px 5px no-repeat; border-radius: 5px;background-size:15px 15px; }
+	.display_list li .handle .shopcar{ float: right; border:1px solid #08c; padding: 5px 10px 5px 40px;background:url(/views/default/skin/blue/images/front/cart_active.png) 12px 5px no-repeat; border-radius: 5px;background-size:16px 16px; }
+
+
+
+		/* pages */
+
+		.pages_bar{text-align:right;color:#444;padding-top: 8px; padding-bottom: 6px;}
+
+			.pages_bar a,.pages_bar span{display:inline-block;height:17px;border:1px solid #d5d5d5;margin-right:6px;padding:3px 10px 3px;text-align:center;color:#1a66b3;font-weight:bold;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px}
+
+			.pages_bar a.current_page{border:1px solid #038bd0;background-color:#038bd0;color:#fff}
+
+			.pages_bar span{color:#878787}
+
+		.box .pages_bar{margin:5px 20px 25px}
+
+		.title { border: 0px; }
+
+		.nothing { width: 100%; text-align: center;}
+
+		#cc { width: 100%; text-align: center; }
+
+		label.btn_gray_s input { line-height: 10px; color: #fff;} 
+</style>
+
+<div class="position">
+
+	<span>您当前的位置：</span>
+
+	<a href="{url:}">首页</a> >> {if:$this->cat_info}{$this->cat_info['name']}{elseif:$word}搜索 "{$word}"{/if}
+
+</div>
+
+
+
+<div class="wrapper clearfix container_2">
+
+		<div class="cont">
+
+				<!--课程属性-->
+				{foreach:items = search_goods::$attrSearch}
+
+				<dl class="sorting">
+
+					<dt>{$item['name']}：</dt>
+
+					<dd id='attr_dd_{$item['id']}'>
+
+						<a class="nolimit current" href="{echo:search_goods::searchUrl('attr['.$item["id"].']','')}">不限</a>
+
+						{foreach:items=$item['value'] item=$attr}
+
+						<a href="{echo:search_goods::searchUrl('attr['.$item["id"].']',$attr)}" id="attr_{$item['id']}_{echo:md5($attr)}">{$attr}</a>
+
+						{/foreach}
+
+					</dd>
+
+				</dl>
+
+				{/foreach}
+
+				<!--课程属性-->
+
+				<!--课程分类-->
+				{if:$this->catId && !( $this->cat_info['parent_id'] == 0 && $this->childId == $this->catStr )}
+					<dl class="sorting">
+
+						<dt>分类：</dt>
+
+						<dd id='price_dd'>
+
+							<a class="nolimit {if:$this->childId !== $this->catStr}current{/if}" href="{if:$this->childId !== $this->catStr}{echo:search_goods::searchUrl('cat',$this->catId)}{else:}{echo:search_goods::searchUrl('cat',$this->cat_info['parent_id'])}{/if}">不限</a>
+
+							{foreach:items=$cat_list}
+
+							<a href="{echo:search_goods::searchUrl('cat',$item[id])}" {if:$this->catId == $item['id']}class='current'{/if} id="{$item['id']}">{$item['name']}</a>
+
+							{/foreach}
+
+						</dd>
+
+					</dl>
+				{/if}
+				<!--课程分类-->
+
+				<!--课程区域-->
+        {if:$area_list}
+	        <dl class="sorting">
+
+						<dt>区域：</dt>
+
+						<dd id='price_dd'>
+
+							<a class="nolimit {if:!$area_id}current{/if}" href="{echo:search_goods::searchUrl('area','')}">不限</a>
+
+							{foreach:items=$area_list}
+
+							<a href="{echo:search_goods::searchUrl('area',$item['area_id'])}" {if:$area_id == $item['area_id']}class='current'{/if} id="{$item['area_id']}">{$item['area_name']}</a>
+
+							{/foreach}
+
+						</dd>
+
+	        </dl>
+				{/if}
+        <!--课程区域-->
+
+				<!--课程价格-->
+				{if:$resultData}
+				<dl class="sorting" style="border-bottom:0;">
+
+					<dt>学费：</dt>
+
+					<dd id='price_dd'>
+
+						<p class="f_r"><input type="text" class="mini" name="min_price" value="{echo:IFilter::act(IReq::get('min_price'),'url')}" onchange="checkPrice(this);"> 至 <input type="text" class="mini" name="max_price" onchange="checkPrice(this);" value="{echo:IFilter::act(IReq::get('max_price'),'url')}"> 元
+
+						<label class="btn_gray_s"><input type="button" onclick="priceLink();" value="确定"></label></p>
+
+						<a class="nolimit current" href="{echo:search_goods::searchUrl(array('min_price','max_price'),'')}">不限</a>
+
+						{foreach:items=$price_list}
+
+						<a href="{echo:search_goods::searchUrl(array('min_price','max_price'),array($item['min_price'],$item['max_price']))}" id="{$item['min_price']}-{$item['max_price']}">{$item[0]}</a>
+
+						{/foreach}
+
+					</dd>
+
+				</dl>
+				{/if}
+				<!--课程价格-->
+
+			</div>
+
+		</div>
+
+		<!--条件检索-->
+
+
+
+		<!--课程列表展示-->
+
+		<div class="display_title">
+
+			<span class="f_l">排序：</span>
+
+			<ul>
+
+				{foreach:items=search_goods::getOrderType()}
+
+				{set:$next = search_goods::getOrderValue($key)}
+
+				<li class="{echo:search_goods::isOrderCurrent($key) ? 'current':''}">
+					<a href="{echo:search_goods::searchUrl('order',$next)}">{$item}</a>
+
+				</li>
+
+				{/foreach}
+
+			</ul>
+
+		</div>
+
+
+
+		{if:$resultData}
+
+		{set:$listSize = search_goods::getListSize(IFilter::act(IReq::get('show_type')))}
+		<div class="displaybox">
+		<ul class="display_list clearfix m_10">
+
+			{foreach:items=$resultData}
+			<li class="clearfix {echo:search_goods::getListShow(IFilter::act(IReq::get('show_type')))}">
+				<div class="pic">
+					<a title="{$item['name']}" href="{url:/site/products/id/$item[id]}" target="_blank">
+						<img src="{url:/pic/thumb/img/$item[img]/w/285/h/285}" width="285" height="285" alt="{$item['name']}" title="{$item['name']}" />
+					</a>
+					<div class="school-bg"></div>
+					<div class="school"><a title="{$item['name']}" class="p_name" href="{url:/site/products/id/$item[id]}" target="_blank">{$item['name']}</a><!-- <a title="{$item['true_name']}" href="{url:/site/seller/id/$item[seller_id]}" target="_blank" class="{if:$item['type'] < 2}s{else:}t{/if}">{$item['true_name']}</a> --></div>
+				</div>
+				<div class="goods_brief">
+					{if:$item['goods_brief']}
+						{$item['goods_brief']}
+					{else:}
+						{echo:strip_tags($item['content'])}
+					{/if}
+				</div>
+				<div class="price-c">
+					<span>￥{$item['sell_price']}</span>
+					{if:$item['is_refer']}<img src="/views/default/skin/default/images/new/refer.png" alt="可转让" title="可转让" >{/if}
+					<span class="fr" style="max-width:120px;overflow:hidden;">
+						<a title="{$item['true_name']}" href="{url:/site/seller/id/$item[seller_id]}" target="_blank" class="{if:$item['is_authentication']}renzheng{/if}">{$item['true_name']}</a>
+					</span>
+				</div>
+				<!-- <div class="price">&yen;{$item['sell_price']}<s>&yen;{$item['market_price']}</s></div> -->
+				<div class="handle">
+					<a class="collect" href="javascript:;" onclick="favorite_add_ajax('{url:/simple/favorite_add}','{$item['id']}',this);">收藏</a>
+					<a class="shopcar" href="javascript:;" onclick="joinCart_list({$item['id']});">加入课程清单</a>
+				</div>
+			</li>
+			{/foreach}
+
+		</ul>
+		</div>
+
+		{else:}
+
+		<p class="display_list mt_10" style='margin-top:50px;margin-bottom:50px'>
+
+			<div class="nothing">
+				<strong class="gray f14">对不起，没有找到相关课程</strong>
+			</div>
+
+		</p>
+
+		{/if}
+
+		<!--课程列表展示-->
+
+	<div id="cc"></div>
+	</div>
+
+</div>
+
+
+
+<script type='text/javascript'>
+
+$(document).ready(function(){
+	$('.display_list li .pic').hover(function(){
+		$(this).addClass('active');
+	}, function(){
+		$(this).removeClass('active');
+	});
+});
+
+//价格跳转
+
+function priceLink()
+{
+	ere = /^\d+$/;
+	var minVal = $('[name="min_price"]').val();
+	var maxVal = $('[name="max_price"]').val();
+	if ( !ere.test( minVal ) || !ere.test(maxVal ))
+	{
+		layer.alert('请填写正确价格', {icon: 2});
+		return;
+	}
+	var urlVal = "{echo:IFilter::act(preg_replace('|&min_price=\w*&max_price=\w*|','',search_goods::searchUrl(array('min_price','max_price'),'')),'url')}";
+	window.location.href=urlVal+'&min_price='+minVal+'&max_price='+maxVal;
+}
+
+
+
+//价格检查
+function checkPrice(obj)
+{
+	if(isNaN(obj.value))
+	{
+		obj.value = '';
+	}
+}
+
+
+
+//筛选条件按钮高亮
+jQuery(function(){
+
+	{set:
+
+		$brand = IFilter::act(IReq::get('brand'),'int');
+
+	}
+
+
+
+	{if:$brand}
+
+	$('#brand_dd>a').removeClass('current');
+
+	$('#brand_{$brand}').addClass('current');
+
+	{/if}
+
+
+
+	{set:$tempArray = IFilter::act(IReq::get('attr'),'url')}
+
+	{if:$tempArray}
+
+		{set:$json = JSON::encode(array_map('md5',$tempArray))}
+
+		var attrArray = {$json};
+
+		for(val in attrArray)
+
+		{
+
+			if(attrArray[val])
+
+			{
+
+				$('#attr_dd_'+val+'>a').removeClass('current');
+
+				document.getElementById('attr_'+val+'_'+attrArray[val]).className = 'current';
+
+			}
+
+		}
+
+	{/if}
+
+
+
+	{if:IReq::get('min_price') != ''}
+
+	$('#price_dd>a').removeClass('current');
+
+	$('#{echo:IReq::get('min_price')}-{echo:IReq::get('max_price')}').addClass('current');
+
+	{/if}
+
+});
+
+
+var loadi;
+
+$(window).scroll(function(){
+
+	var a = $(window).scrollTop();
+
+	var load_position = $('#cc').offset().top;
+
+	if( a + $(window).height() > load_position -10 && _loading == false && _curr_page < _page_count )
+
+	{
+
+		_loading = true;
+
+		$('#cc').html("<img src='/views/mobile/skin/new/images/loading2.gif'>&nbsp; 努力加载中...");
+
+		_curr_page = _curr_page + 1;
+
+		$.getJSON( _ajax_data_url, {page: _curr_page}, function( result ){
+
+			//console.log( result['html'] );
+
+			$('.display_list').append( result['html'] );
+
+			$('#cc').html('');
+
+			_loading = false;
+
+		});
+
+	}
+
+});
+
+</script>

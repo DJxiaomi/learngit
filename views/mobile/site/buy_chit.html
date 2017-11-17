@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="{skin:css/buy_chit.css}">
+<script language="javascript">
+var max_order_chit = {$brand_chit_info['max_order_chit']};
+var max_price = {$brand_chit_info['max_price']};
+var rate = {$brand_chit_info['rate']};
+</script>
+<div class="mui-content">
+  <ul>
+    <li class="goods_name">课程：{$goods_info['name']}</li>
+    <li class="goods_price">
+      <span class="t-left">课程学费</span>
+      <span class="t-right"><input type="number" name="price" value="{$goods_info['sell_price']}" />元</span>
+    </li>
+    <li class="goods_max_order_chit">
+      <span class="t-left">可用代金券</span>
+      <span class="t-right"><em>{$brand_chit_info['max_order_chit']}元</em></span>
+    </li>
+    <li class="goods_rest_price">
+      <span class="t-left">优惠后应付</span>
+      <span class="t-right"><em>{echo:$goods_info['sell_price'] - $brand_chit_info['max_order_chit']}元</em></span>
+    </li>
+  </ul>
+
+  <ul class="page-footer">
+    <li class="chit_info">购买代金券<em>{$brand_chit_info['max_price']}元</em></li>
+    <li class="button_info nopadding">
+      <input type="hidden" name="brand_chit_id" value="" />
+      <input type="hidden" name="type" value="{$type}" />
+      <input type="hidden" name="id" value="{$id}" />
+      <button class="mui-btn mui-btn-primary mui-btn-block" id="mui-btn-primary">和学校已确认，立即购买代金券</button>
+    </li>
+    <li class="notice nopadding">备注：<a href="{url:/site/chit1}"><em>短期课</em>课时已抵扣常规课学费不能使用代金券</a></li>
+  </ul>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/buy_chit.js}"></script>

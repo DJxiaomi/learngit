@@ -1,0 +1,95 @@
+.module_content {
+  width: 100%;
+  margin: 0px auto;
+  padding-top:60px;
+}
+.Header {
+  /* display: none; */
+}
+.free_class_content {
+  width: 100%;
+}
+.free_class_content .free_class_hd {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  float: left;
+}
+.free_class_content .free_class_hd img {
+  max-width: 100%;
+  float: left;
+  width: 100%;
+}
+.free_class_content .free_class_bd {
+  width: 100%;
+  float: left;
+  background: url(../images/free_class_bg.jpg) 0 0 repeat-y;
+  background-size: 100%;
+  padding-bottom: 60px;
+}
+.free_class_content .free_class_bd ul {
+  list-style: none;
+  padding: 0px;
+  width: 1173px;
+  margin: 0px auto;
+  padding-top: 12px;
+  overflow: hidden;
+}
+.free_class_content .free_class_bd li {
+  width: 283px;
+  margin-right: 13px;
+  margin-bottom: 15px;
+  float: left;
+  margin-bottom: 15px;
+  position:relative;
+}
+.free_class_content .free_class_bd li:nth-child(4n) {
+  margin-right: 0px;
+}
+.free_class_content .free_class_bd li .class_image {
+  width: 283px;
+  height: 231px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.free_class_content .free_class_bd li .class_image a {
+  display: block;
+  width: 283px;
+  height: 231px;
+}
+.free_class_content .free_class_bd li .class_image img {
+  max-width: 100%;
+}
+.free_class_content .free_class_bd li .class_action {
+  margin-top: 10px;
+}
+.free_class_content .free_class_bd li .class_action a {
+  width: 45%;
+  float: left;
+}
+.free_class_content .free_class_bd li .class_action a.class_info {
+  margin-left: 2%;
+  margin-top: 3px;
+}
+.free_class_content .free_class_bd li .class_action a.class_register {
+  float: right;
+  margin-right: 2%;
+}
+.free_class_content .free_class_bd li .class_action a img {
+  max-width: 100%;
+}
+.free_class_content .free_class_bd li .boutique{
+  width:85px;
+  height:80px;
+  background:url(../images/boutique.png) left top no-repeat;
+  position:absolute;
+  display:block;
+  top:0;
+  right:0;
+}
+.footer {
+  overflow: hidden;
+  border-top: 0px;
+  margin-top: 0px;
+}

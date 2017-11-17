@@ -1,0 +1,525 @@
+{js:kindeditor}
+{js:artTemplate}
+{js:areaSelect}
+<script type="text/javascript" src="/plugins/newupload/plupload.full.min.js"></script>
+
+<script language="javascript">
+	{if:isset($brand['album_json'])}
+	var _album_arr = {$brand['album_json']};
+	{else:}
+	var _album_arr = new Array();
+	{/if}
+	{if:isset($brand['ad_json'])}
+	var _ad_arr = {$brand['ad_json']};
+	{else:}
+	var _ad_arr = new Array();
+	{/if}
+</script>
+<style>
+.pic,.adpic { margin-bottom: 15px;}
+.pic img { width: 100px; height: 56.25px;}
+.adpic img{ width: 200px; height: 50px; }
+#thumbnails2,#thumbnails3 { margin-top: 10px; }
+#uploadButton2,#uploadButton3 { width: 228px; padding: 3px 10px;font-size: 12px; text-align: center; border: 1px solid #959595; background-color: #e9e9e9; margin-left: 10px; }
+#uploadButton2:hover,#uploadButton3:hover { text-decoration: none;}
+.demo {margin-top:8px;}
+</style>
+
+<div class="headbar">
+	<div class="position"><span>学校</span><span>></span><span>学校管理</span><span>></span><span>{if:isset($brand['id'])}编辑{else:}添加{/if}学校</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/brand/brand_save}" method="post" enctype='multipart/form-data'>
+			<table class="form_table" cellpadding="0" cellspacing="0">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>登录用户名：</th>
+					<td><input class="normal" name="username" type="text" value="{$brand['username']}" pattern="required" alt="登录用户名不能为空" />
+						<label>*</label>
+						<input name="brand_id" value="{$brand['id']}" type="hidden" />
+					</td>
+				</tr>
+				<tr>
+					<th>登录密码：</th>
+					<td><input class="normal" name="password" type="password" value="" />
+						<label>*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>学校名称：</th>
+					<td><input class="normal" name="name" type="text" value="{$brand['name']}" pattern="required" alt="品牌名称不能为空" />
+						<label>*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>学校简称：</th>
+					<td><input class="normal" name="shortname" type="text" value="{$brand['shortname']}" pattern="required" alt="学校简称不能为空" maxlength="8" />
+						<label>*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>学校折扣：</th>
+					<td><input class="normal" name="discount" type="text" value="{$brand['discount']}" pattern="required" alt="学校折扣不能为空" /> %
+						<label>*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>排序：</th><td><input class="normal" name="sort" type="text" value="{$brand['sort']}" pattern='int' empty alt='必需为整形数值'/></td>
+				</tr>
+				<tr>
+					<th>企业官网：</th><td><input class="normal" name="url" type="text" value="{$brand['url']}" /><label>.dsanke.com</label></td>
+				</tr>
+				<tr>
+					<th>LOGO：</th><td><div>{if:isset($brand['logo'])}<img src="{webroot:$brand[logo]}" height="60px"/><br />{/if}<input type='file' class='normal' name='logo'/></div></td>
+				</tr>
+				<tr>
+					<th>所属分类：</th>
+					<td>
+						{query:name=brand_category}{/query}
+						{if:$items}
+						<ul class="select">
+							{foreach:items=$items}
+							<li><label><input type="checkbox" value="{$item['id']}" name="category[]" {if:isset($brand) && stripos(','.$brand['category_ids'].',',','.$item['id'].',') !== false}checked="checked"{/if} />{$item['name']}</label></li>
+							{/foreach}
+						</ul>
+						{else:}
+						系统暂无品牌分类，<a href='{url:/brand/category_edit}' class='orange'>请点击添加</a>
+						{/if}
+					</td>
+				</tr>
+				<tr>
+					<th>首页顶部横幅轮播图：</th>
+					<td colspan="3">
+						<div class="demo">
+							<a class="btn" id="uploadButton3">上传图片</a>
+						</div>
+						<ul id="thumbnails3" class="ul_pics clearfix">
+							{if:$brand['ad_arr']}
+								{foreach:items = $brand['ad_arr']}
+									<div class='adpic'>
+										<div class='pic_image'><img src="{webroot:$item}" alt="<%=picRoot%>" true_src="{$item}" /></div>
+										<div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+									</div>
+								{/foreach}
+							{/if}
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">学校简介：</th><td><textarea name="description" id="description" style="width:700px;height:200px;">{$brand['description']}</textarea></td>
+				</tr>
+			
+				
+					<tr>
+					<th>学校主相册：</th>
+					<td colspan="3">
+						<div class="demo">
+							<a class="btn" id="uploadButton2">上传图片</a>
+						</div>
+						<ul id="thumbnails2" class="ul_pics clearfix">
+							{if:$brand['img_arr']}
+								{foreach:items = $brand['img_arr']}
+									<div class='pic'>
+										<div class='pic_image'><img src="{webroot:$item}" alt="<%=picRoot%>" true_src="{$item}" /></div>
+										<div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+									</div>
+								{/foreach}
+							{/if}
+						</ul>
+					</td>
+				</tr>
+
+
+				<style type="text/css">
+					#infomation .td{padding:5px; border:1px solid #ccc; margin-bottom: 10px; width: 500px;}
+					#infomation .td div input{ margin-bottom: 5px; }
+					#infomation .td div input[type="text"]{}
+				</style>
+				<tbody id="infomation">
+					<tr>
+						<th>自定义页面内容：</th><td><a href="javascript:;" onclick="addInfomation()">增加页面栏目</a></td>
+					</tr>
+					{if:$brand['attrs']}
+					{foreach:$items = $brand['attrs']}
+					<tr>
+						<th><a href="javascript:;" onclick="addPic(this, 0)">增加一行栏目内容</a></th>
+						<td class="td">
+
+							<input name="navtitle[]" type="text" placeholder="页面栏目标题：例如学校信息、老师信息" class='normal' value="{$item['navtitle']}" /><br />
+							{foreach:$items = $item['info'] key=$idx item=$val}
+							<div>
+							<input type='file' class='normal' name='img[{$key}][]'/>
+							<input type="hidden" name="oldimg[{$key}][]" value="{$val['img']}">
+							<input type="text" name="imgtitle[{$key}][]" placeholder="内容标题" class='normal' maxlength="40" value="{$val['imgtitle']}" />
+							<input type="text" name="imgbrief[{$key}][]" placeholder="内容描述" class='normal' maxlength="40" value="{$val['imgbrief']}" />
+							</div>
+							{/foreach}
+						</td>
+					</tr>
+					{/foreach}
+					{else:}
+					<tr>
+						<th><a href="javascript:;" onclick="addPic(this, 0)">增加一行栏目内容</a></th>
+						<td class="td">
+							<div>
+							<input name="navtitle[]" type="text" placeholder="页面栏目标题：例如学校信息、老师信息" class='normal' /><br />
+							<input type='file' class='normal' name='img[0][]'/>
+							<input type="text" name="imgtitle[0][]" placeholder="内容标题" class='normal' maxlength="40" />
+							<input type="text" name="imgbrief[0][]" placeholder="内容描述" class='normal' maxlength="40" />
+							</div>
+						</td>
+					</tr>
+					{/if}
+				</tbody>
+				<tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				<!--update-->
+				<tr>
+						<th>固定电话：</th>
+						<td><input type="text" class="normal" name="telephone" value="{$brand['telephone']}" /></td>
+					</tr>
+					<tr>
+						<th>手机号码：</th>
+						<td><input type="text" class="normal" name="mobile" value="{$brand['mobile']}" /></td>
+					</tr>
+					<tr>
+						<th>邮箱：</th>
+						<td><input type="text" class="normal" name="email" pattern="email" empty value="{$brand['email']}" /></td>
+					</tr>
+					<tr>
+						<th>地区：</th>
+						<td>
+							<select name="province" id="province" child="city,area" onchange="changeProvince()"></select>
+							<select name="city" id="city" child="area" onchange="changeCity()"></select>
+							<select name="area" id="district"></select>
+						</td>
+					</tr>
+					<tr>
+						<th>详细地址：</th><td><input class="normal" name="address" type="text" value="{$brand['address']}" /></td>
+					</tr>
+					<tr>
+						<th>客服QQ号码：</th>
+						<td><input class="normal" name="server_num" type="text" value="{$brand['qq']}" /><label>输入客服QQ号码，可以商品详情页面对客户进行解答</label></td>
+					</tr>
+				<!--// update-->
+			
+					<td></td>
+					<td>
+						<input type="hidden" name="img" id="img" value="{$brand['img']}" />
+						<input type="hidden" name="adimg" id="adimg" value="{$brand['adimg']}" />
+						<button class="submit" type="submit"><span>确 定</span></button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/html' id='picTemplate2'>
+ <div class='pic'>
+		 <div class='pic_image'><img src="<?php echo IUrl::creatUrl("")."<%=picRoot%>";?>" alt="<%=picRoot%>" /></div>
+		 <div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+ </div>
+ </script>
+
+ <script type='text/html' id='picTemplate3'>
+ <div class='adpic'>
+		 <div class='pic_image'><img src="<?php echo IUrl::creatUrl("")."<%=picRoot%>";?>" alt="<%=picRoot%>" /></div>
+		 <div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+ </div>
+ </script>
+
+<script type="text/javascript">
+$(function(){
+	//编辑器载入
+	/*KindEditor.ready(function(K){
+		K.create('#description', {items:['source', 'justifyleft', 'justifycenter', 'justifyright',
+		'justifyfull']});
+	});*/
+
+	//地区联动插件
+	//var areaInstance = new areaSelect('province');
+	//areaInstance.init({echo:JSON::encode($brand)});
+	setProvince('{$brand['province']}', '{$brand['city']}' , '{$brand['area']}');
+
+	// 删除图片
+	$("body").on("click", ".pic .pic_dels a", function(){
+		var _img_src = $(this).parent().parent().find('img').attr('true_src');
+		$(this).parent().parent().remove();
+
+		for( var i = 0; i < _album_arr.length; i++ )
+		{
+			if( _album_arr[i] == _img_src )
+				_album_arr.splice( i, 1 );
+		}
+
+		update_pics();
+	});
+
+	$("body").on("click", ".adpic .pic_dels a", function(){
+		var _img_src = $(this).parent().parent().find('img').attr('true_src');
+		$(this).parent().parent().remove();
+		$.post('{url:/brand/ad_del}', {ad: _img_src, brand_id: '{$brand['id']}'}, function(json){
+			if(json.msg == 1){
+				
+				for( var i = 0; i < _album_arr.length; i++ )
+				{
+					if( _ad_arr[i] == _img_src )
+						_ad_arr.splice( i, 1 );
+				}
+
+				update_pics3();
+			}else{
+				alert('删除失败');
+			}
+		}, 'json');
+		
+	});
+})
+
+function changeProvince(){
+    setCity($("#province").val());
+}
+
+function changeCity(){
+    setCity($("#province").val(), $("#city").val());
+}
+function setProvince(provinceVal, cityVal, districtVal){
+    var province = $("#province");
+    var city = $("#city");
+    province.get(0).options.length = 0;
+    city.get(0).options.length = 0;
+    $.getJSON("{url:/block/area_child_my}/aid/0", function(json){
+        if(json!=null){
+            $.each(json, function(i, n){
+                var option = new Option(n, i);
+                if (i == provinceVal) {
+                    option.selected = true;
+                }
+                province.get(0).options.add(option);
+            });
+            if(province.val())
+                province.show();
+            else
+                province.hide();
+            setCity(province.val(), cityVal, districtVal);
+        }else{
+            province.hide();
+            city.hide();
+        }
+    });
+}
+function setCity(provinceVal, cityVal, districtVal){
+    var city = $("#city");
+    city.get(0).options.length = 0;
+    provinceVal = provinceVal == null ? '' : provinceVal;
+    $.getJSON("{url:/block/area_child_my}/aid/" + provinceVal, function(json){
+        if(json!=null){
+            $.each(json, function(i, n){
+                var option = new Option(n, i);
+                if (i == cityVal) {
+                    option.selected = true;
+                }
+                city.get(0).options.add(option);
+            });
+            if(city.val())
+                city.show();
+            else
+                city.hide();
+            setDistrict(city.val(), districtVal);
+        }else{
+            city.hide();
+        }
+    });
+}
+
+function setDistrict(cityVal, districtVal){
+    var district = $("#district");
+    district.get(0).options.length = 0;
+    cityVal = cityVal == null ? '' : cityVal;
+    $.getJSON("{url:/block/area_child_my}/aid/" + cityVal, function(json){
+        if(json!=null){
+            $.each(json, function(i, n){
+                var option = new Option(n, i);
+                if (i == districtVal) {
+                    option.selected = true;
+                }
+                district.get(0).options.add(option);
+            });
+            if(district.val())
+                district.show();
+            else
+                district.hide();
+        }else{
+            district.hide();
+        }
+    });
+}
+
+
+function addInfomation(){
+	var length = $('input[type="text"][name="navtitle[]"]').length;
+	var html = '<tr><th><a href="javascript:;" onclick="addPic(this, '+length+')">增加一行栏目内容</a></th><td class="td"><div><input name="navtitle[]" type="text" placeholder="页面栏目标题" class="normal" /><br /><input type="file" class="normal" name="img['+length+'][]"/><input type="text" name="imgtitle['+length+'][]" placeholder="内容标题" maxlength="40" class="normal" /><input type="text" name="imgbrief['+length+'][]" placeholder="内容描述" class="normal" maxlength="40" /></div></td></tr>';
+	$('#infomation').append(html);
+}
+
+function addPic(obj, length){
+	var html = '<div><input type="file" class="normal" name="img['+length+'][]"/> <input type="text" name="imgtitle['+length+'][]" placeholder="内容标题" maxlength="40" class="normal" /> <input type="text" name="imgbrief['+length+'][]" placeholder="内容描述" class="normal" maxlength="40" /></div>';
+	$(obj).parent().parent().find('td').append(html);
+	$('#' + type).append(html);
+}
+
+//running running upload img 处理课堂照片的图片上传
+function uploadPicCallback(picJson)
+{
+	if ( picJson.flag == -1 )
+	{
+		return false;
+	}
+
+	var _div = 'thumbnails2';
+	var picHtml = template.render('picTemplate2',{'picRoot':picJson.img});
+	$('#' + _div).append(picHtml);
+	if($('#' + _div + ' img[class="current"]').length == 0)
+	{
+		$('#' + _div + ' img:first').addClass('current');
+	}
+
+	_album_arr.push( picJson.img );
+
+	update_pics();
+}
+
+function update_pics()
+{
+	var _str = '';
+	for( i in _album_arr )
+	{
+		_str = ( _str == '' ) ? _album_arr[i] : _str + ',' + _album_arr[i];
+	}
+	$('#img').val( _str );
+}
+
+var uploader2 = new plupload.Uploader({
+ runtimes: 'html5,flash,silverlight,html4',
+ browse_button: 'uploadButton2',
+ url: "{url:/goods/goods_upload_class_pics}",
+ filters: {
+		 max_file_size: '1024kb',
+		 mime_types: [
+				 {title: "files", extensions: "jpg,png,gif"}
+		 ]
+ },
+ multi_selection: true,
+ init: {
+		 FilesAdded: function(up, files) {
+				 if ($("#thumbnails2").children("li").length > 30) {
+						 alert("您上传的图片太多了！");
+						 uploader.destroy();
+				 } else {
+						 var li = '';
+						 plupload.each(files, function(file) {
+						 });
+						 $("#thumbnails2").append(li);
+						 uploader2.start();
+				 }
+		 },
+		 UploadProgress: function(up, file) {
+		 },
+		 FileUploaded: function(up, file, info) {
+				var data = eval("(" + info.response + ")");
+				 if ( info.response == '{"flag":-10}' )
+				 {
+						 alert('上传失败，尺寸不正确');
+						 return false;
+				 }
+				 uploadPicCallback(data);
+		 },
+		 Error: function(up, err) {
+				 alert(err.message);
+		 }
+ }
+});
+uploader2.init();
+
+var uploader3 = new plupload.Uploader({
+ runtimes: 'html5,flash,silverlight,html4',
+ browse_button: 'uploadButton3',
+ url: "{url:/goods/goods_upload_class_pics}",
+ filters: {
+		 max_file_size: '1024kb',
+		 mime_types: [
+				 {title: "files", extensions: "jpg,png,gif"}
+		 ]
+ },
+ multi_selection: true,
+ init: {
+		 FilesAdded: function(up, files) {
+				 if ($("#thumbnails3").children("li").length > 30) {
+						 alert("您上传的图片太多了！");
+						 uploader3.destroy();
+				 } else {
+						 var li = '';
+						 plupload.each(files, function(file) {
+						 });
+						 $("#thumbnails3").append(li);
+						 uploader3.start();
+				 }
+		 },
+		 UploadProgress: function(up, file) {
+		 },
+		 FileUploaded: function(up, file, info) {
+				var data = eval("(" + info.response + ")");
+				 if ( info.response == '{"flag":-10}' )
+				 {
+						 alert('上传失败，尺寸不正确');
+						 return false;
+				 }
+				 uploadPicCallback3(data);
+		 },
+		 Error: function(up, err) {
+				 alert(err.message);
+		 }
+ }
+});
+uploader3.init();
+
+function uploadPicCallback3(picJson)
+{
+	if ( picJson.flag == -1 )
+	{
+		return false;
+	}
+
+	var _div = 'thumbnails3';
+	var picHtml = template.render('picTemplate3',{'picRoot':picJson.img});
+	$('#' + _div).append(picHtml);
+	if($('#' + _div + ' img[class="current"]').length == 0)
+	{
+		$('#' + _div + ' img:first').addClass('current');
+	}
+
+	_ad_arr.push( picJson.img );
+
+	update_pics3();
+}
+
+function update_pics3()
+{
+	var _str = '';
+	for( i in _ad_arr )
+	{
+		_str = ( _str == '' ) ? _ad_arr[i] : _str + ',' + _ad_arr[i];
+	}
+	$('#adimg').val( _str );
+}
+</script>

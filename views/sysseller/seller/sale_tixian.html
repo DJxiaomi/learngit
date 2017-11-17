@@ -1,0 +1,279 @@
+{js:my97date}
+<style>
+input.normal {
+	height: 25px;
+	line-height: 25px;
+	text-indent: 3px;
+}
+input.send_sms {
+	padding: 0 10px;
+	height: 28px;
+	line-height: 28px;
+	display: inline-block;
+	background-color: #f2f2f2;
+	color: #000;
+	border-radius: 3px;
+	text-decoration: none;
+	border: 1px solid #c5c5c5;
+	cursor: pointer;
+}
+input.disable {
+	color: #ccc;
+}
+.send_sms_notice, .balance_notice {
+	margin-top: 10px;
+	background: url(/views/mobile/skin/blue/images/right.png) 0 1px no-repeat;
+	background-size: 13px 13px;
+	padding-left: 18px;
+	display: none;
+}
+.balance_notice {
+	display: block;
+	color: red;
+	background: url(/views/mobile/skin/blue/images/wrong.png) 0 1px no-repeat;
+	background-size: 13px 13px;
+}
+input[type=submit].alt_btn, input[type=button].alt_btn {
+	padding: 0 25px;
+}
+.tabs .alt_btn{padding:0 10px !important;}
+.tab_current{background:#24b408 !important;color:#fff !important;}
+</style>
+
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">账户余额</h3>
+		<ul class="tabs">
+			<li><input type="button" class="alt_btn" onclick="javascript:location.href='/seller/order_list'" value="全款订单" /></li>
+			<li><input type="button" class="alt_btn" onclick="javascript:location.href='/seller/order_prop_list'" value="推荐订单" /></li>
+			<li><input type="button" class="alt_btn" onclick="javascript:location.href='/seller/order_list2'" value="定金订单" /></li>
+			<li><input type="button" class="alt_btn" onclick="javascript:location.href='/seller/order_seat_list'" value="购票订单" /></li>
+			<li><input type="button" class="alt_btn tab_current" onclick="javascript:location.href='/seller/sale_tixian'" value="帐务中心" /></li>
+			<li><input type="button" class="alt_btn" onclick="window.location.href='{url:/seller/tixian_list}';" value="提现记录" /></li>
+		</ul>
+	</header>
+
+	<div class="module_content">
+		<table class="tablesorter" cellspacing="0">
+			<form action="{url:/seller/sale_withdraw/type/1}"  method="post" name="bill_edit">
+			<thead></thead>
+			<tbody>
+				<tr>
+					<td>账户余额：{$sellerRow['sale_balance']}元</td>
+				</tr>
+				{if:$sellerRow['sale_balance'] > 0 }
+				<tr>
+					<td>提 现 金 额 ：<input type="text" pattern="float" name="sale" id="sale" alt="请输入一个正确的数字" class="normal small" placeholder="最多可提{$sellerRow['sale_balance']}" onchange="check_balance()"> 元</td>
+				</tr>
+				<tr style="display:none;">
+					<td>账 户 类 型 ：{if:$sellerRow['bank'] == 1}银行{else:}支付宝{/if}</td>
+				</tr>
+				<tr>
+					<td>银 行 名 称 ：{$sellerRow['account_bank_name']}</td>
+				</tr>
+				<tr>
+					<td>支 行 名 称 ：{$sellerRow['account_bank_branch']}</td>
+				</tr>
+				<tr>
+					<td>收 款 账 号 ：{$sellerRow['account_cart_no']}</td>
+				</tr>
+				<tr>
+ 					<td>账 户 户 名 ：{$sellerRow['account_name']}</td>
+				</tr>
+				<tr>
+					<td>手机验证码：
+						<input type="text" name="mobile_code" id="mobile_code" class="normal small" />
+						<input type="button" class="send_sms" value="获取验证码" onclick="sendMessage();" />
+						<div class="send_sms_notice">验证码已发送到您的<?php echo substr( $mobile, 0, 3 ) . '****' . substr( $mobile, -3 ); ?>手机，请查收
+					</td>
+				</tr>
+				<tr>
+					<td>
+							<input type="submit" class="alt_btn" value="确 定"  onclick='return check_form();'/>
+					</td>
+				</tr>
+				{/if}
+			</tbody>
+		</form>
+		</table>
+	</div>
+
+
+	<table class="tablesorter" cellspacing="0">
+		<colgroup>
+			<col />
+			<col width="150px" />
+			<col width="150px" />
+			<col width="100px" />
+			<col width="100px" />
+			<col width="100px" />
+			<col width="105px" />
+			<col width="90px" />
+			<col width="90px" />
+			<col width="90px" />
+			<col width="90px" />
+		</colgroup>
+		<thead>
+
+			<tr>
+				<th>课程名称</th>
+				<th>学员姓名</th>
+				<th>服务保证金</th>
+				<th>线下应付费</th>
+				<th>课程学费</th>
+				<th>完成时间</th>
+				<th>未结算金额</th>
+				<th>已记账金额</th>
+				<th>记账状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{set:
+				$page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
+				$orderGoodsQuery = CountSum::getSellerGoodsFeeQuery($seller_id);
+				$orderGoodsQuery->page = $page;
+			}
+			{foreach: items = $orderGoodsQuery->find()}
+			{set:$countData = CountSum::countSellerOrderFee(array($item))}
+			{set:$goods_list = Order_Class::get_order_goods_list($item['id'])}
+			{set:$goods = $goods_list[0]}
+			{set:$goods_array = $goods['goods_array']}
+			{set:$countFee = CountSum::countSellerOrderFee(array($item));}
+			{if:$item['statement'] == 2 && $item['chit_id'] > 0 && $item['order_amount'] <= 0}
+
+			{else:}
+			<tr>
+				{if:$item['statement'] == 2 && $item['chit_id'] > 0 }
+					{set:$chit_info = brand_chit_class::get_chit_info($item['chit_id'])}
+					<td><a href="{url:/site/chit_show/id/$chit_info['id']}" target="_blank">{echo:brand_chit_class::get_chit_name($chit_info['max_price'], $chit_info['max_order_chit'])}</a></td>
+				{elseif:$item['statement'] == 4}
+					<td>{$goods_array->name}</td>
+				{else:}
+					<td><a href="{url:/site/products/id/$goods['goods_id']}" target="_blank">{$goods_array->name}</a></td>
+				{/if}
+				<td>{$item['accept_name']}</td>
+				<td>{if:$item['statement'] == 2 && $item['chit_id'] > 0}0{else:}{if:$item['statement'] != 2}{$countFee['countFee']}{else:}{echo:$goods['cost_price'] * $goods['goods_nums'] - $item['rest_price']}{/if}{/if}</td>
+				<td>{if:$item['statement'] == 2 && $item['chit_id'] > 0}0{else:}{$item['rest_price']}{/if}</td>
+				<td>{if:$item['statement'] == 2 && $item['chit_id'] > 0}0{else:}&yen;{echo:$goods['cost_price']*$goods['goods_nums']}{/if}</td>
+				<td>{$item['completion_time']}</td>
+				<td>{$item['not_settled']}</td>
+				<td>{$item['settled']}</td>
+				<td>
+					{if:$item['is_checkout'] == 1}
+					<label class="green">已结算</label>
+					{elseif:$item['is_checkout'] == 2}
+					<label class="blue">部分结算</label>
+					{else:}
+					<label class="orange">未结算</label>
+					{/if}
+				</td>
+				<td>
+					{set:
+						if( $item['statement'] == 1 )
+							$template = 'order_show';
+						else if ( $item['statement'] == 2 )
+							$template = 'order_show_dai';
+						else
+							$template = 'order_show_ding';
+					}
+					<a href="{url:/seller/$template/id/$item['id']}">查看订单</a>
+				</td>
+			</tr>
+			{/if}
+			{/foreach}
+		</tbody>
+	</table>
+
+	<footer></footer>
+	</form>
+
+</article>
+<script type='text/javascript'>
+	var _sale_balance = {$sellerRow['sale_balance']};
+	var _mobile = '{$mobile}';
+	var default_time = 60;
+	var s_count = 60;
+	var send_status = true;
+
+	function check_balance()
+	{
+		var _input_balance = $('#sale').val();
+		if ( _input_balance != '' && parseInt(_input_balance) > _sale_balance )
+		{
+			alert('可用余额不足');
+			$('#sale').val(_sale_balance);
+		}
+	}
+	function check_form()
+	{
+		var _sale = $('[name="sale"]').val();
+		if ( _sale == '')
+		{
+			alert('请输入提现的金额');
+			return false;
+		}
+		if( _sale > _sale_balance)
+		{
+			alert('申请提现的金额超出你的账户余额');
+			return false;
+		}
+		if ( $('#mobile_code').val() == '')
+		{
+			alert('请输入手机验证码');
+			return false;
+		}
+		return true;
+	}
+
+
+	//发送短信码
+	function sendMessage()
+	{
+		{if:!$can_tixian}
+			alert('账户信息不完善，请完善账户信息认证后再重新操作!');
+			return false;
+		{/if}
+
+		if ( s_count == default_time && send_status )
+		{
+			$.getJSON("{url:/seller/get_withdraw_code_ajax}",{},function(response){
+	      if ( response.done !== false )
+	      {
+	        update_sms_status();
+	        time = setInterval(function(){
+	          update_sms_status();
+	        }, 1000);
+	        $('.send_sms').addClass('disable');
+	        $('.send_sms_notice').show();
+	      } else {
+	        alert(response.msg);
+	        return;
+	      }
+			});
+		}
+
+	}
+
+	function update_sms_status()
+	{
+		if ( s_count > 0 )
+		{
+			s_count--;
+			send_status = false;
+			$('.send_sms').attr('disabled',"true");
+			$('.send_sms').val('重新发送验证码(' + s_count + ' s)');
+			$('.send_sms').css('cursor', 'wait');
+		} else {
+			s_count = default_time;
+			send_status = true;
+			clearInterval(time);
+
+			$('.send_sms').val('重新发送验证码');
+			$('.send_sms').removeAttr("disabled");
+			$('.send_sms').removeClass('disable');
+			$('.send_sms').css('cursor', 'pointer');
+		}
+	}
+
+	</script>

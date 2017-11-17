@@ -1,0 +1,30 @@
+{set:$seller_id = $this->seller['seller_id']}
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{skin:css/order_verification.css}" />
+<div class="mui-content-padded">
+	<form class="mui-input-group" action="{url:/seller/order_verification_update}" method="post" enctype='multipart/form-data' id="brandFrom">
+		<div class="mui-input-row">
+			<label>订单验证码</label>
+			<input type="text" name="verification_code"  id="verification_code" placeholder="请输入要核销订单的验证号码" />
+		</div>
+
+		<div class="mui-button-row">
+			<button type="button" class="mui-btn mui-btn-primary" onclick="verification()">确认</button>&nbsp;&nbsp;
+		</div>
+	</form>
+</div>
+
+<script language="javascript">
+	function verification()
+	{
+		var _code = $('#verification_code').val();
+		if ( _code == '')
+		{
+			//alert('请输入验证码');
+			mui.alert('请输入验证码');
+		} else {
+			$('#brandFrom').submit();
+		}
+	}
+</script>

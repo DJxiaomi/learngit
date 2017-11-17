@@ -1,0 +1,356 @@
+{set:$seller_id = $this->seller['seller_id']}
+
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">{if:$statement == 1}订单列表{elseif:$statement == 2}平台推荐{else:}课程预定{/if}</h3>
+		<ul class="tabs" name="menu1">
+			<li id="li_1" class="active">
+				<a href="javascript:select_tab('1');">基本信息</a>
+			</li>
+			<li id="li_2">
+				<a href="javascript:select_tab('2');">退款记录</a>
+			</li>
+			<li id="li_5">
+				<a href="javascript:select_tab('5');">订单日志</a>
+			</li>
+		</ul>
+	</header>
+
+	<div class="module_content" id="tab-1">
+		{set:$orderInstance = new Order_Class();$orderRow = $orderInstance->getOrderShow($id)}
+		{set:$is_order_refund = Refundment_doc_class::is_order_refund( $orderRow['id']);}
+		{set: $cost_price = $item['cost_price']; }
+		{set: $goods_nums = $item['goods_nums']; }
+
+	<fieldset>
+			<table class="tablesorter clear">
+				<colgroup>
+					<col />
+					
+					<col width="90px" />
+					<col width="90px" />
+					<col width="340px" />
+					
+					<col width="90px" />
+					<col width="150px" style="display: none;" />
+				</colgroup>
+				<thead>
+					<tr>
+						
+						<th>姓名:</th>
+					   <th>手机 :</th>
+					   <th>课程</th>
+					   <th>时间:</th>
+					   <th>状态:</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{query:name=order_goods where=order_id eq $order_id and seller_id eq $seller_id}
+					<tr>
+					
+						<td>{$accept_name}</td>
+						<td>{$mobile}</td>
+							<td>
+							{set:$goodsRow = JSON::decode($item['goods_array'])}
+							<a href="{url:/site/products/id/$item['goods_id']}" target="_blank">{$goodsRow['name']} &nbsp;&nbsp; {$goodsRow['value']}</a>
+						</td>
+						<td>{echo: date('Y-m-d H:i', strtotime($create_time))}</td>
+				
+						<td>{echo:order_class::orderStatusText(order_class::getOrderStatus($orderRow),2, $orderRow['statement'])}</td>
+				
+					</tr>
+					{/query}
+				</tbody>
+			</table>
+		</fieldset>
+
+
+		{if:$verification_code == $goods_list[0]['verification_code'] && in_array( order_class::getOrderStatus( $orderRow ), array(4,13))}
+			<input type="button" class="alt_btn" onclick="confirm_delivery('{$orderRow['order_id']}');" value="确认订单" style="display: none;"/>
+		{/if}
+
+		{if:in_array( order_class::getOrderStatus( $orderRow ), array(4))}
+			<input type="button" class="alt_btn" onclick="finish_order('{$orderRow['order_id']}');" value="订单完成" />
+		{/if}
+	</div>
+
+	<div class="module_content" id="tab-2">
+
+		<fieldset>
+			<table class="tablesorter clear">
+				<colgroup>
+					<col width="120px" />
+					<col />
+				</colgroup>
+				<thead>
+					<tr><th colspan="2">退款单据</th></tr>
+				</thead>
+				<tbody>
+				{query: name=refundment_doc where=order_id eq $order_id items=$refundmentData}
+				<tr>
+					<th>课程退款：</th>
+					<td>
+						{query:name=order_goods where=id in ($item[order_goods_id]) item=$orderGoodsItem}
+						{set:$goods = JSON::decode($orderGoodsItem['goods_array'])}
+						<p>
+							<a href="{url:/site/products/id/$orderGoodsItem['goods_id']}" target="_blank" title="{$goods['name']}">{$goods['name']} X {$orderGoodsItem['goods_nums']} </a>
+						</p>
+						{/query}
+					</td>
+				</tr>
+				<tr>
+					<th>退款金额：</th><td>{$item['amount']}</td>
+				</tr>
+				<tr>
+					<th>申请时间：</th><td>{$item['time']}</td>
+				</tr>
+				<tr>
+					<th>状态：</th><td>{echo:Order_Class::refundmentText($item['pay_status'])}</td>
+				</tr>
+				<tr>
+					<th>退款理由：</th><td>{$item['content']}</td>
+				</tr>
+				<tr>
+					<th colspan="2"></th>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<div class="module_content" id="tab-3">
+	<fieldset>
+		<table class="tablesorter clear">
+			<colgroup>
+				<col width="150px" />
+				<col width="150px" />
+				<col width="150px" />
+				<col />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>入学时间</th>
+					<th>授课方式</th>
+					<th>学员姓名</th>
+					<th>备注</th>
+				</tr>
+			</thead>
+			<tbody>
+				{query: name=delivery_doc as c join=left join delivery as p on c.delivery_type eq p.id fields=c.*,p.name as pname where=c.order_id eq $order_id items=$deliveryData}
+				<tr>
+					<td>{$item['time']}</td>
+					<td>{$item['pname']}</td>
+					<td>{$item['name']}</td>
+					<td>{$item['note']}</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<div class="module_content" id="tab-5">
+	<fieldset>
+		<table class="tablesorter clear">
+			<colgroup>
+				<col width="200px">
+				<col width="150px">
+				<col width="150px">
+				<col width="100px">
+				<col />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>时间</th>
+					<th>操作人</th>
+					<th>动作</th>
+					<th>结果</th>
+					<th>备注</th>
+				</tr>
+			</thead>
+			<tbody>
+				{query: name=order_log as ol where=ol.order_id eq $order_id}
+				<tr>
+					<td>{$item['addtime']}</td>
+					<td>{$item['user']}</td>
+					<td>{$item['action']}</td>
+					<td>{$item['result']}</td>
+					<td>{$item['note']}</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+</article>
+
+
+<script type='text/javascript'>
+			var pay_status = '{$pay_status}';
+
+			//DOM加载完毕后运行
+			$(function(){
+				select_tab(1);
+			});
+
+			// 验证码验证
+			function deliver_with_verifi( _order_id, _goods_id )
+			{
+				art.dialog("请输入该课程的验证码：<input type='text' class='normal small' name='verification_code' id='verification_code' value='' style='height: 25px; line-height: 25px;' />&nbsp; &nbsp; <input type='button' id='deliver' value='验证' style='background-color:#ff5500; color: #fff;text-shadow: 0;'/>");
+				$('#deliver').click(function(){
+					var _verification_code = $('#verification_code').val();
+					if ( _verification_code == "")
+					{
+						alert("请输入验证码");
+					} else {
+						var _tempUrl = '{url:/seller/order_delivery_doc_ajax/id/'  + _order_id + '/sendgoods/' + _goods_id + '/verification_code/' + _verification_code + '}';
+						$.get( _tempUrl, function(data){
+							if ( data == '1')
+								window.location.reload();
+							else
+								alert( data );
+						});
+					}
+				})
+			}
+
+			// 普通验证
+			function deliver( _order_id, _goods_id )
+			{
+				art.dialog({
+					content: '您确认要报名此课程吗？',
+					ok:function()
+					{
+						var _tempUrl = "/seller/order_delivery_doc_ajax/id/" + _order_id + '/sendgoods/' + _goods_id;
+						$.get( _tempUrl, function(data){
+							if ( data == '1')
+								window.location.reload();
+							else
+								alert( data );
+							})
+					},
+					cancelVal:'取消',
+					cancel: true,
+				})
+			}
+
+			function finish_order()
+			{
+				url = "{url:/seller/order_finish/order_id/$orderRow['order_id']}";
+				window.location.href = url;
+			}
+
+			//选择当前 Tab
+			function select_tab(curr_tab)
+			{
+				$("div.module_content").hide();
+				$("#tab-"+curr_tab).show();
+				$("ul[name=menu1] > li").removeClass('active');
+				$('#li_'+curr_tab).addClass('active');
+			}
+
+			//快递跟踪
+			function freightLine(doc_id)
+			{
+				var urlVal = "{url:/block/freight/id/@id@}";
+				urlVal = urlVal.replace("@id@",doc_id);
+				art.dialog.open(urlVal,{title:'轨迹查询'});
+			}
+
+			//修改订单价格
+			function updateDiscount()
+			{
+				var order_id = {$id};
+				var discount = $('input[name="discount"]').val();
+				$.getJSON("{url:/seller/order_discount}",{'order_id':order_id,'discount':discount},function(json)
+				{
+					if(json.result == true)
+					{
+						tips('价格修改成功');
+						$('#orderAmount').text(json.orderAmount);
+						$('#orderAmount').addClass("red");
+						return;
+					}
+					tips('价格修改失败');
+				});
+			}
+
+
+			// 确认订单
+			function confirm( _order_id )
+			{
+				art.dialog({
+					content: '该课程已跟学校确认',
+					ok:function() {
+						var _tempUrl = "/seller/order_confirm_ajax/id/" + _order_id;
+						$.get( _tempUrl, function(data){
+							if ( data == '1')
+								window.location.reload();
+							else {
+								if ( data == '-1')
+									alert('该订单不存在');
+								else
+									alert('操作失败');
+							}
+						})
+					},
+					cancelVal:'取消',
+					cancel: true,
+				})
+			}
+
+			function confirm_delivery( _order_id )
+			{
+				art.dialog({
+					content: '您确定要核销该订单吗？',
+					ok:function() {
+						var _tempUrl = "/seller/order_confirm_dilivery_ajax/id/" + _order_id;
+						$.get( _tempUrl, function(data){
+							if ( data == '1')
+								window.location.href = '{url:/seller/order_show/id/$order_id}';
+							else {
+								if ( data == '-1')
+									alert('该订单不存在');
+								else if ( data == '-2')
+									alert('订单未付款，不能发货');
+								else if( data == '-3')
+									alert('代金券已使用，无法重复使用');
+								else
+									alert('操作失败');
+							}
+						})
+					},
+					cancelVal:'取消',
+					cancel: true,
+				})
+			}
+
+			// 订单退款
+			function refundment( _order_id )
+			{
+				art.dialog({
+					content: '您确定要取消该订单吗？',
+					ok:function() {
+						var tempUrl = '{url:/seller/order_refundment_ajax/id/@id@}';
+						tempUrl     = tempUrl.replace('@id@',_order_id);
+						$.get( tempUrl, function(data){
+							console.log( data );
+							if ( data == '1')
+								window.location.reload();
+							else {
+								if ( data == '-1')
+									alert('参数不正确');
+								else if ( data == '-2')
+									alert('无退款的课程');
+								else
+									alert('操作失败');
+							}
+						})
+					},
+					cancelVal:'取消',
+					cancel: true,
+				})
+			}
+</script>

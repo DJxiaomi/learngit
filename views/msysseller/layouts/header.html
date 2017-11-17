@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title><?php echo $this->title; ?></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="/views/mobile/skin/blue/css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="/views/mobile/skin/blue/css/ui-box.css">
+        <link rel="stylesheet" href="/views/mobile/skin/blue/css/ui-base.css">
+        <link rel="stylesheet" href="/views/mobile/skin/blue/css/ui-color.css">
+        <link rel="stylesheet" href="/views/mobile/skin/blue/css/appcan.icon.css">
+        <link rel="stylesheet" href="/views/mobile/skin/blue/css/appcan.control.css">
+        <link rel="stylesheet" href="/views/msysseller/skin/blue/css/common.css">
+        <link rel="stylesheet" href="/views/msysseller/skin/blue/css/form.css">
+        <link href="/views/mobile/skin/new/styles/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="/views/mobile/javascript/picker/css/mui.min.css" rel="stylesheet" type="text/css" />
+        <link href="/views/mobile/javascript/picker/css/mui.picker.css" rel="stylesheet" type="text/css" />
+        <link href="/views/mobile/javascript/picker/css/mui.poppicker.css" rel="stylesheet" type="text/css" />
+        
+		<script src="/views/mobile/skin/blue/js/appcan.js"></script>
+        <script src="/views/mobile/skin/blue/js/appcan.control.js"></script>
+        <script src="/views/mobile/skin/blue/js/appcan.tab.js"></script>
+        <script src="/views/mobile/skin/blue/js/appcan.slider.js"></script>
+        <script src="/views/mobile/skin/blue/js/appcan.listview.js"></script>
+
+        <script type='text/javascript' src='/views/mobile/javascript/picker/js/mui.min.js'></script>
+        <script type='text/javascript' src='/views/mobile/javascript/picker/js/mui.picker.js'></script>
+        <script type='text/javascript' src='/views/mobile/javascript/picker/js/mui.poppicker.js'></script>
+        
+        <script type="text/javascript" charset="UTF-8" src="/runtime/_systemjs/jquery/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/views/msysseller/javascript/common.js"></script>
+        <script type='text/javascript' src="/views/sysseller/javascript/jquery.juploader.js"></script>
+        <script src="/views/default/javascript/layer/layer.js"></script>
+        <link href="/views/mobile/skin/new/styles/font-awesome.min.css" rel="stylesheet" type="text/css" />
+		
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <footer>
+            <a href="/">
+                <i class="icon-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="/site/pro_list">
+                <i class="icon-book"></i>
+                <span>课程</span>
+            </a>
+            <a href="/simple/login?callback=/ucenter">
+                <i class="icon-user"></i>
+                <span>我的</span>
+            </a>
+            <a href="/simple/cart">
+                <i class="icon-shopping-cart"></i>
+                <span>课表</span>
+            </a>
+            <a href="/seller/index">
+                <i class="icon-share-alt"></i>
+                <span>管理</span>
+            </a>
+        </footer>
+
+        <div id="page_0" class="up ub ub-ver bc-bg" tabindex="0">
+            <div id="header" class="uh bc-text-head ub bc-head">
+                <div class="nav-btn" id="nav-left">
+                    <div class="fa fa-angle-left fa-2x back" onclick="history.back(-1);"></div>
+                </div>
+                <h1 class="ut ub-f1 ut-s tx-c" tabindex="0" style="font-size: 17px; padding: 0px; line-height: 35px; padding-top: 6px;"><?php echo $this->title; ?></h1>
+                <div class="nav-btn nav-bt" id="nav-right">
+                    <?php if($this->getId() == 'seller' && $_GET['action'] == 'goods_list'){ ?>
+                    <a href="/seller/goods_edit" class="ub-img iocn-more umw2 umh4 umh4-1">添加</a>
+                    <?php }else{ ?>
+                    <div class="ub-img iocn-more umw2 umh4"></div>
+                    <?php }?>
+                </div>
+            </div>
+            <div id="content" class="ub-f1 tx-l">

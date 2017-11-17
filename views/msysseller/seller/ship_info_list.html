@@ -1,0 +1,55 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<article class="module width_full">
+	<header>
+	<div class="headtext">
+      <div class="biao"><a href="javascript:history.go(-1)"><img src="{skin:images/fanhui.png}"></a></div>
+	   <div class="biaoxi"><h4>商家地址列表</h4></div>
+	   <div class="biaoduo" onclick="return click_a('divOne_1')">...</div> 
+	   <div class="biao_gai"id="divOne_1">
+	        <ul class="tabs">
+			<li><input type="button" class="alt_btn" onclick="window.location.href='{url:/seller/ship_info_edit}';" value="添加地址" /></li>
+			<li><input type="button" class="alt_btn" onclick="selectAll('id[]')" value="全选" /></li>
+			<li><input type="button" class="alt_btn" onclick="delModel();" value="批量删除" /></li>
+		</ul>
+	   </div>
+	   <script>
+	      function click_a(divOne_1){
+		    if(document.getElementById(divOne_1).style.display!="block")
+		     {
+		       document.getElementById(divOne_1).style.display="block";
+			   }
+			   else{
+			      document.getElementById(divOne_1).style.display="none";
+			   }
+		 }
+	  </script>	
+		
+	</header>
+    
+	<div class="zhu">
+				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{set:$seller_id = $this->seller['seller_id']}
+				{query: name=merch_ship_info page=$page where=is_del eq 1 and seller_id eq $seller_id order=id desc}
+
+	<form action="{url:/seller/ship_info_del}" method="post" name="ship_list">
+				    发货点名称:<a href="{url:/seller/ship_info_edit/sid/$item[id]}"class="zla">{$item['ship_name']}</a><br/>
+					地址:{$item['address']}<br/>
+					邮编:{$item['postcode']}<br/>
+   电话:{if:$item['mobile']!=""}{$item['mobile']}{else:}{$item['telphone']}{/if}<br/>
+					商家:{$item['ship_user_name']}<br/>
+					默认:{if:$item['is_default']==1}
+						<a class='red2' href="{url:/seller/ship_info_default/id/$item[id]/default/0}">取消默认</a>
+						{else:}
+						<a class="blue" href="{url:/seller/ship_info_default/id/$item[id]/default/1}">设为默认</a>
+						{/if}
+					<br/>
+					<p>操作:<a href="{url:/seller/ship_info_edit/sid/$item[id]}"><img src="{skin:images/main/icn_edit.png}" alt="编辑" /></a>
+						&nbsp;&nbsp;<a href="javascript:void(0)" onclick="delModel({link:'{url:/seller/ship_info_del/id/$item[id]}'})"><img src="{skin:images/main/icn_del.png}" alt="删除" /></a>&nbsp;&nbsp;
+						<input  class="dian"name="id[]" type="checkbox" value="{$item['id']}" /></p>
+					
+				{/query}
+	</form>
+	</div>
+	{$query->getPageBar()}
+</article>

@@ -1,0 +1,27 @@
+<h5 class="mui-content-padded">家教列表</h5>
+
+{if:$seller_info['is_auth'] != 1}
+  <div class="mui-card">
+    <div class="mui-card-content">
+        请先进行<a href="{url:/seller/seller_edit3}" style="color: red">身份认证</a>，再执行此操作
+    </div>
+  </div>
+{else:}
+  {foreach:items=$seller_tutor_list}
+  <div class="mui-card">
+      <div class="mui-card-content">
+          <div class="mui-card-content-inner">
+              <p class="ordbigbt"><span>年级：</span>{echo:tutor_class::get_grade_title($item['grade_level'], $item['grade'])}</p>
+              <p class="ordbigbt"><span>分类：</span>{$tutor_cate_list[$item['category_id']]['name']}</p>
+              <p>价格：{$item['price']}</p>
+              <p>授课方式：{echo:tutor_class::get_teaching_type($item['teaching_type'])}</p>
+              <p>发布时间：{echo:date('Y-m-d', $item['create_time'])}</p>
+          </div>
+      </div>
+      <div class="mui-card-footer">
+          <a href="{url:/seller/seller_tutor_edit/id/$item[id]}" class="mui-card-link">编辑</a>
+          <a href="{url:/seller/seller_tutor_del/id/$item[id]}" class="mui-card-link">删除</a>
+      </div>
+  </div>
+  {/foreach}
+{/if}

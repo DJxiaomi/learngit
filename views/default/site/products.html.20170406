@@ -1,0 +1,26 @@
+<?php
+	$site_config=new Config('site_config');
+	$dcommission = $site_config->dcommission;
+	$breadGuide = goods_class::catRecursion($category);
+?>
+{js:bxSlider}
+<script type="text/javascript" src="{theme:javascript/products.js}"></script>
+<link href="{skin:/css/products.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:/css/new_products.css}" rel="stylesheet" type="text/css" />
+
+<div class="position"><span>您当前的位置：</span><a href="{url:}">首页</a>{foreach:items=$breadGuide} » <a href="{url:/site/pro_list/cat/$item[id]}">{$item['name']}</a>{/foreach} » {$name}</div>
+<div class="wrapper clearfix">
+	<div class="summary">
+		<h2>
+			<div>{$name}</div>
+			{if:$time < $limit_end_time && $products[0]['market_price'] > 0}<input class="submit_buy" type="button" id="buyNowButton" value="立即报名"  onclick="location.href='{url:/simple/cart2/id/$products[0]['id']/num/1/type/product}'"/>{/if}
+		</h2>
+
+		<input type='hidden' id='product_id' alt='课程ID' value='' />
+		<div class="clear"></div>
+		<div class="content">
+			{$content}
+		</div>
+	</div>
+
+</div>

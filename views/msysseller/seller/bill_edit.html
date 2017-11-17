@@ -1,0 +1,163 @@
+<?php $this->title = '货款结算申请'; ?>
+{template:'/views/msysseller/layouts/header.html'}
+{js:jquery}
+{js:dialog}
+{js:form}
+{js:artTemplate}
+{js:my97date}
+{set:$seller_id = $this->seller['seller_id']}
+
+<style>
+.module_content { font-size: 80%; font-family:"微软雅黑"; width: 90%; margin: 0px auto; }
+.module_content .hd {
+	width: 100%;
+	height: 25px;
+	line-height: 25px;
+	font-size: 100%; 	
+}
+.module_content .input {
+	width: 90px;
+	height: 25px;
+	line-height: 25px;
+	margin: 0 5px;
+}
+footer { width: 90%; margin: 0px auto; }
+footer input { width: 20%; padding: 5px 0; color: #fff; background-color: #ff5500; border: 0px; border-radius: 3px; }
+</style>
+
+<article class="module width_full">
+
+	<header>
+
+
+		<form action="{url:/seller/bill_update}"  method="post" name="bill_edit">
+
+		<input type='hidden' name='id' />
+
+
+		<div class="module_content">
+
+
+				<div class="hd">结算时间：</div>
+
+				<div class="box">
+
+					从<input type='text' class="textwen input" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='<br/>开始日期' title="开始日期" />至<input type='text' class="textwen input" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='<br/>结束日期' title="结束日期" /><input class="btn" type="button"style="height:35px;width:25%;margin-top:10px;text-align: center;" value="点击计算" id="checkButton" onclick="checkoutFee();" /><br/>
+
+				</div>
+
+
+
+				 <div class="box" style="padding-top:15px;">
+
+					<textarea name="log" style="height:100px;width:80%;"disabled="disabled"></textarea><br/>
+
+					<label class="tip"></label><br/>
+
+				</div>
+
+                <div class="hd">结算附言：</div>
+
+				<textarea name="apply_content"style="height:100px;width:80%;margin-top:10px;"></textarea><br/>
+
+                <div class="hd">管理员回复：</div>
+
+				<textarea name="pay_content" disabled="disabled"style="height:100px;width:80%;margin-top:20px;"></textarea><br/>
+
+
+		</div>
+
+
+
+		<footer>
+
+			<div class="submit_link"style="margin-top:10px;">
+
+				<p><input type="submit" class="alt_btn" value="确 定" />
+
+				<input type="reset" class="alt_right" value="重 置" /></p>
+
+			</div>
+
+		</footer>
+
+		</form>
+
+	</header>	
+
+</article>
+
+
+
+<script type="text/javascript">
+
+//表单回填
+
+var formObj = new Form('bill_edit');
+
+formObj.init({echo:JSON::encode($this->billRow)});
+
+
+
+//存在结算单数据就要锁定已有数据
+
+{if:$this->billRow}
+
+$("[name='start_time']").attr("disabled",true);
+
+$("[name='end_time']").attr("disabled",true);
+
+$("#checkButton").hide();
+
+{/if}
+
+
+
+//计算结算款明细
+
+function checkoutFee()
+
+{
+
+	var startTime = $("[name='start_time']").val();
+
+	var endTime   = $("[name='end_time']").val();
+
+	if(!startTime || !endTime)
+
+	{
+
+		alert("请填写完整的时间段");
+
+		return;
+
+	}
+
+
+
+	$.getJSON("{url:/seller/countGoodsFee}",{"start_time":startTime,"end_time":endTime}, function(json)
+
+	{
+
+		if(json.result == 'success')
+
+		{
+
+			$("[name='log']").val(json.data);
+
+		}
+
+		else
+
+		{
+
+			alert(json.data);
+
+		}
+
+	})
+
+}
+
+</script>
+{template:'/views/msysseller/layouts/footer.html'}

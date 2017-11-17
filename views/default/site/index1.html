@@ -1,0 +1,148 @@
+{set:
+	$site_config=new Config('site_config');
+	$seo_data=array();
+	$seo_data['title']=$site_config->name;
+	$seo_data['title'].=$site_config->index_seo_title;
+	$seo_data['keywords']=$site_config->index_seo_keywords;
+	$seo_data['description']=$site_config->index_seo_description;
+	seo::set($seo_data);
+}
+
+<link rel="stylesheet" type="text/css" href="{theme:javascript/jquery.bxSlider/jquery.bxslider.css}" />
+<script type="text/javascript" src="{theme:javascript/jquery.bxSlider/jquery.bxSlider.min.js}"></script>
+
+<div class="wrapper clearfix">
+	<div class="sidebar f_r">
+	{echo:Ad::show(7)}
+	</div>
+
+	<!--幻灯片 开始-->
+	<div class="mainfl">
+		{if:$this->index_slide}
+		<ul class="bxslider">
+			{foreach:items=$this->index_slide}
+			<li title="{$item['name']}"><a href="{url:$item[url]}" target="_blank"><img src="{webroot:$item[img]}" title="{$item['name']}" /></a></li>
+			{/foreach}
+		</ul>
+		{/if}
+	</div>
+	<!--幻灯片 结束-->
+</div>
+
+{echo:Ad::show(6)}
+
+<div class="wrapper clearfix">
+		<!--热门课程-->
+		<div class="hotboxa">
+			<div class="title"><h2>最新成交</h2></div>
+			<div class="contfix">
+				<ul class="prolistb">
+					{foreach:items=Api::run('getCommendHot',12)}
+					{set:$tmpId=$item['id']}
+					<li>
+						<a href="{url:/site/products/id/$tmpId}"><img src="{url:/pic/thumb/img/$item[img]/w/85/h/85}" width="85" height="85" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown"><b>￥{$item['sell_price']}</b></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--热门课程-->
+
+
+	<div class="main f_l">
+		<!--课程分类展示-->
+		<div class="category box">
+			<div class="title2">
+				<h2><img src="{skin:images/front/category.gif}" alt="地区列表" width="155" height="36" /></h2>
+				<a class="more" href="{url:/site/sitemap}">地区列表</a>
+			</div>
+		</div>
+
+		<table id="index_category" class="sort_table m_10" width="100%">
+			<col width="100px" />
+			<col />
+			{foreach:items=Api::run('getCategoryListTop') item=$first}
+			<tr>
+				<th><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a></th>
+				<td>
+					{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+					<a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a>
+					{/foreach}
+				</td>
+			</tr>
+			{/foreach}
+		</table>
+		<!--课程分类展示-->
+
+		<!--最新课程-->
+		<div class="box yellow m_10">
+			<div class="title2">
+				<h2><img src="{skin:images/front/new_product.gif}" alt="最新课程" width="160" height="36" /></h2>
+			</div>
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=Api::run('getCommendNew',5)}
+					{set:$tmpId=$item['id'];}
+					<li style="overflow:hidden">
+						<a href="{url:/site/products/id/$tmpId}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown">惊喜价：<b>￥{$item['sell_price']}</b></p>
+						<p class="light_gray">市场价：<s>￥{$item['market_price']}</s></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--最新课程-->
+
+		<!--首页推荐课程-->
+		{foreach:items=Api::run('getCategoryListTop')  item=$first }
+		<div class="box m_10" name="showGoods">
+			<div class="title title3">
+				<h2><a href="{url:/site/pro_list/cat/$first[id]}"><strong>{$first['name']}</strong></a></h2>
+				<a class="more" href="{url:/site/pro_list/cat/$first[id]}">更多课程...</a>
+				<ul class="category">
+					{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id']))  item=$second}
+					<li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a><span></span></li>
+					{/foreach}
+				</ul>
+			</div>
+
+			<div class="cont clearfix">
+				<ul class="prolista">
+					{foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),16)}
+					<li style="overflow:hidden">
+						<a href="{url:/site/products/id/$item[id]}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" title="{$item['name']}" /></a>
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$item[id]}">{$item['name']}</a></p>
+						<p class="brown">惊喜价：<b>￥{$item['sell_price']}</b></p>
+						<p class="light_gray">市场价：<s>￥{$item['market_price']}</s></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		{/foreach}
+	</div>
+</div>
+
+<script type='text/javascript'>
+//dom载入完毕执行
+jQuery(function()
+{
+	//幻灯片开启
+	$('.bxslider').bxSlider({'mode':'fade','captions':true,'pager':false,'auto':true});
+
+	//index 分类展示
+	$('#index_category tr').hover(
+		function(){
+			$(this).addClass('current');
+		},
+		function(){
+			$(this).removeClass('current');
+		}
+	);
+	}
+}
+</script>

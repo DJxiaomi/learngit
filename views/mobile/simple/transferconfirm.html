@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="{skin:css/common.css}" />
+{template:'/views/mobile/layouts/header2.html'}
+{js:form}
+{js:validate}
+{js:dialog}
+{js:artTemplate}
+{js:roderFormClass}
+<style>
+input.sqjm-bt, input.submitreg, input.tijiao { background-color: rgb(247, 141, 62); color: #fff; font-weight: 400; height: 35px; line-height: 35px; font-size: 14px; font-weight: 700; }
+.fa { color: #fff; }
+#address_form { clear: both; }
+.form_table { padding-top: 0px; }
+</style>
+
+
+
+<div class="ub ub-ver">
+	<form action='{url:/simple/transferupdate}' method='post' name='order_form' onsubmit="return checkTransfer();">
+		<input type='hidden' name='orderid' value='{$order['id']}' />
+		<div class="cart2boxnr">
+			<div class="cont">
+
+				<!--地址管理 开始-->
+				<div class="xinxibox">
+                   <div class="sizebox">
+						<span class="heading">联系人信息</span>
+						<div class="box" id='address_form'>
+                            <div class="form_table">
+                                <col width="90px" />
+                                <col />
+                                        <div><b>联系人姓名：</b><div><input class="normal1" type="text" name="acceptname" pattern='required' alt='姓名不能为空' /> <span>(*) 联系人的姓名</span> </div></div>
+                                        <div><b>手机号码：</b><div><input class="normal1" name='telephone' type="text" pattern='mobi' alt='格式不正确' /> <span>(*) </span></div></div>
+                                </tbody>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+
+				<!--地址管理 结束-->
+
+				<!--支付方式 开始-->
+				<div class="xinxibox" id='paymentBox'>
+					<div class="sizebox">
+						<span class="heading">支付方式</span>
+						<div width="100%" class="twostyle" id='payment_form'>
+                        	<colgroup>
+                                <col width="200px" />
+                                <col />
+                            </colgroup>
+                            {set:$paymentList=Api::run('getPaymentList')}
+                            {foreach:items = $paymentList}
+                            {set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],$this->sum);}
+                                <div class="paystyle" style="width: 100%; float:none;">
+																	<label>
+																		<input class="radio" name="payment" alt="{$paymentPrice}" title="{$item['name']}" type="radio" value="{$item['id']}" paytype="{$item['name']}" onclick="setPayType(this)" />{$item['name']}
+																	</label>
+																</div>
+                            {/foreach}
+						</div>
+						<input type="hidden" name="paytype" id="paytype" value="">
+					</div>
+				</div>
+				<!--支付方式 结束-->
+
+				<!--订单留言 开始-->
+				<div class="xinxibox">
+ 					<div class="sizebox">
+						<span class="heading">订单留言</span>
+						<div width="100%" class="formtable" id='message_form'>
+                            <col width="120px" />
+                            <col />
+							<div class="orderstyle">订单留言：</div>
+							<div><input class="orderstyle1" type="text" name='mark' /></div>
+						</div>
+                    </div>
+				</div>
+				<!--订单留言 结束-->
+
+				<!--购买清单开始-->
+                <div class="qingdanbox">
+                    <div class="qingdanbt"><span class="qingdan-bt">已购买</span></div>
+											<a href="{url:/site/transfer_show/id/$order[transferid]}" class="">
+		                    <div class="qingdanlb clearfix">
+		                        <div class="qingdanimg"><img class="" src="{url:/pic/thumb/img/$order['goods'][img]/w/75/h/75}" width="75px" height="75px" alt="{$order['goods']['name']}" title="{$order['goods']['name']}" onerror="this.src='/views/mobile/skin/blue/images/default_goods_200x200.png'" /></div>
+				                     <div class="qingdannr">
+					                        <div class="qingdanname">
+					                        {$order['goods']['name']}
+					                        </div>
+
+				                        	<div class="qindanjg">价格：<span class="red3">&yen;{$order['price']}</span></div>
+				                        	<div class="qindanjg"><b>手续费：</b><span class="red3">&yen;{$order['commission']}</span></div>
+				                      </div>
+
+		                    </div>
+										</a>
+                    <div class="clearboth"></div>
+                </div>
+				<!--购买清单结束-->
+
+				<!--结算信息开始-->
+
+				<div class="jiesuanbox">
+
+					<div class="clearboth"></div>
+					<div class="pink_box gray m_10">
+						<div width="100%" class="">
+							<div class="fapiaobox">
+								<p><b class="price f14">应付总额：<span class="red2"><b id="final_sum">{$order['amount']}</b></span>元 = 费用：{$order['price']}元 + 手续费：{$order['commission']}元</b></p>
+							</div>
+                    		<p class="m_10 t_r" style="margin-bottom: 60px;"><input type="submit" class="tijiao" style="background:#ffb03f;margin-top:10px;" value="确认无误，提交订单" /></p>
+						</div>
+                	</div>
+          		</div>
+
+				<div class="clearboth"></div>
+   			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+function getCommission(obj){
+    var price = Number($(obj).val());
+    var commission = Number('{$site_config->tcommission}') / 100;
+
+    $('#commission').text((price * commission).toFixed(2));
+}
+
+function setPayType(obj){
+    $('#paytype').val($(obj).attr('paytype'));
+}
+
+function checkTransfer()
+{
+    if($('#paytype').val() == ''){
+        alert('请选择支付方式')
+        return false;
+    }
+}
+</script>

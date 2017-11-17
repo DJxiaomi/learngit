@@ -1,0 +1,6 @@
+html,body{height:100%;background-color:#fff;}
+.mui-content {background-color:#fff;}
+.mui-content-padded {padding-top: 10px;}
+.mui-btn-primary {width:90%;background:linear-gradient(to right,#ff9638,#ff4b2b);border:0px;letter-spacing: 20px;border-radius:5px;}
+.mui-input-group:after,.mui-input-group:before {height:0px;}
+.mui-button-row {margin-top: 20px;}

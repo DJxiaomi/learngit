@@ -1,0 +1,9 @@
+<?php
+$siteurl='http://www.dsanke.com/';
+$alipay_isok='1';
+$jktype='2';
+$seller_email='lxsh@dsanke.com';
+$partner='2088911618362773';
+$key='pl94wd7mnoisw07qwcp9kcbzennp0hkn';
+$input_charset='gbk';
+?>

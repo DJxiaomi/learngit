@@ -1,0 +1,117 @@
+.module_content {
+  width: 100%;
+  margin: 0px auto;
+  padding-top:60px;
+}
+.Header {
+  /* display: none; */
+}
+.free_class_content {
+  width: 100%;
+}
+.free_class_content .free_class_hd {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  float: left;
+}
+.free_class_content .free_class_hd img {
+  max-width: 100%;
+  float: left;
+  width: 100%;
+}
+.free_class_content .free_class_bd {
+  width: 100%;
+  float: left;
+  background: url(../images/discount_img_2.jpg) 0 0 repeat-y;
+  background-size: 100%;
+  padding-bottom: 60px;
+}
+.free_class_content .free_class_bd ul {
+  list-style: none;
+  padding: 0px;
+  width: 1180px;
+  margin: 0px auto;
+  overflow: hidden;
+}
+.free_class_content .free_class_bd li {
+    width: 1180px;   
+    height: 432px;
+    margin-right: 13px;
+    display: inline-block;
+    float: left;
+    margin: 0 12px 25px 0;
+    overflow: hidden;
+    /*box-shadow: 15px 5px 15px 2px #666;*/
+    background: url(../images/discount_bg_1.png) right 0 no-repeat #fff;
+}
+.free_class_content .free_class_bd li a {
+	width: 1178px;
+	height: 430px;
+	display: block;	
+	border: 1px solid #BEBEBE;
+	position:relative;
+}
+.free_class_content .free_class_bd li a:hover {
+	border: 1px solid #f17d00;	
+}
+.free_class_content .free_class_bd li.t2 {
+  background: url(../images/discount_bg_2.png) right 0 no-repeat #fff;
+}
+.free_class_content .free_class_bd li .class_image {
+  width: 779px;
+  height: 430px;
+  overflow: hidden;
+  float: left;
+}
+.free_class_content .free_class_bd li .class_image a {
+  display: block;
+  width: 779px;
+  height: 430px;
+}
+.free_class_content .free_class_bd li .class_image img {
+  max-width: 100%;
+}
+.free_class_content .free_class_bd li .class_action {
+  margin-top: 70px;
+  width: 350px;
+  float: right;
+  margin-right: 25px;
+}
+.free_class_content .free_class_bd li .class_action p {
+  font-size: 120%;
+  line-height: 45px;
+  color: #454545;
+  font-family:"微软雅黑";
+}
+.free_class_content .free_class_bd li .class_action p.tt {
+  font-weight: 600;
+}
+.free_class_content .free_class_bd li .class_action p.detail {
+  line-height: 25px;
+  margin-top: 10px;
+}
+.free_class_content .free_class_bd li .class_active_border {
+	width:1176px;
+	height: 428px;
+	border: 1px solid #f17d00;
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 2;	
+	display:none;
+}
+.free_class_content .free_class_bd li a:hover .class_active_border {
+	display: block;	
+}
+.free_class_content .page_info {
+  width: 1180px;
+  margin: 0px auto;
+}
+.footer {
+  overflow: hidden;
+  border-top: 0px;
+  margin-top: 0px;
+}
+

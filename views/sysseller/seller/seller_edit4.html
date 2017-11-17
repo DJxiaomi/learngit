@@ -1,0 +1,69 @@
+{js:artTemplate}
+{js:areaSelect}
+<article class="module width_full">
+	<header>
+		<h3>结算账户</h3>
+	</header>
+
+	<form action="{url:/seller/seller_add4}" method="post" name="sellerForm" enctype='multipart/form-data'>
+		<div class="module_content">
+					<fieldset>
+						<label>开户银行名称：</label>
+						<td><input type="text" class="normal" name="account_bank_name" required /><label>请输入开户银行名称</label></td>
+					</fieldset>
+					<fieldset>
+						<label>开户支行：</label>
+						<td><input type="text" class="normal" name="account_bank_branch" required /><label>请输入开户支行名称</label></td>
+					</fieldset>
+					<fieldset>
+						<label>账户姓名：</label>
+						<td><input type="text" class="normal" name="account_name" required /><label>开户账户姓名</label></td>
+					</fieldset>
+					<fieldset>
+						<label>银行卡号：</label>
+						<td><input type="text" class="normal" name="account_cart_no" required /><label></label></td>
+					</fieldset>
+					<fieldset>
+						<label>保证金数额：</label>
+						<td><input type="text" class="normal" name="cash" pattern="float" empty /><label>人民币（元）</label></td>
+					</fieldset>
+
+					<fieldset>
+						<label>商品定金比例：</label>
+						<td><input type="text" class="normal" name="deposit" pattern="float" empty /><label>用于分期付款首付比例设置</label></td>
+					</fieldset>
+					<fieldset>
+						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+					</fieldset>
+	     </div>
+	</form>
+
+</article>
+
+
+<script language="javascript">
+//DOM加载完毕
+$(function()
+{
+	//修改模式
+	{if:$this->sellerRow}
+	var formObj = new Form('sellerForm');
+	formObj.init({echo:JSON::encode($this->sellerRow)});
+
+	//锁定字段一旦注册无法修改
+	if($('[name="id"]').val())
+	{
+		var lockCols = ['seller_name'];
+		for(var index in lockCols)
+		{
+			$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+			$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+		}
+	}
+	{/if}
+
+	//地区联动插件
+	var areaInstance = new areaSelect('province');
+	areaInstance.init({echo:JSON::encode($this->sellerRow)});
+});
+</script>

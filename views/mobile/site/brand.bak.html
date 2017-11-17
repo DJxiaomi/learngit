@@ -1,0 +1,89 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+{set:$id = intval(IReq::get('id'));$name = IFilter::act(IReq::get('name'));}
+
+<div class="wrapper clearfix container_2">
+	<div class="sidebar f_l">
+		<div class="box_2 m_10">
+			<div class="content">
+				<ul class="brand_list">
+				{foreach:items=Api::run('getBrandCategory',8)}
+				<li {if:$item['id']==$id}class='current'{/if}><a href="{url:/site/brand/id/$item[id]/name/$item[name]}">{$item['name']}</a></li>
+				{/foreach}
+				
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="main f_r">
+		<div class="box">
+        <!--信息处-->
+        <div class="fenleibt">
+          <p class="btstyle">{$name}</p>
+        </div>
+        
+		{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+		{set:$getbrandList = Api::run('getbrandList',$id)}
+		{if:$getbrandList->find()}
+		{foreach:items = $getbrandList->find()}
+		<div class="product-xq">
+          <div class="boxleft">
+          <img class="goodsimg" src="/{$item['img']}" width="80px" height="75px" alt="{$item['name']}" alt="{$item['name']}" title="{$item['name']}" /></div> 
+          <div class="boxright">
+          <a href="{url:/site/products/id/$item['id']}" class="goodsname1">
+          {if:strlen($item['name'])>16}
+          {echo:mb_substr($item['name'],0,16,'utf8')}...
+          {else:}
+          {$item['name']}
+          {/if}
+          </a> 
+          <p class="title1"><span>总销量：{$item['sale']}<a class="blue" href="{url:/site/pingjia/id/$item[id]}">( {$item['comments']}人评论 )</a></span></p>
+          <p class="goodsprice">价格：<b>￥{$item['sell_price']}</b></p></div>
+        <div class="daogou1">
+          <a href="javascript:joinCart_list({$item['id']});" class="button orange1"><span class="white">加入购物车</span></a>
+          <a href="{url:/site/products/id/$item['id']}" class="button orange1"><span class="white">立即购买</span></a>
+        </div>
+        </div>
+		{/foreach}
+        {$getbrandList->getPageBar()}
+
+		{else:}
+		<p class="display_list mt_10" style='margin-top:50px;margin-bottom:50px'>
+			<strong class="gray f14">对不起，没有找到</strong>
+		</p>
+		{/if}
+		
+		
+        
+		<!--
+		{if:isset($name) && $name != ''}
+			<div class="title">{$name}</div>
+			<div class="cont">
+				<ul class="piclist_2">
+				
+					{foreach:items=Api::run('getBrandListWhere',array('#id#',$id),100)}
+					<li>
+					<a class="pic" href="{url:/site/brand_zone/id/$item[id]}"><img src="{webroot:$item[logo]}" width="154" height="109" /></a>
+					<a href="{$item['url']}"><h3>{$item['name']}</h3></a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		{else:}
+			<div class="title">推荐行业</div>
+			<div class="cont">
+				<ul class="piclist_2">
+					{foreach:items=Api::run('getBrandList',40)}
+					<li>
+					<a class="pic" href="{url:/site/brand_zone/id/$item[id]}"><img src="{webroot:$item[logo]}" width="120px" height="85px" /></a>
+					<a href="{$item['url']}"><h3>{$item['name']}</h3></a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		{/if}-->
+        <!--信息处-->
+		</div>
+	</div>
+</div>

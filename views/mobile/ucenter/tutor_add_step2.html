@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="{theme:javascript/mui/css/mui.picker.min.css}">
+<script type='text/javascript' src="{theme:javascript/mui/js/mui.picker.min.js}"></script>
+<style>
+input[type=radio] {margin-top: 13px;}
+</style>
+<h5 class="mui-content-padded">发布家教信息-签署合同</h5>
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/ucenter/tutor_add_step2_update}" method="post" enctype='multipart/form-data'>
+
+    <img src="{webroot:$tutor_info['contract_addr']}" width="100%;" />
+
+		<div class="mui-button-row">
+      <input type="hidden" name="id" value="{$tutor_info['id']}" />
+			<button type="submit" class="mui-btn mui-btn-primary">确认</button>
+		</div>
+
+	</form>
+</div>

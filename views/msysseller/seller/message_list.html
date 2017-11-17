@@ -1,0 +1,25 @@
+{if:$this->seller_messageHandle->find()}
+{foreach:items = $this->seller_messageHandle->find()}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			<p>标题：{$item['title']}</p>
+			<p>内容：{$item['content']}</p>
+			<p>时间：{$item['time']}</p>
+		</div>
+	</div>
+	<div class="mui-card-footer">
+		<!-- <a class="mui-card-link" href="{url:/seller/teacher_edit/id/$item[id]}">编辑</a> -->
+		<a class="mui-card-link" href="{url:/seller/message_del/id/$item[id]}'}">删除</a>
+	</div>
+</div>
+{/foreach}
+{else:}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			没有信息
+		</div>
+	</div>
+</div>
+{/if}

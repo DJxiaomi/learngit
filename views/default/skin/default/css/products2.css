@@ -1,0 +1,5 @@
+.preview{width: 38%;height:360px;overflow:hidden;}
+.textcontent p img{width:75%;height:auto;}
+.pic_show {width:100%;height:280px;position:relative;z-index:5;padding-bottom:5px;}
+.pic_show img{width:100%;height:100%;}
+.summary .current {margin-right: 20px;}

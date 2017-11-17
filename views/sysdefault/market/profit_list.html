@@ -1,0 +1,73 @@
+{js:my97date}
+{set:$search = IReq::get('search') ? IFilter::act(IReq::get('search'),'strict') : array();}
+
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>数据统计</span><span>></span><span>平台利润</span></div>
+	<div class="operating" style="display:none;">
+		<div class="search f_l">
+			<form name="searchOrderGoods" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='market' />
+				<input type='hidden' name='action' value='order_goods_list' />
+				从 <input type="text" name='search[create_time>=]' value='' class="Wdate" pattern='date' alt='' onFocus="WdatePicker()" empty /> 到 <input type="text" name='search[create_time<=]' value='' empty pattern='date' class="Wdate" onFocus="WdatePicker()" />
+
+				<select class="auto" name="search[is_checkout=]">
+					<option value="" selected="selected">结算状态</option>
+					<option value="0">未结算</option>
+					<option value="1">已结算</option>
+				</select>
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="content">
+	<table class="list_table">
+		<colgroup>
+			<col width="140px" />
+			<col width="120px" />
+			<col width="130px" />
+			<col width="120px" />
+			<col width="120px" />
+			<col width="120px" />
+			<col width="80px" />
+			<col width="80px" />
+			<col width="80px" />
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>订单号</th>
+				<th>商户名称</th>
+				<th>用户名</th>
+				<th>手机号</th>
+				<th>下单时间</th>
+				<th>付款金额</th>
+				<th>商户结算</th>
+				<th>平台利润</th>
+				<th>类型</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{foreach:items  = $company_profit_list}
+			<tr>
+				<td>{$item['order_no']}</td>
+				<td>{$item['shortname']}</td>
+				<td>{$item['username']}</td>
+				<td>{$item['mobile']}</td>
+				<td>{echo:date('Y-m-d H:i:s',$item['time'])}</td>
+				<td>{$item['pay_amount']}</td>
+				<td>{$item['seller_profit']}</td>
+				<td>{$item['company_profit']}</td>
+				<td>{if:$item['type'] == 1}全款购买{else:}{if: $item['type'] == 2}购买代金券{elseif: $item['type'] == 3}购买短期课{else:}面对面付款{/if}{/if}</td>
+			</tr>
+			{/foreach}
+			{if:!$company_profit_list}
+			<tr>
+				<td colspan="9" align="center" style="text-align:center;">暂无任何信息</td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+</div>
+{$page_info}

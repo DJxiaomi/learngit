@@ -1,0 +1,39 @@
+{set:$search = Util::search(IReq::get('search'));$where = $search ? " and ".$search : "";}
+{if:$refund_list}
+{foreach:items=$refund_list}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			<p>订单号：<span class="gray">{$item['order_no']}</span></p>
+			<p>申请时间：<span class="gray">{$item['time']}</span></span></p>
+			<p>退款状态：{echo:Order_Class::refundmentText($item['r_pay_status'])}</p>
+		</div>
+		<h5>退款课程</h5>
+		<ul class="mui-table-view">
+        	{query:name=order_goods where=id in ($item[order_goods_id]) item=$itemGoods}
+            {set:$goods = JSON::decode($itemGoods['goods_array'])}
+            <li class="mui-table-view-cell mui-media">
+                <img class="mui-media-object mui-pull-left" src="{webroot:$itemGoods['img']}">
+                <div class="mui-media-body">
+                	<?php $goods_array = $itemGoods['goods_array']; ?>
+                    <p>{$goods['name']} {$goods['value']}</p>
+                    <p class="ordbigbt">{$itemGoods['goods_price']} x {$itemGoods['goods_nums']}</p>
+                </div>
+            </li>
+            {/query}
+        </ul>
+	</div>
+	<div class="mui-card-footer">
+		<a class="mui-card-link" href="{url:/seller/refundment_show/id/$item[rid]}">详情</a>
+	</div>
+</div>
+{/foreach}
+{else:}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			没有信息
+		</div>
+	</div>
+</div>
+{/if}

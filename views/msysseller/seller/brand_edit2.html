@@ -1,0 +1,155 @@
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{skin:css/brand_edit2.css}" />
+<script type="text/javascript" src="/plugins/newupload/plupload.full.min.js"></script>
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/seller/brand_base_add}" method="post" enctype='multipart/form-data' id="brandFrom">
+		<div class="mui-input-row">
+			<label>用户名</label>
+			{$this->brandRow['username']}
+		</div>
+		<div class="mui-input-row hide">
+			<label>注册名称</label>
+			{$this->brandRow['name']}
+		</div>
+		<div class="mui-input-row">
+			<label>学校名称</label>
+			<input type="text" name="shortname" value="{$this->brandRow['shortname']}" placeholder="请填写学校简称" />
+			<span class="mui-required-right">*</span>
+		</div>
+
+		<div class="mui-input-row" id="categorytxt">
+			<label>所属分类</label>
+			<span>{if:$brand_info['catname']}{$brand_info['catname']}{else:}请选择{/if}</span>
+			<input type="hidden" name="category[]" id="category" />
+			<i class="icon-angle-right"></i>
+			<span class="mui-required-right">*</span>
+		</div>
+
+
+		<div class="mui-input-row">
+			<label>固定电话</label>
+			<input type="text" name="telephone" value="{$this->brandRow['telephone']}" placeholder="请填写固定电话" />
+		</div>
+		<div class="mui-input-row" id="region">
+			<label>学校地址</label>
+			<span id="province">{if:$brand_info['provinceval']}{$brand_info['provinceval']}{else:}湖南省{/if}</span>
+			<span id="city">{if:$brand_info['cityval']}{$brand_info['cityval']}{else:}株洲市{/if}</span>
+			<span id="discrict">{if:$brand_info['discrictval']}{$brand_info['discrictval']}{else:}市辖区{/if}</span>
+			<input type="hidden" name="province" id="provinceval" value="{if:$this->brandRow['province']}{$this->brandRow['province']}{else:}430000{/if}" />
+			<input type="hidden" name="city" id="cityval" value="{if:$this->brandRow['city']}{$this->brandRow['city']}{else:}430200{/if}" />
+			<input type="hidden" name="area" id="discrictval" value="{if:$this->brandRow['discrict']}{$this->brandRow['discrict']}{else:}430201{/if}" />
+			<i class="icon-angle-right"></i>
+		</div>
+		<div class="mui-input-row">
+			<label>详细地址</label>
+			<input type="text" name="address" value="{$this->brandRow['address']}" placeholder="请填写详细地址" />
+		</div>
+		<div class="mui-input-row">
+			<label>邮箱</label>
+			<input type="text" name="email" value="{$this->brandRow['email']}" placeholder="请填写邮箱" />
+		</div>
+		<div class="mui-input-row">
+			<label>QQ</label>
+			<input type="text" name="qq" value="{$this->brandRow['qq']}" placeholder="请填写QQ" />
+		</div>
+		<div class="mui-input-row">
+			<label>登录密码</label>
+			<input type="password" name="password" placeholder="需要修改时填写密码" />
+		</div>
+		<div class="mui-input-row">
+			<label>自定义网址</label>
+			<input type="text" name="url" value="{$this->brandRow['url']}" placeholder="自定义网址" />
+		</div>
+
+
+		<div class="mui-button-row">
+			<input type="hidden" name="brand_id" value="{$this->brandRow['id']}">
+			<input type="hidden" name="is_mobile" value="1" />
+			<button type="button" class="mui-btn mui-btn-primary" onclick="setAdImg()">确认</button>
+		</div>
+	</form>
+</div>
+<!-- 弹出菜单 -->
+
+<script type='text/html' id='picTemplate2'>
+ <div class='pic'>
+		 <div class='pic_image'><img width="150" src="<?php echo IUrl::creatUrl("")."<%=picRoot%>";?>" alt="<%=picRoot%>" /></div>
+		 <div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+ </div>
+ </script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<script type="text/javascript">
+mui.init();
+mui.ready(function(){
+	var catdata = "[{vaue: '', text: '请选择'}";
+	{query:name=brand_category}{/query}
+	{if:$items}
+	{foreach:items=$items}
+	catdata += ",{value: '{$item['id']}', text: '{$item['name']}'}";
+	{/foreach}
+	{else:}
+	catdata += "{value: '', text: '无系统分类'}";
+	{/if}
+	catdata += ']';
+
+	var userPicker = new mui.PopPicker();
+	userPicker.setData(eval('(' + catdata + ')'));
+	userPicker.pickers[0].setSelectedValue({$this->brandRow['category_ids']}, 0);
+	var showUserPickerButton = document.getElementById('categorytxt');
+	showUserPickerButton.addEventListener('tap', function(event) {
+		userPicker.show(function(items) {
+			$('#category').val(items[0].value);
+			$('#categorytxt').find('span').text(items[0].text);
+		});
+	}, false);
+
+	var regionPicker = new mui.PopPicker({
+		layer: 3
+	});
+
+	var province = {$this->brandRow['province']}?{$this->brandRow['province']}:430000;
+	var city = {$this->brandRow['city']}?{$this->brandRow['city']}:430200;
+	var discrict = {$this->brandRow['discrict']}?{$this->brandRow['discrict']}:430201;
+
+	regionPicker.setData({$regiondata});
+	regionPicker.pickers[0].setSelectedValue(province, 0,function(){
+		regionPicker.pickers[1].setSelectedValue(city, 0,function(){
+			regionPicker.pickers[2].setSelectedValue(discrict, 0);
+		});
+	});
+
+	var PickerButton = document.getElementById('region');
+	PickerButton.addEventListener('tap', function(event) {
+		regionPicker.show(function(items) {
+			$('#provinceval').val(items[0].value);
+			$('#province').text(items[0].text);
+			$('#cityval').val(items[1].value);
+			$('#city').text(items[1].text);
+			$('#discrictval').val(items[2].value);
+			$('#discrict').text(items[2].text);
+		});
+	}, false);
+});
+
+</script>
+<script language="javascript">
+
+function del(obj){
+	$(obj).parent().parent().remove();
+}
+
+function setAdImg(){
+	$.getJSON($('#brandFrom').attr('action'),$('#brandFrom').serialize(),function(data){
+		if(data.status == 1){
+			mui.toast(data.info);
+			setTimeout(function() {
+				mui.back();
+			}, 1200);
+		}else{
+			mui.toast(data.info);
+		}
+	})
+}
+</script>

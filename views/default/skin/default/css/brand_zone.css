@@ -1,0 +1,10 @@
+.preview{margin-left: 7%;}
+.summary{width:632px;margin-right:2%;margin-top:-45%;}
+.quan{display:none}
+.product_info{  margin:0 auto;float:none}
+.summary h2{font-size:22px;color:#0093dd}
+.product_info .module .module_bd .class_list_desc .class_list_style_6 .class_description_list li{border-radius:0%}
+.product_info .module .module_bd .class_list_desc .class_list_desc_bd .class_description_list li .desc_str{padding:13px 10px}
+.product_info .module .module_bd .class_list_desc .class_list_desc_bd .class_description_list li{border-radius:0;padding:0 10px;}
+.product_info .module .module_bd .class_list_desc .class_list_desc_bd .class_description_list li .desc_str{padding:0 10px;}
+.ticket{display:none}

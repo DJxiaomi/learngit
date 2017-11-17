@@ -1,0 +1,155 @@
+<?php
+
+$account_type_arr = array(
+	1 	=>	'企业对公账户',
+	2 	=>	'法人账户',
+	3 	=>	'负责人账户'
+);
+
+?>
+{js:artTemplate}
+{js:kindeditor}
+{js:my97date}
+<style>
+.hide { display: none; }
+input.normal, select.normal { height: 30px; }
+.form_table { width: 60%; }
+#allmap { width: 700px; height: 400px; }
+fieldset {margin-bottom: 10px;border: 0px;border-bottom: 1px solid #e6e7ea; padding: 10px 0;text-align: left;}
+fieldset label {margin-left: 20px;}
+fieldset img { max-width: 100px;}
+.info { text-align:left; width: 96%;margin: 0px auto;}
+.info label { margin-right: 10px; }
+.info input[type=radio] {vertical-align: middle; margin-right:3px;}
+</style>
+
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>学校管理</span><span>></span><span>编辑学校结算账户</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/seller_statements_update}" method="post" name="sellerForm" enctype='multipart/form-data'>
+      {if: $account_info}
+      <fieldset>
+        <label>状态：</label>
+        {if:$account_info['status']}<font color='green'>使用中</font>{else:}<font color='red'>审核中</font>{/if}
+      </fieldset>
+			<fieldset>
+				<label>账户类型：</label>
+				{echo: $account_type_arr[$account_info['account_type']]}
+			</fieldset>
+        {if:$account_info['account_type'] == 1}
+        <fieldset>
+          <label>开户银行名称：</label>
+          {$account_info['bank_name']}
+        </fieldset>
+
+				<fieldset>
+					<label>银行支行名称：</label>
+					{$account_info['bank_branch_name']}
+				</fieldset>
+
+        <fieldset>
+          <label>银行帐号：</label>
+          {$account_info['bank_account']}
+        </fieldset>
+
+        <fieldset>
+          <label>对公账户许可证复印件：</label>
+          <a href="{webroot:$account_info['public_account']}" target="_blank"><img src="{webroot:$account_info['public_account']}" /></a>
+        </fieldset>
+
+        {elseif:$account_info['account_type'] == 2}
+        <fieldset>
+          <label>法人姓名：</label>
+          {$account_info['legal_name']}
+        </fieldset>
+
+        <fieldset>
+          <label>法人手机号码：</label>
+          {$account_info['legal_mobile']}
+        </fieldset>
+
+        <fieldset>
+          <label>法人账户开户银行名称：</label>
+          {$account_info['bank_name']}
+        </fieldset>
+
+        <fieldset>
+          <label>银行帐号：</label>
+          {$account_info['bank_account']}
+        </fieldset>
+
+        <fieldset>
+          <label>法人身份证正面：</label>
+          <a href="{webroot:$account_info['identity_card_1']}" target="_blank"><img src="{webroot:$account_info['identity_card_1']}" /></a>
+        </fieldset>
+
+        <fieldset>
+          <label>法人身份证反面：</label>
+          <a href="{webroot:$account_info['identity_card_2']}" target="_blank"><img src="{webroot:$account_info['identity_card_2']}" /></a>
+        </fieldset>
+        {else:}
+				<fieldset>
+					<label>负责人姓名：</label>
+					{$account_info['legal_name']}
+				</fieldset>
+				
+        <fieldset>
+          <label>负责人账户开户银行名称：</label>
+          {$account_info['bank_name']}
+        </fieldset>
+
+        <fieldset>
+          <label>银行帐号：</label>
+          {$account_info['bank_account']}
+        </fieldset>
+
+        <fieldset>
+          <label>负责人身份证正面：</label>
+          <a href="{webroot:$account_info['identity_card_1']}" target="_blank"><img src="{webroot:$account_info['identity_card_1']}" /></a>
+        </fieldset>
+
+        <fieldset>
+          <label>负责人身份证反面：</label>
+          <a href="{webroot:$account_info['identity_card_2']}" target="_blank"><img src="{webroot:$account_info['identity_card_2']}" /></a>
+        </fieldset>
+
+        <fieldset>
+          <label>负责人职位证明：</label>
+          <a href="{webroot:$account_info['position_certificate']}" target="_blank"><img src="{webroot:$account_info['position_certificate']}" /></a>
+        </fieldset>
+
+        <fieldset>
+          <label>授权委托书：</label>
+          <a href="{webroot:$account_info['attorney_paper']}" target="_blank"><img src="{webroot:$account_info['attorney_paper']}" /></a>
+        </fieldset>
+
+        {/if}
+
+        <fieldset>
+          <label>工商营业执照复印件：</label>
+          <a href="{webroot:$account_info['business_license']}" target="_blank"><img src="{webroot:$account_info['business_license']}" /></a>
+        </fieldset>
+
+        <fieldset>
+          <label>结算确认书：</label>
+          <a href="{webroot:$account_info['statement_paper']}" target="_blank"><img src="{webroot:$account_info['statement_paper']}" /></a>
+        </fieldset>
+      {else:}
+        <div class="nothing">
+          暂未添加结算账户
+        </div>
+      {/if}
+
+      <div class="info">
+        <input type="hidden" name="seller_id" value="{$seller_id}" />
+        状态：<input type="radio" name="status" id="status_0" value="0" {if:$account_info['status'] == 0}checked{/if} /><label for="status_0">审核中</label>
+        <input type="radio" name="status" id="status_1" value="1" {if:$account_info['status'] == 1}checked{/if} /><label for="status_1">通过</label>
+        <input type="radio" name="status" id="status_2" value="2" {if:$account_info['status'] == 2}checked{/if} /><label for="status_2">拒绝</label>
+        <br /><button class="submit" type="submit" ><span>确 定</span></button>
+      </div>
+		</form>
+	</div>
+</div>

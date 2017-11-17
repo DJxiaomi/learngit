@@ -1,0 +1,51 @@
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{skin:css/chit1.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{skin:css/manual_discount.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var catdata = {if:$jsoncats}{$jsoncats}{else:}new Array(){/if};
+var detail_url = '{url:/site/manual_discount_detail/id/@id@}';
+var pagenum = 1;
+</script>
+<style>
+.mui-scroll-wrapper {top:47px;}
+</style>
+<div class="mui-content">
+	<div class="hd" style="display:none;">
+		<div class="category" id="choose_category">
+			全部分类
+		</div>
+		<div class="search_form">
+			<form method="get" onsubmit="return check_search();">
+				<input type="text" name="keyword" id="keyword" placeholder="搜索您感兴趣的内容" {if:$keywords != ''}value="{$keywords}"{/if}/>
+				<input type="button" name="button" id="search_btn" value="" />
+				<i></i>
+			</form>
+		</div>
+	</div>
+	<div class="bd">
+		<input type="hidden" id="pagenum" value="1">
+		<input type="hidden" id="cat_id" value="0">
+		<div class="mui-chit mui-scroll-wrapper card-list-box" id="goodslist">
+			<div class="mui-scroll">
+			    <ul class="mui-table-view"></ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="manual">
+	<div class="manual_bg"></div>
+	<div class="manual_info">
+		<div class="manual_logo"></div>
+		<div class="manual_desc">
+			<div class="hd">学习通</div>
+			<div class="bd">购买学习通，免费上短期课</div>
+		</div>
+		<div class="manual_open"><a href="{url:/site/products/id/1980}" style="padding:0 15px;">立即查看</a></div>
+		<div class="manual_close"><a href="javasript:void(0);"></a></div>
+	</div>
+</div>
+<script type="text/javascript" src="{theme:javascript/manual_discount.js}"></script>

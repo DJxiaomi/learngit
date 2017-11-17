@@ -1,0 +1,216 @@
+{js:artTemplate}
+{js:my97date}
+<style>
+.hide { display: none;}
+.hd {font-size:14px;margin-top: 14px;height: 30px;line-height: 30px;text-align: right;}
+.hd input[type=text] { border: 1px solid #ccc; width: 50px; margin-left: 8px; text-align: center; height: 23px;line-height: 23px; margin-right: 3px;}
+.hd input[type=checkbox] {cursor: pointer;vertical-align: middle;margin-right: 3px;}
+.bd { margin-top: 8px;}
+.bd ul {padding-left: 15px;}
+.bd li { float: left; margin-right: 20px;}
+.bd li input[type=checkbox],.bd li label {cursor: pointer;vertical-align: middle;}
+.coupon_notice {text-align:left;margin-left: 5px;}
+.wrap_box .tutor_detail input, .wrap_box .tutor_detail label{cursor:pointer;}
+.list_table {text-align: left;}
+.notice {font-size:12px;}
+.notice b{color:red;}
+.list_table .tt {text-align: right;}
+.teaching_time2 li {text-indent: 67px; font-size:14px; margin-bottom:5px;}
+.teaching_time2 li input, .tutor_num input {border: 1px solid #666; width: 50px; height: 22px; text-align:center;}
+</style>
+
+<div class="wrapper clearfix">
+	<div class="position mt_10"><span>您当前的位置：</span> <a href="{url:}"> 首页</a> » 家教订单</div>
+
+	<form action='{url:/seller2/cart3}' method='post' name='order_form'>
+
+		<input type="hidden" name="tutor_id" value="{$tutor_info['id']}" />
+
+		<div class="cart_box m_10">
+			<div class="title">填写核对订单信息</div>
+			<div class="cont">
+
+				<!--支付方式 开始-->
+				<div class="wrap_box" id='paymentBox'>
+					<h3>
+						<span class="orange">支付方式</span>
+						<span id="paymentShowBox" onclick="orderFormInstance.paymentModToggle();"></span>
+					</h3>
+
+					<table width="100%" class="border_table" id='payment_form'>
+						<colgroup>
+							<col width="200px" />
+							<col />
+						</colgroup>
+						{set:$paymentList=Api::run('getPaymentList')}
+						{foreach:items = $paymentList key=$key}
+						{set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],$this->sum);}
+						{set:unset($item['config_param'])}
+						{set:unset($item['description'])}
+						<tr>
+							<th><label><input class="radio" name="payment" alt="{$paymentPrice}" title="{$item['name']}" type="radio" value="{$item['id']}" {if:!$key}checked{/if} />{$item['name']}</label></th>
+							<td>{$item['note']} 支付手续费：￥{$paymentPrice}</td>
+						</tr>
+						{/foreach}
+					</table>
+
+					<table class="form_table" id="payment_show_box" style='display:none'>
+						<col width="120px" />
+						<col />
+
+					</table>
+
+					<!--支付方式模板-->
+					<script type='text/html' id='paymentShowTemplate'>
+						<tr>
+							<th>支付方式：</th>
+							<td><%=name%></td>
+						</tr>
+					</script>
+				</div>
+				<!--支付方式 结束-->
+
+				<!-- 高级家教需求 开始-->
+				<!--订单留言 开始-->
+				<div class="wrap_box">
+					<h3 class="tutor_detail">
+						<span class="orange">家教详细信息</span>
+					</h3>
+
+					<table class="border_table" width="100%" >
+						<tr>
+							<th width="166px">性别：</th>
+							<td>
+								{echo:get_gender_title($tutor_info['gender'])}
+							</td>
+						</tr>
+						<tr>
+							<th>年龄：</th>
+							<td>
+								{echo:$tutor_info['age']}岁
+							</td>
+						</tr>
+
+						<tr>
+							<th>年级：</th>
+							<td>
+								{echo:category_class::get_category_title($tutor_info['grade_level'])} {echo:category_class::get_category_title($tutor_info['grade'])}
+							</td>
+						</tr>
+
+						<tr>
+							<th>最近一次考分：</th>
+							<td>{$tutor_info['lastest_scores']}</td>
+						</tr>
+
+						<tr>
+							<th>期望的考分：</th>
+							<td>{$tutor_info['expected_scores']}</td>
+						</tr>
+
+						<tr>
+							<th>支付的最低报酬：</th>
+							<td>{$tutor_info['lowest_reward']}元/时</td>
+						</tr>
+						{if:$tutor_info['highest_reward'] > 0}
+						<tr>
+							<th>支付的最高报酬：</th>
+							<td>{$tutor_info['highest_reward']}元/时</td>
+						</tr>
+						{/if}
+						<tr>
+							<th>预计补课的课时：</th>
+							<td>
+								{$tutor_info['expected_hours']} 小时
+							</td>
+						</tr>
+
+						<tr>
+							<th>接受补课的时间：</th>
+							<td>每{foreach:items=$tutor_info['teaching_time'] key=$key}{if:!$key}{$teaching_time_arr[$item['time1']]}{else:}、{$teaching_time_arr[$item['time1']]}{/if}{/foreach}</td>
+						</tr>
+
+						<tr>
+							<th>是否提供交通费用：</th>
+							<td>
+								{echo:get_boolen_title($tutor_info['is_provide_transportation_fee'])}
+							</td>
+						</tr>
+
+						<tr>
+							<th>是否提供就餐：</th>
+							<td>
+								{echo:get_boolen_title($tutor_info['is_provide_repast'])}
+							</td>
+						</tr>
+
+						<tr>
+							<th>补课地址：</th>
+							<td>
+									{echo:area::getName($tutor_info['area_id'])} {$tutor_info['address']} {$tutor_info['address2']}
+							</td>
+						</tr>
+
+						{if:$tutor_info['test_reward']}
+						<tr>
+							<th><b style="color:red;">奖励机制</b>：</th>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+									<table width="500" class="border_table">
+										<tr>
+											<td></td>
+											<td>关键考试时间</td>
+											<td>关键考试类型</td>
+											<td>关键考试的分数</td>
+											<td>关键考试的奖励金额</td>
+										</tr>
+
+										{foreach:items=$tutor_info['test_reward']}
+										<tr>
+											<td>{$i}</td>
+											<td>{$item['test_time']}</td>
+											<td>{$item['test_type']}</td>
+											<td>{$item['test_condition']}分</td>
+											<td>{$item['test_money']}</td>
+										</tr>
+										{set:$i++}
+										{/foreach}
+									</table>
+							</td>
+						</tr>
+						{/if}
+
+					</table>
+				</div>
+				<!--订单留言 结束-->
+				<!-- 高级家教需求 结束 -->
+
+			</div>
+		</div>
+
+		<!--金额结算-->
+		<div class="cart_box" id='amountBox'>
+			<div class="cont_2">
+				<hr class="dashed" />
+				<div class="pink_box gray m_10 hide">
+					<table width="100%" class="form_table t_l">
+						<colgroup>
+							<col width="220px" />
+							<col />
+							<col width="250px" />
+						</colgroup>
+					</table>
+				</div>
+
+				<p class="m_10 t_r" style="line-height: 44px;margin-top:10px;">
+				<span class="notice"><b>温馨提示：付款成功后将安排试讲，试讲成功后用户可购买课时，试讲失败则费用作为服务费</b></span>&nbsp; &nbsp; &nbsp; &nbsp; 应付金额<b class="red2 yf_count" style="font-size: 18px;">{$order_amount}</b>元</span>
+					<input type="submit" class="submit_order" style="float:right;margin-left: 20px;" />
+				</p>
+
+			</div>
+		</div>
+	</form>
+</div>

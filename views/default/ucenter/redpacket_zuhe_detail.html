@@ -1,0 +1,264 @@
+{js:artTemplate}
+<script type='text/javascript' src='{theme:javascript/artTemplate/area_select.js}'></script>
+<link href="{skin:css/ucenter_order_detail.css}" rel="stylesheet" type="text/css" />
+<script src="/resource/scripts/layer/layer.js"></script>
+<script language="javascript">
+var _check_trade_passwd_url = '{url:/ucenter/check_trade_password/order_id/$this->order_info[order_id]}';
+var _set_trade_passwd_url = '{url:/ucenter/reset_trade_passwd}';
+var _update_trade_passwd_url = '{url:/ucenter/update_trade_password_ver/order_id/$this->order_id}';
+</script>
+<div class="main f_r">
+	<div class="uc_title m_10">
+		<label class="current"><span>订单详情</span></label>
+	</div>
+
+	<div class="prompt_2 m_10">
+		<div class="t_part">
+			{foreach:items=$this->order_log_list}
+			<p>{$item['addtime']}&nbsp;&nbsp;<span class="black">{echo:order_log_class::read_log($item)}</span></p>
+			{/foreach}
+		</div>
+
+		<p>
+			<b>订单号：</b>{$this->order_info['order_no']}
+			<b>下单日期：</b>{$this->order_info['create_time']}
+			<b>状态：</b>
+			<span class="red2">
+				<b class="orange">{echo:Order_Class::orderStatusText($orderStatus, 1, $this->order_info['statement'])}</b>
+	        </span>
+			<b>类型：</b><font color="green"><b>购买代金券套餐</b></font>
+            <b>验证码：</b><font color="green"><b>{$goods_list[0]['verification_code']}</b></font>
+        </p>
+        <form action='{url:/ucenter/order_status}' method='post'>
+        <p>
+	        <input type="hidden" name="order_id" value="{$this->order_info['order_id']}" />
+	    	  {if:in_array($orderStatus,array(1,2))}
+	        <label class="btn_orange">
+	        	<input type="hidden" name='op' value='cancel' />
+	        	<input type="submit" value="取消" />
+	        </label>
+	        {/if}
+
+			{if:$orderStatus == 2 && $this->order_info['order_role'] == 1}
+			<label class="btn_green">
+
+				{if:$is_set_trade_passwd}
+					<input type="button" value="付款" onclick="check_trade_passwd()" />
+				{else:}
+					<input type="button" value="付款" onclick="set_trade_passwd()" />
+				{/if}
+			</label>
+
+			{/if}
+
+
+	    </p>
+        </form>
+	</div>
+
+	{foreach:items=$goods_list}
+	<div class="box m_10" style="display:none;">
+		<div class="title">
+			<h2><span class="orange">订单信息</span></h2>
+		</div>
+
+		<!--收获信息展示-->
+		<div class="cont clearfix" id="acceptShow">
+			<table class="dotted_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<col width="130px" />
+				<col />
+				<tr>
+					<th>订单状态：</th>
+					<td>{echo:Order_Class::orderStatusText($orderStatus)}</td>
+				</tr>
+				<tr>
+					<th>学费：</th>
+					<td>&yen;{echo: number_format($goods_list[0]['market_price'] * $goods_list[0]['goods_nums'], 2, '.', '');}</td>
+				</tr>
+
+				{if:$this->order_info['order_chit'] > 0}
+				<tr>
+					<th>已付学费：</th>
+					<td>&yen;{echo: number_format($goods_list[0]['market_price'] * $goods_list[0]['goods_nums'], 2, '.', '');}</td>
+				</tr>
+				{/if}
+
+				{if:$item['rest_price'] > 0}
+				<tr>
+					<th>未付学费：</th>
+					<td>&yen;{$this->order_info['rest_price']}</td>
+				</tr>
+				{/if}
+
+				{if:$item['statement'] == 3}
+				<tr>
+					<th>已付定金：</th>
+					<td>&yen;{$item['order_amount']}</td>
+				</tr>
+				{/if}
+				<tr>
+					<th>优惠后实缴：</th>
+					<td>&yen;{echo:order_class::get_sjzc($this->order_info, $goods_list[0]['market_price'], $item['discount'] );}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	{/foreach}
+
+	<div class="box m_10">
+		<div class="title">
+			<h2><span class="orange">学员信息</span></h2>
+		</div>
+
+		<!--收获信息展示-->
+		<div class="cont clearfix" id="acceptShow">
+			<table class="dotted_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<col width="130px" />
+				<col />
+				<tr>
+					<th>学员姓名：</th>
+					<td>{$this->order_info['accept_name']}</td>
+				</tr>
+				{if:$this->order_info['telphone']}
+				<tr>
+					<th>固定电话：</th>
+					<td>{$this->order_info['telphone']}</td>
+				</tr>
+				{/if}
+				<tr>
+					<th>手机号码：</th>
+					<td>{$this->order_info['mobile']}</td>
+				</tr>
+				<tr class="hide">
+					<th>邮编：</th>
+					<td>{$this->order_info['postcode']}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!--支付和配送-->
+  <!--发票信息-->
+  {if:$this->order_info['invoice']==1}
+	<div class="box m_10">
+		<div class="title"><h2><span class="orange">发票信息</span></h2></div>
+		<div class="cont clearfix">
+			<table class="dotted_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<col width="129px" />
+				<col />
+				<tr>
+					<th>所需税金：</th>
+					<td>{$this->order_info['taxes']}</td>
+				</tr>
+				<tr>
+					<th>发票抬头：</th>
+					<td>{$this->order_info['invoice_title']}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+  {/if}
+
+	<!--物品清单-->
+	<div class="box m_10">
+		<div class="title"><h2><span class="orange">套餐清单</span></h2></div>
+		<div class="cont clearfix">
+			<table class="list_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr>
+						<th>代金券名称</th>
+						<th>价格</th>
+						<th>总次数</th>
+						<th>可用次数</th>
+						<th>说明</th>
+					</tr>
+						{foreach:items=$detail_list}
+						<tr>
+						<td>{$item['name']}</td>
+						<td>{$item['max_price']}</td>
+						<td>{$item['use_times']}</td>
+						<td>{$item['availeble_use_times']}</td>
+						<td>{$item['limitinfo']}</td>
+						</tr>
+						{/foreach}
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
+	<div class="gray_box">
+		<div class="t_part" style="display: none;">
+			<p>总金额：￥{$this->order_info['payable_amount']}</p>
+            {if:$this->order_info['taxes'] > 0}
+            <p>+ 税金：￥{$this->order_info['taxes']}</p>
+            {/if}
+
+            {if:$this->order_info['pay_fee'] > 0}
+            <p>+ 支付手续费：￥{$this->order_info['pay_fee']}</p>
+            {/if}
+
+            {if:$this->order_info['insured'] > 0}
+            <p>+ 保价：￥{$this->order_info['insured']}</p>
+            {/if}
+
+            {if:$this->order_info['discount']}
+            <p>订单折扣或涨价：￥{$this->order_info['discount']}</p>
+            {/if}
+
+            {if:$this->order_info['promotions'] > 0}
+            <p>- 促销优惠金额：￥{$this->order_info['promotions']}</p>
+            {/if}
+		</div>
+
+		<div class="b_part" style="display:none;">
+			<p>订单支付金额：<span class="red2">￥<label>{$this->order_info['order_amount']}</label></span></p>
+		</div>
+	</div>
+
+
+</div>
+
+<div class="choose_seller" style="display:none;">
+	<div class="seller_list">请选择要确认的学校：
+		<select name="seller_id">
+			<option value="0">请选择要确认的学校</option>
+			{foreach:items=$seller_list}
+				<option value="{$item['id']}">{$item['shortname']}</option>
+			{/foreach}
+		</select>
+
+		<input type="button" class="choose_seller_btn" value="确定" class="btn">
+	</div>
+</div>
+
+
+
+
+<script type='text/javascript' src="{theme:javascript/ucenter_order_detail.js}"></script>
+<script language="javascript">
+$(document).ready(function(){
+	$('.order_confirm').click(function(){
+		layer.open({
+            type: 1,
+            title:false,
+            closeBtn:1,
+            area: ['545px', '64px'],
+            content: $('.choose_seller')
+          });
+	});
+
+	$('.choose_seller_btn').on('click',function(){
+		var seller_id = $('.layui-layer-content select[name=seller_id]').val();
+		if (parseInt(seller_id) == 0 )
+		{
+			mui.toast('请选择要确认的学校');
+			return false;
+		}
+
+		var order_id = '{$this->order_info[order_id]}';
+		var url = '/ucenter/order_confirm2/order_id/' + order_id + '/seller_id/' + seller_id;
+		location.href = url;
+	});
+});
+</script>

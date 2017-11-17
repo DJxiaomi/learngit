@@ -1,0 +1,13 @@
+.hd {width:100%;margin-bottom:10px;overflow:hidden;}
+.hd ul {list-style:none;padding:0px;margin:0px;}
+.hd li {float:left;width:22%;height:30px;line-height:30px;text-align:center;border:1px solid #c0c0c0;margin-right:2%;border-radius:3px;}
+.hd li a {display:block;background-color:#fff;color:#4f545a;}
+.hd li.active {border:1px solid #038bd0;}
+.hd li.active a {background-color:#038bd0;color: #fff;font-weight:700;}
+.ucenter .new-box .new-table th, .ucenter .new-box .new-table td {text-align: left; }
+.new-table2 td {padding: 8px;}
+.new-table td b, .new-table2 td b {color:red} {color:red}
+.new-table td em {font-weight: 600; color: #666}
+.info {margin-bottom: 15px;}
+.info a {font-weight: 600;}
+.new-table2 td.promo_code a {margin-left: 50px;}

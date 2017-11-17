@@ -1,0 +1,28 @@
+<div class="headbar">
+	<div class="position"><span>学校</span><span>>></span><span>学校地区</span><span>></span><span>地区列表</span></div>
+	<div class="operating">
+		<a href="javascript:;"><button class="operating_btn" type="button" onclick="window.location='{url:/brand/category_edit}'"><span class="addition">添加地区</span></button></a>
+	</div>
+</div>
+<div class="content">
+	<table class="list_table">
+		<thead>
+			<tr>
+				<th>地区名称</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+			{query: name=brand_category}
+			<tr>
+				<td>{$item['name']}</td>
+				<td><a href="{url:/brand/category_edit/cid/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+					<a href="javascript:void(0)" onclick="delModel({link:'{url:/brand/category_del/cid/$item[id]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+				</td>
+			</tr>
+			{/query}
+		</tbody>
+	</table>
+</div>

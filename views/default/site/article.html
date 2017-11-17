@@ -1,0 +1,109 @@
+<link href="{skin:css/article_list.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{skin:scripts/jquery.SuperSlide.2.1.1.js}"></script>
+
+    <!-- Content -->
+    <div class="Content">
+        <div class="Wrap clearfix">
+           <!-- 文章列表 -->
+		   <div class="sideBox fl mr20 clearfix">
+				 <div class="sideImg mb20">
+ 					<div class="hd">
+             <ul>
+               {foreach:items=$ad_list}
+               <li></li>
+               {/foreach}
+             </ul>
+           </div>
+ 					<ul class="bd">
+             {foreach:items=$ad_list}
+ 						<li>
+ 							<div class="pic"><a href="#" target="_blank"><img src="{webroot:$item['content']}" /></a></div>
+ 							<div class="title">{$item['name']}</div>
+ 						</li>
+             {/foreach}
+ 					</ul>
+ 				</div>
+
+
+				<div class="sideNav side-con mb20 clearfix">
+					<ul>
+            {foreach:items=$category_list}
+						<li class="clearfix">
+							<a href="{url:/site/article/cid/$item['id']}" class="sidenav-tit">{$item['name']}</a>
+              {if:$item['child']}
+							<div class="clearfix" style="margin-top:-10px;margin-bottom:10px;">
+                {foreach:items=$item['child']}
+								<a href="{url:/site/article/cid/$item['id']}" class="nav-tips {if:$cid == $item['id']}blue{/if}">{$item['name']}</a>
+                {/foreach}
+							</div>
+              {/if}
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+				<h3>热门资讯</h3>
+				<div class="sideList side-con mb20">
+					<ul>
+            {set: $i = 0;}
+            {foreach:items=$hot_article_list}
+						<a href="{url:/site/article_detail/id/$item['id']}" target="_blank"><li><i class="{if:$i < 3 }number-top3{else:}c6{/if} f12">0{echo: ++$i;}</i>{$item['title']}</li></a>
+            {/foreach}
+					</ul>
+				</div>
+		   </div>
+		    <!-- 左边栏 -->
+			<div class="mainBox fr clearfix">
+				<div class="art-box">
+					<div class="fabu-btn"><a href="{url:/ucenter/article_add}">发布文章</a></div>
+					<ul class="clearfix">
+            {if:$article_list}
+              {foreach:items=$article_list}
+                {if:$item['thumb']}
+      						<li class="artCon-list">
+      							<a class="artImg fl" href="{url:/site/article_detail/id/$item['id']}" target="_blank"><img class="lazy" data-original="{webroot:$item['thumb']}" src="{skin:images/hotarticle.png}" width="180" height="120"/></a>
+      							<div class="artDet fr">
+      								<a href="{url:/site/article_detail/id/$item['id']}" target="_blank"><h4>{$item['title']}</h4></a>
+      								<p class="art-details c6">{echo:str_replace(array('\n','\r\n'),'',$item['summary'])}</p>
+                      <div class="artInfo">
+      								  <p class="c9 f12 artDate">{echo: date('Y年m月d日 H:i:s', strtotime( $item['create_time']));}</p>
+      								  <div class="art-share"><span class="shareit f12 orange">{$item['views']}</span><span  class="comment f12 orange"><a class="pingjia f12 orange" href="{url:/site/article_detail/id/$item['id']}#reply" target="_blank">{$item['reply_count']}</a></span></div>
+                      </div>
+      							</div>
+      						</li>
+                {else:}
+                  <li class="titleList">
+                    <a href="{url:/site/article_detail/id/$item['id']}" target="_blank"><h3>{$item['title']}</h3></a>
+                    <p class="text-details c6">{echo:str_replace(array('\n','\r\n'),'',$item['summary'])}</p>
+                    <div class="artInfo">
+                      <p class="c9 f12 artDate">{echo: date('Y年m月d日 H:i:s', strtotime( $item['create_time']));}</p>
+                      <div class="text-share"><span class="shareit f12 orange">{$item['views']}</span><span  class="comment f12 orange"><a class="pingjia f12 orange" href="{url:/site/article_detail/id/$item['id']}#reply" target="_blank">{$item['reply_count']}</a></span></div>
+                    </div>
+                  </li>
+                {/if}
+              {/foreach}
+            {else:}
+              <li class="nothing">
+                暂无任何内容
+              </li>
+            {/if}
+					</ul>
+				</div>
+
+        {if:$article_list}
+  				<!-- 分页 -->
+  				<div class="sitepage mt20 mb20 clearfix">
+            {$page_info}
+  				</div>
+  			  <!-- 分页 over-->
+        {/if}
+
+			</div>
+           <!-- 文章列表 over-->
+        </div>
+    <!-- Content over -->
+
+
+	<script type="text/javascript" src="{theme:/javascript/article.js}"></script>
+</body>
+</html>
+

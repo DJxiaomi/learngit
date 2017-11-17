@@ -1,0 +1,23 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <table class="card-table info" width="100%">
+                <tr>
+                  <th></th>
+                  <th>用户名</th>
+                  <th>注册时间</th>
+                  <th>消费次数</th>
+                </tr>
+                {foreach:items=$promote_user_list}
+                <tr>
+                  <td></td>
+                  <td>{$item['username']}</td>
+                  <td>{$item['time']}</td>
+                  <td>{$item['pay_count']}</td>
+                </tr>
+                {/foreach}
+            </table>
+        </div>
+    </div>
+</div>

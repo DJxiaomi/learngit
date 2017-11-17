@@ -1,0 +1,28 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/prolist.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_order_detail.css}" rel="stylesheet" type="text/css" />
+<style>
+body,.mui-content {background-color:#fff;}
+</style>
+
+<ul class="mui-table-view">
+	    <li class="mui-table-view-cell mui-media">
+        <img class="mui-media-object mui-pull-left" src="{webroot:$dqk_info['logo']}">
+        <div class="mui-media-body">{$dqk_info['name']}-{$dqk_info['use_times']}课时
+          <p class="mui-ellipsis">已使用{echo:sizeof($use_list)}次</p>
+          <div class="address">{$dqk_info['seller_name']}</div>
+        </div>
+      </li>
+</ul>
+
+{if:$use_list}
+<div class="mui-card order_log">
+    <div class="mui-card-content">
+        <ul class="mui-table-view">
+            {foreach:items=$use_list}
+            <li class="mui-table-view-cell"><span>{echo:date('Y-m-d H:i',$item['time'])}</span>使用1次</li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+{/if}

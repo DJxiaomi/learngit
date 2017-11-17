@@ -1,0 +1,17 @@
+.mui-card {box-shadow: none;background-color:#fff;}
+.mui-card .noborder {border:0px;padding: 20px 0;}
+.mui-content {background-color:#fff;}
+.mui-card-header, .ordbigbt-price {color:#383838;}
+.ordbigbt-price em {font-size: 36px;color:#df4102;line-height:80px;margin-left:30px;}
+.ordbigbt-price span {color:#df4102;margin-left: 20px;}
+.ordbigbt-price .title {font-size:115%;}
+.ordbigbt-price .desc {font-size: 200%;line-height: 55px;}
+.mui-content-padded {color:#585858;}
+.mui-card-content-inner {border: 1px solid #de4002; border-radius: 5px;overflow:hidden;padding: 0px;}
+.mui-card-content-inner > div {float: left; width: 50%;background-color:#fff;color:#ff4b2b;padding: 10px 20px;}
+.mui-card-content-inner .active {background: linear-gradient(to right,#ff9638,#ff4b2b); color:#fff;border-top-right-radius: 5px;border-bottom-right-radius: 5px;}
+.mui-card-content {border-top: 1px solid #aaa;}
+.mui-card-content .mui-table-view {border-bottom: 1px solid #aaa;border-radius:0px;}
+.mui-table-view-cell .t-left {float:left;}
+.mui-table-view-cell .t-right {float:right;}
+.mui-table-view-cell, .mui-table-view-cell p {color:#585858;}

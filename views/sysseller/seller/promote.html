@@ -1,0 +1,178 @@
+<link href="/views/default/skin/default/css/ucenter_promote.css" rel="stylesheet" type="text/css" />
+<style>
+.new-box {width: 97%;margin: 0px auto;}
+.promo_code {padding-left: 10px; height: 35px; line-height: 35px;}
+.promo_code b {color: red;}
+.tablesorter em {font-style: normal;}
+.tablesorter a {font-weight: 600;}
+</style>
+<article class="module width_full">
+	<header><h3>我的推广</h3></header>
+	<div class="module_content">
+		<table border="0">
+			<tr>
+				<td class="promo_code">我的推广码：<b>{$my_promote_code}</b></td>
+			</tr>
+		</table>
+		<table class="tablesorter" cellspacing="0">
+			<thead>
+				<tr>
+								<th>我的推广</th>
+								<th>个人用户</th>
+								<th>个人返佣</th>
+								<th>&nbsp;</th>
+								<th>培训机构</th>
+								<th>机构返佣</th>
+								<th>下级推广</th>
+								<th>下级返佣</th>
+							</tr>
+						</thead>
+			<tbody>
+
+				<tr>
+					<td>总推广</td>
+					<td><a href="{url:/seller/promote_user_list}">{$promote_statics['user_count']}</a></td>
+					<td>{$promote_statics['user_prommission_count']}</td>
+					<td>&nbsp;</td>
+					<td><a href="{url:/seller/promote_seller_list}">{$promote_statics['seller_count']}</a></td>
+					<td>{$promote_statics['seller_prommission_count']}</td>
+					<td><a href="{url:/seller/promote_subordinate_user_list}">{$promote_statics['get_promote_list_by_account']}</td>
+					<td>{$promote_statics['other_commision_count']}</td>
+				</tr>
+				<tr>
+					<td><a href="{url:/seller/promote_previous_month}">上月推广</a></td>
+					<td>{$promote_statics['user_count_by_month']}</td>
+					<td>{$promote_statics['user_prommission_count_by_month']}</td>
+					<td>&nbsp;</td>
+					<td>{$promote_statics['seller_count_by_month']}</td>
+					<td>{$promote_statics['seller_prommission_count_by_month']}</td>
+					<td>{$promote_statics['get_promote_list_by_account_by_month']}</td>
+					<td>{$promote_statics['other_commision_count_by_month']}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+  <div class="main f_r">
+      <div class="new-box">
+          <div class="hd">
+            <ul>
+              <li {if:$type == '1'}class="active"{/if}><a href="{url:/seller/promote/type/1}">最新推广</a></li>
+              <li {if:$type == '2'}class="active"{/if}><a href="{url:/seller/promote/type/2}">最新成交</a></li>
+              <li {if:$type == '3'}class="active"{/if}><a href="{url:/seller/promote/type/3}">商家用户</a></li>
+              <li {if:$type == '4'}class="active"{/if}><a href="{url:/seller/promote/type/4}">个人用户</a></li>
+            </ul>
+          </div>
+
+          {if:$type == 1}
+          <!-- 最新推广 -->
+          <table class="tablesorter" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>用户</th>
+                  <th>日期</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {foreach:items = $promotelist key=$key}
+                    <tr>
+                        <td>{echo:$key+1}</td>
+                        <td>{$item['username']}</td>
+                        <td>{if:$item['create_time']}{echo:date('Y-m-d',strtotime($item['create_time']))}{/if}</td>
+                    </tr>
+                {/foreach}
+                {if:!$promotelist}
+                  <tr>
+                    <td style="text-align:center" colspan="5">没有任何记录</td>
+                  </tr>
+                {/if}
+            </tbody>
+          </table>
+          {elseif:$type == 2}
+          <!-- 最新成交 -->
+          <table class="tablesorter" cellspacing="0">
+            <thead>
+              <tr>
+                <th>编号</th>
+                <th>用户</th>
+                <th>课程</th>
+								<th>预计提成</th>
+                <th>日期</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {foreach:items = $promotelistorder key=$key}
+                  <tr>
+                      <td>{echo:$key+1}</td>
+                      <td>{$item['username']}</td>
+                      <td>{$item['goods_name']}</td>
+											<td>{$item['commission']}</td>
+                      <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                  </tr>
+              {/foreach}
+              {if:!$promotelistorder}
+                <tr>
+                  <td style="text-align:center" colspan="5">没有任何记录</td>
+                </tr>
+              {/if}
+            </tbody>
+          </table>
+          {elseif:$type == 3}
+          <!-- 商家用户 -->
+          <table class="tablesorter" cellspacing="0">
+            <thead>
+              <tr>
+                <th>编号</th>
+                <th>用户</th>
+                <th>注册日期</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {foreach:items = $promotelistseller key=$key}
+                  <tr>
+                      <td>{echo:$key+1}</td>
+                      <td>{$item['username']}</td>
+                      <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                  </tr>
+              {/foreach}
+              {if:!$promotelistseller}
+                <tr>
+                  <td style="text-align:center" colspan="3">没有任何记录</td>
+                </tr>
+              {/if}
+            </tbody>
+          </table>
+          {else:}
+          <!-- 个人用户 -->
+          <table class="tablesorter" cellspacing="0">
+            <thead>
+              <tr>
+                <th>编号</th>
+                <th>用户</th>
+                <th>注册日期</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {foreach:items = $promotelistperson key=$key}
+                  <tr>
+                      <td>{echo:$key+1}</td>
+                      <td>{$item['username']}</td>
+                      <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                  </tr>
+              {/foreach}
+              {if:!$promotelistperson}
+                <tr>
+                  <td style="text-align:center" colspan="3">没有任何记录</td>
+                </tr>
+              {/if}
+            </tbody>
+          </table>
+          {/if}
+      </div>
+  </div>
+</article>

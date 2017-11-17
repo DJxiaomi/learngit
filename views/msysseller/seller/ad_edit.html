@@ -1,0 +1,46 @@
+<?php $this->title = '编辑轮播图'; ?>
+{template:'/views/msysseller/layouts/header.html'}
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/seller/ad_edit_act}" method="post" enctype='multipart/form-data'>
+		<div class="mui-input-row">
+			<label>名称</label>
+			<input type="text" name="name" value="{$ad_info['name']}" placeholder="轮播图名称" />
+		</div>
+		<p>上传图片</p>
+		<div id="image-list" class="row image-list">
+			{if:$ad_info['content']}
+			<div class="image-item space" id="prev" style="background:url({webroot:$ad_info['content']}) no-repeat center center;background-size:100% auto;"></div>
+			{/if}
+			<div class="image-item space" id="uppic"><div class="image-close">X</div><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="content" id="content" value="{$ad_info['content']}">
+		</div>
+		<div class="mui-input-row">
+			<label>排序</label>
+			<input type="text" name="order" value="{$ad_info['order']}" placeholder="排序" />
+		</div>
+		<div class="mui-button-row">
+			<input type="hidden" name="id" value="{$ad_info['id']}" />
+			<button type="submit" class="mui-btn mui-btn-primary">确认</button>
+		</div>
+	</form>
+</div>
+
+<script language="javascript">
+$.jUploader({
+    button: 'uppic',
+    action: '{url:/seller/pic_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+    onComplete: function(fileName, response){
+      	if(response.success){
+      		$('#content').val(response.fileurl);
+      		if($('#prev').length == 1){
+      			$('#prev').css('background-image', 'url(/' + response.fileurl + ')');
+      		}else{
+      			$('#image-list').prepend('<div class="image-item space" id="prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+      		}
+      	}else{
+        	layer.msg('上传失败');
+      	}
+    }
+});
+</script>

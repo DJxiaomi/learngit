@@ -1,0 +1,30 @@
+<script language="javascript">
+var _page_count = {$paging->totalpage};
+var _curr_page = {$page};
+var _page_size = {$page_size};
+var _loading = false;
+var _ajax_data_url = 'http://{url:/school/get_special_seller_goods_list_ajax}';
+</script>
+<link href="{skin:css/mlmm.css}" rel="stylesheet" type="text/css" />
+<div class="free_class_content">
+  <div class="free_class_hd">
+    <img src="/upload/2017/07/14/20170714144307651.jpg" />
+  </div>
+
+  <div class="free_class_bd">
+    {if:$article_list}
+      <ul class="mlmm_content">
+      {foreach:items=$article_list }
+      <li>
+        <div class="class_image">
+          <a href="{url:/site/article_detail3/id/$item['id']}"><img src="{webroot:$item[content]}" /></a>
+        </div>
+        <div class="class_action">
+			姓名：{$item['title']}&nbsp; &nbsp; 得票：{$item['views']}
+        </div>
+      </li>
+      {/foreach}
+    </ul>
+    {/if}
+  </div>
+</div>

@@ -1,0 +1,7 @@
+.new-box {position:relative;}
+.new-box .menu {position: absolute;right: 100px;top:15px;width: 450px;height: 40px;line-height:40px;}
+.new-box .menu ul {text-align:right;}
+.new-box .menu li {display:inline-block;padding:0 15px;}
+.new-box .menu li i {margin-right:3px;}
+.new-box .menu li a {font-size:14px;color:#666;}
+.new-box .menu li.active a {color:#47250d}

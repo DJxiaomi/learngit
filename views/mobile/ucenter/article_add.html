@@ -1,0 +1,104 @@
+{set:$callback = IUrl::creatUrl('/ucenter/article_list');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src="{theme:javascript/jquery.juploader.js}"></script>
+<div class="article-add">
+    <form method="post" action="{url:/ucenter/article_update_mobile}" enctype='multipart/form-data' id="articleForm">
+        {if:$article['id']}<input type="hidden" name="id" value="{$article['id']}"  />{/if}
+        <input type="hidden" name="content" id="content" />
+        <input type="hidden" name="formatcontent" id="formatcontent" />
+        <h5 class="mui-content-padded">发布您的文章</h5>
+        <div class="mui-card">
+            <div class="mui-input-group">
+                <div class="mui-input-row">
+                    <!-- <label>标题</label> -->
+                    <input type="text" name="title" id="title" value="{$article['title']}" placeholder="文章标题" />
+                </div>
+            </div>
+        </div>
+        <!-- <h5 class="mui-content-padded">文章内容</h5> -->
+        <div class="mui-input-row mui-textarea-row" id="contentbox">
+             {if:$article['formats']}
+            {foreach:$items=$article['formats']}
+                {if:!empty($item)}
+                {if:preg_match('/img/', $item)}
+                {$item}
+                {else:}
+                <textarea rows="5" class="format" data-type="txt" placeholder="文章内容">{$item}</textarea>
+                {/if}
+                {/if}
+            {/foreach}
+            {else:}
+            <textarea rows="5" class="format" data-type="txt" placeholder="文章内容"></textarea>
+            {/if}
+
+    <button type="button" class="muiprimary" id="uppic">插入图片</button>
+    <button type="button" class="muidanger" onclick="addContent('content')">插入内容</button>
+</div>
+        <div class="mui-content-padded">
+            <button type="button" id="postarticle" class="mui-btn mui-btn-primary mui-btn-block" data-loading-text = "提交中" data-loading-icon-position="right">发表文章</button>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+$(function(){
+    document.getElementById('postarticle').addEventListener('tap', function(){
+        getContent();
+    });
+});
+
+$.jUploader({
+    button: 'uppic',
+    action: '{url:/ucenter/article_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg'],
+    onComplete: function(fileName, response){
+      if(response.success){
+        $('#contentbox').append('<img width="100%" class="format" data-type="image" src="/' + response.fileurl + '" />');
+      }else{
+        alert('上传失败');
+      }
+    }
+});
+function addContent(type){
+    var imgurl = '<input type="file" class="file" name="imgurl[]">',
+        content = '<textarea rows="5" class="format" data-type="txt" placeholder="文章内容"></textarea>';
+    if(type == 'file'){
+        $('#contentbox').append(imgurl);
+    }else if(type = 'content'){
+        $('#contentbox').append(content);
+    }else{
+        return;
+    }
+}
+
+function getContent(){
+    if($('#title').val() == ''){
+        mui.toast('请输入文章标题');
+        return false;
+    }
+    var content = '', formatcontent = '';
+    $('.format').each(function(i, el){
+        var type = $(el).attr('data-type');
+        var src = $(el).attr('src');
+        var txt = $(el).val();
+        if(type == 'image'){
+            content += '<img src="' + src + '">';
+            formatcontent += '<img src="' + src + '">' + '||';
+        }else if(type == 'txt'){
+            content += txt;
+            formatcontent += txt + '||';
+        }else{
+            content += '';
+            formatcontent += '';
+        }
+    });
+
+    $('#content').val(content);
+    $('#formatcontent').val(formatcontent);
+
+    $('#articleForm').submit();
+}
+</script>
+

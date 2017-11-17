@@ -1,0 +1,98 @@
+.teach_list {
+  overflow: hidden;
+  padding-top: 15px;
+}
+.teach_list li:nth-child(odd) {
+  float: left;
+}
+.teach_list li:nth-child(even) {
+  float: right;
+}
+.teach_list li {
+  width: 45%;
+  margin-bottom: 30px;
+  min-height: 178px;
+}
+.teach_list li .teacher_icon {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  float: left;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+.teach_list li .teacher_icon img {
+  width: 100px;
+  height: 100px;
+}
+.teach_list li .teacher_info {
+  float: right;
+  width: 376px;
+  font-family:"微软雅黑";
+  color: #000000;
+}
+.teach_list li .teacher_info .hd {
+  height: 20px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 8px 0;
+  border-bottom: 1px solid #e6e6e6;
+  margin-top: 8px;
+}
+.teach_list li .teacher_info .hd .teacher_name {
+  float: left;
+  font-size: 16px;
+}
+.teach_list li .teacher_info .hd .teacher_points {
+  float: right;
+  padding-right: 6px;
+}
+.teach_list li .teacher_info .bd {
+  margin-top: 5px;
+}
+.teach_list li .teacher_info .bd .teacher_desc {
+  color: #333;
+  max-height: 35px;
+  line-height: 20px;
+  font-family: "宋体";
+}
+.teach_list li .teacher_info .bd .teacher_class_list {
+  margin-top: 35px;
+}
+.teach_list li .teacher_info .bd .teacher_class_list .class {
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+}
+.teach_list li .teacher_info .bd .teacher_class_list .class .class_name {
+  max-width: 70%;
+}
+.teach_list li .teacher_info .bd .teacher_class_list .class a {
+  color: #6d6d6d;
+  font-family: "宋体";
+}
+.teach_list li .teacher_info .bd .teacher_class_list .class .class_price {
+  color: #ff9900;
+  margin-left: 5px;
+}
+.teach_list li .teacher_info .bd .teacher_class_list .more_class {
+  margin-top: 5px;
+}
+.teach_list li .teacher_info .bd .teacher_class_list .more_class a {
+  color: #999999;
+  font-family: "宋体";
+}
+.teach_list .page_info {
+  clear: both;
+  margin-top: 20px;
+}
+.teach_list .page_info .pages_bar a, .teach_list .page_info .pages_bar span {
+  font-weight: 400;
+  font-family: "宋体";
+  border-radius: 0px;
+}
+.teach_list .page_info .pages_bar a.current_page {
+  background-color: transparent;
+  color: #1a66b3;
+  border: 1px solid #fff;
+}

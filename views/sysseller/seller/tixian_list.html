@@ -1,0 +1,54 @@
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">账户提现记录</h3>
+	</header>
+
+	<table class="tablesorter" cellspacing="0">
+		<colgroup>
+			<col width="155px" />
+			<col width="155px" />
+			<col width="155px" />
+			<col width="155px" />
+			<col />
+			<col width="100px" />
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>申请时间</th>
+				<th>处理时间</th>
+				<th>申请金额</th>
+				<th>操作员ID</th>
+				<th>状态</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{foreach:items=$sale_tixian_list}
+			<tr>
+				<td>{echo:date('Y-m-d H:m',$item['create_time'])}</td>
+				<td>
+				{if:$item['end_time']>0}
+				{echo:date('Y-m-d H:m',$item['end_time'])}
+				{/if}
+				</td>
+				<td>{$item['num']}</td>
+				<td>
+				{if:$item['admin_id']>0}
+				{$item['admin_id']}
+				{/if}
+				</td>
+				{if:$item['status']==0}
+				<td>待处理</td>
+				{elseif:$item['status']==1}
+				<td>已同意</td>
+				{else:}
+				<td>已驳回</td>
+				{/if}
+			</tr>
+			{/foreach}
+		</tbody>
+	</table>
+
+	{$page_info}
+</article>

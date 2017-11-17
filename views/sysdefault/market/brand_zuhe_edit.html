@@ -1,0 +1,102 @@
+{js:my97date}
+
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>营销活动管理</span><span>></span><span>{if:isset($this->promotionRow['id'])}编辑{else:}添加{/if}组合套餐</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/market/brand_zuhe_save}"  method="post" name='pro_edit'>
+			<input type='hidden' name='id' />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>组合套餐名称：</th>
+					<td><input type='text' class='normal' name='name' pattern='required' alt='组合套餐名称' value="{$zuhe_info['name']}" /><label>* 组合套餐名称</label></td>
+				</tr>
+				<tr>
+					<th>组合套餐时间：</th>
+					<td>
+						<input type='text' name='start_time' class='Wdate' pattern='datetime' value="{$zuhe_info['start_time']}" readonly=true onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" alt='开始日期' />
+						<input type='text' name='end_time' class='Wdate' pattern='datetime' value="{$zuhe_info['end_time']}" readonly=true onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" alt='结束日期' />
+						<label>* 此组合套餐时间段</label>
+					</td>
+				</tr>
+				<tr>
+					<th>设置抢购代金券：</th>
+					<td>
+						<table class='border_table' style='width:65%'>
+							<col width="100px" />
+							<col width="200px" />
+							<col />
+							<input type='hidden' name='condition' />
+							<thead>
+								<tr>
+									<th>短期课名称</th>
+									<th>单价</th>
+									<th>套餐价</th>
+									<th>手续费</th>
+									<th>课时</th>
+								</tr>
+							</thead>
+							<tbody id='speed_goods'>
+								{if:$zuhe_detail_list}
+									{foreach:items=$zuhe_detail_list}
+									<tr>
+										<td>{$item['name']}</td>
+										<td>{$item['max_price']}</td>
+										<td>{$item['tc_price']}</td>
+										<td>{$item['commission']}</td>
+										<td>{$item['use_times']}</td>
+									</tr>
+									{/foreach}
+								{/if}
+							</tbody>
+						</table>
+					</td>
+				</tr>				<tr>					<th>价格：</th>					<td><input type='text' class='normal' name='price' pattern='required' alt='价格不能为空' value="{$zuhe_info['price']}" /><label>*</label></td>				</tr>
+				<tr>
+					<th>介绍：</th>
+					<td><textarea class='textarea' name='content'>{$zuhe_info['content']}</textarea></td>
+				</tr>
+				<tr><td></td><td>
+				<input type="hidden" name="prop_id" value="{$zuhe_info['prop_id']}" />
+				<input type="hidden" name="zuhe_id" value="{$zuhe_info['id']}" />
+				<button class="submit" type='submit'><span>确 定</span></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+	//输入筛选商品的条件
+	function searchGoodsCallback(goodsList)
+	{
+		goodsList.each(function(){
+			var temp = $.parseJSON($(this).attr('data'));
+			var prop_id = $('input[name=prop_id]').val();
+
+			var html = '<tr>';
+			if ( prop_id == '')
+			{
+				$('input[name=prop_id]').val(temp.id);			} else {				$('input[name=prop_id]').val(prop_id + ',' + temp.id);			}
+
+			html += '<td>' + temp.name + '</td>' +
+							'<td>' + temp.max_price + '</td>' +
+							'<td>' + temp.commission + '</td>' +
+							'<td>' + temp.use_times + '</td><td></td>';
+			html += '</tr>';
+
+			$('#speed_goods').append(html);
+
+
+		});
+	}
+
+	//预定义商品绑定
+	//relationCallBack({$this->promotionRow['goodsRow']});
+
+	//表单回填
+	var formObj = new Form('pro_edit');
+	formObj.init({echo:JSON::encode($this->promotionRow)});
+</script>

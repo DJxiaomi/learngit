@@ -1,0 +1,10 @@
+.module_content{width:960px;margin:0 auto;margin-top:100px;background-color:#fff;padding:10px;}
+.summary {width: 100%;}
+.summary h2 {width: 660px;}
+.summary h2 div {width: 100%; float: left; margin-top: 15px;}
+.content {width: 640px; border: 1px solid #ccc; float: left; margin-top: 15px; padding: 10px;}
+.content img {max-width: 100%; }
+.content p {margin: 0px 5px 15px;line-height: 16px;}
+.submit_buy {float: right; margin-bottom: 10px;}
+.clear {clear:both;}
+.c_box p{margin:0;line-height: 24px;}

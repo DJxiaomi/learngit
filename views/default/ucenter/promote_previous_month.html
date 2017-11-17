@@ -1,0 +1,53 @@
+<link href="{skin:css/ucenter_promote.css}" rel="stylesheet" type="text/css" />
+<style>
+  .hd li {width: 30%;}
+</style>
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-group"></i>上月推广</div>
+        <div class="hd">
+          <ul>
+            <li {if:$type == '1'}class="active"{/if}><a href="{url:/ucenter/promote_previous_month/type/1}">最新推广</a></li>
+            <li {if:$type == '2'}class="active"{/if}><a href="{url:/ucenter/promote_previous_month/type/2}">最新成交</a></li>
+          </ul>
+        </div>
+
+        {if:$type == 1}
+        <!-- 最新推广 -->
+        <table class="new-table">
+            <tr>
+              <th>编号</th>
+              <th>用户</th>
+              <th>日期</th>
+            </tr>
+            {foreach:items = $promotelist key=$key}
+                <tr>
+                    <td>{echo:$key+1}</td>
+                    <td>{$item['username']}</td>
+                    <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                </tr>
+            {/foreach}
+        </table>
+        {elseif:$type == 2}
+        <!-- 最新成交 -->
+        <table class="new-table">
+            <tr>
+              <th>编号</th>
+              <th>用户</th>
+              <th>课程</th>
+              <th>预计提成</th>
+              <th>日期</th>
+            </tr>
+            {foreach:items = $promotelistorder key=$key}
+                <tr>
+                    <td>{echo:$key+1}</td>
+                    <td>{$item['username']}</td>
+                    <td>{$item['goods_name']}</td>
+                    <td>{$item['commission']}</td>
+                    <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                </tr>
+            {/foreach}
+        </table>
+        {/if}
+    </div>
+</div>

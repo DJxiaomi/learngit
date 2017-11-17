@@ -1,0 +1,81 @@
+<link href="/views/default/skin/default/css/ucenter_promote.css" rel="stylesheet" type="text/css" />
+<style>
+.new-box {width: 97%;margin: 0px auto;}
+.promo_code {padding-left: 10px; height: 35px; line-height: 35px;}
+.promo_code b {color: red;}
+.tablesorter em {font-style: normal;}
+.tablesorter a {font-weight: 600;font-size:14px;}
+  .hd li {width: 30%;}
+</style>
+<article class="module width_full">
+	<header><h3>上月推广</h3></header>
+
+  <div class="main f_r">
+      <div class="new-box">
+          <div class="hd">
+            <ul>
+              <li {if:$type == '1'}class="active"{/if}><a href="{url:/seller/promote_previous_month/type/1}">最新推广</a></li>
+              <li {if:$type == '2'}class="active"{/if}><a href="{url:/seller/promote_previous_month/type/2}">最新成交</a></li>
+            </ul>
+          </div>
+
+          {if:$type == 1}
+          <!-- 最新推广 -->
+          <table class="tablesorter" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>用户</th>
+                  <th>日期</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {foreach:items = $promotelist key=$key}
+                    <tr>
+                        <td>{echo:$key+1}</td>
+                        <td>{$item['username']}</td>
+                        <td>{if:$item['create_time']}{echo:date('Y-m-d',strtotime($item['create_time']))}{/if}</td>
+                    </tr>
+                {/foreach}
+                {if:!$promotelist}
+                  <tr>
+                    <td style="text-align:center" colspan="5">没有任何记录</td>
+                  </tr>
+                {/if}
+            </tbody>
+          </table>
+          {elseif:$type == 2}
+          <!-- 最新成交 -->
+          <table class="tablesorter" cellspacing="0">
+            <thead>
+              <tr>
+                <th>编号</th>
+                <th>用户</th>
+                <th>课程</th>
+								<th>预计提成</th>
+                <th>日期</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {foreach:items = $promotelistorder key=$key}
+                  <tr>
+                      <td>{echo:$key+1}</td>
+                      <td>{$item['username']}</td>
+                      <td>{$item['goods_name']}</td>
+											<td>{$item['commission']}</td>
+                      <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                  </tr>
+              {/foreach}
+              {if:!$promotelistorder}
+                <tr>
+                  <td style="text-align:center" colspan="5">没有任何记录</td>
+                </tr>
+              {/if}
+            </tbody>
+          </table>
+          {/if}
+      </div>
+  </div>
+</article>

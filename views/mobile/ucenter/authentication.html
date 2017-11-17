@@ -1,0 +1,147 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link rel="stylesheet" type="text/css" href="{skin:css/ucenter.css}" />
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<style>
+#uppic, #downpic {width: 65px;height:65px;}
+#uppic input[type=file], #downpic input[type=file] {width: 65px;height:65px;overflow:hidden;border:1px solid #666;}
+</style>
+{set:$user_ico = $this->user['head_ico']}
+<form class="mui-input-group" action="{url:/ucenter/authentication_edit_act}" method="post" enctype='multipart/form-data'>
+  {if:$this->memberRow['is_auth'] == 2}
+  <div class="mui-input-row" style="height: 50px;line-height:22px;width:90%;margin: 0px auto;">
+    <b style="color:red">您的认证信息正在提交中，工作人员会在1个工作日内处理，请耐心等待!</b>
+  </div>
+  {/if}
+  <div class="mui-input-row">
+    <label>认证状态</label>
+    <b>{if:$this->memberRow['is_auth'] == 0}未认证{elseif:$this->memberRow['is_auth'] == 1}已认证{else:}认证中{/if}</b>
+  </div>
+	<div class="mui-input-row">
+		<label>姓名</label>
+		<input type="text" placeholder="姓名" value="{$this->memberRow['true_name']}" name="true_name" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} />
+	</div>
+  <div class="mui-input-row">
+    <label>身份证号码</label>
+    <input type="text" placeholder="身份证号码" value="{$this->memberRow['id_card']}" name="id_card" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} />
+  </div>
+  <div class="mui-input-row">
+    <label>联系电话</label>
+    <b>{$this->memberRow['mobile']}</b>
+  </div>
+	<div class="mui-input-row" id="region">
+		<label>地区</label>
+		<span id="province">{if:$this->memberRow['provinceval']}{$this->memberRow['provinceval']}{else:}湖南省{/if}</span>
+		<span id="city">{if:$this->memberRow['cityval']}{$this->memberRow['cityval']}{else:}株洲市{/if}</span>
+		<span id="discrict">{if:$this->memberRow['discrictval']}{$this->memberRow['discrictval']}{else:}市辖区{/if}</span>
+		<input type="hidden" name="province" id="provinceval" value="{if:$this->memberRow['areas'][0]}{$this->memberRow['areas'][0]}{else:}430000{/if}" />
+		<input type="hidden" name="city" id="cityval" value="{if:$this->memberRow['areas'][1]}{$this->memberRow['areas'][0]}{else:}430200{/if}" />
+		<input type="hidden" name="area" id="discrictval" value="{if:$this->memberRow['areas'][2]}{$this->brandRow['areas'][2]}{else:}430201{/if}" />
+		<i class="icon-angle-right"></i>
+	</div>
+	<div class="mui-input-row">
+		<label>详细地址</label>
+		<input type="text" name="contact_addr" value="{$this->memberRow['contact_addr']}" placeholder="请填写详细地址" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} />
+	</div>
+
+	<div class="mui-input-row">
+		<label>开户银行</label>
+		<input type="text" placeholder="请输入开户银行" value="{$this->memberRow['bankname']}" name="bankname" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} />
+	</div>
+
+	<div class="mui-input-row">
+		<label>银行账户</label>
+		<input type="text" placeholder="请输入银行账户" value="{$this->memberRow['accountname']}" name="accountname" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} />
+	</div>
+
+	<div class="mui-input-row">
+		<label>卡号</label>
+		<input type="text" placeholder="请输入银行卡号" value="{$this->memberRow['account']}" name="account" {if:$this->memberRow['is_auth'] > 0}disabled="disabled"{/if} />
+	</div>
+
+  <div class="mui-input-row" style="height: auto;">
+    <label>身份证正面</label>
+    <?php
+      $default_upload_bg = '/views/mobile/skin/blue/images/upload.png';
+      $upphoto = ($this->memberRow['upphoto']) ? '/' . $this->memberRow['upphoto'] : $default_upload_bg;
+      $downphoto = ($this->memberRow['downphoto']) ? '/' . $this->memberRow['downphoto'] : $default_upload_bg;
+    ?>
+    <div class="image-item space" id="uppic" style="overflow:hidden;background:url({$upphoto}) no-repeat center center;background-size:100% auto;"></div>
+    <input type="hidden" name="upphoto" id="icon" value="{$this->memberRow['upphoto']}">
+  </div>
+  <div class="mui-input-row" style="height: auto;">
+    <label>身份证反面</label>
+    <div class="image-item space" id="downpic" style="overflow:hidden;background:url({$downphoto}) no-repeat center center;background-size:100% auto;"></div>
+    <input type="hidden" name="downphoto" id="downicon" value="{$this->memberRow['downphoto']}">
+  </div>
+
+	{if:$this->memberRow['is_auth'] == 0}
+	<div class="mui-content-padded" style="padding-bottom: 50px;">
+			<input type="hidden" name="back" value="{$back}" />
+			<input type="hidden" name="type" value="1" />
+      <button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-save" style="width: 45%;float: left;">保存</button>
+			<button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-submit" style="width: 45%;float: left; margin-left: 5%;">保存并提交认证</button>
+  </div>
+	{/if}
+</form>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<script type="text/javascript" src="/views/msysseller/javascript/jquery.juploader.js"></script>
+<script type="text/javascript">
+mui.ready(function(){
+	var regionPicker = new mui.PopPicker({
+		layer: 3
+	});
+	regionPicker.setData({$regiondata});
+	regionPicker.pickers[0].setSelectedValue(430000, 0);
+	regionPicker.pickers[1].setSelectedValue(430200, 1);
+	var PickerButton = document.getElementById('region');
+	PickerButton.addEventListener('tap', function(event) {
+		regionPicker.show(function(items) {
+			$('#provinceval').val(items[0].value);
+			$('#province').text(items[0].text);
+			$('#cityval').val(items[1].value);
+			$('#city').text(items[1].text);
+			$('#discrictval').val(items[2].value);
+			$('#discrict').text(items[2].text);
+		});
+	}, false);
+
+	$('.mui-btn-save').click(function(){
+		$('.mui-input-group').submit();
+	})
+
+	$('.mui-btn-submit').click(function(){
+		$('input[name=type]').val('2');
+		$('.mui-input-group').submit();
+	})
+});
+
+$.jUploader({
+    button: 'uppic',
+    action: '{url:/ucenter/pic_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+    onComplete: function(fileName, response){
+      	if(response.success){
+      		$('#icon').val(response.fileurl);
+          $('#uppic').css('background-image','url(/' + response.fileurl + ')');
+      	}else{
+        	mui.toast('上传失败');
+      	}
+    }
+});
+
+$.jUploader({
+    button: 'downpic',
+    action: '{url:/ucenter/pic_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+    onComplete: function(fileName, response){
+      	if(response.success){
+      		$('#downicon').val(response.fileurl);
+          $('#downpic').css('background-image','url(/' + response.fileurl + ')');
+      	}else{
+        	mui.toast('上传失败');
+      	}
+    }
+});
+</script>

@@ -1,0 +1,258 @@
+{js:artTemplate}
+{js:areaSelect}
+
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>商户管理</span><span>></span><span>商户认证信息</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/seller_add6}" method="post" name="sellerForm" enctype='multipart/form-data'>
+			<table class="form_table" id="mobileWay">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>商户名称：</th>
+						<td>
+							<select class="auto selectpicker show-tick form-control" name="seller_id" data-live-search="true">
+								<option value="">请选择商户</option>
+								{query:name=seller where=is_del eq 0 order=id desc}
+								<option value="{$item['id']}"{if:$item['id'] == $this->sellerRow['id']} selected{/if}>{$item['true_name']}-{$item['seller_name']}</option>
+								{/query}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>商户真实全称：</th>
+						<td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
+					</tr>
+					<tr>
+						<th>营业执照号码：</th>
+						<td><input class="normal" name="papersn" type="text" value="" /></td>
+					</tr>
+					<tr>
+						<th>营业执照：</th>
+						<td>
+							<input type='file' name='paper_img' />
+						</td>
+					</tr>
+
+					<tr>
+						<th>法人代表姓名：</th>
+						<td><input type="text" class="normal" name="legal" value="{$this->sellerRow['legal']}" /></td>
+					</tr>
+					<tr>
+						<th>法人身份证号码：</th>
+						<td><input type="text" class="normal" name="cardsn" value="{$this->sellerRow['cardsn']}" /></td>
+					</tr>
+					<tr>
+						<th>法人身份证正面：</th>
+						<td>
+							<input type='file' name='upphoto' />
+						</td>
+					</tr>
+					<tr>
+						<th>法人身份证背面：</th>
+						<td>
+							<input type='file' name='downphoto' />
+						</td>
+					</tr>
+
+					<tr>
+						<th>安全手机号码：</th>
+                              <td><input type="text" class="normal" name="safe_mobile" value="{$this->sellerRow['mobile']} "/>修改认证信息、结算账户、接收信息手机</td>
+			        </tr>
+					<tr>
+						<th>联系人：</th>
+						<td><input type="text" class="normal" name="contacter" value="{$this->sellerRow['contacter']}" /></td>
+					</tr>
+					<tr>
+						<th>联系人身份证号码：</th>
+						<td><input type="text" class="normal" name="contactcardsn" value="{$this->sellerRow['contactcardsn']}" /></td>
+					</tr>
+					<tr>
+						<th>联系人身份证正面：</th>
+						<td>
+							<input type='file' name='cupphoto' />
+						</td>
+					</tr>
+					<tr>
+						<th>联系人身份证背面：</th>
+						<td>
+							<input type='file' name='cdownphoto' />
+						</td>
+					</tr>
+					<tr>
+						<th>登录密码：</th>
+						<td><input class="normal" name="password" type="password" value="" />
+							<label>*</label>
+						</td>
+					</tr>
+					<tr>
+						<th>取款密码：</th>
+						<td><input class="normal" name="draw_password" type="password" value="" />
+							<label>*</label>
+						</td>
+					</tr>
+					<tr>
+						<td></td><td><button class="submit" type="submit"><span>提交认证</span></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+//DOM加载完毕
+$(function()
+{
+
+$('select[name=seller_id]').change(function(){
+	var seller_id = $(this).val();
+	$.getJSON('{url:/member/get_seller_info}',{seller_id:seller_id},function(res){
+		if(res.status == 1){
+			var data = res.data;
+			$('input[name=true_name]').val(data.true_name);
+			$('input[name=papersn]').val(data.papersn);
+			$('input[name=legal]').val(data.legal);
+			$('input[name=cardsn]').val(data.cardsn);
+			$('input[name=safe_mobile]').val(data.safe_mobile);
+			$('input[name=contacter]').val(data.contacter);
+			$('input[name=contactcardsn]').val(data.contactcardsn);
+
+			var str = '<p><a target="_blank" href="{webroot:}%url%"><img src="{webroot:}%url%" style="height:100px;border:1px solid #ccc" /></a></p>';
+			if(data.paper_img){
+				var p_str = str.replace(/%url%/g,data.paper_img);
+				$('input[name=paper_img]').after(p_str);
+			}
+			if(data.upphoto){
+				var p_str = str.replace(/%url%/g,data.upphoto);
+				$('input[name=upphoto]').after(p_str);
+			}
+			if(data.downphoto){
+				var p_str = str.replace(/%url%/g,data.downphoto);
+				$('input[name=downphoto]').after(p_str);
+			}
+			if(data.cupphoto){
+				var p_str = str.replace(/%url%/g,data.cupphoto);
+				$('input[name=cupphoto]').after(p_str);
+			}
+			if(data.cdownphoto){
+				var p_str = str.replace(/%url%/g,data.cdownphoto);
+				$('input[name=cdownphoto]').after(p_str);
+			}
+
+		}
+	})
+})
+
+//修改模式
+{if:$this->sellerRow}
+var formObj = new Form('sellerForm');
+formObj.init({echo:JSON::encode($this->sellerRow)});
+
+//锁定字段一旦注册无法修改
+if($('[name="id"]').val())
+{
+	var lockCols = ['seller_name'];
+	for(var index in lockCols)
+	{
+		$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+		$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+	}
+}
+{/if}
+
+//地区联动插件
+var areaInstance = new areaSelect('province');
+areaInstance.init({echo:JSON::encode($this->sellerRow)});
+});
+
+function getAu(obj){
+	if($(obj).val() == 2){
+		$('#authorization').show();
+	}else{
+		$('#authorization').hide();
+	}
+}
+
+function getBank(obj){
+	if($(obj).val() == 1){
+		$('#bank').show();
+		$('#alipay').hide();
+	}else if($(obj).val() == 2){
+		$('#bank').hide();
+		$('#alipay').show();
+	}else{
+		return;
+	}
+}
+
+var default_time = 60;
+var s_count = 60;
+var send_status = true;
+
+//发送短信码
+function sendMessage()
+{
+	var username = $('#mobileWay [name="username"]').val();
+	var mobile   = $('#mobileWay [name="mobile"]').val();
+	var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+	if ( username == '' )
+	{
+		$('#mobileWay').submit();
+		return false;
+	}
+	if(!myreg.test(mobile))
+	{
+		$('#mobileWay').submit();
+		return false;
+	}
+
+	if ( s_count == default_time && send_status )
+	{
+		$.get("{url:/simple/send_reg_sms}",{"mobile":mobile,"type":2},function(content){
+			if(content == 'success')
+			{
+				update_sms_status();
+				time = setInterval(function(){
+					update_sms_status();
+				}, 1000);
+				$('#mobileWay .send_sms').addClass('disable');
+				$('.form_table .send_sms_notice').show();
+			}
+			else
+			{
+				alert(content);
+				return;
+			}
+		});
+	}
+}
+
+function update_sms_status()
+{
+	if ( s_count > 0 )
+	{
+		s_count--;
+		send_status = false;
+		$('#mobileWay .send_sms').attr('disabled',"true");
+		$('#mobileWay .send_sms').val('重新发送验证码(' + s_count + ' s)');
+		$('#mobileWay .send_sms').css('cursor', 'wait');
+	} else {
+		s_count = default_time;
+		send_status = true;
+		clearInterval(time);
+
+		$('#mobileWay .send_sms').val('重新发送验证码');
+		$('#mobileWay .send_sms').removeAttr("disabled");
+		$('#mobileWay .send_sms').removeClass('disable');
+		$('#mobileWay .send_sms').css('cursor', 'pointer');
+	}
+}
+</script>

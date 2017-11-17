@@ -1,0 +1,52 @@
+<link href="{skin:css/ucenter_article_list.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+  var _del_url = "{url:/ucenter/booking_del/id}";
+</script>
+
+<div class="main f_r">
+    <div class="main f_r">
+        <div class="new-box">
+            <div class="nt"><i class="icon-file"></i>我的预定表<span><a href="{url:/ucenter/booking_add}" class="blue">发布预定</a></span></div>
+            <table class="new-table">
+                <tr>
+                    <th></th>
+                    <th>用户名</th>
+                    <th>真实姓名</th>
+                    <th>手机号码</th>
+                    <th>商户</th>
+                    <th>课程名称</th>
+                    <th>发布日期</th>
+                    <th>是否匹配到订单</th>
+                    <th>操作</th>
+                </tr>
+                {if:$booking_list}
+                  {foreach:items = $booking_list}
+                  <tr>
+                      <td></td>
+                      <td>{$item['username']}</td>
+                      <td>{$item['true_name']}</td>
+                      <td>{$item['mobile']}</td>
+                      <td>{$item['seller_name']}</td>
+                      <td>{$item['goods_name']}</td>
+                      <td>{echo:date('Y-m-d',$item['add_time'])}</td>
+                      <td>{if:$item['order_id'] > 0}有{else:}无{/if}</td>
+                      <td>
+                        <a href="{url:/ucenter/booking_add/id/$item[id]}" title="修改"><img class="operator" src="/views/sysdefault/skin/default/images/admin/icon_edit.gif" alt="修改"></a>
+                        &nbsp; <a href="javascript:void(0);" _id="{$item[id]}" class="del_btn" title="删除"><img class="operator" src="/views/sysdefault/skin/default/images/admin/icon_del.gif" alt="删除"></a>
+                      </td>
+                  </tr>
+                  {/foreach}
+                  <tfoot><tr><td colspan="9" class="t_l">{$page_info}</td></tr></tfoot>
+                {else:}
+                <tr>
+                  <td colspan="9">
+                    暂时没有任何信息
+                  </td>
+                </tr>
+                {/if}
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/ucenter_booking_list.js}"></script>

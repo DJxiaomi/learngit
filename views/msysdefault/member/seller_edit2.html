@@ -1,0 +1,341 @@
+{js:artTemplate}
+{js:kindeditor}
+{js:my97date}
+<script type='text/javascript' src='{theme:javascript/artTemplate/area_select.js}'></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QDA0aO9Dw8tVx22vuULQuGXOGFV5a5ZD"></script>
+<script type="text/javascript" src="/plugins/newupload/plupload.full.min.js"></script>
+<style>
+.hide { display: none; }
+input.normal, select.normal { height: 30px; }
+.form_table { width: 60%; }
+#allmap { width: 700px; height: 400px; }
+.pic { margin-bottom: 15px;}
+.pic img { width: 100px; height: 100px;}
+#thumbnails2 { margin-top: 10px; }
+#uploadButton2 { width: 228px; padding: 3px 10px;font-size: 12px; text-align: center; border: 1px solid #959595; background-color: #e9e9e9; margin-left: 10px; }
+#uploadButton2:hover { text-decoration: none;}
+.demo { margin-top: 6px; }
+</style>
+
+<script language="javascript">
+	{if:isset($this->sellerRow['album_json'])}
+	var _album_arr = {$this->sellerRow['album_json']};
+	{else:}
+	var _album_arr = new Array();
+	{/if}
+</script>
+
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>学校管理</span><span>></span><span>编辑个人教师</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/seller_add2}" method="post" name="sellerForm" enctype='multipart/form-data'>
+			<input name="id" value="" type="hidden" />
+
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+
+				<tbody>
+					<tr>
+						<th>用户名：</th>
+						<td><input class="normal" name="seller_name" type="text" value="" pattern="required" alt="用户名不能为空" /><label>* 用户名称（必填）</label></td>
+						<th>教师名称：</th>
+						<td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
+					</tr>
+
+					<tr>
+						<th>密码：</th><td><input class="normal" name="password" type="password" bind='repassword' empty /><label>* 登录密码</label></td>
+						<th>确认密码：</th><td><input class="normal" name="repassword" type="password" bind='password' empty /><label>* 重复确认密码</label></td>
+					</tr>
+
+					<tr>
+							<th>性别：</th>
+							<td>
+								<input type="radio" name="sex" value="1" id="sex_1" {if:!$teacher_info || $teacher_info['sex'] != 2}checked{/if} />
+								<label for="sex_1">男</label>&nbsp; &nbsp;
+								<input type="radio" name="sex" value="2" id="sex_2" {if:$teacher_info['sex'] == 2}checked{/if} /><label for="sex_2">女</label>
+							</td>
+					</tr>
+
+					<tr>
+						<th>手机号码：</th>
+						<td><input type="text" class="normal" name="mobile" pattern="mobi" empty alt="请输入正确的手机号码" /></td>
+						<th>教师个人身份证：</th>
+						<td>
+							<input type='file' name='paper_img' />
+							{if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
+							<p>
+									<a target="_blank" href="{webroot:}{$this->sellerRow['paper_img']}"><img src='{webroot:}{$this->sellerRow['paper_img']}' style='width:100px;border:1px solid #ccc' /></a>
+									<label></label>
+								</p>
+							{/if}
+						</td>
+					</tr>
+					<tr>
+						<th>出生年月：</td>
+						<td><input type="text" class="normal" name="birth_date" pattern="date" tempty alt="请选择出生年月" onFocus="WdatePicker()" value="{$teacher_info['birth_date']}" /></td>
+					</tr>
+					<tr>
+						<th>个人头像：</th>
+						<td>
+							<input type='file' name='icon' />
+							{if:isset($teacher_info['icon']) && $teacher_info['icon']}
+							<p><a target="_blank" href="{webroot:}{$teacher_info['icon']}"><img src='{webroot:}{$teacher_info['icon']}' style='width:100px;border:1px solid #ccc' /></a></p>
+							{/if}
+						</td>
+					</tr>
+					<tr>
+						<th>学校相册：</th>
+						<td colspan="3">
+							<div class="demo">
+								<a class="btn" id="uploadButton2">上传图片</a>
+							</div>
+							<ul id="thumbnails2" class="ul_pics clearfix">
+								{if:$this->sellerRow['album']}
+									{foreach:items = $this->sellerRow['album']}
+										<div class='pic'>
+											<div class='pic_image'><img src="{webroot:$item}" alt="<%=picRoot%>" true_src="{$item}" /></div>
+											<div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+										</div>
+									{/foreach}
+								{/if}
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<th>毕业院校：</th>
+						<td><input type="text" class="normal" name="graduate" value="{$teacher_info['graduate']}" /></td>
+					</tr>
+					<tr>
+						<th>学习专业：</th>
+						<td><input type="text" class="normal" name="major" value="{$teacher_info['major']}" /></td>
+					</tr>
+					<tr>
+						<th>授课方向：</th>
+						<td><input type="text" class="normal" name="teaching_direction" value="{$teacher_info['teaching_direction']}" /></td>
+					</tr>
+					<tr class="hide">
+						<th>教学经历：</td>
+						<td>
+								<textarea name="teaching_experience" id="teaching_experience" style="width:600px;height:300px;">{$teacher_info['teaching_experience']}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>个人介绍：</td>
+						<td>
+								<textarea name="description" id="description" style="width:600px;height:300px;">{$teacher_info['description']}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>教学经历：</td>
+						<td>
+								<textarea name="teaching_experience" id="teaching_experience" style="width:600px;height:300px;">{$teacher_info['teaching_experience']}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>获奖荣誉：</td>
+						<td>
+								<textarea name="awards" id="awards" style="width:600px;height:300px;">{$teacher_info['awards']}</textarea>
+						</td>
+					</tr>
+
+
+					<tr>
+						<th>地区：</th>
+						<td>
+							<select name="province" child="city,area" onchange="areaChangeCallback(this);" class="normal"></select>
+							<select name="city" child="area" parent="province" onchange="areaChangeCallback(this);" class="normal"></select>
+							<select name="area" parent="city" class="normal"></select>
+						</td>
+						<th>授课地址：</th><td><input class="normal" name="address" type="text" empty value="" /></td>
+					</tr>
+					<tr>
+						<th>是否审核：</th>
+						<td>
+							<label class='attr'><input type='radio' name='is_lock' value='0' checked='checked' />审核</label>
+							<label class='attr'><input type='radio' name='is_lock' value='1' />锁定</label>
+							<label>锁定商户无法登陆进行管理</label>
+						</td>
+						<th>是否认证：</th>
+						<td>
+							<label class='attr'><input type='radio' name='is_authentication' value='1' {if:$this->sellerRow['is_authentication'] == 1}checked='checked'{/if}/>是</label>
+							<label class='attr'><input type='radio' name='is_authentication' value='0' {if:$this->sellerRow['is_authentication'] == 0}checked='checked'{/if} />否</label>
+							<label>未认证商户无法上架课程</label>
+						</td>
+					</tr>
+					<tr>
+						<th>排序：</th>
+						<td><input type='text' class='normal small' pattern="int" empty name='sort' alt="请输入数字" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<input type="hidden" name="album" id="album" value="{$this->sellerRow['album']}" />
+							<input type="hidden" name="id" value="{$id}" />
+							<input type="hidden" name="teacher_id" value="{$teacher_info['id']}" />
+							<button class="submit" type="submit" ><span>确 定</span></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/html' id='picTemplate2'>
+ <div class='pic'>
+		 <div class='pic_image'><img src="<?php echo IUrl::creatUrl("")."<%=picRoot%>";?>" alt="<%=picRoot%>" /></div>
+		 <div class='pic_dels'><a href='javascript:void(0)'>删除</a></div>
+ </div>
+ </script>
+
+<script language="javascript">
+//DOM加载完毕
+$(function(){
+	//初始化地域联动
+	template.compile("areaTemplate",areaTemplate);
+
+	//修改模式
+	{if:isset($this->sellerRow)}
+		var formObj = new Form('sellerForm');
+		formObj.init({echo:JSON::encode($this->sellerRow)});
+
+		//城市设置
+		{if:isset($this->sellerRow['area'])}
+			createAreaSelect('province',0,"{$this->sellerRow['province']}");
+			createAreaSelect('city',"{$this->sellerRow['province']}","{$this->sellerRow['city']}");
+			createAreaSelect('area',"{$this->sellerRow['city']}","{$this->sellerRow['area']}");
+		{else:}
+			createAreaSelect('province',0,"");
+		{/if}
+
+		//锁定字段一旦注册无法修改
+		if($('[name="id"]').val())
+		{
+			var lockCols = ['seller_name'];
+			for(var index in lockCols)
+			{
+				$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+				$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+			}
+		}
+	{else:}
+		createAreaSelect('province',0,'');
+	{/if}
+
+	//编辑器载入
+	KindEditor.ready(function(K){
+		K.create('#teaching_experience');
+		K.create('#description');
+		K.create('#awards');
+	});
+
+	// 删除图片
+	$("body").on("click", ".pic .pic_dels a", function(){
+		var _img_src = $(this).parent().parent().find('img').attr('true_src');
+		$(this).parent().parent().remove();
+
+		for( var i = 0; i < _album_arr.length; i++ )
+		{
+			if( _album_arr[i] == _img_src )
+				_album_arr.splice( i, 1 );
+		}
+
+		update_pics();
+	});
+});
+
+/**
+ * 生成地域js联动下拉框
+ * @param name
+ * @param parent_id
+ * @param select_id
+ */
+function createAreaSelect(name,parent_id,select_id)
+{
+	//生成地区
+	$.getJSON("{url:/block/area_child}",{"aid":parent_id,"random":Math.random()},function(json)
+	{
+		$('[name="'+name+'"]').html(template.render('areaTemplate',{"select_id":select_id,"data":json}));
+	});
+}
+
+//running running upload img 处理课堂照片的图片上传
+function uploadPicCallback(picJson)
+{
+	if ( picJson.flag == -1 )
+	{
+		return false;
+	}
+
+	var _div = 'thumbnails2';
+	var picHtml = template.render('picTemplate2',{'picRoot':picJson.img});
+	$('#' + _div).append(picHtml);
+	if($('#' + _div + ' img[class="current"]').length == 0)
+	{
+		$('#' + _div + ' img:first').addClass('current');
+	}
+
+	_album_arr.push( picJson.img );
+
+	update_pics();
+}
+
+function update_pics()
+{
+	var _str = '';
+	for( i in _album_arr )
+	{
+		_str = ( _str == '' ) ? _album_arr[i] : _str + ',' + _album_arr[i];
+	}
+	$('#album').val( _str );
+}
+
+		 var uploader2 = new plupload.Uploader({
+				 runtimes: 'html5,flash,silverlight,html4',
+				 browse_button: 'uploadButton2',
+				 url: "{url:/goods/goods_upload_class_pics}",
+				 filters: {
+						 max_file_size: '1024kb',
+						 mime_types: [
+								 {title: "files", extensions: "jpg,png,gif"}
+						 ]
+				 },
+				 multi_selection: true,
+				 init: {
+						 FilesAdded: function(up, files) {
+								 if ($("#thumbnails2").children("li").length > 30) {
+										 alert("您上传的图片太多了！");
+										 uploader.destroy();
+								 } else {
+										 var li = '';
+										 plupload.each(files, function(file) {
+										 });
+										 $("#thumbnails2").append(li);
+										 uploader2.start();
+								 }
+						 },
+						 UploadProgress: function(up, file) {
+						 },
+						 FileUploaded: function(up, file, info) {
+								var data = eval("(" + info.response + ")");
+								 if ( info.response == '{"flag":-10}' )
+								 {
+										 alert('上传失败，尺寸不正确');
+										 return false;
+								 }
+								 uploadPicCallback(data);
+						 },
+						 Error: function(up, err) {
+								 alert(err.message);
+						 }
+				 }
+		 });
+		 uploader2.init();
+
+</script>

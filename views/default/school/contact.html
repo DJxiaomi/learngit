@@ -1,0 +1,60 @@
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QDA0aO9Dw8tVx22vuULQuGXOGFV5a5ZD"></script>
+<section class="Contact">
+	<div class="page-header">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>联系我们</h1>
+					<p style="text-align:center;">地址：{echo:join(' ',area::name($this->seller['province'],$this->seller['city'],$this->seller['area']))} {$this->seller['address']}</p>
+					<p style="text-align:center;">电话：{$this->seller['phone']}</p>
+				</div>
+			</div>	
+		</div>	
+	</div>	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="hotlink well">
+					<img class="img-responsive" src="{skin:school/images/contact.png}" alt="" />
+					<div class="well well-sm">
+						<div class="list-line">
+							<a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$this->seller['qq']}&amp;site=qq&amp;menu=yes" target="_blank"><i class="fa fa-phone"></i> 在线客服</a> 
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="contact-form">
+					
+					<p>学校地图</p>
+					<div class="map-group">
+						{if:$this->seller['address']}
+						<style type="text/css">#allmap{ height: 400px; }</style>
+						<div id="allmap"></div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{if:$this->seller['address']}
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	map.enableScrollWheelZoom(true);
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint("{echo:join('',area::name($this->seller['province'],$this->seller['city'],$this->seller['area']))}{$this->seller['address']}", function(point){
+		if (point) {
+			map.centerAndZoom(point, 16);
+			map.addOverlay(new BMap.Marker(point));
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, "湖南省");
+</script>
+{/if}

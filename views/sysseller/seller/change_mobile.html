@@ -1,0 +1,108 @@
+{js:artTemplate}
+
+<style>
+.hide { display: none; }
+.jUploader-button {padding: 5px 10px; background: #08c; color: #fff; border-radius: 2px; display: inline-block;  margin-top: 5px; border: 1px solid #796262;}
+.moduleco {display: table-row-group; vertical-align: middle; border-color: inherit;}
+.moduleco dl {display: table-row; vertical-align: inherit; border-color: inherit; border: 1px #f1e8e8 solid; width: 95%; margin: 10px; float: left;}
+.moduleco dl dt {margin-top: 5px; margin-left: 5px; font-weight: bold; background-color: #F1F1F1; height: 20px; float: left; width: 98%; line-height: 20px;}
+.moduleco dl dd {color: #313131; float: left; margin: 2px;}
+.moduleco input[type="text"] {height: 22px; line-height: 22px; padding-left: 5px; width: 285px; border: 1px #C7C4C4 solid; margin-right: 5px;}
+.moduleco input.normal {height: 22px; line-height: 22px; padding-left: 5px; width: 100%; border: 1px #B3B3B3 solid; margin-right: 5px; margin-bottom: 5px;}
+}
+</style>
+
+<article class="module width_full">
+	<header>
+		<h3>学校手机号码</h3>
+	</header>
+
+	<form action="{url:/seller/change_mobile_update}" method="post" name="sellerForm" enctype='multipart/form-data'>
+		<div class="moduleco">
+			<dl>
+				<dt>手机号码 <a href="javascript:;" onclick="sendMessage()" id="smstip">发送验证码</a>：</dt>
+				<dd>
+				<input type="text" name="mobile" id="mobile_val" pattern="mobi" />
+				</dd>
+			</dl>
+			<dl>
+				<dt>验证码：</dt>
+				<dd>
+				<input name="mobile_code" type="text" pattern="required" />
+				<label class="tip">
+				</dd>
+			</dl>
+		</div>
+
+		<footer>
+			<div class="submit_link">
+				<input type="submit" class="alt_btn" value="提交" />
+			</div>
+		</footer>
+	</form>
+
+</article>
+
+
+
+<script language="javascript">
+
+var formObj = new Form('sellerForm');
+
+formObj.init({echo:JSON::encode($this->sellerRow)});
+
+var default_time = 60;
+var s_count = 60;
+var send_status = true;
+
+//发送短信码
+function sendMessage(obj)
+{
+	var mobile   = $('#mobile_val').val();
+	var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+
+	if(!myreg.test(mobile))
+	{
+		alert('手机号不正确')
+		return false;
+	}
+
+	if ( s_count == default_time && send_status )
+	{
+		$.get("{url:/simple/send_reg_sms}",{"mobile":mobile,"type":2},function(content){
+			if(content == 'success')
+			{
+				update_sms_status();
+				time = setInterval(function(){
+					update_sms_status();
+				}, 1000);
+			}
+			else
+			{
+				alert(content);
+				return;
+			}
+		});
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function update_sms_status()
+{
+	if ( s_count > 0 )
+	{
+		s_count--;
+		send_status = false;
+		$('#smstip').val('重新发送验证码(' + s_count + ' s)');
+	} else {
+		s_count = default_time;
+		send_status = true;
+		clearInterval(time);
+
+		$('#smstip').val('重新发送验证码');
+	}
+}
+</script>

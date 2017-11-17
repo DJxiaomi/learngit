@@ -1,0 +1,9 @@
+.module_content {width: 100%;margin-top:37px;}
+.team-top p { max-height: 100px; overflow: hidden;}
+.serve-text p { margin-top: 10px;}
+.navigation .index_logo { width: 19%; float: left; margin-left: 3%; margin-top: 15px; }
+.navigation .index_logo img { max-width: 100%;}
+.navigation ul { width: 450px; float: right;}
+ul.nav1 {width: 75%; float: right;}
+.imgbrand{ margin-bottom: 20px;overflow: hidden;}
+.brief{ color: #999; line-height: 24px; }

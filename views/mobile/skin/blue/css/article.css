@@ -1,0 +1,130 @@
+.bc-bg {
+  background-color: #fff;
+  font-family: "微软雅黑";
+}
+.pro-main {
+  width: 90%;
+  margin: 0px auto;
+  padding: 10px;
+  font-size: 80%;
+  color: #000;
+  margin-top: 41px;
+  font-family: "微软雅黑";
+}
+.pro-main .t-title {
+  font-size: 120%;
+  font-weight: 700;
+}
+.pro-main .t-info {
+  margin: 15px 0;
+  font-size: 80%;
+  color: #999999;
+}
+.pro-main .t-info span {
+  margin-right: 10px;
+}
+.pro-main .t-info span.blue {
+  color: #0093dd;
+}
+.pro-main .t-content {
+  width: 90%;
+  margin: 0px auto;
+}
+.pro-main .t-content img {
+  max-width: 100%;
+}
+.pro-main .t-reply-title {
+  color: #505050;
+  font-size: 120%;
+  height: 25px;
+  line-height: 25px;
+  border-bottom: 1px solid #0093dd;
+}
+.pro-main .t-reply-list {
+  width: 90%;
+  margin: 0px auto;
+}
+.pro-main .t-reply-list li {
+  width: 100%;
+  float: left;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9e9e9;
+}
+.pro-main .t-reply-list .t-user-icon {
+  float: left;
+  overflow: hidden;
+}
+.pro-main .t-reply-list .t-user-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.pro-main .t-reply-list .t-user-info {
+  width: 60%;
+  float: left;
+  margin-left: 20px;
+}
+.pro-main .t-reply-list .t-user-info .t-username {
+  color: #999;
+  height: 25px;
+  line-height: 25px;
+}
+.pro-main .t-reply-list .t-user-info .t-content {
+  margin-top: 5px;
+  color: #505050;
+  font-size: 120%;
+  margin-left: 0px;
+}
+.reply_content {
+  background-color: #ccc;
+  padding: 8px 13px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: 9999;
+  width: 100%;
+}
+.reply_content input[type=text] {
+  width: 60%;
+  border-radius: 8px;
+  border: 0px;
+  height: 25px;
+  line-height: 25px;
+  text-indent: 8px;
+  outline:none;
+}
+.reply_content input[type=button] {
+  height: 25px;
+  line-height: 25px;
+  color: #fff;
+  background-color: #0093dd;
+  text-align: center;
+  padding: 0 15px;
+  border: 0px;
+  margin-left: 12px;
+  border-radius: 5px;
+}
+.pls_login {
+  text-align: center;
+  font-size: 80%;
+}
+.pls_login a {
+  text-decoration: none;
+  margin-right: 3px;
+}
+
+#cc {
+  text-align: center;
+  font-size: 80%;
+  color: #000;
+  clear: both;
+  line-height: 20px;
+  padding: 8px 0;
+  margin-bottom: 41px;
+}
+#cc img {
+  width: 20px;
+  height: 20px;
+  vertical-align:middle;
+}

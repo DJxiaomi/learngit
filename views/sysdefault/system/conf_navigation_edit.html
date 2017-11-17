@@ -1,0 +1,108 @@
+{js:artTemplate}
+<style>
+input[type=radio], label { cursor: pointer; vertical-align: middle;}
+input[type=radio] {margin-right: 3px;}
+span.notice {color:red;margin-left:15px;}
+</style>
+
+<div class="headbar">
+	<div class="position">
+		<span>系统</span><span>></span>
+		<span>配送管理</span><span>></span>
+		<span>配送修改</span>
+	</div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/system/conf_navigation_update}' method='post' name='form' id="navigation_form">
+			<input type="hidden" name="id" value="{$navigation_info['id']}" />
+      <input type="hidden" name="parent_id" value="{$parent_id}" />
+
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+
+				<tr>
+					<th>名称:</th>
+					<td>
+						<input class="normal" name="name" value="{$navigation_info['name']}" type="text" pattern="required" alt="导航名称不能为空" />
+					</td>
+				</tr>
+
+        {if:$parent_id && $parent_info}
+        <tr>
+          <th>上级导航:</th>
+          <td>
+            {$parent_info['name']}
+          </td>
+        </tr>
+        {/if}
+
+        <tr>
+          <th>位置:</th>
+          <td>
+            <input type="radio" name="module_id" value="1" id="module_1" {if:$parent_info}disabled="disabled"{/if} {if:$navigation_info['module_id'] != 2 || ($parent_info && $parent_info['module_id'] != 2)}checked="checked"{/if}/><label for="module_1">顶部导航</label>&nbsp; &nbsp;
+            <input type="radio" name="module_id" value="2" id="module_2" {if:$parent_info}disabled="disabled"{/if} {if:$navigation_info['module_id'] == 2 || ($parent_info && $parent_info['module_id'] == 2)}checked="checked"{/if}/><label for="module_2">底部导航</label>
+          </td>
+        </tr>
+
+        <tr>
+          <th>类型:</th>
+          <td>
+            <input type="radio" name="type" value="1" id="type_1" {if:$navigation_info['type'] == 2 && $navigation_info['child']}disabled="disabled"{/if} {if:$navigation_info['type'] == 1 || !$navigation_info['type']}checked="checked"{/if}/><label for="type_1">链接</label>&nbsp; &nbsp;
+            <input type="radio" name="type" value="2" id="type_2" {if:$navigation_info['type'] == 2 && $navigation_info['child']}disabled="disabled"{/if} {if:$navigation_info['type'] == 2}checked="checked"{/if}/><label for="type_2">菜单</label>&nbsp; &nbsp;
+            <input type="radio" name="type" value="3" id="type_3" {if:$navigation_info['type'] == 2 && $navigation_info['child']}disabled="disabled"{/if} {if:$navigation_info['type'] == 3}checked="checked"{/if}/><label for="type_3">二维码</label>
+            {if:$navigation_info['type'] == 2 && $navigation_info['child']}<span class="notice">该导航下有子导航，所以不能修改类型</span>{/if}
+          </td>
+        </tr>
+
+        <tr class="link_tr">
+          <th>链接:</th>
+          <td>
+            <input class="normal" name="link" value="{$navigation_info['link']}" type="text" pattern="required" alt="链接不正确" empty />
+          </td>
+        </tr>
+
+        <tr>
+          <th>排序:</th>
+          <td>
+            <input class="normal" name="sort" value="{if:$navigation_info['sort']}$navigation_info['sort']{else:}0{/if}" type="text" pattern="int" alt="排序不能为空" />
+          </td>
+        </tr>
+
+        <tr>
+          <th></th>
+          <td>
+            <button class="submit"><span> 保 存 </span></button>
+          </td>
+        </tr>
+			</table>
+
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+  $(document).ready(function(){
+    $("input[name=type]").change(function(){
+      var _type = $("input[name=type]:checked").val();
+      update_html(_type);
+    });
+
+    $('.submit').click(function(){
+      $('#navigation_form').submit();
+    })
+  })
+
+  function update_html(type)
+  {
+    if ( type == 1)
+    {
+      $('.link_tr').show();
+    } else {
+      $('.link_tr').hide();
+      $('.link_tr input').val('');
+    }
+  }
+</script>

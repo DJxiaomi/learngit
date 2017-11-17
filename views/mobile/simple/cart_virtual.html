@@ -1,0 +1,333 @@
+{set:
+	$myCartObj  = new Cart();
+	$myCartInfo = $myCartObj->getMyCart();
+	$siteConfig = new Config("site_config");
+	$callback   = IReq::get('callback') ? urlencode(IFilter::act(IReq::get('callback'),'url')) : '';
+    $this->defaultAddressId = ( $this->defaultAddressId ) ? $this->defaultAddressId : ( $this->addressList ) ? $this->addressList[0]['id'] : 0;
+}
+<link href="{skin:css/cart.css}" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
+<form action='{url:/simple/cart3}' method='post' name='order_form' id="order_form">
+	<input type='hidden' name='timeKey' value='{echo:time()}' />
+	<input type='hidden' name='direct_gid' value='{$this->gid}' />
+	<input type='hidden' name='direct_type' value='{$this->type}' />
+	<input type='hidden' name='direct_num' id="direct_num" value='{$this->num}' />
+	<input type='hidden' name='direct_promo' value='{$this->promo}' />
+	<input type='hidden' name='direct_active_id' value='{$this->active_id}' />
+	<input type='hidden' name='takeself' value='0' />
+	<input type='hidden' name='dprice' value='{$this->dprice}' />
+	<input type='hidden' name='stime' value='{$this->stime}' />
+	<input type='hidden' name='statement' value='{$this->statement}' />
+	<input type="hidden" name="ischit" value="{$this->ischit}" />
+	<input type="hidden" name="chitid" value="{$this->chitid}" />
+	<h5 class="mui-content-padded">联系人：</h5>
+	<div class="mui-card">
+		<div class="mui-input-group" id="address_form">
+			{foreach:items=$this->addressList}
+			<div class="mui-input-row mui-radio mui-left">
+				<label>{$item['accept_name']}&nbsp;&nbsp;{$item['mobile']}</label>
+				<input name="radio_address" type="radio" value="{$item['id']}" onclick='orderFormInstance.addressSelected({echo:JSON::encode($item)});' data-json='{echo:JSON::encode($item)}'>
+			</div>
+	        {/foreach}
+	        <div class="mui-input-row mui-radio mui-left">
+				<label>新学员</label>
+				<input name="radio_address" type="radio" value="" onclick='orderFormInstance.addressEmpty();'>
+			</div>
+			<div class="addr_list" id="acceptbox" style="display:none;">
+				<div class="mui-input-row">
+					<label>联系人姓名</label>
+					<input type="text" class="mui-input-clear mui-input" id="accept_name" name="accept_name" value="" placeholder="联系人姓名" />
+				</div>
+				<div class="mui-input-row">
+					<label>手机号码</label>
+					<input type="text" class="mui-input-clear mui-input" name="mobile" id="mobile" value="" placeholder="手机号码" />
+				</div>
+				<input type="hidden" name="province" value="111111">
+                <input type="hidden" name="city" value="111111">
+                <input type="hidden" name="area" value="111111">
+                <input type="hidden" name="address" value="默认地址">
+                <input type="hidden" name="phone" value="123456">
+                <input type="hidden" name="zip" value="000000">
+			</div>
+		</div>
+	</div>
+	<h5 class="mui-content-padded">支付方式</h5>
+	<div class="mui-card">
+		<div class="mui-input-group">
+			{set:$paymentList=Api::run('getPaymentList')}
+	    	{foreach:items = $paymentList}
+	    	{set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],$this->sum);}
+			{if:$item['id'] != 10}
+			{set:unset($item['config_param'])}
+			{set:unset($item['description'])}
+				<div class="mui-input-row mui-radio mui-left">
+					<label>{$item['name']}</label>
+					<input name="payment" type="radio" alt="{$paymentPrice}" value="{$item['id']}" onclick='orderFormInstance.paymentSelected({echo:JSON::encode($item)});' title="{$item['name']}"{if:$item['id'] == 10} checked{/if}>
+				</div>
+			{/if}
+			{if:IClient::isWechat()}
+				<div class="mui-input-row mui-radio mui-left">
+					<label>微信支付</label>
+					<input name="payment" type="radio" value="14" checked>
+				</div>
+			{/if}
+	  	{/foreach}
+		</div>
+	</div>
+	
+	<h5 class="mui-content-padded"></h5>
+	<div class="mui-card">
+		<div class="mui-input-group">
+			<div class="mui-input-row">
+				<label>留言</label>
+				<input type="text" name="message" value="" placeholder="输入留言" />
+			</div>
+		</div>
+	</div>
+	{if:!$this->chitid}
+	<h5 class="mui-content-padded"></h5>
+	<div>
+		<ul class="mui-table-view">
+			{foreach:items = $this->goodsList}
+		    <li class="mui-table-view-cell mui-media">
+		    	<img class="mui-media-object mui-pull-left" src="{url:/pic/thumb/img/$item[img]/w/80/h/80}">
+	    		<div class="mui-media-body">
+	    			{$item['name']}{if:$item['spec']}  - {$item['spec']}{/if}
+	    			{set:$cprice = number_format( order_class::get_cprice($item['dprice'], $item['rprice']), 2, '.', '');}
+					{if:$this->statement == 3 && $this->choose_date}<div class="qindanjg">上课时间：<span class="red3">{echo:date('Y年m月d日', strtotime($this->choose_date));}</div>{/if}
+					{if:$this->statement == 1}
+					<?php
+						$t_dprice = order_class::get_dprice($item['market_price'], $item['cost_price']);
+						$t_rprice = order_class::get_rprice($t_dprice);
+						$t_cprice = number_format( order_class::get_cprice($t_dprice, $t_rprice), 2, '.', '');
+						$t_chit = number_format( order_class::get_max_order_chit($item['market_price'], $item['cost_price'], $t_dprice ),2, '.', '');
+
+						$update_cprice = order_class::get_max_input_cprice($t_cprice);
+						$update_chit = number_format( order_class::get_real_order_chit( $item['market_price'], $item['cost_price'], $update_cprice ), 2, '.','');
+					?>
+					<p>本次付款最多可用券{$update_cprice}元，抵扣学费{$update_chit}元</p>
+					<!--<div class="qindanjg">本次付款最多可用券{echo:order_class::get_max_input_cprice($cprice);}元，抵扣学费{$item['order_chit']}元</div>-->
+					{elseif:$this->statement == 3}
+					{set:$ding_cprice = order_class::get_ding_max_cprice( $item['market_price'], $item['cost_price']);}
+					<div class="qindanjg">本次付款最多可用券{echo:order_class::get_max_input_cprice($ding_cprice)}元，抵扣学费{echo:order_class::get_ding_order_chit($item['market_price'], $item['cost_price'], $ding_cprice)}元</div>
+					{/if}
+					{if:$this->statement != 2}
+					<div class="qindanjg">价格：<span class="red3">&yen;{$item['market_price']}</span></div>
+					<!-- <div>人数：<span class="red3">{$item['count']}&nbsp;人</span></div> -->
+					<!-- &nbsp;&nbsp;&nbsp;优惠：<span class="red3">&yen;{$item['reduce']}</span>&nbsp;&nbsp;&nbsp;报名人数：<span class="red3">x{$item['count']}</span></div> -->
+					<!-- <div class="qindanjg" id="deliveryFeeBox_{$item['goods_id']}_{$item['product_id']}_{$item['count']}"><b>小计：</b><span class="red3">&yen;{if:$this->statement == 1}{echo:number_format($item['market_price'] * $item['count'], 2, '.', '');}{else:}{$this->dprice}{/if}</span></div> -->
+					{/if}
+	    		</div>
+		    </li>
+		    {/foreach}
+		</ul>
+	</div>
+	{/if}
+	<h5 class="mui-content-padded"></h5>
+	<div class="mui-card">
+		<div class="mui-input-group">
+			<!-- <li class="mui-table-view-cell">
+				{if:$this->statement == 2 && $this->ischit && $this->chitid > 0 }
+					<p><b><span>名称：</span><span class="red2">{$this->chit_info['name']}</span></b></p>
+				{/if}
+				<p><b>{if:$this->statement != 2}实际支付：{else:}<span>学习券{/if}：</span><span class="red2" id="final_sum">{if:$this->statement == 1}{echo:number_format($item['market_price'] * $item['count'], 2, '.', '');}{else:}{$this->final_sum}{/if}</span>元</b></p>
+			</li>
+			{if:$this->statement != 2 && $this->user_prop_count > 0}
+			{if:$this->order_chit > $this->max_cprice && $this->sell_count > $this->order_chit }
+			<div class="mui-input-group">
+				<div class="mui-input-row mui-checkbox mui-left">
+					<label>可用<span class="red2">{$this->max_cprice}</span>券抵<span class="red2">{$this->order_chit}</span>元</label>
+					<input name="use_coupon" value="1" type="checkbox">
+				</div>
+				<input type="hidden" name="coupon_nums" value="{$this->max_cprice}" />
+			</div>
+			{/if} -->
+			<li class="mui-table-view-cell">实际支付：<span class="red2 yf_count">{$this->market_count}元</span></li>
+			{/if}
+		</div>
+	</div>
+	<div class="mui-content-padded">
+		<button type="button" class="mui-btn mui-btn-primary mui-btn-block" id="confirm">确认无误，提交订单</button>
+	</div>
+</form>
+
+<script type='text/javascript'>
+//创建订单表单实例
+orderFormInstance = new orderFormClass();
+sellerList = {echo:JSON::encode($this->seller)};
+ticketList = {echo:JSON::encode($this->prop)};addressList = {if:$this->addressListJson}{$this->addressListJson}{else:}array(){/if};
+addressList = {if:$this->addressListJson}{$this->addressListJson}{else:}array(){/if};
+sell_count = {if:$this->sell_count}{$this->sell_count}{else:}0.00{/if};
+market_count = {if:$this->market_count}{$this->market_count}{else:}0.00{/if};
+order_chit = {$this->order_chit};
+
+{if:$this->statement != 2}
+var _max_cprice = {$this->max_cprice};
+var _max_order_chit = {$this->order_chit};
+var _cprice = {$this->max_cprice};
+var _order_chit = {$this->order_chit};
+var _order_amount = {$this->final_sum};
+{/if}
+//DOM加载完毕
+jQuery(function(){
+	orderFormInstance.addressInit("{$this->defaultAddressId}", "{$this->mtruename}", "{$this->mtelephone}");
+
+	//支付方式
+	orderFormInstance.paymentInit("{$this->custom['payment']}");
+
+	// 支付方式自动保存
+	$('input[name=payment]').click(function(){
+		orderFormInstance.paymentSave();
+	})
+
+	// 地址自动保存
+	$('.addr_list input[name=radio_address]').click(function(){
+		var _radio_id = $(this).val();
+		if ( _radio_id != '' )
+		{
+			address_save();
+		}
+	})
+	// 使用学习券的交互
+	$('input[name=coupon_nums]').change(function(){
+		var _val = $(this).val();
+		var _stm = $("input[name=statement]").val();
+		if ( _val < 0 )
+		{
+			alert('学习券金额不能小于0');
+			$(this).val(_max_cprice);
+		} else if ( _val % 10 != 0 )
+		{
+			alert('学习券必须为10的倍数');
+			$(this).val(_max_cprice);
+		} else if ( _val > _max_cprice )
+		{
+			alert('学习券最多只能使用' + _max_cprice + '元');
+			$(this).val(_max_cprice);
+		} else {
+			//console.log('ajax');
+			var _url = '{url:/site/get_order_chit_ajax/cprice/@cprice@/stime/1/statement/@stm@/id/@id@/type/@type@/num/@num@}';
+			_url = _url.replace('@cprice@', _val);
+			_url = _url.replace('@stm@', _stm );
+			_url = _url.replace('@id@', {$this->gid} );
+			_url = _url.replace('@type@', '{$this->type}' );
+			_url = _url.replace('@num@', '{$this->num}' );
+			$.getJSON(_url, function(data){
+				if ( data.done )
+				{
+					$('.prop_value').html(data.retval.chit);
+					_order_chit = data.retval.chit;
+					update_use_coupon();
+				}
+			});
+		}
+	});
+
+	{if:$this->statement == 1 or $this->statement == 3}
+	$('input[name=use_coupon]').click(function(){
+		update_use_coupon();
+	});
+
+	function update_use_coupon()
+	{
+		if ( $('input[name=use_coupon]').is(':checked') )
+		{
+			var _coupon_nums = $("input[name=coupon_nums]").val();
+			$('input[name=coupon_nums]').removeAttr('disabled');
+			$('.dai_nums').html(_coupon_nums );
+		} else {
+			$('.dai_nums').html('0');
+			$('input[name=coupon_nums]').attr('disabled', 'disabled');
+		}
+
+		caculate();
+	}
+	{/if}
+
+	function caculate()
+	{
+		if ( $('input[name=use_coupon]').is(':checked') )
+		{
+			var _sum = market_count - _order_chit;
+			var _t_yh = _order_chit - parseFloat($("input[name=coupon_nums]").val());
+			$('.yh').html( _t_yh );
+		} else {
+			var _sum = market_count;
+		}
+
+		$('.yf_count').html(_sum);
+	}
+
+	document.getElementById('confirm').addEventListener('tap', function(){
+		submitForm();
+	});
+
+	document.getElementById('add').addEventListener('tap', function(){
+		var num = document.getElementById('num').value;
+		document.getElementById('direct_num').value = num;
+	});
+
+	document.getElementById('minus').addEventListener('tap', function(){
+		var num = document.getElementById('num').value;
+		document.getElementById('direct_num').value = num;
+	});
+});
+
+//[address]保存到常用的地址
+function address_save()
+{
+	if(orderFormInstance.addressCheck())
+	{
+		if ( addressList.length > 0 )
+		{
+			var _accept_name = $('input[name=accept_name]').val();
+			var _mobile = $('input[name=mobile]').val();
+			if ( _accept_name == '' || _mobile == '')
+			{
+				mui.toast('姓名或联系方式不能为空');
+				return false;
+			}
+			for( var i = 0; i < addressList.length; i++)
+			{
+				if ( addressList[i]['accept_name'] == _accept_name && addressList[i]['mobile'] == _mobile )
+				{
+					$('.addr_list').find("input[type=radio]").eq(i).attr("checked","checked");
+					orderFormInstance.addressSave();
+					$('#order_form').submit();
+					return;
+				}
+			}
+		}
+		$.getJSON('{url:/simple/address_add}',$('form[name="order_form"]').serialize(),function(content){
+			if(content.data)
+			{
+				//$('input:radio[name="radio_address"]:first').trigger('click');
+				$('#order_form').submit();
+				return;
+			}
+			//orderFormInstance.addressSave();
+		});
+		var _address_info = [];
+		var _accept_name = $('input[name=accept_name]').val();
+		var _mobile = $('input[name=mobile]').val();
+		_address_info['accept_name'] = _accept_name;
+		_address_info['mobile'] = _mobile;
+		addressList.push(_address_info);
+	}
+}
+
+function submitForm(){
+	var accept_name = document.getElementById('accept_name').value,
+		mobile = document.getElementById('mobile').value;
+	if(accept_name == ''){
+		mui.alert('请填写联系人', '提示信息');
+		return false;
+	}
+	if(mobile == ''){
+		mui.alert('请填写手机号码', '提示信息');
+		return false;
+	}
+	address_save();
+	//$('#order_form').submit();
+}
+</script>

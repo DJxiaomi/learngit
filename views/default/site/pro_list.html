@@ -1,0 +1,64 @@
+{set:$breadGuide = goods_class::catRecursion($this->catId)}
+
+{set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),25);$resultData = $goodsObj->find()}
+
+
+<link href="{skin:css/pro_list.css}" rel="stylesheet" type="text/css" />
+<div class="position">
+	<span>您当前的位置：</span>
+	<a href="{url:}">首页</a>{foreach:items=$breadGuide} » <a href="{url:/site/pro_list/cat/$item[id]}">{$item['name']}</a>{/foreach}
+</div>
+
+<div class="wrapper clearfix container_2" >
+		
+	<div class="main f_r" >
+		
+
+		
+		{include:_goods_list_filter}
+           
+		{if:$resultData}
+		<div class="displaybox">
+		<ul class="display_list clearfix m_10">
+
+
+			{foreach:items=$resultData}
+			{set:$goodsObj1 = Seller_class::get_seller_info_by_bid($item['brand_id'])}
+			<li name="goodsItems" class="clearfix win"  >
+				<div class="current">
+					<a title="{$item['name']}" href="{url:/site/products/id/$item[id]}"><img class="lazy" data-original="{url:/pic/thumb/img/$item[img]}"  alt="{$item['name']}" title="{$item['name']}" name="goodsImage"  src="{skin:images/dsanke.png}"/></a>
+				</div>
+			    <div class="intro1">
+				<p class="intro_title"><a title="{$item['name']}" href="{url:/site/products/id/$item[id]}">{$item['name']}</p>
+				<p class="intro_key">{$item['keywords']}</p>
+				
+		
+				<p class="intro_short">{$goodsObj1['shortname']}</p>
+                <p class="intro_address">{$goodsObj1['address']}</p>				
+				</a>
+				</div>
+			
+				
+			</li>
+			{/foreach}
+		
+			
+		</ul>
+			
+		{$goodsObj->getPageBar()}
+
+		{else:}
+		<p class="display_list mt_10" style='margin-top:50px;margin-bottom:50px'>
+			<strong class="gray f14">对不起，没有找到相关商品</strong>
+		</p>
+		{/if}
+		
+	 </div>
+	</div>
+<script>
+		$('.win').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+ </script>

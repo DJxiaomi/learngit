@@ -1,0 +1,6 @@
+.signUp{width:100%;background:url(../images/s_bg.jpg);background-size:contain;}
+.signUp form{width:80%;margin:0 auto;padding-bottom:20px;}
+.signUp p{margin-bottom: 0px;text-align:center;}
+.signUp label{font-size:100%;width:30%;display:inline-block;color:#000;}
+.signUp input{height:20px;line-height: 20px;border-radius: 5px;width:70%;font-size: 100%;color:#000;}
+.signUp .btn_sign{width:40%;font-size:100%;color:#fff;background:-webkit-linear-gradient(#ef9249,#8e5c13);background:-o-linear-gradient(#ef9249,#8e5c13);background:-moz-linear-gradient(#ef9249,#8e5c13);background:linear-gradient(#ef9249,#8e5c13);border-radius: 5px;padding:0;height:26px;cursor:pointer;}

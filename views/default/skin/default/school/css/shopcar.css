@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* 购物车 */
+
+/* 购物车列表 */
+.cart-table{display:block;padding:20px 0;width:100%;}
+.cart-table tr{ }
+.cart-table tr th{padding:5px 0px;text-align:center; min-width: 125px; border-bottom: 2px solid #038bd0;color:#666;font-size:12px;}
+.cart-table tr td{text-align:center;min-width: 125px;font-size:14px;}
+th.class-info{width:450px;margin-right:3px;}
+.cart-table tr td.cart-group-head{padding:5px 0px;margin-top:20px;display: block;text-align:left;} 
+tr.cartCon-item{background:#fbfcff;border-top:1px dotted #3ea6db;}
+td.table-class-wrap{}
+.table-class-img{width:450px;display: block;}
+.imgRight{width:330px;float:right;margin-top: 10px;}
+.class-titImg{width:80px;height:80px;overflow:hidden;display:block;float:left;margin:15px 10px 15px 20px;}
+.imgRight a{color:#666;width:330px;float:right;text-align:left;}
+.zhifubao{padding:0px 5px;margin-top:5px;display:block;background:#00a9f2;color:#fff;text-align:center; float: left;}
+.counterAll{background:#f2f7ff;height:50px;display:block;padding-right:20px;padding-top:50px;}
+.counterAll p{text-align:right;}
+.counterAll p span{color:red;font-size:18px;font-weight:400;}
+.submit-btn{width:120px;float:right;height:35px;line-height:35px;background:#038bd0;color:#fff;border-radius:2px;text-align:center;}
+.submit-btn:hover{background:#169ce0;color:#fff;}
+/*选项数据表*/
+.class-counter{height: 25px;width:100px;margin:3px auto;border: 1px solid #dad7d7;border-radius: 3px;}
+.class-counter a{text-decoration: none;display: inline-block;width: 25%;height: 24px;text-align: center;vertical-align: top;color:#666;font-size:18px;line-height: 24px;}
+.class-counter a.reduce{}
+.class-counter a.add{}
+.class-counter input{width: 34%;line-height: 24px;border:none;border-left: 1px solid #dad7d7;text-align: center;color:#f54c71;border-right: 1px solid #dad7d7;font-size:1em;}

@@ -1,0 +1,60 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');}
+{set:$seo_data['title'] = '课程转让'}
+{set:$seo_data['title'].="_".$site_config->name}
+
+<link href="{skin:css/transfer_list.css}" rel="stylesheet" type="text/css" />
+
+<div class="position">
+	<span>您当前的位置：</span>
+	<a href="{url:}">首页</a> >> 课程转让
+</div>
+
+<div class="wrapper clearfix container_2">
+		<!--课程列表展示-->
+		{if:$transfer_list}
+		<div class="transfer-list">
+		<ul class="clearfix">
+
+			{foreach:items=$transfer_list}
+
+			<li class="clearfix">
+
+				<div class="pic">
+
+					<a title="{if:$item['transfername']}{$item['transfername']}{else:}转让-{$item['goods']['name']}{/if}" href="{url:/site/transfer_show/id/$item[id]}" target="_blank">
+						<img src="{if:$item['transferpic']}{url:/pic/thumb/img/$item['transferpic']/w/283/h/283}{else:}{url:/pic/thumb/img/$item['goods']['img']/w/283/h/283}{/if}" width="283" height="283" />
+					</a>
+
+				</div>
+
+				<h3 class="title">
+						<a title="{if:$item['transfername']}{$item['transfername']}{else:}转让-{$item['goods']['name']}{/if}" class="blue" href="{url:/site/transfer_show/id/$item[id]}" target="_blank">{if:$item['transfername']}{$item['transfername']}{else:}转让-{$item['goods']['name']}{/if}</a>
+				</h3>
+				<p>转让人：{$item['username']}</p>
+				<p>总课时：{$item['totaltime']}</p>
+				<p>剩余课时：{$item['minustime']}</p>
+				{if:$item['istalk']}
+				<p>已与商家沟通好</p>
+				{/if}
+				<div class="brief">{$item['content']}</div>
+				<div class="price"><em>￥</em><b style=" text-decoration: line-through;">{if:$item['sellerprice']}{$item['sellerprice']}{else:}{$item['goods']['sell_price']}{/if}</b></div>
+					<div class="price"><em>￥</em><b>{$item['transprice']}</b></div>
+				<div class="handle clearfix">
+				<a title="转让-{$item['goods']['name']}" href="{url:/site/transfer_show/id/$item[id]}" target="_blank">查看详细</a>
+				</div>
+			</li>
+
+			{/foreach}
+		</ul>
+		{$page_info}
+
+		</div>
+		{else:}
+		<p class="display_list mt_10" style='margin-top:50px;margin-bottom:50px'>
+			<strong class="gray f14">对不起，没有找到相关信息</strong>
+		</p>
+		{/if}
+		<!--课程列表展示-->
+
+	</div>
+</div>

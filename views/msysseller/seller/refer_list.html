@@ -1,0 +1,21 @@
+{set:$seller_id = $this->seller['seller_id']}
+{set:$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1}
+{query:name=refer as re join=left join goods as go on go.id eq re.goods_id left join user as u on u.id eq re.user_id left join admin as a on a.id eq re.admin_id left join seller as se on se.id eq re.seller_id fields=se.seller_name,a.admin_name,u.username,re.*,go.name where=go.seller_id eq $seller_id page=$page id=$referObj}
+<div class="mui-card">
+	<div class="mui-card-content">
+		<div class="mui-card-content-inner">
+			<p>课程：<a href="javascript:void(0);" target="_blank" title="{$item['name']}">{$item['name']}</a></p>
+			<p>咨询人：{if:isset($item['username'])}{$item['username']}{else:}非会员{/if}</p>
+			<p>时间：{$item['time']}</p>
+			{if:$item['status'] == 1}
+			<p>回复人：{if:$item['admin_name']}{$item['admin_name']}{elseif:$item['seller_name']}{$item['seller_name']}{/if}</p>
+			<p>回复时间：{$item['reply_time']}</p>
+            {/if}
+		</div>
+	</div>
+	<div class="mui-card-footer">
+		{if:$item['status'] != 1}<a href="{url:/seller/refer_edit/id/$item[id]}" class="mui-card-link">回复</a>{/if}
+		<a class="mui-card-link" href="{url:/seller/refer_del/id/$item[id]}'}">删除</a>
+	</div>
+</div>
+{/query}

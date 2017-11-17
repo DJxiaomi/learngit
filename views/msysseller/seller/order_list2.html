@@ -1,0 +1,38 @@
+{set:$seller_id = $this->seller['seller_id']}
+{set:$searchParam = http_build_query(Util::getUrlParam('search'))}
+{set:$condition = Util::search(IReq::get('search'));
+	$where = $condition ? " and ".$condition : "";
+}
+{query:name=delivery }
+	{set:$delivery_id=$item['id']}
+	{set:$kuaidi["$delivery_id"] = $item['name']}
+{/query}
+{set:$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1}
+{query:name=order_goods as og join=left join goods as go on go.id eq og.goods_id left join order as o on o.id eq og.order_id fields=o.* page=$page where=o.pay_status eq 1 and go.seller_id eq $seller_id and o.if_del eq 0 and o.statement eq 3 and o.status not in(3,4) $where group=og.order_id id=$orderObject order=o.id desc}
+{set:$order_status_t = Order_Class::getOrderStatus($item);}
+{set:$goods_list = Order_Class::get_order_goods_list($item['id'])}
+{set:$goods = $goods_list[0]}
+{set:$goods_array = $goods['goods_array']}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+        	<p>订单号：{$item['order_no']}</p>
+        	<p>课程名称：<a href="{url:/site/products/id/$goods['goods_id']}" target="_blank">{$goods_array->name}</a></p>
+            <p class="ordbigbt"><span>学员姓名：</span>{$item['accept_name']}</p>
+            <p class="ordbigbt"><span>联系电话：</span>{$item['mobile']}</p>
+            <p>课程学费：{$goods['cost_price']}</p>
+            <p>服务保证金：{echo:number_format($goods['cost_price'] - $item['rest_price'], 2, '.', '');}</p>
+            <p>未付学费：{$item['rest_price']}</p>
+            <p>订单状态：{echo:order_class::orderStatusText(order_class::getOrderStatus($item),2, $item['statement'])}</p>
+            <p>下单时间：{echo: date('Y-m-d H:i', strtotime($item['create_time']))}</p>
+            <p>入学时间：{echo:date('Y-m-d',$item['choose_date']);}</p>
+        </div>
+    </div>
+    <div class="mui-card-footer">
+    	{if:in_array( order_class::getOrderStatus( $item ), array(4))}
+    	<a href="{url:/seller/order_finish/order_id/$item['id']}" class="mui-card-link">确认收款</a>
+    	{/if}
+        <a href="{url:/seller/order_show_ding/id/$item[id]}" class="mui-card-link">查看详情</a>
+    </div>
+</div>
+{/query}

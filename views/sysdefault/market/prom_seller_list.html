@@ -1,0 +1,87 @@
+<style>
+.hide { display: none;}
+.price { color: #ff5500;font-family:"Arial";font-size: 12px;font-weight: 700;}
+.t-right {margin-left: 20px;margin-top: 3px;}
+</style>
+{js:my97date}
+
+<div class="headbar">
+	<div class="position">营销<span>></span><span>分销推广</span><span>></span><span>推广商户列表</span></div>
+	<div class="searchbar">
+		<form action="{url:/}" method="get" name="prom_seller_list">
+			<input type='hidden' name='controller' value='market' />
+			<input type='hidden' name='action' value='prom_seller_list' />
+
+			从<input type="text" name="search[start_time]" class="small" placeholder="开始时间" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="{if:$search['start_time']}{$search['start_time']}{/if}" />
+			-<input type="text" name="search[end_time]" class="small" placeholder="结束时间" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="{if:$search['end_time']}{$search['end_time']}{/if}" />
+			&nbsp;
+			<select name="search[promo_code]" class="auto">
+				<option value="">选择推广人</option>
+				{foreach:items=$promotor_list}
+				<option value="{$item['promo_code']}" {if:$search['promo_code'] == $item['promo_code']}selected{/if}>{echo:promotor_class::get_promotor_name_by_promotor_info($item)}</option>
+				{/foreach}
+			</select>
+
+			<button class="btn" type="submit"  onclick='changeAction(false)'><span class="sel">筛 选</span></button>
+		</form>
+	</div>
+</div>
+
+<form name="orderForm" id="orderForm" action="{url:/market/prom_seller_list}" method="post">
+	<div>
+		<table class="list_table">
+			<colgroup>
+				<col width="30px" />
+				<col width="110px" />
+				<col width="110px" />
+				<col width="130px" />
+				<col width="130px" />
+				<col width="130px" />
+				<col width="130px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>商户名</th>
+					<th>联系方式</th>
+					<th>注册日期</th>
+					<th>交易次数</th>
+					<th>推广人</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items = $seller_list}
+				<tr>
+					<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
+					<td>{$item['shortname']}</td>
+					<td>{$item['mobile']}</td>
+					<td>{$item['create_time']}</td>
+					<td>{$item['order_count']}</td>
+					<td>{$item['promotor_name']}</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	{$page_info}
+</form>
+
+<script type='text/javascript'>
+//DOM加载结束
+$(function(){
+	var searchData = {echo:JSON::encode($this->search)};
+	for(var index in searchData)
+	{
+		$('[name="search['+index+']"]').val(searchData[index]);
+	}
+
+	//高亮色彩
+	$('[name="payStatusColor1"]').addClass('green');
+	$('[name="disStatusColor1"]').addClass('green');
+	$('[name="orderStatusColor3"]').addClass('red');
+	$('[name="orderStatusColor4"]').addClass('red');
+	$('[name="orderStatusColor5"]').addClass('green');
+});
+</script>

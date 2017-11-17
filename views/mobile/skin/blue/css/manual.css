@@ -1,0 +1,15 @@
+.manual_intro {overflow:hidden;margin-top:45px;}
+.manual_intro li {float: left;width: 100%;}
+.manual_intro img {max-width: 100%;float: left;}
+.category {width: 100%;text-align:center;clear:both;background-color:#fff;margin-top:10px;}
+.choose_category {width: 150px;height: 35px;line-height:35px;border: 1px solid #2c1a09; color:#6a3501;border-radius:16px;margin: 0px auto;}
+.manualo_icon {width:100%;margin-top: 7px;margin-bottom:15px;}
+.manualo_icon a {display:inline-block;width:18%;margin-left:4%;}
+.manualo_icon a img {max-width:100%;}
+.manualo_icon a:last-child {width:23%;}
+.manualo_icon::before,.manualo_icon::after,.manual_intro::before,.manual_intro::after {height:0px;}
+.mui-content {width:100%;}
+.mui-card-header {position:relative;}
+.mui-manual-type {width: 80px;height: 80px;position: absolute;top:0px;right:0px;background:url(/views/mobile/skin/blue/images/manual_icon_free.png) 0 0 no-repeat;background-size:100%;z-index:2;}
+.type-discount {background:url(/views/mobile/skin/blue/images/manual_icon_discount.png) 0 0 no-repeat;background-size:100%;}
+.dqk_list {padding-bottom: 105px;}

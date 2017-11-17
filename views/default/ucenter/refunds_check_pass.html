@@ -1,0 +1,76 @@
+{js:kindeditor}
+<script type='text/javascript' src='/views/mobile/skin/new/scripts/layer/layer.js'></script>
+<style>
+input.send_sms {
+	padding: 0 10px;
+	height: 28px;
+	line-height: 28px;
+	display: inline-block;
+	background-color: #f2f2f2;
+	color: #000;
+	border-radius: 3px;
+	text-decoration: none;
+	border: 1px solid #c5c5c5;
+	cursor: pointer;
+}
+input.disable {
+	color: #ccc;
+}
+.send_sms_notice {
+	margin-top: 10px;
+	background: url(/views/mobile/skin/blue/images/right.png) 0 1px no-repeat;
+	background-size: 13px 13px;
+	padding-left: 18px;
+	display: none;
+}
+input[type=password] {
+  height: 27px;
+  line-height: 27px;
+}
+</style>
+<div class="main f_r">
+    <div class="uc_title">
+        <label class="current"><span>退款申请</span></label>
+    </div>
+
+	<div class="box">
+		<form action="{url:/ucenter/refunds_check_pass_update}" method="post" onsubmit="return checkForm();">
+			<table class="border_table" width="100%" cellpadding="0" cellspacing="0">
+				<colgroup>
+					<col width="140px" />
+					<col />
+				</colgroup>
+        <tr>
+          <th>您的交易密码：</th>
+          <td>
+            <input type="hidden" name="order_id" value="{$order_id}" />
+            <input type="password" name="passwd" id="passwd"/>
+          </td>
+        </tr>
+
+				<tr>
+					<th></th>
+					<td>
+						<label class="btn"><input type="submit" value="提  交" /></label>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+function checkForm() {
+  var _pass = $('#passwd').val();
+  if ( _pass == '')
+  {
+    layer.open({
+      content: '请输入您的账户密码'
+      ,skin: 'msg'
+      ,time: 2 //2秒后自动关闭
+    });
+    return false;
+  }
+  return true;
+}
+</script>

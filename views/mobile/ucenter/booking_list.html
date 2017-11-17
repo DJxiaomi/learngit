@@ -1,0 +1,37 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<div class="mui-card">
+    <div class="mui-card-content">
+      <h5 class="mui-content-padded">
+        <a href="{url:/ucenter/booking_add}">发布预定</a>
+      </h5>
+    </div>
+</div>
+
+<div class="mui-control-content mui-active" id="item1">
+  {foreach:items=$booking_list}
+  <div class="mui-card">
+      <div class="mui-card-content">
+          <div class="mui-card-content-inner">
+              <p class="ordbigbt"><span>用户：</span>{$item['username']}</p>
+              <p class="ordbigbt t-left"><span>姓名：</span>{$item['true_name']}</p>
+              <p class="ordbigbt t-right"><span>手机：</span>{$item['mobile']}</p>
+              <p class="ordbigbt t-right"><span>商户名称：</span>{$item['seller_name']}</p>
+              <p class="ordbigbt t-right"><span>课程名称：</span>{$item['goods_name']}</p>
+              <p class="ordbigbt t-right"><span>发布日期：</span>{echo:date('Y-m-d',$item['add_time'])}</p>
+              <p class="ordbigbt t-right"><span>匹配订单：</span>{if:$item['order_id'] > 0}有{else:}无{/if}</p>
+          </div>
+      </div>
+      <div class="mui-card-footer">
+          <a class="mui-card-link del_btn" href="{url:/ucenter/booking_del/id/$item[id]}" _id="{$item[id]}">删除</a>
+          <a class="mui-card-link" href="{url:/ucenter/booking_add/id/$item[id]}">修改</a>
+      </div>
+  </div>
+  {/foreach}
+  {if:!$booking_list}
+    <div class="mui-card">
+        <div class="mui-card-content">
+          没有任何信息
+        </div>
+    </div>
+  {/if}
+</div>

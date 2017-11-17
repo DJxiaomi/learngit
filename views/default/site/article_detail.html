@@ -1,0 +1,134 @@
+<link href="{skin:css/article_list.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/article.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{skin:scripts/jquery.SuperSlide.2.1.1.js}"></script>
+
+    <!-- Content -->
+    <div class="Content">
+        <div class="Wrap clearfix">
+           <!-- 文章列表 -->
+		   <div class="sideBox fl mr20 clearfix">
+				 <div class="sideImg mb20">
+ 					<div class="hd">
+             <ul>
+               {foreach:items=$ad_list}
+               <li></li>
+               {/foreach}
+             </ul>
+           </div>
+ 					<ul class="bd">
+             {foreach:items=$ad_list}
+ 						<li>
+ 							<div class="pic"><a href="#" target="_blank"><img src="{webroot:$item['content']}" /></a></div>
+ 							<div class="title">{$item['name']}</div>
+ 						</li>
+             {/foreach}
+ 					</ul>
+ 				</div>
+
+
+				<div class="sideNav side-con mb20 clearfix">
+					<ul>
+            {foreach:items=$category_list}
+						<li class="clearfix">
+							<a href="{url:/site/article/cid/$item['id']}" class="sidenav-tit">{$item['name']}</a>
+              {if:$item['child']}
+							<div class="clearfix" style="margin-top:-10px;margin-bottom:10px;">
+                {foreach:items=$item['child']}
+								<a href="{url:/site/article/cid/$item['id']}" class="nav-tips {if:$cid == $item['id']}blue{/if}">{$item['name']}</a>
+                {/foreach}
+							</div>
+              {/if}
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+				<h3>热门资讯</h3>
+				<div class="sideList side-con mb20">
+					<ul>
+            {set: $i = 0;}
+            {foreach:items=$hot_article_list}
+						<a href="{url:/site/article_detail/id/$item['id']}" target="_blank"><li><i class="{if:$i < 3 }number-top3{else:}c6{/if} f12">0{echo: ++$i;}</i>{$item['title']}</li></a>
+            {/foreach}
+					</ul>
+				</div>
+		   </div>
+		    <!-- 左边栏 -->
+			<div class="mainBox fr clearfix">
+				<div class="website">
+					<a href="{url:/site/index}" target="_blank">首页</a>&gt;
+					{foreach:items=$article_info['path']}
+					<a href="{url:/site/article/cid/$item['id']}" target="_blank">{$item['name']}</a>
+					{/if}
+				</div>
+				<div class="artCon clearfix">
+					<div class="art-tips clearfix">
+						<h2 class="">{$article_info['title']}</h2>
+						<p class="c9 f12"><span class="blue mr20">{if:$article_info['user_name']}{$article_info['user_name']}{else:}乐享生活{/if}</span>{echo: date('Y年m月d日 H:i:s', strtotime( $article_info['create_time']));}</p>
+						<p class="c9 f12">声明：本文由入驻乐享公众平台的作者撰写，除乐享官方账号外，观点仅代表作者本人，不代表乐享立场。</p>
+						<div class="text-share"><span class="shareit f12 orange">{$article_info['views']}</span><span class="comment"><a href="#reply">{$article_info['reply_count']}</span></a></div>
+					</div>
+					{if:$page == 1}
+					<div class="artCon-box clearfix">
+						{echo:str_replace('\n', '',$article_info['content'])}
+					</div>
+					{/if}
+				</div>
+
+				<!-- 评论-->
+				<div class="disBox clearfix mt20">
+					{if:$reply_list}
+					<ul>
+						{foreach:items=$reply_list key=$kk}
+						<li class="discussCon clearfix">
+							<div class="headImg fl">
+								<a href="javascript:void(0);" class="headImg-yh">
+									<img src="{webroot:$user_list[$item['user_id']]['head_ico']}" onerror="this.src='{skin:images/front/user_ico.gif}'" width="80" height="80"/>
+								</a>
+								<a href="javascript:void(0);" class="headName">{$user_list[$item['user_id']]['username']}</a></div>
+							<div class="dis-text clearfix fr"><p>{$item['content']}</p></div>
+							<i class="disTime c9 f12">{echo: ( $page - 1 ) * $page_size + $kk + 1;}楼&nbsp;{echo: date('Y-m-d H:i:s', $item['add_time'])}<a href="" class="c9 f12 ml20" style="display: none;">赞(20)</a></i>
+						</li>
+						{/foreach}
+					</ul>
+					{/if}
+
+
+					{if:$reply_list}
+	  				<!-- 分页 -->
+	  				<div class="sitepage mt20 mb20 clearfix">
+	            {$page_info}
+	  				</div>
+	  			  <!-- 分页 over-->
+	        {/if}
+
+			<a name="reply"></a>
+			{if:$this->user['user_id']}
+			<h3 class="c3 f16 mt20">发表回复</h3>
+			<div class="dis-conbox clearfix">
+				<form method="POST" action="{url:/site/article_reply}" id="form_reply">
+					<div class="dis-textarea clearfix">
+					
+					<textarea type="input" name="reply_content" id="reply_content" class="disCon-pub" value="" placeholder="写下你的评论和感想……"/></textarea></div>
+					验证码：<input type="text" id="captcha" name="captcha" class="normal small" /><img src="{url:/simple/getCaptcha}" onclick="this.src=this.src+'?time='+Math.random()"  id="captchaImg">
+					<input type="button" class="submit-btn" onclick="this.src={url:/simple/getCaptcha}" value="提交" placeholder=""/>
+					<input type="hidden" name="article_id" value="{$this->article_id}" />
+				</form>
+			</div>
+			{else:}
+				<div class="dis-conbox pls_login">
+					<a href="{url:/simple/login}" class="blue">登录</a>    进行评价
+				</div>
+			{/if}
+		</div>
+
+		</div>
+  	<!-- 文章列表 over-->
+
+  </div>
+  <!-- Content over -->
+
+	<script type="text/javascript" src="{theme:/javascript/article_detail.js}"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,31 @@
+<link href="{skin:css/chit1.css}" rel="stylesheet" type="text/css" />
+<div class="free_class_content">
+  <div class="free_class_hd">
+    <img src="{skin:images/dqk_img_1.png}" />
+  </div>
+  <div class="free_class_bd">
+    {if:$list}
+    <ul>
+      {foreach:items=$list}
+      <li>
+      	<a href="{url:/site/chit1_detail/id/$item['seller_id']}">
+            <div class="class_image">
+              <img  class="lazy" data-original="{webroot:$item[logo]}" />
+            </div>
+            <div class="class_action">
+              <p class="tt">{$item['seller_name']}</p>
+              <p class="detail">课程：{$item['goods_names']}</p>
+              <p class="price">价格：<em>{$item['min_price']}</em>起</p>
+            </div>
+            <div class="class_active_border"></div>
+        </a>
+      </li>
+      {/foreach}
+    </ul>
+
+    <div class="page_info">
+      {$page_info}
+    </div>
+    {/if}
+  </div>
+</div>

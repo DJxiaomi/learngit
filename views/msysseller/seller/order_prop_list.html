@@ -1,0 +1,68 @@
+{set:$seller_id = $this->seller['seller_id']}
+{set:$searchParam = http_build_query(Util::getUrlParam('search'))}
+{set:$condition = Util::search(IReq::get('search'));
+	$where = $condition ? " and ".$condition : "";
+}
+{query:name=delivery }
+	{set:$delivery_id=$item['id']}
+	{set:$kuaidi["$delivery_id"] = $item['name']}
+{/query}
+{set:$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1}
+{query:name=order as o fields=o.* page=$page where=o.seller_id eq $seller_id and o.pay_status eq 1 and o.if_del eq 0 and o.statement eq 2 and o.status not in(3,4) $where  id=$orderObject order=o.id desc}
+{set:$order_status_t = Order_Class::getOrderStatus($item);}
+{set:$goods_list = Order_Class::get_order_goods_list($item['id'])}
+{set:$goods = $goods_list[0]}
+{set:$goods_array = $goods['goods_array']}
+{set:$chit = brand_chit_class::get_chit_info($item['chit_id'])}
+{if:$item['chit_id'] && $chit['id']}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            {if:$item['accept_name']}
+            <p class="ordbigbt"><span>学员姓名：</span>{$item['accept_name']}</p>
+            {/if}
+            {if:$item['mobile']}
+            <p class="ordbigbt"><span>联系电话：</span>{$item['mobile']}</p>
+            {/if}
+            <p>推荐号：{$item['order_no']}</p>
+            <p>购券：{$chit['max_price']}</p>
+            <p>抵扣：{$chit['max_order_chit']}</p>
+            <p>数量：{$goods['goods_nums']}</p>
+            <p>状态：
+							{if:$item['chit_id'] > 0 }
+								{echo:order_class::orderStatusText2(order_class::getOrderStatus($item))}
+							{else:}
+								{echo:order_class::orderStatusText(order_class::getOrderStatus($item),2, $item['statement'])}
+							{/if}
+						</p>
+            <p>时间：{echo: date('Y-m-d H:i', strtotime($item['create_time']))}</p>
+        </div>
+    </div>
+    <div class="mui-card-footer">
+    	{if:in_array( order_class::getOrderStatus( $item ), array(4))}
+    	<a href="{url:/seller/order_finish/order_id/$item['id']}" class="mui-card-link">确认收款</a>
+    	{/if}
+        <a href="{url:/seller/order_show_dai/id/$item[id]}" class="mui-card-link">查看详情</a>
+    </div>
+</div>
+{else:}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <p class="ordbigbt"><span>学员姓名：</span>{$item['accept_name']}</p>
+            <p class="ordbigbt"><span>联系电话：</span>{$item['mobile']}</p>
+            <p>推荐号：{$item['order_no']}</p>
+            <p>课程名称：<a href="javascript:void(0);" target="_blank">{$goods_array->name}</a></p>
+            <p>状态：ccdd{echo:order_class::orderStatusText(order_class::getOrderStatus($item),2, $item['statement'])}</p>
+            <p>时间：{echo: date('Y-m-d H:i', strtotime($item['create_time']))}</p>
+        </div>
+    </div>
+    <div class="mui-card-footer">
+        {if:in_array( order_class::getOrderStatus( $item ), array(4))}
+        <a href="{url:/seller/order_finish/order_id/$item['id']}" class="mui-card-link">确认收款</a>
+        {/if}
+        <a href="{url:/seller/order_show_dai/id/$item[id]}" class="mui-card-link">查看详情</a>
+    </div>
+</div>
+{/if}
+{/query}

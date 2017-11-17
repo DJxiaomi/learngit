@@ -1,0 +1,57 @@
+{js:artTemplate}
+{js:areaSelect}
+<article class="module width_full">
+	<header>
+		<h3>基本信息</h3>
+	</header>
+
+	<form action="{url:/seller/seller_add}" method="post" name="sellerForm" enctype='multipart/form-data'>
+		<div class="module_content">
+			<fieldset>
+				<label>登陆用户名：</label>
+				<input name="seller_name" type="text" value="" pattern="required" alt="用户名不能为空" disabled="disabled" />
+				<label class="tip">* 用户名称（必填）</label>
+			</fieldset>
+
+			<fieldset>
+				<label>联系电话：</label>
+				<input type="text" name="phone" pattern="phone" />
+			</fieldset>
+
+			<fieldset>
+				<label>地区：</label>
+				<div class="box">
+					<select name="province" child="city,area" class="auto"></select>
+					<select name="city" child="area" class="auto"></select>
+					<select name="area" class="auto"></select>
+				</div>
+			</fieldset>
+
+			<fieldset>
+				<label>详细地址：</label>
+				<input name="address" type="text" empty value="" />
+			</fieldset>
+
+			<fieldset>
+				<label>QQ号码：</label>
+				<input name="server_num" type="text" empty value="" />
+			</fieldset>
+
+		</div>
+
+		<footer>
+			<div class="submit_link">
+				<input type="submit" class="alt_btn" value="确 定" />
+				<input type="reset" value="重 置" />
+			</div>
+		</footer>
+	</form>
+</article>
+
+<script language="javascript">
+var formObj = new Form('sellerForm');
+formObj.init({echo:JSON::encode($this->sellerRow)});
+
+var areaInstance = new areaSelect('province');
+areaInstance.init({echo:JSON::encode($this->sellerRow)});
+</script>

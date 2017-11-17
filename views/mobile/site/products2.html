@@ -1,0 +1,605 @@
+<?php    $site_config=new Config('site_config');	$dcommission = $site_config->dcommission;?>
+<link rel="stylesheet" href="{skin:css/product.css}">
+<link rel="stylesheet" href="{rs:/scripts/swiper/swiper.min.css}">
+<link rel="stylesheet" href="{theme:javascript/mui/css/mui.picker.min.css}">
+<script type='text/javascript' src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<script type='text/javascript' src="{theme:javascript/payfor.js}"></script>
+<script type='text/javascript' src="{theme:javascript/mui/js/mui.picker.min.js}"></script>
+<div class="pro-header goodstab">
+	<input type='hidden' id='product_id' alt='课程ID' value='' />
+	<a href="javascript:;" class="current">课程</a>
+	<a href="#shop-pingjia">评价</a>
+	<a href="#shop-talk">咨询</a>
+	<a href="#shop-speak" style="font-weight:600;color:#de4002;">试听报告</a>
+</div>
+<div class="shop-nav-bot{if:$seller['is_authentication'] == 1}{if:$discount <= 0} cxd-1{/if}{else:} cxd-2{/if}">
+		{if:$seller['is_authentication'] == 1}
+			{if:!$is_purchase}
+				<a href="javascript:;" class="shopbtn">课程未上架</a>
+			{else:}
+				<a{if:$nextid} href="{url:/site/products/id/$nextid}"{else:} href="javascript:;" onclick="alert('没有其他课程')"{/if} class="shopbtn">下一门课</a>
+				<a href="javascript: void(0);" onclick="joinCart();" class="add-shop" id="joinCarButton">加入课表</a>
+				{if:$discount > 0}
+				<a href="javascript: void(0);" onclick="buy_now_ding2('{$statement}');" class="ashop" id="joinCarButton" >支付定金</a>
+				{/if}
+				<a href="javascript: void(0);" onclick="buy_now();" class="buy-btn" id="buyNowButton">立即报名</a>
+			{/if}
+		{else:}
+		<a href="javascript:;" class="shopbtn">学校未认证</a>
+		{/if}
+</div>
+<div class="swiper-container">
+	<div class="swiper-wrapper">
+		<div class="swiper-slide">
+			<img width="100%" src="{webroot:$img}" />
+		</div>
+		{if:$photo}
+		{foreach:items = $photo}
+		<div class="swiper-slide">
+			<img width="100%" src="{webroot:$item['img']}" />
+		</div>
+		{/foreach}
+		{/if}
+	</div>
+	<div class="swiper-pagination"></div>
+</div>
+<div class="mui-content-padded">
+	<h5>{$name}</h5>
+	<div class="pro-price goodsprice">
+		{if:$promo == ''}
+		&yen;{if:$productnum > 1}<i>{$t_market_price}</i>{else:}<i>{$market_price}</i>{/if}
+		{else:}
+		&yen;{if:$minSellPrice != $maxSellPrice}{$minSellPrice} - {$maxSellPrice}{else:}{$sell_price}{/if}
+		{/if}
+		{if:$promo == 'time'}
+			{if:isset($promotion) && $promotion}
+			{set:$item=Api::run('getPromotionRowById',array('#id#',$active_id))}
+			{set:$free_time = ITime::getDiffSec($item['end_time']);}
+			<div class="pro-discount">抢购价：<span>&yen;{$promotion['award_value']}</span></br> <p id="rtime" endtime="{$item['end_time']}"><i>距离抢购结束还有</i><i class="discount-time">{echo:floor($free_time/3600);}</i>时<i class="discount-time">{echo:floor(($free_time%3600)/60);}</i>分<i class="discount-time">{echo:$free_time%60;}</i>秒</p>
+			{/if}
+			<script type="text/javascript">var promo = 'time';getRTime();</script>
+		{/if}
+		{if:$promo == 'groupon'}
+			{if:isset($regiment) && $regiment}
+			{set:$item=Api::run('getRegimentRowById',array('#id#',$active_id))}
+			{set:$free_time = ITime::getDiffSec($item['end_time']);}
+			<div class="pro-discount">团购价：<span>&yen;{$regiment['regiment_price']}</span></br> <p id="rtime" endtime="{$item['end_time']}"><i>距离团购结束还有</i><i class="discount-time">{echo:floor($free_time/3600);}</i>时<i class="discount-time">{echo:floor(($free_time%3600)/60);}</i>分<i class="discount-time">{echo:$free_time%60;}</i>秒</p>
+			{/if}
+			<script type="text/javascript">var promo = 'groupon';getRTime();</script>
+		{/if}
+	</div>
+</div>
+{if:$statement == 2 && $max_cprice >= $this->min_cprice && $max_order_chit > $this->min_order_chit && !$promo && !$active_id}
+<div class="mui-content-padded">
+	<div class="card clearfix" id="data_dprice" onclick="buy_now_ding('{$statement}');">
+		<span>优惠</span>
+		<div class="cardbox">
+			<p class="card-info-1">购券<em class="buy">￥{$max_cprice}</em> 可抵扣<em class="chit">￥{$max_order_chit}</em></p>
+		</div>
+		<i class="icon-chevron-right"></i>
+	</div>
+</div>
+{/if}
+<div class="mui-content-padded">
+	{if:$store_nums <= 0}
+	<h5>该课程已结束</h5>
+	{else:}
+		{if:$goods_spec_array['name']}
+			<ul class="spec_list clearfix" id="spec_list_mao">
+				<li name="specCols">
+					{foreach:items=$goods_spec_array['value'] item=$spec_value}
+						<a href="javascript:void(0);" onclick="sele_spec(this);" value='{"id":"{$spec_value['id']}","value":"{$spec_value['cusval']}","classnum":"{$spec_value['classnum']}","month":"{$spec_value['month']}","name":"{$goods_spec_array['name']}"}'>
+							{if:$spec_value['cusval']}
+								{$spec_value['cusval']}{if:$spec_value['classnum'] || $spec_value['month']}/{/if}
+							{/if}
+							{if:$spec_value['classnum']}
+								{$spec_value['classnum']}课时{if:$spec_value['month']}/{/if}
+							{/if}
+							{if:$spec_value['month']}{$spec_value['month']}个月{/if}
+						</a>
+					{/foreach}
+				</li>
+			</ul>
+		{/if}
+		<p class="numberbox clearfix">
+			<span>人数：</span>
+			<a class="reduce" onclick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)">
+			-</a>
+			<input type="text" name="qty_item_1" value="1" id="qty_item_1" onkeyup="setAmount.modify('#qty_item_1')" class="text">
+			<a class="add" onclick="setAmount.add('#qty_item_1')" href="javascript:void(0)">
+			+</a>
+			人
+		</p>
+		<p class="selected_spec"><span></span></p>
+	{/if}
+</div>
+<!-- <ul class="mui-table-view mui-table-view-chevron">
+	<li class="mui-table-view-cell mui-media">
+		<a href="{url:/school/show/id/$seller['id']}" class="mui-navigate-right">
+			<img class="mui-media-object mui-pull-left" src="{webroot:$seller['logo']}">
+			<div class="mui-media-body">
+				{$seller['shortname']}
+				<p class="mui-ellipsis">{$seller['location'][$seller['province']]}{$seller['location'][$seller['city']]}{$seller['location'][$seller['area']]}{$seller['address']}</p>
+			</div>
+		</a>
+	</li>
+</ul> -->
+<div class="mui-content-padded">
+	<div class="content">
+		<dl class="clearfix">
+			<dt> 试听课程：</dt>
+			<dd>{$name}</dd>
+		</dl>
+		<!-- {if:$category} -->
+		<!-- <dl class="clearfix"> -->
+			<!-- <dt>课程分类：</dt> -->
+			<!-- <dd>{$catname}</dd> -->
+		<!-- </dl> -->
+		<!-- {/if} -->
+		<!-- {if:$teacher_info} -->
+		<!-- <dl class="clearfix"> -->
+			<!-- <dt>授课导师：</dt> -->
+			<!-- <dd>{$teacher_info['name']}</dd> -->
+		<!-- </dl> -->
+		<!-- {/if} -->
+		<dl class="clearfix">
+			<dt>联系电话：</dt>
+			<dd>{$seller['phone']}</dd>
+		</dl>
+		<!-- {if:isset($up_time) && $up_time} -->
+		<!-- <dl class="clearfix"> -->
+			<!-- <dt>开课时间：</dt> -->
+			<!-- <dd><span>{$up_time}</span></dd> -->
+		<!-- </dl> -->
+		<!-- {/if} -->
+		<div class="contee"><p>{$content}</p></div>
+	</div>
+</div>
+<div class="mui-content-padded" id="shop-pingjia">
+	<h5>评价（{$comments}）</h5>
+	<ul>
+	 	{foreach:items=Comment_Class::getCommentsList($id)}
+	  	<li class="pingjia-list clearfix">
+			<i class="clearfix">{$item['username']}</i>
+			<div class="pingjia-left">
+					<p class="">{$item['contents']}</p>
+			</div>
+			<span class="pl-time">{$item['time']}</span>
+		</li>
+		{/foreach}
+ 	</ul>
+</div>
+<div class="mui-content-padded" id="shop-talk">
+	<h5><a href="{url:/site/consult/id/$id}" class="pingjia">咨询</a></h5>
+	{if:$referlist}
+	<ul>
+	 	{foreach:items=$referlist}
+	  	<li class="pingjia-list clearfix">
+			<i class="clearfix">{echo:Member_class::get_user_name_by_uid($item['user_id'])}</i>
+			<div class="pingjia-left">
+					<p class="">{$item['question']}</p>
+			</div>
+			<span class="pl-time">{$item['time']}</span>
+		</li>
+		{/foreach}
+ 	</ul>
+	{/if}
+</div>
+<div class="mui-content-padded mui-content-padded-last-child" id="shop-speak">
+	<h5><a href="{url:/site/article_discussion/id/$id}" class="pingjia" style="color:#de4002;font-weight:600;width:100%;height:100%;display:block;">填写试听报告</a></h5>
+	{if:$discussionlist}
+	<ul>
+	 	{foreach:items=$discussionlist}
+	  	<li class="pingjia-list clearfix">
+			<i class="clearfix">{echo:Member_class::get_user_name_by_uid($item['user_id'])}</i>
+			<div class="pingjia-left">
+					<p class="">{$item['content']}</p>
+			</div>
+			<span class="pl-time">{echo:date('Y-m-d H:i:s', $item['add_time']);}</span>
+		</li>
+		{/foreach}
+ 	</ul>
+	{/if}
+</div>
+<div class="card-list-bg"></div>
+<div class="card-list-box">
+	<div class="box"><h5>购券 <a href="javascript:;" class="card-list-close close">关闭</a></h5></div>
+	<div class="mui-inner-wrap">
+		<div id="chitscroll" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					{if:$goods_spec_array['name']}
+					{foreach:items=$goods_spec_array['value'] item=$spec_value}
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-media-object mui-pull-left">
+							<p class="tochit"><em>￥</em>{$spec_value['max_order_chit']}</p>
+							<p class="tobuy">购券{$spec_value['max_cprice']}可抵扣</p>
+						</div>
+						<div class="mui-media-body">
+							<p><em class="totip">乐享学习券</em>{$name}</p>
+							<p class="tospec" id="spec{$spec_value['id']}">
+								{if:$spec_value['cusval']}
+									{$spec_value['cusval']}{if:$spec_value['classnum'] || $spec_value['month']}/{/if}
+								{/if}
+								{if:$spec_value['classnum']}
+									{$spec_value['classnum']}课时{if:$spec_value['month']}/{/if}
+								{/if}
+								{if:$spec_value['month']}{$spec_value['month']}个月{/if}
+							</p>
+							<a class="buycard" onclick="buy_now_ding_card('{$spec_value['max_cprice']}')">点击购买</a>
+						</div>
+					</li>
+					{/foreach}
+					{else:}
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-media-object mui-pull-left">
+							<p class="tochit"><em>￥</em>10140</p>
+							<p class="tobuy">购券200可抵扣</p>
+						</div>
+						<div class="mui-media-body">
+							<p><em class="totip">乐享学习券</em>{$name}</p>
+							<p class="tospec">48课时</p>
+							<a class="buycard">点击购买</a>
+						</div>
+					</li>
+					{/if}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var swiper = new Swiper('.swiper-container', {
+    loop : true,
+    autoHeight: true
+});
+
+var _store_nums = {$store_nums};
+var _spec_url = '{url:/site/getProduct}';
+var _join_url = '{url:/simple/joinCart}';
+var _show_cart_url = '{url:/simple/showCart}';
+var _goods_id = {$id};
+var _promo = '{$promo}';
+
+var _market_price = {$market_price};
+{if:$statement == 2}
+var _parchse_html = '';
+var _dprice = {$dprice};
+var _sell_price = {$sell_price};
+var _min_dprice = 10;
+var _max_cprice = {$max_cprice};
+var _max_order_chit = {$max_order_chit};
+{/if}
+</script>
+
+
+
+<script type="text/javascript">
+
+{if:$statement == 2}
+// 异步更新提示
+function update_parchse()
+{
+	if (check_parchse_param())
+	{
+		var _input_dprice = $('.input_dprice').val();
+		var _input_stime = $('.input_stime').val();
+		var _url = '{url:/site/get_dprice_info_ajax/dprice/@dprice@/stime/@stime@/sell_price/@sell_price@}';
+		_url = _url.replace('@dprice@', _input_dprice);
+		_url = _url.replace('@stime@', _input_stime);
+		_url = _url.replace('@sell_price@', _sell_price);
+		$.getJSON(_url, function(data){
+			if ( data.done )
+			{
+				$('.purchase .notice .price_1').html(data.retval.dprice);
+				$('.purchase .notice .price_2').html(data.retval.chit);
+				$('.purchase .notice .price_3').html(data.retval.rest_price);
+				$('.purchase .notice').show();
+			} else {
+				mui.alert('最多可购买' + data.msg + '元', '提示信息');
+				return;
+			}
+		})
+	}
+}
+
+function check_parchse_param(_input_dprice, _input_stime){
+	if ( _input_dprice < _min_dprice )
+	{
+		mui.alert('券最小面值为' + _min_dprice + '元', '提示信息');
+		$('.input_dprice').val(_max_cprice);
+		return false;
+	}	else if ( _input_dprice > _max_cprice )	{
+		mui.alert('最多可购券' + _max_cprice + '元', '提示信息');
+		$('.input_dprice').val(_max_cprice);
+		return false;
+	}	else if ( _input_dprice % 10 != 0 )	{
+		mui.alert('券值必须为10的倍数!', '提示信息');
+		$('.input_dprice').val(_max_cprice);
+		$('.input_dprice').focus();
+		return false;
+	}	else if ( _input_stime == '0')	{
+			mui.alert('请选择上课时间', '提示信息');
+			return false;
+		}
+	return true;
+}
+{/if}
+function get_deposit_price()
+{
+	var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+	return parseFloat( _market_price * {$dcommission} / 100 * buyNums );
+}
+function buy_now_ding_card(_input_dprice){
+	var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+	var id = {$id};
+	if($('#product_id').val())
+	{
+		id = $('#product_id').val();
+		type = 'product';
+	} else {
+		type = 'goods';
+	}
+	var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/statement/2}';
+		url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+	var _input_stime = 1;
+	url += '/stime/' + _input_stime;
+	url += '/dprice/' + _input_dprice;
+
+	//console.log(url);
+	window.location.href = url;
+}
+// 购券支付
+function buy_now_ding(statement)
+{
+	if(statement != 2){
+		mui.alert('该课程不能预定', '提示信息');
+		return false;
+	}
+	if($('#product_id').val()){
+		$('#spec' + $('#product_id').val()).addClass('active');
+	}
+	$('.card-list-bg').show();
+	$('.card-list-box').animate({bottom: 0}, 300);
+	mui(document.body).on('tap', '.card-list-bg', function(){
+		$('.card-list-box').animate({bottom: '-100%'}, 300);
+		$('.card-list-bg').hide();
+	});
+
+	mui(document.body).on('tap', '.card-list-close', function(){
+		$('.card-list-box').animate({bottom: '-100%'}, 300);
+		$('.card-list-bg').hide();
+	});
+
+	mui('#chitscroll').scroll();
+
+	return;
+
+	var btnArray = ['取消', '购买'];
+	mui.prompt('学习券购买', _max_cprice, '购买', btnArray, function(e) {
+		if (e.index == 1) {
+			if ( !check_parchse_param(e.value, 1))
+			{
+				return false;
+			}
+			if(!checkSpecSelected())
+			{
+				mui.alert('请选择规格', '提示信息');
+				return;
+			}
+			var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+			var id = {$id};
+
+			if($('#product_id').val())
+			{
+				id = $('#product_id').val();
+				type = 'product';
+			} else {
+				type = 'goods';
+			}
+
+			{if:$promo}
+			//有促销活动（团购，抢购）
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/promo/$promo/active_id/$active_id}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{else:}
+			//普通购买
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/statement/2}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{/if}
+
+			//页面跳转
+			var _input_dprice = e.value;
+			var _input_stime = 1;
+			url += '/stime/' + _input_stime;
+			url += '/dprice/' + _input_dprice;
+
+			//console.log(url);
+			window.location.href = url;
+		} else {
+			//mui.alert('购买取消', '提示信息');
+		}
+	});
+}
+
+function buy_now_ding2()
+{
+	if($('[name="specCols"]').length == 1){
+		if(!checkSpecSelected())
+		{
+			mui.alert('请选择规格', '提示信息');
+			$('body,html').animate({ scrollTop: $('#spec_list_mao').offset().top - 250 }, 500);
+			return;
+		}
+	}
+
+	var _deposit_price = get_deposit_price();
+	if ( _deposit_price <= 0 )
+	{
+		mui.alert('请选择规格', '提示信息');
+		return false;
+	}
+
+	var btnArray = ['取消', '支付'];
+	mui.prompt('请选择入学日期', '', '定金', btnArray, function(e) {
+		if(e.index == 1){
+			var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+			var id = {$id};
+
+			if($('#product_id').val())
+			{
+				id = $('#product_id').val();
+				type = 'product';
+			} else {
+				type = 'goods';
+			}
+
+			{if:$promo}
+			//有促销活动（团购，抢购）
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/promo/$promo/active_id/$active_id}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{else:}
+			//普通购买
+			var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/statement/3}';
+			url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+			{/if}
+
+			//页面跳转
+			url += '/dprice/' + _deposit_price;
+			url += '/choose_date/' + e.value;
+
+			window.location.href = url;
+		}
+	});
+
+	mui('.mui-popup-input').on('tap', 'input', function(e){
+		var optionsJson = '{"type":"date","beginYear":2016,"endYear":2020}';
+		var options = JSON.parse(optionsJson);
+		var picker = new mui.DtPicker(options);
+		picker.show(function(rs) {
+			mui('.mui-popup-input input')[0].value = rs.text;
+			picker.dispose();
+		});
+	});
+}
+
+/**
+ * 规格的选择
+ * @param _self 规格本身
+ */
+function sele_spec(_self)
+{
+	$('.tospec').removeClass('active');
+  var _parent = $(_self).parent().find('a').removeClass('current');
+  $(_self).addClass('current');
+  if ( _promo == '')
+  {
+    $('.pro-price i').html('');
+  } else if ( _promo == 'time') {
+    $('.pro-discount span').html('');
+  } else if ( _promo == 'groupon') {
+    $('.pro-discount span').html('');
+  }
+
+	//检查规格是否选择符合标准
+	if(checkSpecSelected())
+	{
+		//整理规格值
+		var specArray = [];
+		$('[name="specCols"]').each(function(){
+			specArray.push($(this).find('a.current').attr('value'));
+		});
+		var specJSON = '['+specArray.join(",")+']';
+
+		//获取货品数据并进行渲染
+		$.getJSON(_spec_url,{"goods_id":_goods_id,"specJSON":specJSON,"random":Math.random},function(json){
+			if(json.flag == 'success')
+			{
+        var _sell_price = json.data.sell_price;
+        if ( _promo == '')
+        {
+            $('.pro-price i').html(json.data.market_price);
+        } else if ( _promo == 'time') {
+          $('.pro-discount span').html('&yen;' + _sell_price);
+        } else if ( _promo == 'groupon') {
+          $('.pro-discount span').html('&yen;' + _sell_price);
+        }
+
+				{if:$statement == 2}
+				_dprice = parseFloat(json.data.dprice);
+					_rprice = parseFloat(json.data.rprice);
+					$('.input_dprice').val(_dprice);
+					_max_cprice = json.data.max_cprice;
+					_max_order_chit = json.data.max_order_chit;
+					calculation_cprice();
+				{/if}
+				_market_price = json.data.market_price;
+				_sell_price = json.data.sell_price;
+
+				_store_nums = json.data.store_nums;
+				$('#product_id').val(json.data.id);
+
+        //var _spec_array = json.data.spec_array;
+        eval("var _spec_array = " + json.data.spec_array );
+        _spec_array = _spec_array[0];
+        $('.selected_spec span').html( _spec_array.name + ':' + _spec_array.value);
+
+				//库存监测
+				checkStoreNums();
+			} else {
+				mui.alert(json.message, '提示信息');
+				closeBuy();
+			}
+		});
+	}
+}
+
+
+//立即购买按钮
+function buy_now()
+{
+	if($('[name="specCols"]').length == 1){
+		//对规格的检查
+		if(!checkSpecSelected())
+		{
+			mui.alert('请选择课程规格', '提示信息');
+			$('body,html').animate({ scrollTop: $('#spec_list_mao').offset().top - 250 }, 500);
+			return;
+		}
+	}
+
+	//设置必要参数
+	var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+	var id = {$id};
+	var type = 'goods';
+
+	if($('#product_id').val())
+	{
+		id = $('#product_id').val();
+		type = 'product';
+	}
+
+	{if:$promo}
+	//有促销活动（团购，抢购）
+	var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@/promo/$promo/active_id/$active_id}';
+	url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+	{else:}
+	//普通购买
+	var url = '{url:/simple/cart2/id/@id@/num/@buyNums@/type/@type@}';
+	url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+	{/if}
+
+	//页面跳转
+	window.location.href = url;
+}
+
+function calculation_cprice()
+{
+	var _num = parseInt($.trim($('#qty_item_1').val()));
+	$('#data_dprice .buy').html('￥' + _max_cprice * _num);
+	var _chit = _max_order_chit * _num;
+	_chit = _chit.toFixed(2);
+	$('#data_dprice .chit').html('￥' + _chit);
+}
+</script>

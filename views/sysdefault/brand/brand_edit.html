@@ -1,0 +1,350 @@
+{js:artTemplate}
+{js:cropper}
+<script type="text/javascript" src="/plugins/newupload/plupload.full.min.js"></script>
+<link rel="stylesheet" href="/resource/scripts/layer/skin/layer.css">
+<script type="text/javascript" src="/resource/scripts/layer/layer.js"></script>
+<style>
+	.cropper-wrapper img{max-height:420px;}
+	.form_table .pic {width:156px;height: 180px;overflow:hidden;margin: 10px;}
+	.form_table .pic img {max-width: 150px;max-height:150px;margin:0px;}
+</style>
+<div class="headbar">
+	<div class="position"><span>学校</span><span>></span><span>学校管理</span><span>></span><span>{if:isset($brand['id'])}编辑{else:}添加{/if}学校页面内容</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/brand/brand_save}" method="post" enctype='multipart/form-data'>
+			<table class="form_table" cellpadding="0" cellspacing="0">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>登录名：</th>
+					<td><input class="normal" name="username" type="text" value="{$brand['username']}" pattern="required" alt="登录名不能为空" />
+						<label>*</label>
+						<input name="brand_id" value="{$brand['id']}" type="hidden" />
+					</td>
+				</tr>
+				<tr>
+					<th>学校简称：</th>
+					<td><input class="normal" name="shortname" type="text" value="{$brand['shortname']}" pattern="required" alt="学校简称不能为空" /></td>
+				</tr>
+				<tr>
+					<th>学校全称：</th>
+					<td><input class="normal" name="name" type="text" value="{$brand['name']}" pattern="required" alt="学校全称不能为空" />
+						<label>*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>排序：</th><td><input class="normal" name="sort" type="text" value="{$brand['sort']}" pattern='int' empty alt='必需为整形数值'/></td>
+				</tr>
+				<tr>
+					<th>二级域名设置：</th><td><input class="normal" name="url" type="text" value="{$brand['url']}" pattern='required' empty alt='4个英文字母' /><label>英文字母+dsanke.com即为二级域名</label></td>
+				</tr>
+				<tr>
+					<th>手机端LOGO：</th>
+					<td colspan="3">
+						<div class="demo" style="margin-top: 8px;">
+			               <label class="tip"></label>
+			                <ul id="logo_pics" class="ul_pics clearfix">
+			                	{if:isset($brand['logo'])}
+								<li class="pic"><img style="opacity:1;width:150px;" src="{webroot:$brand['logo']}" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="logo[]" value="{$brand['logo']}" /></li>
+			                	{/if}
+			                </ul>
+			               <a class="btn" id="logo" style="padding: 4px 13px;">选择...</a>
+			            </div>
+					</td>
+				</tr>
+				<tr>
+					<th>PC端LOGO：</th>
+					<td colspan="3">
+						<div class="demo" style="margin-top: 8px;">
+			             <label class="tip"></label>
+			                <ul id="pc_logo_pics" class="ul_pics clearfix">
+			                	{if:isset($brand['pc_logo'])}
+								<li class="pic"><img style="opacity:1;width:150px;" src="/{$brand['pc_logo']}" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="pc_logo[]" value="{$brand['pc_logo']}" /></li>
+			                	{/if}
+			                </ul>
+							<a class="btn" id="pc_logo" style="padding: 4px 13px;">选择...</a>
+			            </div>
+					</td>
+				</tr>
+				<tr>
+					<th>所属地区：</th>
+					<td>
+						{query:name=brand_category}{/query}
+						{if:$items}
+						<ul class="select">
+							{foreach:items=$items}
+							<li><label><input type="checkbox" value="{$item['id']}" name="category[]" {if:isset($brand) && stripos(','.$brand['category_ids'].',',','.$item['id'].',') !== false}checked="checked"{/if} />{$item['name']}</label></li>
+							{/foreach}
+						</ul>
+						{else:}
+						系统暂无地区分类，<a href='{url:/brand/category_edit}' class='orange'>请点击添加</a>
+						{/if}
+					</td>
+				</tr>
+
+
+				<tr>
+					<th>学校轮播图：</th>
+					<td colspan="3">
+						<div class="demo" style="margin-top: 8px;">
+
+			               <label class="tip"></label>
+			                <ul id="img_pics" class="ul_pics clearfix">
+			                	{if:isset($brand['img'])}
+			                	{foreach:$items=$brand['img']}
+								<li class="pic"><img style="opacity:1;width:150px;" src="{webroot:$item}" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="img[]" value="{$item}" /></li>
+			                	{/foreach}
+			                	{/if}
+			                </ul>
+						  <a class="btn" id="img" style="padding: 4px 13px;">选择...</a>
+			            </div>
+					</td>
+				</tr>
+				<tr>
+
+			<th>学校介绍：</th>
+
+			<td colspan="3">
+					<div class="demo" style="margin-top: 8px;">
+
+		               <label class="tip"></label>
+		                <ul id="class_desc_img_pics" class="ul_pics clearfix">
+		                	{if:isset($brand['class_desc_img'])}
+		                	{foreach:$items=$brand['class_desc_img']}
+		                	<li class="pic"><img style="opacity:1;width:150px;" src="{webroot:$item}" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="class_desc_img[]" value="{$item}" /></li>
+		                	{/foreach}
+		                	{/if}
+		                </ul>
+						    <a class="btn" id="class_desc_img" style="padding: 4px 13px;">选择...</a>
+		            </div>
+				</td>
+
+		</tr>
+
+		<tr>
+
+	<th>授权书：</th>
+
+	<td colspan="3">
+			<div class="demo" style="margin-top: 8px;">
+
+							 <label class="tip"></label>
+								<ul id="certificate_of_authorization_pics" class="ul_pics clearfix">
+									{if:isset($brand['certificate_of_authorization'])}
+									{foreach:$items=$brand['certificate_of_authorization']}
+									<li class="pic"><img style="opacity:1;width:150px;" src="{webroot:$item}" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="certificate_of_authorization[]" value="{$item}" /></li>
+									{/foreach}
+									{/if}
+								</ul>
+						<a class="btn" id="certificate_of_authorization" style="padding: 4px 13px;">选择...</a>
+						</div>
+		</td>
+
+</tr>
+
+
+
+		<tr>
+		  <th>首页广告语：</th>
+			<td><input class="normal" name="brief" type="text" value="{$brand['brief']}" pattern="required" alt="广告语不能为空" />
+			   <label>*</label>
+			</td>
+		</tr>
+		<tr>
+			<th valign="top">详细介绍：</th><td><textarea name="description" id="description" style="width:600px;height:300px;">{$brand['description']}</textarea></td>
+		</tr>
+		<tr>
+			<th>学校展示：</th>
+				<td colspan="3">
+					<div class="demo" style="margin-top: 8px;">
+
+			               <label class="tip"></label>
+			                  <ul id="shop_desc_img_pics" class="ul_pics clearfix">
+			                	{if:isset($brand['shop_desc_img'])}
+			                	{foreach:$items=$brand['shop_desc_img']}
+			                	<li class="pic"><img style="opacity:1;width:150px;" src="{webroot:$item}" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="shop_desc_img[]" value="{$item}" /></li>
+			                	{/foreach}
+			                	{/if}
+			                </ul>
+					    <a class="btn" id="shop_desc_img" style="padding: 4px 13px;">选择...</a>
+			        </div>
+				</td>
+		</tr>
+		<tr>
+			<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+		</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<div class="cropper">
+	<div class="cropper-wrapper"><img src="" alt=""></div>
+	<div class="preview preview-lg"></div>
+</div>
+
+
+<script type="text/javascript">
+function cutPicture(_data,_self){
+	var $image = $('.cropper-wrapper > img');
+    $image.attr('src','/'+_data.img);
+
+    $image.cropper('destroy').cropper({
+	  aspectRatio: 16/11,
+	  resizable:false,
+	  preview: ".preview",
+	});
+
+    var index = layer.open({
+	  type: 1,
+	  btn:['确定','取消'],
+	  skin: 'layui-layer-rim', //加上边框
+	  area: ['920px', '520px'], //宽高
+	  content: $('.cropper'),
+	  yes:function(){
+
+	  	var $imgData=$image.cropper('getCroppedCanvas')
+        var dataurl = $imgData.toDataURL('image/jpeg');
+        var imgSrc = '<li class="pic"><img style="opacity:1;width:150px;" src="'+dataurl+'" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="'+_self+'[]" value="'+dataurl+'" /></li>';
+
+        $('#'+_self).siblings('ul').append(imgSrc);
+        layer.close(index);
+	  }
+	});
+}
+
+function cutPicture1(_data,_self){
+	var $image = $('.cropper-wrapper > img');
+    $image.attr('src','/'+_data.img);
+
+    $image.cropper('destroy').cropper({
+	  aspectRatio: 1,
+	  resizable:false,
+	  preview: ".preview",
+	});
+
+    var index = layer.open({
+	  type: 1,
+	  btn:['确定','取消'],
+	  skin: 'layui-layer-rim', //加上边框
+	  area: ['920px', '520px'], //宽高
+	  content: $('.cropper'),
+	  yes:function(){
+
+  	  var $imgData=$image.cropper('getCroppedCanvas')
+      var dataurl = $imgData.toDataURL('image/jpeg');
+      var imgSrc = '<li class="pic"><img style="opacity:1;width:150px;" src="'+dataurl+'" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="'+_self+'[]" value="'+dataurl+'" /></li>';
+
+        $('#'+_self).siblings('ul').html(imgSrc);
+        layer.close(index);
+	  }
+	});
+}
+
+function cutPicture2(_data,_self){
+	var $image = $('.cropper-wrapper > img');
+    $image.attr('src','/'+_data.img);
+
+    $image.cropper('destroy').cropper({
+	  aspectRatio: 300/179,
+	  resizable:false,
+	  preview: ".preview",
+	});
+
+    var index = layer.open({
+	  type: 1,
+	  btn:['确定','取消'],
+	  skin: 'layui-layer-rim', //加上边框
+	  area: ['920px', '520px'], //宽高
+	  content: $('.cropper'),
+	  yes:function(){
+
+	  	var $imgData=$image.cropper('getCroppedCanvas')
+        var dataurl = $imgData.toDataURL('image/jpeg');
+        var imgSrc = '<li class="pic"><img style="opacity:1;width:150px;" src="'+dataurl+'" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="'+_self+'[]" value="'+dataurl+'" /></li>';
+
+        $('#'+_self).siblings('ul').html(imgSrc);
+        layer.close(index);
+	  }
+	});
+}
+
+$(function(){
+	var ids = new Array("img","class_desc_img","shop_desc_img","logo","pc_logo","certificate_of_authorization");
+	$.each(ids,function(i,n){
+		var self = this.toString();
+		var uploadImg = new plupload.Uploader({
+		    runtimes: 'html5,flash,silverlight,html4',
+		    browse_button: self,
+		    url: "/goods/goods_img_upload",
+		    filters: {
+		        max_file_size: '2048kb',
+		        mime_types: [
+		            {title: "files", extensions: "jpg,png,gif"}
+		        ]
+		    },
+		    multi_selection: false,
+
+		});
+
+		uploadImg.init();
+
+		uploadImg.bind('FilesAdded',function(uploader,files){
+				uploadImg.start();
+	    });
+
+		uploadImg.bind('FileUploaded',function(up, file, info) {
+		   var data = eval("(" + info.response + ")");
+		   var str = '<li class="pic"><img style="opacity:1;width:150px;" src="/'+data.img+'" class="current"><br><a href="javascript:void(0)" onclick="$(this).parent().remove();">删除</a><input type="hidden" name="'+self+'[]" value="'+data.img+'" /></li>';
+		   switch(self)
+			{
+			case 'logo':
+			    cutPicture1(data,self);
+			    break;
+			case 'pc_logo':
+			    cutPicture2(data,self);
+			    break;
+			case 'class_desc_img':
+			case 'shop_desc_img':
+			case 'certificate_of_authorization':
+				$('#'+self).siblings('ul').append(str);
+				break;
+			// case 'shop_desc_img':
+			// 	$('#'+self).siblings('ul').append(str);
+			// 	break;
+			default:
+				cutPicture(data,self);
+			    break;
+			}
+
+		})
+
+		uploadImg.bind('Error',function(up, err) {
+            alert(err.message);
+        })
+	})
+
+
+
+	///////////////////////////////////////////////////////////
+
+
+
+
+
+});
+
+{if:$brand['id']}
+//锁定字段一旦注册无法修改
+var lockCols = ['username'];
+for(var index in lockCols)
+{
+	$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+	$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+}
+{/if}
+
+
+</script>

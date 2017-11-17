@@ -1,0 +1,160 @@
+{js:cropper}
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<link href="{rs:/scripts/layer/skin/layer.css}" rel="stylesheet" type="text/css" />
+<style>
+.part_tit {color:#ff4b2b;}
+.mui-btn-primary {width:90%;border-radius:5px;background:linear-gradient(to right,#ff9638,#ff4b2b);border:0px;}
+</style>
+<p class="part_tit">商家信息</p>
+<script type="text/javascript" src="/plugins/newupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="{rs:/scripts/layer/layer.js}"></script>
+<script type="text/javascript" src="{theme:javascript/goods_edit2.js}"></script>
+{set:$seller_id = $this->seller['seller_id']}
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/seller/brand_add2}" name="sellerForm" method="post" enctype='multipart/form-data' id="brandFrom">
+		<p>logo（PC端）</p>
+		<div id="pcLogoPics" class="row image-list">
+			<div class="image-item space" id="pcLogo"></div>
+			{if:$brand['pc_logo']}
+			<div class="image-item space">
+				<img src="/{$brand['pc_logo']}"/>
+				<div class="image-close">删除</div>
+				<input type="hidden" name="pcLogo[]" value="{$brand['pc_logo']}" />
+			</div>
+			{/if}
+		</div>
+		<p>logo（手机端）</p>
+		<div id="logoPics" class="row image-list">
+			<div class="image-item space" id="logo"></div>
+			{if:$brand['logo']}
+			<div class="image-item space">
+				<img src="/{$brand['logo']}"/>
+				<div class="image-close">删除</div>
+				<input type="hidden" name="logo[]" value="{$brand['logo']}" />
+			</div>
+			{/if}
+		</div>
+		<p>学校介绍</p>
+		<div id="schoolIntroPics" class="row image-list">
+			<div class="image-item space" id="schoolIntro"></div>
+			{if:$brand['school_intro_img']}
+	        {foreach:items = $brand['school_intro_img']}
+			<div class="image-item space">
+				<img src="/{$item}"/>
+				<div class="image-close">删除</div>
+				<input type="hidden" name="schoolIntro[]" value="{$item}" />
+			</div>
+			{/foreach}
+	        {/if}
+		</div>
+		<p>学校展示</p>
+		<div id="schoolShowPics" class="row image-list">
+			<div class="image-item space" id="schoolShow"></div>
+			{if:$brand['school_img']}
+	        {foreach:items = $brand['school_img']}
+			<div class="image-item space">
+				<img src="/{$item}"/>
+				<div class="image-close">删除</div>
+				<input type="hidden" name="schoolShow[]" value="{$item}" />
+			</div>
+			{/foreach}
+	        {/if}
+		</div>
+
+		<!-- 裁剪框 start -->
+		<div class="cropper">
+			<div class="cropper-wrapper"><img src="" alt=""></div>
+			<!-- <div class="preview preview-lg"></div> -->
+		</div>
+		<div class="cropper_flag"></div>
+		<!-- end -->
+
+		<p>学校简介</p>
+		<textarea name="content" id="content" class="txt" style="width:100%;height:100px;" placeholder="请填写学校简介">{$seller_info['content']}</textarea>
+
+		<div class="mui-button-row submit_btn">
+			<input type="hidden" name="brand_id" value="{$brand['id']}" />
+			<button type="button" class="mui-btn mui-btn-primary alt_btn1">提交信息</button>
+		</div>
+	</form>
+	<p class="part_tit">课程信息</p>
+	<ul class="mui-table-view">
+		{foreach:items = $goods_list}
+	    <li class="mui-table-view-cell mui-media">
+	        <a class="mui-navigate-right" href="{url:seller/goods_edit3/id/$item['id']}">
+	            <img class="mui-media-object mui-pull-left" src="/{$item['img']}">
+	            <div class="mui-media-body">
+	                <p class='mui-ellipsis'>{$item['name']}</p>
+	            </div>
+	        </a>
+	    </li>
+	    {/foreach}
+	</ul>
+	<ul class="mui-table-view addNew">
+	    <li class="mui-table-view-cell">
+	        <a class="mui-navigate-right" href="{url:seller/goods_edit3}">添加新课程</a>
+	    </li>
+	</ul>
+
+	<p class="part_tit">教师信息</p>
+	<ul class="mui-table-view">
+		{foreach:items = $teacher_list}
+	    <li class="mui-table-view-cell mui-media">
+	        <a class="mui-navigate-right" href="{url:seller/teacher_edit2/id/$item['id']}">
+	            <img class="mui-media-object mui-pull-left" src="/{$item['icon']}">
+	            <div class="mui-media-body">
+	                <p class='mui-ellipsis'>{$item['name']}</p>
+	            </div>
+	        </a>
+	    </li>
+	    {/foreach}
+	</ul>
+	<ul class="mui-table-view addNew">
+	    <li class="mui-table-view-cell">
+	        <a class="mui-navigate-right" href="{url:seller/teacher_edit2}">添加新教师</a>
+	    </li>
+	</ul>
+
+	<div id="loading">
+		<div class="progress"></div>
+		<div class="progress_text"></div>
+	</div>
+
+<style>
+	.image-list{height:auto;}
+	.part_tit{text-align: center;font-size:125%;color:#08c;margin-top: 10px;}
+	.addNew{text-align: center;color:#08c;}
+
+	.cropper{width:100%;height:300px;display:none;}
+	.cropper-wrapper {width:100%;height:300px; box-shadow: inset 0 0 5px rgba(0,0,0,.25); background-color: #fcfcfc; overflow: hidden;}
+	.cutPic{display:none;}
+	.cropper_flag{width:98%;border:1px solid #fff;margin:0 auto;}
+	.image-item img{width:100%;height:100%;}
+	.mui-table-view .mui-media-object{width:50px;height:50px;}
+
+	#loading{width:80%;height:50px; position:fixed;left:10%;top:50%;background:rgba(0,0,0,0.2);padding:10px;border-radius: 5px;display: none;}
+	#loading .progress{background:#08c;border:1px solid #ccc;width:1%;height:10px;border-radius: 5px;}
+	#loading .progress_text{text-align: center;text-indent:-70px;}
+	.mui-toast-container {bottom: 45% !important;}
+</style>
+
+</div>
+
+<!-- <script>
+	{if:$seller_info['is_system_seller']}
+var ue = UE.getEditor('content',{
+	elementPathEnabled:false,
+    wordCount:false
+});
+{else:}
+var ue = UE.getEditor('content',{
+	toolbars: [
+        ['justifyleft', 'justifyright', 'justifycenter', 'justifyjustify' ]
+    ],
+    elementPathEnabled:false,
+    wordCount:false
+});
+{/if}
+</script>
+ -->

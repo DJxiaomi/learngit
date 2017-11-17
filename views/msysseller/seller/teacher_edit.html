@@ -1,0 +1,77 @@
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<h5 class="mui-content-padded">编辑教师</h5>
+<div class="mui-content-padded" style="margin:0;">
+	<form class="mui-input-group" action="{url:/seller/teacher_save}" method="post" enctype='multipart/form-data'>
+		<div class="mui-input-row">
+			<label>教师姓名</label>
+			{if:$this->brand_info['category_ids'] == 16}
+				{$this->seller_info['shortname']}
+			{else:}
+				<input type="text" name="name" value="{$teacher_info['name']}" placeholder="教师姓名" />
+			{/if}
+		</div>
+		<div class="mui-input-row" id="sextxt">
+			<label>性别</label>
+			<span>
+				{if:!$teacher_info || $teacher_info['sex'] != 2}男{/if}
+				{if:$teacher_info['sex'] == 2}女{/if}
+			</span>
+			<input type="hidden" name="sex" id="sex" value="{if:$teacher_info['sex']}{$teacher_info['sex']}{else:}1{/if}" />
+			<i class="icon-angle-right"></i>
+		</div>
+		<div class="mui-input-row">
+			<label>手机号码</label>
+			<input type="number" name="mobile" value="{$teacher_info['mobile']}" placeholder="请输入手机号码" />
+		</div>
+		<p>形象照片</p>
+		<div id="image-list" class="row image-list">
+			{if:$teacher_info['icon']}
+			<div class="image-item space" id="prev" style="background:url({webroot:$teacher_info['icon']}) no-repeat center center;background-size:100% auto;"></div>
+			{/if}
+			<div class="image-item space" id="uppic"><input type="file" accept="image/*" id="image-1"></div>
+			<input type="hidden" name="icon" id="icon" value="{$teacher_info['icon']}">
+		</div>
+		<p>个人简介</p>
+		<textarea name="description" id="description" class="txt">{$teacher_info['description']}</textarea>
+		<div class="mui-button-row">
+			<input type="hidden" name="id" value="{$teacher_info['id']}" />
+			<button type="submit" class="mui-btn mui-btn-primary">确认</button>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<script language="javascript">
+mui.init();
+mui.ready(function(){
+	var data = "[{value: 1, text: '男'}, {value: 2, text: '女'}]";
+	var userPicker = new mui.PopPicker();
+	userPicker.setData(eval('(' + data + ')'));
+	var showUserPickerButton = document.getElementById('sextxt');
+	showUserPickerButton.addEventListener('tap', function(event) {
+		userPicker.show(function(items) {
+			$('#sex').val(items[0].value);
+			$('#sextxt').find('span').text(items[0].text);
+		});
+	}, false);
+});
+
+$.jUploader({
+    button: 'uppic',
+    action: '{url:/seller/pic_upload}',
+    allowedExtensions: ['jpg', 'png', 'gif', 'jpeg', 'JPG', 'JPEG'],
+    onComplete: function(fileName, response){
+      	if(response.success){
+      		$('#icon').val(response.fileurl);
+      		if($('#prev').length == 1){
+      			$('#prev').css('background-image', 'url(/' + response.fileurl + ')');
+      		}else{
+      			$('#image-list').prepend('<div class="image-item space" id="prev" style="background:url(/' + response.fileurl + ') no-repeat center center;background-size:100% auto;"></div>');
+      		}
+      	}else{
+        	mui.toast('上传失败');
+      	}
+    }
+});
+</script>

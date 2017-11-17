@@ -1,0 +1,91 @@
+{js:my97date}
+{set:$search = IReq::get('search') ? IFilter::act(IReq::get('search'),'strict') : array();}
+
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>商户数据统计</span><span>></span><span>货款结算列表</span></div>
+	<div class="operating">
+		<div class="search f_l">
+			<form name="searchBill" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='market' />
+				<input type='hidden' name='action' value='fanli_tixian' />
+				<span>
+				商家名称
+				<input type="text" class="small" name="search[seller_name=]" />
+				</span>
+				<select class="auto" name="search[status=]">
+					<option value="" selected="selected">结算状态</option>
+					<option value="0">未处理</option>
+					<option value="1">已同意</option>
+					<option value="2">已拒绝</option>
+				</select>
+
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="content">
+	<table class="list_table">
+		<colgroup>
+			<col width="180px" />
+			<col width="100px" />
+			<col width="155px" />
+			<col width="80px" />
+			<col width="155px" />
+			<col width="155px" />
+			<col width="100px" />
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>申请商户</th>
+				<th>申请时间</th>
+				<th>申请金额</th>
+				<th>处理时间</th>
+				<th>处理结果</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{set:$where = 1}
+			{foreach:items=$search}
+			{if:$item !== ""}{set:$where .= " and ".$key."'".$item."'"}{/if}
+			{/foreach}
+			{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+			{query: name=fanli_tixian as b join=left join seller as s on s.id eq b.seller_id left join admin as a on b.admin_id eq a.id where=$where page=$page fields=b.*,s.seller_name,a.admin_name}
+			<tr>
+				<td>{$item['seller_name']}</td>
+				<td>{echo:date('Y-m-d H:m',$item['create_time'])}</td>
+				<td>{$item['num']}</td>
+				<td>
+				{if:$item['end_time']>0}
+				{echo:date('Y-m-d H:m',$item['end_time'])}
+				{/if}</td>
+				<td>
+					{if:$item['status'] == 1}
+					<label class="green">已同意</label>
+					{elseif:$item['status'] == 2}
+					<label class="red">已驳回</label>
+					{else:}
+					<label class="orange">未处理</label>
+					{/if}
+				</td>
+				<td>
+					{if:$item['status'] == 0}
+					<a href="{url:/market/fanli_work/id/$item[id]/result/1}">
+						<img class="operator" title="同意" alt="同意" src="{skin:images/admin/icon_check.gif}" />
+					</a>
+					<a href="{url:/market/fanli_work/id/$item[id]/result/2}">
+						<img class="operator" title="驳回" alt="驳回" src="{skin:images/admin/icon_del.gif}" />
+					</a>
+					{/if}
+				</td>
+			</tr>
+			{/query}
+		</tbody>
+	</table>
+</div>
+{$query->getPageBar()}
+

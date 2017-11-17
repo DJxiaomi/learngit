@@ -1,0 +1,162 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+{set:
+	$myCartObj  = new Cart();
+	$myCartInfo = $myCartObj->getMyCart();
+	$siteConfig = new Config("site_config");
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{echo:$siteConfig->name}</title>
+	<link rel="stylesheet" href="{skin:css/index.css}" />
+	<link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="{skin:css/font-awesome.min.css}">
+	{js:jquery}
+	{js:form}
+	{js:dialog}
+	{js:validate}
+	{js:artTemplate}
+	<script type='text/javascript' src="{theme:javascript/common.js}"></script>
+	<script type='text/javascript' src='{theme:javascript/site.js}'></script>
+	<script type='text/javascript'>
+		//用户中心导航条
+		function menu_current()
+		{
+		    var current = "{echo:$this->getAction()->getId()}";
+		    if(current == 'consult_old') current='consult';
+		    else if(current == 'isevaluation') current ='evaluation';
+		    else if(current == 'withdraw') current = 'account_log';
+		    var tmpUrl = "{url:/ucenter/current}";
+		    tmpUrl = tmpUrl.replace("current",current);
+		    $('div.cont ul.list li a[href^="'+tmpUrl+'"]').parent().addClass("current");
+		}
+	</script>
+</head>
+<body class="index">
+<div class="userheader">
+
+  <div class="portrait">
+  {set:$user_ico = $this->user['head_ico']}
+  <a class="ico"><img class="portraitimg" id="user_ico_img" src="{url:/pic/thumb/img/$user_ico/w/100/h/100}" width="100" height="100" alt="" onerror="this.src='{skin:images/front/user_ico.gif}'" /></a>
+  <a class="white" href="javascript:select_ico();"style="color:#fff">修改头像</a>
+  <!--<img class="portraitimg" src={skin:images/front/tx001.jpg} />-->
+  </div>
+  
+  <div class="username">
+    <p class="uname">{$this->user['username']}<a href="{url:/simple/logout}" id="quit">退出登录</a></p>
+    <p>您好，欢迎回来！<br/>上次登录时间：{echo:ISafe::get('last_login')}</p>
+  </div>
+  <div class="payfor">
+    <a href="{url:/ucenter/online_recharge}" class="paybt">我要充值</a>
+  </div>
+</div>
+<div class="kongtop"></div>
+
+	{echo:Ad::show(1)}
+
+
+
+	{viewcontent}
+
+
+
+	{echo:IFilter::stripSlash($siteConfig->site_shortcut_code)}
+	     <div class="daohangg" >
+		   <a href="{url:/site/index}" height="110px"></a>
+		  </div>
+<div class="kong"></div>
+<div class="shortcut">
+		<ul>
+		<li><a href="{url:/site/index}"><img src="{skin:images/front/ft001.png}"><p>首页</p></a></li>
+		<li><a href="{url:/ucenter/index}"><img src="{skin:images/front/ft002.png}"><p>我的账户</p></a></li>
+		<li><a href="{url:/ucenter/order}"><img src="{skin:images/front/ft003.png}"><p>我的订单</p></a></li>
+		<li><a href="{url:/simple/seller}"><img src="{skin:images/front/ft004.png}"><p>申请开店</p></a></li>
+        <li><a href="javascript:history.back(-1);"><img src="{skin:images/front/ft005.png}"><p>返回</p></a></li>
+			<!--<li><a href="{url:/seller/index}"><img src="/images/mobile/530.png"></a><p>商家管理</p></li>-->
+		</ul>
+	</div>
+<script type='text/javascript'>
+//DOM加载完毕后运行
+$(function()
+{
+	$(".tabs").each(function(i){
+	    var parrent = $(this);
+		$('.tabs_menu .node',this).each(function(j){
+			var current=".node:eq("+j+")";
+			$(this).bind('click',function(event){
+				$('.tabs_menu .node',parrent).removeClass('current');
+				$(this).addClass('current');
+				$('.tabs_content>.node',parrent).css('display','none');
+				$('.tabs_content>.node:eq('+j+')',parrent).css('display','block');
+			});
+		});
+	});
+
+	//隔行换色
+	$(".list_table tr:nth-child(even)").addClass('even');
+	$(".list_table tr").hover(
+		function () {
+			$(this).addClass("sel");
+		},
+		function () {
+			$(this).removeClass("sel");
+		}
+	);
+
+	menu_current();
+
+	$('input:text[name="word"]').bind({
+		keyup:function(){autoComplete('{url:/site/autoComplete}','{url:/site/search_list/word/@word@}','{$siteConfig->auto_finish}');}
+	});
+
+	{set:$word = IReq::get('word') ? IFilter::act(IReq::get('word'),'text') : '输入关键字...'}
+	$('input:text[name="word"]').val("{$word}");
+
+	//购物车div层
+	$('.mycart').hover(
+		function(){
+			showCart('{url:/simple/showCart}');
+		},
+		function(){
+			$('#div_mycart').hide('slow');
+		}
+	);
+});
+
+
+//选择头像
+function select_ico()
+{
+	{set:$callback = urlencode(IUrl::creatUrl('/ucenter/user_ico_upload'))}
+	art.dialog.open('{url:/block/photo_upload?callback=$callback}',
+	{
+		'id':'user_ico',
+		'title':'设置头像',
+		'ok':function(iframeWin, topWin)
+		{
+			iframeWin.document.forms[0].submit();
+			return false;
+		}
+	});
+}
+
+//头像上传回调函数
+function callback_user_ico(content)
+{
+	var content = eval(content);
+	if(content.isError == true)
+	{
+		alert(content.message);
+	}
+	else
+	{
+		$('#user_ico_img').attr('src',content.data);
+	}
+	art.dialog({id:'user_ico'}).close();
+}
+</script>
+</body>
+</html>

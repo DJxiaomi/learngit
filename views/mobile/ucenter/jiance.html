@@ -1,0 +1,27 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link rel="stylesheet" type="text/css" href="{skin:css/ucenter.css}" />
+<style>
+li img {max-width: 100%;}
+li a {color: blue;}
+.notice {color:red;font-size: .85rem;}
+</style>
+<div class="mui-content">
+  {if:$jiance_info}
+  <div class="mui-card">
+    <div class="mui-card-content">
+      <ul class="mui-table-view">
+        <li class="mui-table-view-cell"><span>姓名：</span>{$jiance_info['title']}</li>
+        <li class="mui-table-view-cell"><span>年龄：</span>{$jiance_info['keywords']}</li>
+        <li class="mui-table-view-cell"><span>照片：</span><img src="{webroot:$jiance_info['content']}" /></li>
+        <li class="mui-table-view-cell"><span>检测报告：</span>{if:$jiance_info['jiance_result'] != ''}<a href="{webroot:$jiance_info['jiance_result']}" class="mui-btn mui-btn-primary">查看检测报告</a>{else:}<span class="notice">报告还未出炉，请耐心等待</span>{/if}</li>
+      </ul>
+    </div>
+  </div>
+  {else:}
+  <div class="mui-card-content">
+    <div class="mui-media-info">
+  		您还没有报名皮纹检测哦，<a href="{url:/ucenter/article_add3}">点击报名</a>
+  	</div>
+  </div>
+  {/if}
+</div>

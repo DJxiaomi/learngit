@@ -1,0 +1,217 @@
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.lazyload.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.lazyload.img.js}"></script>
+<link href="{skin:css/product.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{rs:/scripts/swiper/swiper.min.css}">
+<script type='text/javascript' src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<script type='text/javascript' src="{theme:javascript/payfor.js}"></script>
+<script type="text/javascript">mui.init({swipeBack:true});var SITE_URL = '/';</script>
+<style>
+.shop-nav-bot a {width: 100%;}
+.auth_error {width: 100%;text-align: center;font-size:90%;background-color: #ff5500;color:#fff;}
+</style>
+
+<div class="mui-content teacher">
+    <div class="pro-header goodstab teacher_head">
+        <input type="hidden" name="id" value="" />
+        <a href="#basic" class="current">基本资料</a>
+        <a href="#comment">教学评价</a>
+    </div>
+    <div class="shop-nav-bot">
+        {if:$seller_info['is_authentication'] && $is_receive_booking}
+        <a href="javascript: void(0);" onclick="buy_now();" class="buy-btn" id="buyNowButton">立即约课</a>
+        {else:}
+          {if:!$is_receive_booking}
+            <div class="auth_error red">教师行程已满，暂不接受预定</div>
+          {else:}
+            <div class="auth_error red">该教师尚未通过实名认证</div>
+          {/if}
+        {/if}
+    </div>
+    <div class="swiper-container" style="display:none;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img width="100%" src="images/001.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img width="100%" src="images/001.jpg" />
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="mui-content-padded">
+        <h5>{$seller_info['true_name']}</h5>
+        <span>{echo:get_gender_title($seller_info['teacher_info']['sex'])}</span>
+        <div class="score">综合评分：
+          <?php
+            for($i = 0; $i < $seller_info['point']; $i++)
+            {
+              echo '<i class="icon-star"></i> ';
+            }
+          ?>
+        </div>
+        <div class="price">
+            ￥：<strong>{$seller_info['price']}</strong>元/小时
+        </div>
+        <ul class="prop">
+            <li>
+                <h6>讲课次数</h6>
+                <p>{$seller_info['lecture_nums']}<i>次</i></p>
+            </li>
+            <li>
+                <h6>成功受聘</h6>
+                <p>{$seller_info['hired_nums']}<i>次</i></p>
+            </li>
+            <li>
+                <h6>续聘次数</h6>
+                <p>{$seller_info['rehired_nums']}<i>次</i></p>
+            </li>
+            <li>
+                <h6>实际教龄</h6>
+                <p>{$seller_info['experience']}<i>年</i></p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="mui-content-padded">
+        <ul class="spec_list clearfix" id="spec_list_mao">
+            <li name="specCols">
+                {foreach:items=$seller_info['seller_tutor_list']}
+                <a href="javascript:void(0);" onclick="sele_spec(this);" value='{$item['id']}' price='{$item['price']}'>
+                    {echo:tutor_class::get_tutor_category_title($item)}
+                </a>
+                {/foreach}
+            </li>
+        </ul>
+        <p class="numberbox clearfix" style="display:none;">
+            <span>人数：</span>
+            <a class="reduce" onclick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)">
+                -</a>
+            <input type="text" name="qty_item_1" value="1" id="qty_item_1" onkeyup="setAmount.modify('#qty_item_1')" class="text">
+            <a class="add" onclick="setAmount.add('#qty_item_1')" href="javascript:void(0)">
+                +</a>
+            人
+        </p>
+        <p class="selected_spec"><span></span></p>
+    </div>
+    <div class="mui-content-padded teacher_zl"><a name="basic"></a>
+        <h3>基本资料</h3>
+        <p class="h_con">教学科目：{foreach:items=$seller_info['seller_tutor_list']} {echo:tutor_class::get_tutor_category_title($item)}{/foreach}</p>
+        {if:$seller_info['teacher_info']['graduate']}<p class="h_con">毕业院校：{$seller_info['teacher_info']['graduate']}</p>{/if}
+        {if:$seller_info['teacher_info']['major']}<p class="h_con">主修专业：  {$seller_info['teacher_info']['major']}</p>{/if}
+        {if:$seller_info['teaching_time']}<p class="h_con">授课时段：  {echo:tutor_class::get_teaching_time2_title($seller_info['teaching_time'])}</p>{/if}
+        {if:$seller_info['teaching_type']}<p class="h_con">授课方式：  {foreach:items=$seller_info['teaching_type'] key=$key}{if:!$key}{$teaching_type_arr[$item]}{else:} {$teaching_type_arr[$item]}{/if}{/foreach}</p>{/if}
+        {if:$seller_info['teacher_info']['teaching_direction']}<p class="h_con">教学特点：  {$seller_info['teacher_info']['teaching_direction']}</p>{/if}
+        <p class="h_con">对学生要求：{if:$seller_info['student_reqiures']}$seller_info['student_reqiures']}{else:}无{/if}</p>
+
+        <h3 class="pj">教学评价</h3><a name="comment"></a>
+        <ul class="comment_head">
+            <li class="on">全部（{echo:sizeof($seller_info['comment_info']['comment_list'])}）</li>
+            <li>好评（{$seller_info['comment_info']['perfect']}）</li>
+            <li>中评（{$seller_info['comment_info']['good']}）</li>
+            <li>差评（{$seller_info['comment_info']['bad']}）</li>
+        </ul>
+        <div class="comment">
+            <ul>
+                {foreach:items=$seller_info['comment_info']['comment_list']}
+                <li>
+                    <div class="pic"><img src="{if:$item['user_info']['head_ico']}{webroot:$item['user_info']['head_ico']}{else:}/views/default/skin/default/images/002.jpg{/if}" alt=""></div>
+                    <div class="comment_con">
+                        <p>补课课程：{echo:tutor_class::get_grade_level_title($item['tutor_info']['grade_level'])} / {$cates_arr[$item['tutor_info']['category_id']]}</p>
+                        <p>评价内容：{if:!$item['contents']}无{else:}{$item['contents']}{/if}</p>
+                        <em>{$item['comment_time']}</em>
+                    </div>
+                    <div class="cf"></div>
+                </li>
+                {/foreach}
+            </ul>
+            <ul style="display:none;">
+              {foreach:items=$seller_info['comment_info']['perfect_list']}
+              <li>
+                  <div class="pic"><img src="{if:$item['user_info']['head_ico']}{webroot:$item['user_info']['head_ico']}{else:}/views/default/skin/default/images/002.jpg{/if}" alt=""></div>
+                  <div class="comment_con">
+                      <p>补课课程：{echo:tutor_class::get_grade_level_title($item['tutor_info']['grade_level'])} / {$cates_arr[$item['tutor_info']['category_id']]}</p>
+                      <p>评价内容：{if:!$item['contents']}无{else:}{$item['contents']}{/if}</p>
+                      <em>{$item['comment_time']}</em>
+                  </div>
+                  <div class="cf"></div>
+              </li>
+              {/foreach}
+            </ul>
+            <ul style="display:none;">
+              {foreach:items=$seller_info['comment_info']['good_list']}
+              <li>
+                  <div class="pic"><img src="{if:$item['user_info']['head_ico']}{webroot:$item['user_info']['head_ico']}{else:}/views/default/skin/default/images/002.jpg{/if}" alt=""></div>
+                  <div class="comment_con">
+                      <p>补课课程：{echo:tutor_class::get_grade_level_title($item['tutor_info']['grade_level'])} / {$cates_arr[$item['tutor_info']['category_id']]}</p>
+                      <p>评价内容：{if:!$item['contents']}无{else:}{$item['contents']}{/if}</p>
+                      <em>{$item['comment_time']}</em>
+                  </div>
+                  <div class="cf"></div>
+              </li>
+              {/foreach}
+            </ul>
+            <ul style="display:none;">
+              {foreach:items=$seller_info['comment_info']['bad_list']}
+              <li>
+                  <div class="pic"><img src="{if:$item['user_info']['head_ico']}{webroot:$item['user_info']['head_ico']}{else:}/views/default/skin/default/images/002.jpg{/if}" alt=""></div>
+                  <div class="comment_con">
+                      <p>补课课程：{echo:tutor_class::get_grade_level_title($item['tutor_info']['grade_level'])} / {$cates_arr[$item['tutor_info']['category_id']]}</p>
+                      <p>评价内容：{if:!$item['contents']}无{else:}{$item['contents']}{/if}</p>
+                      <em>{$item['comment_time']}</em>
+                  </div>
+                  <div class="cf"></div>
+              </li>
+              {/foreach}
+            </ul>
+        </div>
+
+    </p>
+
+    <script type="text/javascript">
+        $(function(){
+            $('.comment_head').children('li').on('click',function(){
+                $(this).addClass('on').siblings('li').removeClass('on');
+//                alert($(this).index());
+                $('.comment').children('ul').eq($(this).index()).show().siblings('ul').hide();
+            })
+        })
+
+        var swiper = new Swiper('.swiper-container', {
+            loop : true,
+            autoHeight: true
+        });
+
+        function sele_spec(obj)
+        {
+          $(obj).parent().find('a').removeClass('current');
+          $(obj).addClass('current');
+          $('input[name=id]').val($(obj).attr('value'));
+          $('.price strong').html($(obj).attr('price'));
+        }
+
+        function buy_now()
+        {
+          var _id = $('input[name=id]').val();
+          if ( _id == '')
+          {
+            mui.alert('请选择科目', '提示信息');
+          } else {
+            location.href = '/simple/cart2/num/1/statement/4/seller_tutor_id/' + _id;
+          }
+        }
+    </script>
+
+
+</div>
+
+<script type="text/javascript">
+
+
+    (function($) {
+        $(document).imageLazyload({
+            placeholder: '/views/mobile/skin/blue/images/lazyload.jpg'
+        });
+    })(mui);
+</script>

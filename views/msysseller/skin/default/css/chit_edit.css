@@ -1,0 +1,23 @@
+html,body{height:100%;background-color:#fff;}
+.mui-content {background-color:#fff;}
+.mui-radio label {width:25%;float:left;}
+.mui-radio input[type=radio] {position:static;float:left;margin-top: 9px;}
+.mui-radio {padding-left: 10px;}
+.mui-radio.mui-left label {padding-left:8px;}
+.mui-btn-primary {width:90%;border-radius:5px;background:linear-gradient(to right,#ff9638,#ff4b2b);border:0px;letter-spacing: 20px;}
+.mui-required-right {width:10px;height:10px;color:#de4002;position:absolute;right:15px;top:5px;font-size:20px;}
+.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after {color:#de4002;right:30px;font-size:16px;font-weight:600;}
+::-webkit-input-placeholder { /* WebKit browsers */
+color: #a0a0a0;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+color: #a0a0a0;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+color: #a0a0a0;
+}
+.mui-btn-blue {border:0px;background:linear-gradient(to right,#ff9638,#ff4b2b);}
+.mui-input-group:after {height:0px;}
+.mui-input-row label {color:#2c2c2c;}
+.mui-input-group p {color:#2c2c2c;}
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {color:#de4002;}

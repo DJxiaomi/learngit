@@ -1,0 +1,64 @@
+{set: $this->title = '学校列表'; }
+{template:'/views/mobile/layouts/header.html'}
+<link rel="stylesheet" href="/views/mobile/skin/blue/css/index_new.css">
+    <style>
+		.showGoods a {
+			text-decoration: none;
+		}
+		.nothing {
+			width: auto;
+			margin: 0px auto;
+			font-size: 100%;
+			text-align: center;
+		}
+		.seller_image {
+			overflow: hidden;
+		}
+		.seller_image img {
+			max-width: 100%;
+		}
+		.brand_list {
+			margin-top: 0px;
+			margin-bottom: 60px;
+		}
+		</style>
+							{template:'/views/mobile/layouts/header2.html'}
+
+              <div class="ub ub-ver ub-fv">
+                {if:$list}
+                    <!--品牌列表-->
+                    <div class="brand_list">
+                        <div class="bd">
+                            <ul style="overflow: hidden;">
+                                {foreach:items=$list}
+                               <a href="{url:/site/seller/id/$item['id']}">
+                                <li>
+																	<img src="{webroot:$item[logo]}" onerror="this.src='/views/mobile/skin/blue/images/default_seller_200x200.png'"  />
+																	<p><b>机构：</b><c>{$item['true_name']}</c></p>
+																	{if:$item['category'] != ''}<p><b>分类：</b><c>{$item['category']}</c></p>{/if}
+                                	{if:$item['address']}<p><b>地址：</b><c>{$item['address']}</c></p>{/if}
+                                </li>
+                               </a>
+                                {/foreach}
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!--品牌列表-->
+                {else:}
+                	<div class="nothing">
+	                	<span>暂时没有任何学校</span>
+                    </div>
+                {/if}
+
+            </div>
+            {template:'/views/mobile/layouts/footer.html'}
+
+		<script language="javascript">
+		function update_image_width()
+		{
+			var _width = $('.brand_list .bd .shop_image').eq(0).width();
+			$('.brand_list .shop_image').css({'width':_width, 'height':_width});
+		}
+		update_image_width();
+		</script>

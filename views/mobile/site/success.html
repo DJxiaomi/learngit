@@ -1,0 +1,41 @@
+<?php $this->title = '提示'; ?>
+<?php $noback = true; ?>
+{template:'/views/mobile/layouts/header2.html'}{set: $is_seller = IFilter::act(IReq::get('is_seller'),'int')}
+<style>
+.caozuocgbox { font-size: 90%; margin-top: 30px; color:#666; }
+.caozuocgbox .notice { width:150px; margin: 20px auto; text-align: center; clear: both;}
+.caozuocgbox .notice .notice_str { margin-left: 18px; line-height: 35px; color:#f90; font-weight:600; font-size:1.2em;margin-top:10px;}
+.caozuocgbox .go_action { width: 80%; margin: 0px auto; clear: both; padding-top: 15px;text-align:center; color:#666;line-height:30px;}
+.caozuocgbox .go_action a { margin-top: 10px;background:#00A1EA;font-weight:400;color:#fff;height:35px;display:block;width:100%;line-height:35px; }
+</style>
+<div class="caozuocgbox">
+	<div class="caozuocg-box">
+		<div class="czbox">
+			<div class="czboxnr">
+						<div class="notice clearfix">
+                        	<div class="notice_icon">
+                            	<img src="{skin:images/right.png}" width="48px" height="51px" />
+                             </div>
+
+                             <div class="notice_str">
+                             	{echo:IReq::get('message') ? IFilter::act(IReq::get('message'),'text') : '操作成功！'}
+                             </div>
+                        </div>
+
+						<div class="go_action">
+							{set:$callback = IFilter::act(IReq::get('callback'),'text')}
+							{set:$callback_str = IFilter::act(IReq::get('callback_str'))}
+							{if:$callback}
+							<a class="blue" href="{url:$callback}">{if:$callback_str}{$callback_str}{else:}返回{/if}</a>
+							{/if}
+							<br/>
+							{set:$email = IFilter::act(IReq::get('email'))}
+							{if:$email}
+							<a class="blue" href="{url:/simple/send_check_mail/email/$email}" style="">重新发送验证邮件</a>
+							{/if}
+						</div>
+
+			</div>
+		</div>
+	</div>
+</div>
