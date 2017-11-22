@@ -14,16 +14,16 @@
       array (
       'host' => 'localhost:3306',
       'user' => 'root',
-      'passwd' => '6317284',
-      'name' => 'lelele999-139',
+      'passwd' => 'Yilijqrrlt520',
+      'name' => 'kangzhuo',
       ),
     ),
     'write' => 
     array (
       'host' => 'localhost:3306',
       'user' => 'root',
-      'passwd' => '6317284',
-      'name' => 'lelele999-139',
+      'passwd' => 'Yilijqrrlt520',
+      'name' => 'kangzhuo',
     ),
   ),
   'interceptor' => 

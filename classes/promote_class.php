@@ -141,7 +141,7 @@ class promote_class
     
         $user_db = new IQuery('user as u');
         $user_db->join = 'left join member as m on u.id = m.user_id';
-        $user_db->fields = 'm.user_id,u.username,m.time';
+        $user_db->fields = 'm.user_id,u.username,m.time,u.head_ico';
         $user_db->where = "promo_code = '$promo_code'";
         
         $user_db->order = 'u.id desc';

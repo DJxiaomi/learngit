@@ -1,0 +1,77 @@
+<?php
+
+$host = get_host();
+$seller_id = IFilter::act(IReq::get('id'),'int');
+$sellerRow = Api::run('getSellerInfo',$seller_id);
+$user_id = $this->user['user_id'];
+$member_info = array();
+$page = IFilter::act(IReq::get('page'),'int');
+$page = max($page, 1);
+$page_size = 9;
+$resultData = search_goods::get_special_seller_goods_list($seller_id, $page, $page_size);
+if ( $user_id )
+    $member_info = member_class::get_member_info($user_id);
+
+$page_info = $resultData['page_info'];
+if ( !$sellerRow['is_system_seller'] )
+{
+    header("location: " . IUrl::creatUrl('/school/home/id/' . $seller_id));
+    exit();
+}
+
+if(!$sellerRow)
+{
+    IError::show(403,'商户信息不存在');
+}
+
+$this->title = $sellerRow['true_name'];
+?>
+<link href="{skin:css/mlmm.css}" rel="stylesheet" type="text/css" />
+<div class="free_class_content">
+  <div class="free_class_hd">
+    <img src="{skin:images/mlmm_img_1.jpg}" />
+  </div>
+  <div class="free_class_bd">
+    <div class="free_class_search">
+      <input type="text" name="key" placeholder="请输入选手的名称/编号" /><input type="button" name="btn" value="搜索">
+    </div>
+    {if:$resultData['list']}
+    <ul>
+      {foreach:items=$resultData['list']}
+      <li>
+        <div class="class_image">
+          <a href="{url:/site/products3/id/$item['id']}"><img data-lazyload="{webroot:$item[img]}" /></a>
+        </div>
+        <div class="class_action">
+          <div class='t-left'>姓名：{$item['name']}</div>
+          <div class='t-right'>排名：{echo:discussion_class::get_vote_range($item['id'])}</div>
+        </div>
+        <div class="class_action">
+          <div class='t-left'>编号：{$item['sort']}</div>
+          <div class='t-right'>票数：{echo:discussion_class::get_vote_count($item['id'])}</div>
+        </div>
+      </li>
+      {/foreach}
+    </ul>
+
+    <div class="page_info">
+      {$page_info}
+    </div>
+    {/if}
+  </div>
+</div>
+
+<script language="javascript">
+Lx.common.lazyload();
+$(document).ready(function(){
+  $('.free_class_search input[name=btn]').click(function(){
+    var key = $("input[name=key]").val();
+    if ( key == '请输入选手的名称/编号' || key == '')
+    {
+      layer.alert('请输入选手的名称/编号');
+    } else {
+      window.location.href =  'http://{echo:get_host()}/school/search_mlmm/id/{$seller_id}/search_mlmm?key=' + key;
+    }
+  })
+})
+</script>

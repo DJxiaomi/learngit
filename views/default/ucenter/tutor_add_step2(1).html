@@ -1,0 +1,28 @@
+{js:artTemplate}
+{js:kindeditor}
+<link href="{skin:css/ucenter_article_add.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_tutor.css}" rel="stylesheet" type="text/css" />
+
+<div class="main f_r">
+    <div class="uc_title m_10">
+        <label class="current"><span>发布家教信息-签署合同</span></label>
+    </div>
+
+    <div class="box m_10">
+        <table class="list_table" width="100%" cellpadding="0" cellspacing="0">
+          <form name="form1" method="post" action="{url:/ucenter/tutor_add_step2_update}" enctype='multipart/form-data'>
+
+          <tr>
+            <td align="center">
+              <a href="{webroot:$tutor_info['contract_addr']}" target="_blank"><img src="{webroot:$tutor_info['contract_addr']}" width="700" /></a>
+              <input type="hidden" name="id" value="{$tutor_info['id']}" />
+              <br /><label class="btn"><input type="submit" value=" 同 意 "></label>
+            </td>
+          </tr>
+
+          </form>
+        </table>
+    </div>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/ucenter_article_add.js}"></script>

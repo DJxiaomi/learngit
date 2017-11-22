@@ -1,0 +1,59 @@
+<link href="{skin:css/ucenter_article_list.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+  var _del_url = "{url:/ucenter/tutor_del/id}";
+  var _auth_url = '{url:/ucenter/authentication/back/1}';
+  var _publish_url = '{url:/ucenter/tutor_publish/id/@id@}';
+  var _is_auth = {$is_auth};
+</script>
+
+<div class="main f_r">
+    <div class="main f_r">
+        <div class="new-box">
+            <div class="nt"><i class="icon-file"></i>我的家教<span><a href="{url:/ucenter/tutor_add}" class="blue">发布家教信息</a></span></div>
+
+            <table class="new-table">
+                <tr>
+                    <th></th>
+                    <th>性别</th>
+                    <th>年级</th>
+                    <th>分类</th>
+                    <th>现成绩</th>
+                    <th>基本报酬</th>
+                    <th>期望考分</th>
+                    <th>状态</th>
+                    <th>发布日期</th>
+                    <th>操作</th>
+                </tr>
+                {if:$tutor_list}
+                  {foreach:items = $tutor_list}
+                  <tr>
+                      <td></td>
+                      <td>{echo: get_gender_title($item['gender'])}</td>
+                      <td>{echo:category_class::get_category_title($item['grade_level'])}</td>
+                      <td>{echo:category_class::get_category_title($item['grade'])}</td>
+                      <td>{$item['lastest_scores']}</td>
+                      <td>{$item['lowest_reward']}</td>
+					  <td>{$item['expected_scores']}</td>
+                      <td>{echo:tutor_class::get_tutor_status_title($item['status'], $item['is_publish'])}</td>
+                      <td>{echo:date('Y-m-d',$item['create_time'])}</td>
+                      <td>
+                        <a href="{url:/ucenter/tutor_add/id/$item[id]}" title="修改"><img class="operator" src="/views/sysdefault/skin/default/images/admin/icon_edit.gif" alt="修改"></a>
+                        &nbsp; <a href="javascript:void(0);" _id="{$item[id]}" class="del_btn" title="删除"><img class="operator" src="/views/sysdefault/skin/default/images/admin/icon_del.gif" alt="删除"></a>
+                        {if:$item['contract_addr']}<a href="{webroot:$item['contract_addr']}" target="_blank">查看合同</a>{/if}
+                      </td>
+                  </tr>
+                  {/foreach}
+                  <tfoot><tr><td colspan="10" class="t_l">{$page_info}</td></tr></tfoot>
+                {else:}
+                <tr>
+                  <td colspan="10">
+                    暂时没有任何信息
+                  </td>
+                </tr>
+                {/if}
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/ucenter_tutor_list.js}"></script>

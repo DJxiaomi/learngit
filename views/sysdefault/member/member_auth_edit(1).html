@@ -1,0 +1,62 @@
+{js:kindeditor}
+{js:artTemplate}
+{js:areaSelect}
+<style>
+input[type=radio], label {cursor: pointer}
+</style>
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>会员管理</span><span>></span><span>编辑会员身份认证</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/member_auth_save}" method="post" name="memberForm">
+			<input name="user_id" value="" type="hidden" />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tbody>
+					<tr>
+						<th>用户名：</th>
+						<td>{$member_info['username']}</td>
+					</tr>
+					<tr>
+						<th>真实姓名：</th>
+						<td>{$member_info['true_name']}</td>
+					</tr>
+					<tr>
+						<th>电话号码：</th>
+            <td>{$member_info['mobile']}</td>
+					</tr>
+					<tr>
+						<th>身份证号：</th>
+            <td>{$member_info['id_card']}</td>
+					</tr>
+					<tr>
+						<th>联系地址：</th>
+						<td>{$member_info['contact_addr']}</td>
+					</tr>
+					<tr>
+						<th>身份证正面：</th>
+						<td><a href="{webroot:$member_info['upphoto']}" target="_blank"><img src="{webroot:$member_info['upphoto']}" width="200"/></a></td>
+					</tr>
+          <tr>
+						<th>身份证反面：</th>
+						<td><a href="{webroot:$member_info['downphoto']}" target="_blank"><img src="{webroot:$member_info['downphoto']}" width="200"/></a></td>
+					</tr>
+					<tr>
+						<th>实名认证：</th>
+						<td>
+              <input type="hidden" name="user_id" value="{$member_info['user_id']}" />
+              <input type="radio" name="is_auth" value="1" id="is_auth_2" checked /><label for="is_auth_2">通过</label>
+              &nbsp; &nbsp;<input type="radio" name="is_auth" value="0" id="is_auth_1"/><label for="is_auth_1">拒绝</label>
+
+						</td>
+					</tr>
+					<tr>
+						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>

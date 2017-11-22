@@ -1,0 +1,96 @@
+{set: $title = '评价列表';}
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_evaluation.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _page_count = {$page_count};
+var _curr_page = {$page};
+var _page_size = {$page_size};
+var _loading = false;
+var _ajax_data_url = '{url:/ucenter/get_isevaluation_ajax}';
+</script>
+
+<div class="evaluationbox w-bg clearfix">
+  <div class="mui-tab">
+    <ul>
+      <li><a href="{url:/ucenter/evaluation}">未评价</a></li>
+      <li class="active">已评价</li>
+    </ul>
+  </div>
+	{foreach:items = $result_list}
+
+  <!-- <div class="mui-card">
+      <div class="mui-card-content">
+          <div class="mui-card-content-inner">
+              {if:$item['order_info']['statement'] != 4}
+              <p class="ordbigbt"><span>课程：</span><a class="goodsty orange" href="{url:/site/products/id/$item[goods_id]}" target='_block'>{$item['name']}</a></p>
+              {else:}
+              <p class="ordbigbt"><span>课程：</span>{$item['name']}</p>
+              {/if}
+              <p class="ordbigbt"><span>订单编号：</span>{$item['order_no']}</p>
+              <p class="ordbigbt"><span>购买时间：</span>{$item['time']}</p>
+              <p class="ordbigbt"><span>评分：</span>{$item['point']}</p>
+              <p class="ordbigbt"><span>评价：</span>{$item['contents']}</p>
+          </div>
+      </div>
+    </div> -->
+
+    <div class="mui-card">
+        <div class="mui-card-header">
+          <div class='t-left'>{$item['seller_info']['shortname']} > </div>
+          <div class='t-right'>{$item['status_str']}</div>
+        </div>
+        <div class="mui-card-content">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-media">
+                    <a href="{url:/ucenter/order_detail/id/$item[id]}">
+                        <img class="mui-media-object mui-pull-left" src="{if:$item['statement'] != 2}{url:/pic/thumb/img/$item['goods_list'][0][img]/w/80/h/80}{else:}/views/default/skin/default/images/xuexiquan.jpg{/if}">
+                        <div class="mui-media-body">
+                            <p>{$item['name']} {if:$item['statement'] == 3}(定金){/if}</p>
+                            <p><span>课程属性：</span>{$item['goods']['value']}</p>
+                            <p class='price'>
+                              <span class='t-left'>{$item['goods_list'][0]['market_price']}</span>
+                              <span class='t-right'>x {$item['goods_list'][0]['goods_nums']}</span>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="mui-media-info">
+              共{echo:sizeof($item['goods_list'])}件商品 合计：<span class='price'>&yen;{echo:number_format($item['goods_list'][0]['market_price'] * $item['goods_list'][0]['goods_nums'], 2, '.', '');}</span>
+            </div>
+        </div>
+        <div class="mui-card-footers">
+            <a href="{url:/site/comments/id/$item[id]}">评价</a>
+        </div>
+    </div>
+  {/foreach}
+  <div class="fengex"></div>
+  {if:!$result_list}
+    <div class="nothing">
+      没有相关信息
+    </div>
+  {/if}
+</div>
+
+<div id="cc"></div>
+</body>
+
+<script language="javascript">
+var loadi;
+$(window).scroll(function(){
+	var a = $(window).scrollTop();
+	var load_position = $('#cc').offset().top;
+	if( a + $(window).height() > load_position -10 && _loading == false && _curr_page < _page_count )
+	{
+		_loading = true;
+		$('#cc').html("<img src='/views/mobile/skin/new/images/loading2.gif'>&nbsp; 努力加载中...");
+		_curr_page = _curr_page + 1;
+		$.get( _ajax_data_url, {page: _curr_page}, function( result ){
+			$('.evaluationbox').append( result );
+			$('#cc').html('');
+			_loading = false;
+		});
+	}
+});
+</script>

@@ -1,0 +1,55 @@
+<link href="{skin:css/chit.css}" rel="stylesheet" type="text/css" />
+<div class="main f_r">
+
+  <div class="new-box">
+        <div class="nt" style="padding: 10px 0;">学习券购买</div>
+        <table class="new-order-table">
+            <colgroup>
+              <col class="num-col">
+              <col class="student-col">
+              <col class="amount-col">
+              <col class="amount-col">
+              <col class="amount-col">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>学习券</th>
+                    <th>类型</th>
+                    <th>结束时间</th>
+                    <th>限购</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            {foreach:items = $this->chit_list}
+            <tbody>
+              <tr class="tr-td">
+                <td>
+                  <div class="q">
+                    <div style="position:absolute;top:0;left:10px;">
+                      <div class="qhd" style="font-size: 22px;">&yen;{$item['max_order_chit']}</div>
+                      <div class="qbd">券&yen;{$item['max_price']}抵扣</div>
+                    </div>
+                  </div>
+
+                  <div class="i">
+                    <div class="hd">{$item['seller_info']['shortname']}</div>
+                    <div class="bd">{$item['limitinfo']}</div>
+                  </div>
+                </td>
+                <td>{if:$item['type'] == 1}通用券{else:}赠送券{/if}</td>
+                <td>{echo:date('Y-m-d', $item['limittime'])}结束</td>
+                <td>{$item['limitnum']}</td>
+                <td>
+                  {if:isset($item['pid'])}
+                    <a href="{url:/simple/cart2/id/$item['pid']/num/1/type/product/statement/2/stime/1/dprice/$item['max_price']}">立即购买</a>
+                  {else:}
+                    <a href="{url:/site/chit_show/id/$item['id']}">查看详情</a>
+                  {/if}
+                </td>
+                </tr>
+            </tbody>
+            {/foreach}
+            <tfoot><tr><td colspan="11" class="t_l">{$page_info}</td></tr></tfoot>
+        </table>
+    </div>
+</div>

@@ -308,7 +308,7 @@ class Block extends IController
 
             Order_Class::setBatch($orderRow['order_no'],$M_OrderNO);
 
-            header("Location: http://dsanke.com/plugins/payments/pay_wx/pay_wx.php?type=order&trade_no=".$orderRow['order_no']."&real_amount=".(100*$M_Amount));
+            header("Location: http://".$_SERVER['HTTP_HOST']."/plugins/payments/pay_wx/pay_wx.php?type=order&trade_no=".$orderRow['order_no']."&real_amount=".(100*$M_Amount));
 
             exit;
 
@@ -354,7 +354,7 @@ class Block extends IController
 
             $rechargeObj->add();
 
-            header("Location: http://dsanke.com/plugins/payments/pay_wx/pay_wx.php?type=recharge&trade_no=".$reData['recharge_no']."&real_amount=".(100*$reData['account']));
+            header("Location: http://".$_SERVER['HTTP_HOST']."/plugins/payments/pay_wx/pay_wx.php?type=recharge&trade_no=".$reData['recharge_no']."&real_amount=".(100*$reData['account']));
 
             exit;
 
@@ -400,7 +400,7 @@ class Block extends IController
 
             $saleObj->add();
 
-            header("Location: http://dsanke.com/plugins/payments/pay_wx/pay_wx.php?type=sale&trade_no=".$reData['sale_no']."&real_amount=".(100*$reData['account']));
+            header("Location: http://".$_SERVER['HTTP_HOST']."/plugins/payments/pay_wx/pay_wx.php?type=sale&trade_no=".$reData['sale_no']."&real_amount=".(100*$reData['account']));
 
             exit;
 
@@ -466,7 +466,7 @@ class Block extends IController
 
             Order_Class::setBatch($orderRow['order_no'],$M_OrderNO);
 
-            header("Location: http://www.dsanke.com/simple/pay_wx?type=order&trade_no=".$orderRow['order_no']."&real_amount=".(100*$M_Amount));
+            header("Location: http://".$_SERVER['HTTP_HOST']."/simple/pay_wx?type=order&trade_no=".$orderRow['order_no']."&real_amount=".(100*$M_Amount));
 
             exit;
 
@@ -512,7 +512,7 @@ class Block extends IController
 
             $rechargeObj->add();
 
-            header("Location: http://dsanke.com/simple/pay_wx/?type=recharge&trade_no=".$reData['recharge_no']."&real_amount=".(100*$reData['account']));
+            header("Location: http://".$_SERVER['HTTP_HOST']."/simple/pay_wx/?type=recharge&trade_no=".$reData['recharge_no']."&real_amount=".(100*$reData['account']));
 
             exit;
 
@@ -558,7 +558,7 @@ class Block extends IController
 
             $saleObj->add();
 
-            header("Location: http://dsanke.com/simple/pay_wx?type=sale&trade_no=".$reData['sale_no']."&real_amount=".(100*$reData['account']));
+            header("Location: http://".$_SERVER['HTTP_HOST']."/simple/pay_wx?type=sale&trade_no=".$reData['sale_no']."&real_amount=".(100*$reData['account']));
 
             exit;
 
@@ -652,11 +652,11 @@ class Block extends IController
 							IError::show(403,'订单修改失败');
 						}
 					}
-					
+
 					// 读取订单销售的商品
 					$order_goods_list = Order_goods_class::get_order_goods_list($order_id);
 					$order_goods_list = current($order_goods_list);
-					
+
 					// 如果用户刚刚购买完学习通后，跳转到手册激活页面
 					if ( $order_goods_list['goods_id'] == 1980 )
 					{
@@ -664,10 +664,10 @@ class Block extends IController
 					} else {
 					    $this->redirect('/site/success/message/'.urlencode("支付成功").'/?callback=/ucenter/order');
 					}
-					
+
 					return;
 				//}
-				
+
 // 				echo 'orderNo:' . $orderNo . '<br />';
 // 				echo 'money:' . $money . '<br />';
 // 				echo 'sum_order:' . array_sum($moreOrder) . '<br>';
@@ -1022,31 +1022,31 @@ class Block extends IController
 		}
 		$this->redirect('ticket');
     }
-    
+
     //微信API接口地址
-    
+
     public function wechat()
     {
         $result = wechat_facade::response();
     }
-    
+
     // app 专用支付功能
     public function doPay_alipay_app()
     {
         header('Access-Control-Allow-Origin: *');
         header('Content-type: text/plain');
-    
+
         //获得相关参数
         $order_id   = IReq::get('order_id');
         if ( !$order_id )
         {
             die('-1');
         }
-    
+
         $order_arr = explode("_",$order_id);
         $order_id = current($order_arr);
         $order_info = order_class::get_order_info($order_id);
-    
+
         if ( !$order_info )
         {
             die('-2');
@@ -1064,23 +1064,23 @@ class Block extends IController
         } else {
             die('-4');
         }
-    
+
         // 获取支付金额
         $amount=$order_info['order_amount'];
         $total = floatval($amount);
         if(!$total){
             $total = 1;
         }
-    
+
         include dirname(__FILE__) . "/../plugins/payments/pay_wap_alipay/config.php";
         // 支付宝合作者身份ID，以2088开头的16位纯数字
         $partner = $partner;
         // 支付宝账号
         $seller_id = $seller_email;
         // 商品网址
-        $base_path = urlencode('http://www.dsanke.com/');
+        $base_path = urlencode("http://".$_SERVER['HTTP_HOST']."/");
         // 异步通知地址
-        $notify_url = urlencode('http://www.dsanke.com/block/alipay_app_callback/_id/' . $order_info['pay_type']);
+        $notify_url = urlencode("http://".$_SERVER['HTTP_HOST']."/block/alipay_app_callback/_id/" . $order_info['pay_type']);
         // 订单标题
         $subject = $goods_info['name'];
         // 订单详情
@@ -1101,249 +1101,249 @@ class Block extends IController
             'notify_url'     => $notify_url,                // 可选，服务器异步通知页面路径
             'show_url'       => $base_path                  // 可选，商品展示网站
         );
-    
+
         //生成需要签名的订单
         $orderInfo = $this->createLinkstring($parameter);
         //签名
         $sign = $this->rsaSign($orderInfo);
-    
+
         //生成订单
         echo $orderInfo.'&sign="'.$sign.'"&sign_type="RSA"';
     }
-    
+
     /**
-    
+
     * @brief 【重要】支付回调[同步]
-    
+
     */
-    
+
     public function wxcallback()
-    
+
     {
-    
+
         include dirname(__FILE__) . "/../plugins/payments/pay_wxpc/WxPayPubHelper"."/WxPayPubHelper.php";
-    
+
         $notify = new Notify_pub();
-    
-    
-    
+
+
+
         //存储微信的回调
-    
+
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-    
+
         $notify->saveData($xml);
-    
+
         if($notify->checkSign() == FALSE){
-    
+
             $notify->setReturnParameter("return_code","FAIL");//返回状态码
-    
+
             $notify->setReturnParameter("return_msg","签名失败");//返回信息
-    
+
         }else{
-    
+
             $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
-    
+
         }
-    
-    
-    
+
+
+
         if($notify->checkSign() == TRUE)
-    
+
         {
-    
+
             if ($notify->data["return_code"] == "SUCCESS")
-    
+
             {
-    
+
                 $orderNo = $notify->data["out_trade_no"];
-    
-    
-    
+
+
+
                 //充值方式
-    
+
                 if(stripos($orderNo,'recharge') !== false)
-    
+
                 {
-    
+
                     $tradenoArray = explode('recharge',$orderNo);
-    
+
                     $recharge_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
-    
+
                     $rechargeObj = new IModel('online_recharge');
-    
+
                     $rechargeRow = $rechargeObj->getObj('recharge_no = "'.$recharge_no.'"');
-    
+
                     if($rechargeRow['status'] != 1)
-    
+
                     {
-    
+
                         if(payment::updateRecharge($recharge_no))
-    
+
                         {
-    
+
                             $this->redirect('/site/success/message/'.urlencode("充值成功").'/?callback=/ucenter/account_log');
-    
+
                             exit;
-    
+
                         }
-    
+
                         IError::show(403,'充值失败');
-    
+
                     }
-    
-    
-    
+
+
+
                 }
-    
+
                 else if(stripos($orderNo,'fanli') !== false){
-    
+
                     $tradenoArray = explode('fanli',$orderNo);
-    
+
                     $fanli_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
-    
+
                     $fanliObj = new IModel('fanli_chongzhi');
-    
+
                     $fanliRow = $fanliObj->getObj('fanli_no = "'.$fanli_no.'"');
-    
-    
-    
+
+
+
                     if($fanliRow['status'] != 1)
-    
+
                     {
-    
+
                         if(Lexiangshenghuo::updateFanli_chongzhi($fanli_no))
-    
+
                         {
-    
+
                             $this->redirect('/seller/fanli_list');
-    
+
                             exit;
-    
+
                         }
-    
+
                         IError::show(403,'充值失败');
-    
+
                     }
-    
-    
-    
-    
-    
+
+
+
+
+
                 }
-    
+
                 else if(stripos($orderNo,'sale') !== false){
-    
+
                     $tradenoArray = explode('sale',$orderNo);
-    
+
                     $sale_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
-    
+
                     $saleObj = new IModel('sale_chongzhi');
-    
+
                     $fanliRow = $saleObj->getObj('sale_no = "'.$sale_no.'"');
-    
-    
-    
+
+
+
                     if($fanliRow['status'] != 1)
-    
+
                     {
-    
+
                         if(Lexiangshenghuo::updateSale_chongzhi($sale_no))
-    
+
                         {
-    
+
                             $this->redirect('/seller/sale_balance');
-    
+
                             exit;
-    
+
                         }
-    
+
                         IError::show(403,'充值失败');
-    
+
                     }
-    
-    
-    
+
+
+
                 }
-    
+
                 else if(stripos($orderNo,'tf') !== false){
-    
+
                     $transferModel  = new IModel('transfer');
-    
+
                     $transferRow = $transferModel->getObj('transfersn = "'.$orderNo.'"');
-    
+
                     if($transferRow['ispay'] != 1)
-    
+
                     {
-    
+
                         $transferModel  = new IModel('transfer');
-    
+
                         $transferModel->setData(array('ispay' => 1));
-    
+
                         $transferModel->update('transfersn = "'.$orderNo.'"');
-    
+
                         $this->redirect('/ucenter/order_transfer_list');
-    
+
                     }
-    
+
                 }
-    
+
                 else if(stripos($orderNo,'tbf') !== false){
-    
+
                     $transferorderModel  = new IModel('transfer_order');
-    
+
                     $transferRow = $transferorderModel->getObj('ordersn = "'.$orderNo.'"');
-    
+
                     if($transferRow['state'] != 1)
-    
+
                     {
-    
+
                         $transferorderModel  = new IModel('transfer_order');
-    
+
                         $transferorderModel->setData(array('state' => 1, 'paytime' => time()));
-    
+
                         $transferorderModel->update('ordersn = "'.$orderNo.'"');
-    
+
                         $this->redirect('/ucenter/buytransfer');
-    
+
                     }
-    
-    
-    
+
+
+
                 }else{
-    
+
                     $orderModel  = new IModel('order');
-    
+
                     $orderRow = $orderModel->getObj('order_no = "'.$orderNo.'"');
-    
+
                     if($orderRow['pay_status'] != 1)
-    
+
                     {
-    
+
                         //订单批量结算缓存机制
-    
+
                         $moreOrder = Order_Class::getBatch($orderNo);
-    
+
                         foreach($moreOrder as $key => $item)
-    
+
                         {
-    
+
                             $order_id = Order_Class::updateOrderStatus($orderNo);
-    
+
                             if(!$order_id)
-    
+
                             {
-    
+
                                 IError::show(403,'订单修改失败');
-    
+
                             }
-    
+
                         }
-    
-    
+
+
                         // 读取订单销售的商品
                         $order_goods_list = Order_goods_class::get_order_goods_list($orderRow['id']);
                         $order_goods_list = current($order_goods_list);
-                        
+
                         // 如果用户刚刚购买完学习通后，跳转到手册激活页面
                         if ( $order_goods_list['goods_id'] == 1980 )
                         {
@@ -1351,26 +1351,26 @@ class Block extends IController
                         } else {
                             $this->redirect('/site/success/message/'.urlencode("支付成功").'/?callback=/ucenter/order');
                         }
-    
+
                     }
-    
-    
-    
+
+
+
                 }
-    
+
             }
-    
+
         }
-    
+
         else
-    
+
         {
-    
+
             $message = $message ? $message : '支付失败';
-    
+
             IError::show(403,$message);
-    
+
         }
-    
+
     }
 }

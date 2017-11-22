@@ -1,0 +1,122 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_order.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _type = {$type};
+var _page_count = {$page_count};
+var _curr_page = {$page};
+var _page_size = {$page_size};
+var _loading = false;
+var _ajax_data_url = '{url:/ucenter/get_order_list_ajax}';
+</script>
+<h5 class="mui-content-padded"></h5>
+
+<div class="mui-tab">
+  <ul>
+    <li {if:$type == 1}class="active"{/if}><a href="{url:/ucenter/order/type/1}">已付款</a></li>
+    <li {if:$type == 2}class="active"{/if}><a href="{url:/ucenter/order/type/2}">待付款</a></li>
+    <li {if:$type == 3}class="active"{/if}><a href="{url:/ucenter/order/type/3}">已完成</a></li>
+    <li {if:$type == 4}class="active"{/if}><a href="{url:/ucenter/order/type/4}">已取消</a></li>
+  </ul>
+</div>
+{if:$order_list}
+<div class="content">
+  {foreach:items = $order_list}
+  <div class="mui-card">
+      <div class="mui-card-header">
+        <div class='t-left'>{$item['seller_info']['shortname']} > </div>
+        <div class='t-right'>{$item['status_str']}</div>
+      </div>
+      <div class="mui-card-content">
+          <ul class="mui-table-view">
+              {if:$item['statement'] == 1}
+              <li class="mui-table-view-cell mui-media">
+                  <a href="{url:/ucenter/order_detail/id/$item[id]}">
+                      <img class="mui-media-object mui-pull-left" src="{if:$item['statement'] != 2}{url:/pic/thumb/img/$item['goods'][img]/w/80/h/80}{else:}/views/default/skin/default/images/xuexiquan.jpg{/if}">
+                      <div class="mui-media-body">
+                          <p>{$item['goods']['name']} {if:$item['statement'] == 3}(定金){/if}</p>
+                          <p><span>课程属性：</span>{$item['goods']['value']}</p>
+                          <p class='price'>
+                            <span class='t-left'>{$item['goods']['goods_price']}</span>
+                            <span class='t-right'>x {$item['goods']['goods_nums']}</span>
+                          </p>
+                      </div>
+                  </a>
+              </li>
+              {elseif: $item['statement'] == 2}
+              {foreach:items=$item['brand_chit_list'] item=$it}
+              <li class="mui-table-view-cell mui-media">
+                  <a href="{url:/site/chit1_detail/id/$it[seller_id]}">
+                      <img class="mui-media-object mui-pull-left" src="{webroot:$it['logo']}">
+                      <div class="mui-media-body">
+                          <p>{$it['name']}</p>
+                          <p>{$it['use_times']}课时</p>
+                          <p class='price'>
+                            <span class='t-left'>&yen;{if:sizeof($item['brand_chit_list']) > 1}{$it['tc_price']}{else:}{$it['max_price']}{/if}</span>
+                            <span class='t-right'>x 1</span>
+                          </p>
+                      </div>
+                  </a>
+              </li>
+              {/foreach}
+              {elseif: $item['statement'] == 4}
+              <li class="mui-table-view-cell mui-media">
+                  <a href="{url:/ucenter/order_detail/id/$item[id]}">
+                      <img class="mui-media-object mui-pull-left" src="{if:$item['statement'] != 2}{url:/pic/thumb/img/$item['goods'][img]/w/80/h/80}{else:}/views/default/skin/default/images/xuexiquan.jpg{/if}">
+                      <div class="mui-media-body">
+                          <p>{$item['goods']['name']}</p>
+                          <p class='price'>
+                            <span class='t-left'>{$item['goods']['goods_price']}</span>
+                            <span class='t-right'>x {$item['goods']['goods_nums']}</span>
+                          </p>
+                      </div>
+                  </a>
+              </li>
+              {/if}
+          </ul>
+          <div class="mui-media-info">
+            {if:$item['statement'] == 1}共1件商品{elseif:$item['statement'] == 2}共{echo:sizeof($item['brand_chit_list'])}个{if:$item['zuhe_id'] > 0 }短期课{else:}代金券{/if}{/if} 合计：<span class='price'>&yen;{echo:$item['order_amount']}</span>
+          </div>
+      </div>
+      <div class="mui-card-footers">
+          <a href="{url:/ucenter/order_detail/id/$item[id]}">查看详情</a>
+          {if:$item['order_status_t'] == 2}
+            <a href="javascript:void(0);" onclick="javascript:window.location.href = '{url:/block/doPay/order_id/$item[id]}'">付款</a>
+          {/if}
+
+          {if:$item['order_status_t'] == 13}
+              <a href="{url:/ucenter/order_confirm/order_id/$item[id]}">{if:$item['statement'] == 4}确认聘用{else:}确认报到{/if}</a>
+          {/if}
+      </div>
+  </div>
+  {/foreach}
+  <div id="cc"></div>
+</div>
+{else:}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            没有订单，<a href="{url:/site/index}">去看看</a>
+        </div>
+    </div>
+</div>
+{/if}
+
+<script language="javascript">
+var loadi;
+$(window).scroll(function(){
+	var a = $(window).scrollTop();
+	var load_position = $('#cc').offset().top;
+	if( a + $(window).height() > load_position -10 && _loading == false && _curr_page < _page_count )
+	{
+		_loading = true;
+		//$('#cc').html("<img src='/views/mobile/skin/new/images/loading2.gif'>&nbsp; 努力加载中...");
+		_curr_page = _curr_page + 1;
+		$.get( _ajax_data_url, {page: _curr_page}, function( result ){
+			$('.content').append( result );
+			$('#cc').html('');
+			_loading = false;
+		});
+	}
+});
+</script>

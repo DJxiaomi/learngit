@@ -1,0 +1,19 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+{set:$this->title = '收藏夹';}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_favorite.css}" rel="stylesheet" type="text/css" />
+
+<script language="javascript">
+var _del_url = '{url:/ucenter/favorite_del_ajax}';
+var isrefesh = false;
+</script>
+
+<input type="hidden" id="pagenum" value="1">
+<div class="mui-scroll-wrapper list" id="favorite_list">
+	<div class="mui-scroll">
+	    <ul class="mui-table-view">
+	    </ul>
+	</div>
+</div>
+
+<script type="text/javascript" src="{theme:javascript/ucenter_favorite.js}"></script>

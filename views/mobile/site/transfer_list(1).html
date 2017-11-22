@@ -1,0 +1,19 @@
+<link href="{skin:css/prolist.css}" rel="stylesheet" type="text/css" />
+<div class="list">
+	<ul class="mui-table-view">
+		{foreach:items=$transfer_list}
+	    <li class="mui-table-view-cell mui-media">
+	    	<a href="{url:/site/transfer_show/id/$item['id']}">
+	    		<img class="mui-media-object mui-pull-left" src="{if:$item['transferpic']}{url:/pic/thumb/img/$item['transferpic']}{else:}{url:/pic/thumb/img/$item['goods']['img']}{/if}">
+	    		<div class="mui-media-body">
+	    			{if:$item['transfername']}{$item['transfername']}{else:}转让-{$item['goods']['name']}{/if}
+	    			<div class="goodsprice">总课时：{$item['totaltime']}</div>
+	    			<div class="goodsprice">剩余课时：{$item['minustime']}</div>
+	    			<div class="goodsprice">原价：￥{if:$item['sellerprice']}{$item['sellerprice']}{else:}{$item['goods']['sell_price']}{/if}</div>
+	    			<div class="goodsprice">费用：￥{$item['transprice']}</div>
+	    		</div>
+	    	</a>
+	    </li>
+	    {/foreach}
+	</ul>
+</div>

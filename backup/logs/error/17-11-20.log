@@ -1,0 +1,3275 @@
+<ERROR_BLOCK>
+errorInfo: Undefined index: iweb_my_city_code
+errorFile: IWEB_PATH/classes/city.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 00:51:47
+#0 IWEB_PATH/controllers/site.php(215): city::get_my_city_code()
+#1 : Site->pro_list()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pro_list)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: isctrl
+errorFile: IWEB_PATH/runtime/views/mobile/site/pro_list.php
+errorLine: 32
+errorCode: 8
+errorTime: 2017-11-20 00:51:47
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/pro_list.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/pro_list.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/pro_list,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/pro_list)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(285): IController->redirect(pro_list)
+#6 : Site->pro_list()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pro_list)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 04:09:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 17
+errorCode: 8
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 19
+errorCode: 8
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: word
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 120
+errorCode: 8
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: brand_cate_list
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 248
+errorCode: 8
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Invalid argument supplied for foreach()
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 248
+errorCode: 2
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: id
+errorFile: IWEB_PATH/runtime/views/default/simple/seller.php
+errorLine: 557
+errorCode: 8
+errorTime: 2017-11-20 07:04:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/seller.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/seller.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/seller,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/seller)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IViewAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(seller)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 17
+errorCode: 8
+errorTime: 2017-11-20 07:31:28
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 07:31:28
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 19
+errorCode: 8
+errorTime: 2017-11-20 07:31:28
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: word
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 120
+errorCode: 8
+errorTime: 2017-11-20 07:31:28
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: id
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 439
+errorCode: 8
+errorTime: 2017-11-20 07:31:28
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: id
+errorFile: IWEB_PATH/controllers/school.php
+errorLine: 316
+errorCode: 8
+errorTime: 2017-11-20 08:01:19
+#0 : School->home()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(home)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 08:38:14
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 09:21:56
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:21:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:21:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:21:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:21:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:21:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: brand_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 770
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: max_price
+errorFile: IWEB_PATH/classes/order_class.php
+errorLine: 2114
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 IWEB_PATH/controllers/site.php(781): Order_Class::get_goods_promote(2092)
+#1 : Site->products()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: brand_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 897
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: brand_info
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 901
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: brand_info
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 944
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined offset: 0
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 973
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:22:00
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:22:01
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 09:22:07
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:22:07
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:22:07
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:22:07
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:22:07
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:22:07
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: isctrl
+errorFile: IWEB_PATH/runtime/views/mobile/simple/login.php
+errorLine: 32
+errorCode: 8
+errorTime: 2017-11-20 09:22:19
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: message
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/withdraw.php
+errorLine: 111
+errorCode: 8
+errorTime: 2017-11-20 09:22:32
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/withdraw.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/withdraw.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/withdraw,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/withdraw)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(698): IController->redirect(withdraw)
+#6 : Ucenter->withdraw()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(withdraw)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: isctrl
+errorFile: IWEB_PATH/runtime/views/mobile/simple/login.php
+errorLine: 32
+errorCode: 8
+errorTime: 2017-11-20 09:22:43
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 09:22:54
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:22:54
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:22:54
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:22:54
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:22:54
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:22:54
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: is_set_trade_passwd
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 159
+errorCode: 8
+errorTime: 2017-11-20 09:22:55
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: is_set_trade_passwd
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 159
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:22:57
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: is_set_trade_passwd
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 202
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 : Ucenter->order_detail()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: chit_info
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 202
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 : Ucenter->order_detail()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: isctrl
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php
+errorLine: 32
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order_detail,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order_detail)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(205): IController->redirect(order_detail)
+#6 : Ucenter->order_detail()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php
+errorLine: 84
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order_detail,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order_detail)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(205): IController->redirect(order_detail)
+#6 : Ucenter->order_detail()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant order_id - assumed 'order_id'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php
+errorLine: 109
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order_detail,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order_detail)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(205): IController->redirect(order_detail)
+#6 : Ucenter->order_detail()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant goods_id - assumed 'goods_id'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php
+errorLine: 168
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order_detail,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order_detail)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(205): IController->redirect(order_detail)
+#6 : Ucenter->order_detail()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant id - assumed 'id'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php
+errorLine: 172
+errorCode: 8
+errorTime: 2017-11-20 09:22:59
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order_detail.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order_detail,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order_detail)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(205): IController->redirect(order_detail)
+#6 : Ucenter->order_detail()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order_detail)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 17
+errorCode: 8
+errorTime: 2017-11-20 09:23:05
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 09:23:05
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 19
+errorCode: 8
+errorTime: 2017-11-20 09:23:05
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: word
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 120
+errorCode: 8
+errorTime: 2017-11-20 09:23:05
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: id
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 439
+errorCode: 8
+errorTime: 2017-11-20 09:23:05
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: is_refer
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 144
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: is_set_trade_passwd
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 159
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant img - assumed 'img'
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/order.php
+errorLine: 80
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/order.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/order,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/order)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(165): IController->redirect(order)
+#6 : Ucenter->order()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 17
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 19
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: word
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 120
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: id
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 439
+errorCode: 8
+errorTime: 2017-11-20 09:23:06
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: is_set_trade_passwd
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 159
+errorCode: 8
+errorTime: 2017-11-20 09:23:07
+#0 : Ucenter->order()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(order)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 09:23:08
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:23:08
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 09:23:16
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:16
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:23:16
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:16
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:23:16
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:16
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 09:23:18
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:23:18
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 09:23:20
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:20
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:23:20
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:20
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:23:20
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:20
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(index)
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 09:23:22
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 09:23:22
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 09:23:27
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:27
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:23:27
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:27
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 09:23:27
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 09:23:27
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: provinceval
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/info.php
+errorLine: 60
+errorCode: 8
+errorTime: 2017-11-20 09:23:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/info,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/info)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(623): IController->redirect(info)
+#6 : Ucenter->info()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(info)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: cityval
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/info.php
+errorLine: 61
+errorCode: 8
+errorTime: 2017-11-20 09:23:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/info,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/info)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(623): IController->redirect(info)
+#6 : Ucenter->info()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(info)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: discrictval
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/info.php
+errorLine: 62
+errorCode: 8
+errorTime: 2017-11-20 09:23:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/info,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/info)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(623): IController->redirect(info)
+#6 : Ucenter->info()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(info)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: areas
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/info.php
+errorLine: 63
+errorCode: 8
+errorTime: 2017-11-20 09:23:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/info,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/info)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(623): IController->redirect(info)
+#6 : Ucenter->info()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(info)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: areas
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/info.php
+errorLine: 64
+errorCode: 8
+errorTime: 2017-11-20 09:23:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/info,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/info)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(623): IController->redirect(info)
+#6 : Ucenter->info()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(info)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: areas
+errorFile: IWEB_PATH/runtime/views/mobile/ucenter/info.php
+errorLine: 65
+errorCode: 8
+errorTime: 2017-11-20 09:23:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/ucenter/info.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/ucenter/info,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/ucenter/info)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/ucenter.php(623): IController->redirect(info)
+#6 : Ucenter->info()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(info)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: iweb_my_city_code
+errorFile: IWEB_PATH/classes/city.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 10:25:19
+#0 IWEB_PATH/controllers/site.php(215): city::get_my_city_code()
+#1 : Site->pro_list()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pro_list)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: isctrl
+errorFile: IWEB_PATH/runtime/views/mobile/site/pro_list.php
+errorLine: 32
+errorCode: 8
+errorTime: 2017-11-20 10:25:19
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/pro_list.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/pro_list.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/pro_list,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/pro_list)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(285): IController->redirect(pro_list)
+#6 : Site->pro_list()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pro_list)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/find_password.php
+errorLine: 17
+errorCode: 8
+errorTime: 2017-11-20 11:21:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/find_password,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/find_password)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(2162): IController->redirect(find_password)
+#6 : Simple->find_password()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(find_password)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/find_password.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 11:21:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/find_password,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/find_password)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(2162): IController->redirect(find_password)
+#6 : Simple->find_password()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(find_password)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/find_password.php
+errorLine: 19
+errorCode: 8
+errorTime: 2017-11-20 11:21:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/find_password,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/find_password)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(2162): IController->redirect(find_password)
+#6 : Simple->find_password()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(find_password)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: word
+errorFile: IWEB_PATH/runtime/views/default/simple/find_password.php
+errorLine: 120
+errorCode: 8
+errorTime: 2017-11-20 11:21:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/find_password,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/find_password)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(2162): IController->redirect(find_password)
+#6 : Simple->find_password()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(find_password)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: id
+errorFile: IWEB_PATH/runtime/views/default/simple/find_password.php
+errorLine: 485
+errorCode: 8
+errorTime: 2017-11-20 11:21:29
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/find_password.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/find_password,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/find_password)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(2162): IController->redirect(find_password)
+#6 : Simple->find_password()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(find_password)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 11:34:46
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 12:46:00
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 12:51:42
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 13:47:15
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 16:21:25
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 16:21:25
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 16:21:25
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 16:21:25
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 16:21:29
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 16:21:29
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 16:21:29
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 16:21:29
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 16:21:29
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 16:21:29
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 16:21:39
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 16:21:39
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: isctrl
+errorFile: IWEB_PATH/runtime/views/mobile/simple/login.php
+errorLine: 32
+errorCode: 8
+errorTime: 2017-11-20 16:21:43
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/controllers/ucenter.php
+errorLine: 29
+errorCode: 8192
+errorTime: 2017-11-20 16:21:54
+#0 : Ucenter->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 16:21:54
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 16:21:54
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 16:21:54
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,1)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::get_member_balance() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 37
+errorCode: 8192
+errorTime: 2017-11-20 16:21:54
+#0 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#1 : Ucenter->index()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Non-static method Member_class::check_user_exists() should not be called statically, assuming $this from incompatible context
+errorFile: IWEB_PATH/classes/member_class.php
+errorLine: 22
+errorCode: 8192
+errorTime: 2017-11-20 16:21:54
+#0 IWEB_PATH/classes/member_class.php(37): Member_class->get_member_balance(2,2)
+#1 IWEB_PATH/controllers/ucenter.php(29): Member_class->get_member_balance(2)
+#2 : Ucenter->index()
+#3 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#4 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#5 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#6 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#7 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: user_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 69
+errorCode: 8
+errorTime: 2017-11-20 16:21:56
+#0 : Site->index()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: i
+errorFile: IWEB_PATH/runtime/views/mobile/site/index.php
+errorLine: 42
+errorCode: 8
+errorTime: 2017-11-20 16:21:56
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/site/index.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/site/index.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/site/index,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/site/index)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/site.php(82): IController->redirect(index)
+#6 : Site->index()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run()
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: brand_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 770
+errorCode: 8
+errorTime: 2017-11-20 16:21:58
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: max_price
+errorFile: IWEB_PATH/classes/order_class.php
+errorLine: 2114
+errorCode: 8
+errorTime: 2017-11-20 16:21:58
+#0 IWEB_PATH/controllers/site.php(781): Order_Class::get_goods_promote(2093)
+#1 : Site->products()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: brand_id
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 897
+errorCode: 8
+errorTime: 2017-11-20 16:21:58
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: brand_info
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 901
+errorCode: 8
+errorTime: 2017-11-20 16:21:58
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: brand_info
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 944
+errorCode: 8
+errorTime: 2017-11-20 16:21:58
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined offset: 0
+errorFile: IWEB_PATH/controllers/site.php
+errorLine: 973
+errorCode: 8
+errorTime: 2017-11-20 16:21:58
+#0 : Site->products()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(products)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: spec
+errorFile: IWEB_PATH/runtime/views/mobile/simple/cart2.php
+errorLine: 85
+errorCode: 8
+errorTime: 2017-11-20 16:22:02
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/mobile/simple/cart2.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/mobile/simple/cart2.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/mobile/simple/cart2,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/mobile/simple/cart2)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(610): IController->redirect(cart2)
+#6 : Simple->cart2()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(cart2)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: openid
+errorFile: IWEB_PATH/controllers/simple.php
+errorLine: 2190
+errorCode: 8
+errorTime: 2017-11-20 16:22:09
+#0 : Simple->pay_wx()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Use of undefined constant CURLOP_TIMEOUT - assumed 'CURLOP_TIMEOUT'
+errorFile: IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php
+errorLine: 155
+errorCode: 8
+errorTime: 2017-11-20 16:22:10
+#0 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(282): Common_util_pub->postXmlCurl(<xml><openid><![CDATA[odoE41eVBAisQLERI_U3BjAsrdHg]]></openid><body><![CDATA[第三课]]></body><out_trade_no>20171120162207104764</out_trade_no><total_fee>198000</total_fee><notify_url><![CDATA[http://www.dsanke.com/block/wxcallback]]></notify_url><trade_type><![CDATA[JSAPI]]></trade_type><appid><![CDATA[wx8abf4e0a55305daf]]></appid><mch_id>	1490059042</mch_id><spbill_create_ip><![CDATA[112.97.59.235]]></spbill_create_ip><nonce_str><![CDATA[857a86dxykhy96pnrhbd8f3qstsn01wq]]></nonce_str><sign><![CDATA[66D23698D606DFDC1FFC79EA60EE248D]]></sign></xml>,https://api.mch.weixin.qq.com/pay/unifiedorder,30)
+#1 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(361): Wxpay_client_pub->postXml()
+#2 IWEB_PATH/controllers/simple.php(2199): UnifiedOrder_pub->getPrepayId()
+#3 : Simple->pay_wx()
+#4 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#5 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#6 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#7 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#8 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: curl_setopt() expects parameter 2 to be long, string given
+errorFile: IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php
+errorLine: 155
+errorCode: 2
+errorTime: 2017-11-20 16:22:10
+#0 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(155): curl_setopt(CURLOP_TIMEOUT,30)
+#1 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(282): Common_util_pub->postXmlCurl(<xml><openid><![CDATA[odoE41eVBAisQLERI_U3BjAsrdHg]]></openid><body><![CDATA[第三课]]></body><out_trade_no>20171120162207104764</out_trade_no><total_fee>198000</total_fee><notify_url><![CDATA[http://www.dsanke.com/block/wxcallback]]></notify_url><trade_type><![CDATA[JSAPI]]></trade_type><appid><![CDATA[wx8abf4e0a55305daf]]></appid><mch_id>	1490059042</mch_id><spbill_create_ip><![CDATA[112.97.59.235]]></spbill_create_ip><nonce_str><![CDATA[857a86dxykhy96pnrhbd8f3qstsn01wq]]></nonce_str><sign><![CDATA[66D23698D606DFDC1FFC79EA60EE248D]]></sign></xml>,https://api.mch.weixin.qq.com/pay/unifiedorder,30)
+#2 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(361): Wxpay_client_pub->postXml()
+#3 IWEB_PATH/controllers/simple.php(2199): UnifiedOrder_pub->getPrepayId()
+#4 : Simple->pay_wx()
+#5 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#6 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#7 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#8 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#9 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: curl_close(): 47 is not a valid cURL handle resource
+errorFile: IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php
+errorLine: 175
+errorCode: 2
+errorTime: 2017-11-20 16:22:10
+#0 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(175): curl_close()
+#1 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(282): Common_util_pub->postXmlCurl(<xml><openid><![CDATA[odoE41eVBAisQLERI_U3BjAsrdHg]]></openid><body><![CDATA[第三课]]></body><out_trade_no>20171120162207104764</out_trade_no><total_fee>198000</total_fee><notify_url><![CDATA[http://www.dsanke.com/block/wxcallback]]></notify_url><trade_type><![CDATA[JSAPI]]></trade_type><appid><![CDATA[wx8abf4e0a55305daf]]></appid><mch_id>	1490059042</mch_id><spbill_create_ip><![CDATA[112.97.59.235]]></spbill_create_ip><nonce_str><![CDATA[857a86dxykhy96pnrhbd8f3qstsn01wq]]></nonce_str><sign><![CDATA[66D23698D606DFDC1FFC79EA60EE248D]]></sign></xml>,https://api.mch.weixin.qq.com/pay/unifiedorder,30)
+#2 IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php(361): Wxpay_client_pub->postXml()
+#3 IWEB_PATH/controllers/simple.php(2199): UnifiedOrder_pub->getPrepayId()
+#4 : Simple->pay_wx()
+#5 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#6 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#7 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#8 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#9 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined index: prepay_id
+errorFile: IWEB_PATH/plugins/payments/pay_wxpc/WxPayPubHelper/WxPayPubHelper.php
+errorLine: 363
+errorCode: 8
+errorTime: 2017-11-20 16:22:10
+#0 IWEB_PATH/controllers/simple.php(2199): UnifiedOrder_pub->getPrepayId()
+#1 : Simple->pay_wx()
+#2 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#3 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#4 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#5 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#6 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: openid
+errorFile: IWEB_PATH/controllers/simple.php
+errorLine: 2190
+errorCode: 8
+errorTime: 2017-11-20 16:22:18
+#0 : Simple->pay_wx()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: openid
+errorFile: IWEB_PATH/controllers/simple.php
+errorLine: 2190
+errorCode: 8
+errorTime: 2017-11-20 16:23:15
+#0 : Simple->pay_wx()
+#1 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#2 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#3 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(pay_wx)
+#4 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#5 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 17
+errorCode: 8
+errorTime: 2017-11-20 16:59:23
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 18
+errorCode: 8
+errorTime: 2017-11-20 16:59:23
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: seo_data
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 19
+errorCode: 8
+errorTime: 2017-11-20 16:59:23
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: word
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 120
+errorCode: 8
+errorTime: 2017-11-20 16:59:23
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+
+<ERROR_BLOCK>
+errorInfo: Undefined variable: id
+errorFile: IWEB_PATH/runtime/views/default/simple/login.php
+errorLine: 439
+errorCode: 8
+errorTime: 2017-11-20 16:59:23
+#0 IWEB_PATH/lib/web/controller/controllerbase_class.php(116): require(IWEB_PATH/runtime/views/default/simple/login.php)
+#1 IWEB_PATH/lib/web/controller/controllerbase_class.php(82): IControllerBase->requireFile(IWEB_PATH/runtime/views/default/simple/login.php)
+#2 IWEB_PATH/lib/web/controller/controller_class.php(167): IControllerBase->renderView(IWEB_PATH/views/default/simple/login,)
+#3 IWEB_PATH/lib/web/action/view_action.php(32): IController->render(IWEB_PATH/views/default/simple/login)
+#4 IWEB_PATH/lib/web/controller/controller_class.php(374): IViewAction->run()
+#5 IWEB_PATH/controllers/simple.php(44): IController->redirect(login)
+#6 : Simple->login()
+#7 IWEB_PATH/lib/web/action/inline_action.php(24): call_user_func()
+#8 IWEB_PATH/lib/web/controller/controller_class.php(115): IInlineAction->run()
+#9 IWEB_PATH/lib/core/webapplication_class.php(75): IController->run(login)
+#10 IWEB_PATH/lib/core/application_class.php(94): IWebApplication->execRequest()
+#11 IWEB_PATH/index.php(5): IApplication->run()
+</ERROR_BLOCK>
+

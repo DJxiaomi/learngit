@@ -1,0 +1,47 @@
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-share-alt"></i>我的转让<span><a href="{url:/ucenter/order_transfer}" class="blue">发布转让</a></span></div>
+
+        <div class="menu">
+          <ul>
+            <li class="active"><a href="{url:/ucenter/order_transfer_list}"><i class="icon-user"></i>我的转让</a></li>
+            <li><a href="{url:/ucenter/buytransfer}"><i class="icon-user"></i>我的转让订单</a></li>
+          </ul>
+        </div>
+        <table class="new-table">
+            <tr>
+                <th>课程标题</th>
+                <th>商家</th>
+                <th>转让价格</th>
+                <th>创建时间</th>
+                <th>手续费</th>
+                <!-- <th>支付方式</th>
+                <th>支付状态</th> -->
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            {foreach:items = $transfer_list}
+            <tr>
+                <td>
+                    {if:$item['goods_id']}
+                    <a href="{url:/site/products/id/$item[goods_id]}" class="blue" target="_blank">{$item['goods_name']}</a>
+                    {else:}
+                    {$item['transfername']}
+                    {/if}
+                </td>
+                <td><a href="{url:/site/seller/id/$item['seller_id']}" class="blue" target="_blank">{$item['true_name']}</a></td>
+                <td>￥{$item['transprice']}</td>
+                <td>{$item['addtime']}</td>
+                <td>￥{$item['commission']}</td>
+                <!-- <td><b class="orange">{$item['paytype']}</b></td>
+                <td><b class="orange">{if:$item['ispay'] == 1}已支付{else:}未支付<br /><a href="{url:/block/tdoPay/order_id/$item[id]}" class="blue">去支付</a>{/if}</b></td> -->
+                <td><b class="orange">{if:$item['state'] == 1}转让成功{else:}转让中{/if}</b></td>
+                <td>{if:$item['state'] == 1}已完成，不能编辑{else:}<a class="blue" href="{url:/ucenter/order_transfer_edit/id/$item[id]}">编辑{/if}</a>
+                </td>
+            </tr>
+            {/foreach}
+            <tfoot><tr><td colspan="9" class="t_l">{$page_info}</td></tr></tfoot>
+        </table>
+    </div>
+</div>

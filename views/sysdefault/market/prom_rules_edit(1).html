@@ -1,0 +1,98 @@
+{js:my97date}
+
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>推广设置</span><span>></span><span>{if:isset($this->promotionRow['id'])}编辑{else:}添加{/if}提成规则</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/market/prom_rules_edit_act}" method="post" name='pro_rule_edit' >
+			<input type='hidden' name='id' />
+			<table class="form_table" name="rule_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>推广人级别：</th>
+					<td>
+						<select name="level" pattern='required' alt='请填写推广人级别' >
+							<option value="">请选择推广人级别</option>
+							<option value="1" {if:$prom_rules_info['level'] == 1}selected{/if}>1</option>
+							<option value="2" {if:$prom_rules_info['level'] == 2}selected{/if}>2</option>
+							<option value="3" {if:$prom_rules_info['level'] == 3}selected{/if}>3</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>提成方式：</th>
+					<td>
+						<label class='attr'><input type='radio' name='promo_type' value='1' checked=checked />按比例提成</label>
+						<label class='attr'><input type='radio' name='promo_type' value='2' {if:$prom_rules_info['promo_type'] == 2}checked=checked{/if} />按固定金额提成</label>
+						(按比例提成：课程销售额 * 折扣比例 * 提成比例)
+					</td>
+				</tr>
+				<tr>
+					<th>总提成：</th>
+					<td>
+						<input type="text" class="normal small" name="promo_value" pattern='float' empty alt='请填写提成' value="{$prom_rules_info['promo_value']}" /><span class="unit">%</span>
+						<input type="hidden" name="id" value="{$id}" />
+					</td>
+				</tr>
+				<tr>
+					<th>用户推广人提成：</th>
+					<td>
+						<input type="text" class="normal small" name="user_value" pattern='float' empty alt='请填写提成' value="{$prom_rules_info['user_value']}" />%
+					</td>
+				</tr>
+				<tr>
+					<th>商户推广人提成：</th>
+					<td>
+						<input type="text" class="normal small" name="seller_value" pattern='float' empty alt='请填写提成' value="{$prom_rules_info['seller_value']}" />%
+					</td>
+				</tr>
+				<tr>
+					<th>订单推广人提成：</th>
+					<td>
+						<input type="text" class="normal small" name="order_value" pattern='float' empty alt='请填写提成' value="{$prom_rules_info['order_value']}" />%
+					</td>
+				</tr>
+			</table>
+
+			<button class="submit" type='button' onclick="check_form()"><span>确 定</span></button>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+	$(document).ready(function(){
+		$("input[name=promo_type]").click(function(){
+			var _val = $(this).val();
+			if (_val == '1')
+			{
+				$('.unit').html('%');
+			}
+			else
+			{
+				$('.unit').html('元');
+			}
+		})
+
+		{if:$prom_rules_info['promo_type'] == 2}
+			$('.proportion_type_view').hide();
+			$('.unit').html('元');
+		{/if}
+	})
+
+	function check_form()
+	{
+		var _user_value = $("input[name=user_value]").val();
+		var _seller_value = $("input[name=seller_value]").val();
+		var _order_value = $("input[name=order_value]").val();
+
+		if ( parseFloat(_user_value) + parseFloat(_seller_value) + parseFloat(_order_value) > 100 )
+		{
+			alert('提成比例总额度大于100');
+			return false;
+		} else {
+			$("form[name=pro_rule_edit]").submit();
+		}
+	}
+</script>

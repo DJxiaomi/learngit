@@ -1,7 +1,7 @@
 <?php
 class jssdk {
-  private static $appId = 'wx72fc7befef40f55a';
-  private static $appSecret = '8446dfd26a915aa506567d436ac9db52';
+  private static $appId = 'wx8abf4e0a55305daf';
+  private static $appSecret = '567e2efd51a3aff5e99c7e59c2206824';
 
   public static function getSignPackage() {
     $jsapiTicket = self::getJsApiTicket();

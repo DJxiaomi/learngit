@@ -1,0 +1,122 @@
+{set:
+    $title = '订单详情';
+    if ($this->order_info['statement'] != 2 )
+      $callback = IUrl::creatUrl('/ucenter/order');
+    else
+      $callback = IUrl::creatUrl('/ucenter/redpacket');
+}
+
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_order_detail.css}" rel="stylesheet" type="text/css" />
+<div class="mui-card student_info">
+    <div class="mui-card-content">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell"><span>学员姓名：</span>{$this->order_info['accept_name']}</li>
+            <li class="mui-table-view-cell"><span>联系电话：</span>{$this->order_info['mobile']}</li>
+            <!-- <li class="mui-table-view-cell"><span>验证码：</span><b class="green">{$goods_list[0]['verification_code']}</b></li> -->
+        </ul>
+    </div>
+</div>
+<div class="mui-card">
+    <div class="mui-card-header">
+      <div class='t-left'>{$seller_info['shortname']}</div>
+      <div class='t-right'>{echo:Order_Class::orderStatusText($orderStatus)}</div>
+    </div>
+    <div class="mui-card-content">
+        <ul class="mui-table-view">
+            {foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$this->order_info['order_id'])) item=$good}
+            {set:$good_info = JSON::decode($good['goods_array'])}
+            {set:$i++;}
+            <li class="mui-table-view-cell mui-media">
+                <a href="{if:$this->order_info['statement'] == 1}{url:/site/products/id/$good['goods_id']}{else:}javascript:void(0);{/if}">
+                    <img class="mui-media-object mui-pull-left" src="{url:/pic/thumb/img/$good[img]/w/80/h/80}">
+                    <div class="mui-media-body">
+                        <p>{$good_info['name']}</p>
+                        <p class='price'>
+                          <span class='t-left'>￥{$good['goods_price']}</span>
+                          <span class='t-right'>x {$good['goods_nums']}</span>
+                        </p>
+                    </div>
+                </a>
+            </li>
+            {/foreach}
+
+            <div class="mui-media-info">
+              共{$i}件商品 合计：<span class='price'>￥{echo:$good['goods_nums']*$good['real_price']}</span>
+            </div>
+
+            <div class="mui-input-group">
+                <div class="mui-button-row">
+                    {if:in_array($orderStatus,array(1,2))}
+                    <a href="javascript:void(0);" class="mui-btn mui-btn-primary cancel">取消订单</a>
+                    {/if}
+                    {if:$orderStatus == 2}
+                      <a href="javascript:void(0);"  class="mui-btn mui-btn-danger" onclick="javascript:window.location.href = '{url:/block/doPay/order_id/$this->order_info[order_id]}'">立即付款</a>
+                    {/if}
+
+                    {if:Order_Class::isRefundmentApply($this->order_info) && $this->order_info['statement'] == 1}
+                      <a href="{url:/ucenter/refunds_edit/order_id/$this->order_info['order_id']}" class="mui-btn mui-btn-primary">申请退款</a>
+                    {/if}
+
+                    {if:$this->order_info['status'] == 2}
+                      <a href="{url:/ucenter/order_confirm_qrcode/order_id/$this->order_info['order_id']}" class="mui-btn mui-btn-primary">采集核销</a>
+                    {/if}
+
+                    {if:in_array($orderStatus,array(11,3))}
+                      <a href="{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/confirm}" class="mui-btn mui-btn-primary">确认报到</a>
+                    {/if}
+                </div>
+            </div>
+
+        </ul>
+    </div>
+</div>
+
+<div class="mui-card order_log">
+    <div class="mui-card-content">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell"><span>订单编号</span>：{$this->order_info['order_no']}</li>
+            {set:$orderStep = Order_Class::orderStep($this->order_info)}
+            {foreach:items=$orderStep item=$stepData key=$eventTime}
+            <li class="mui-table-view-cell"><span>{$eventTime}</span>{$stepData}</li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+
+<script language="javascript">
+var _order_id = {$order_id};
+$(document).ready(function(){
+    $('.cancel').click(function(){
+        mui.confirm('你确认要关闭此订单吗？', '取消订单', ['取消', '确定'], function(e){
+            if(e.index == 1){
+                var _post_url = '{url:/ucenter/order_status_ajax}';
+                Lx.common.loading();
+                mui.post( _post_url, {order_id: _order_id, op: 'cancel'}, function(data){
+                    if ( data == '1'){
+                        window.location.reload();
+                    }
+                })
+            }else{
+                Lx.common.loadingClose();
+            }
+        });
+    });
+
+    $('.brand_chit_confirm').click(function(){
+        mui.confirm('请选择要代金券的使用场景？', '使用代金券', ['线下使用', '线上使用'], function(e){
+            if(e.index == 1){
+                console.log('线上使用');
+                {if:$chit_info['product_id']}
+                  location.href = '<?php echo IUrl::creatUrl("/simple/cart2n/num/1/type/product/id/" . $chit_info[product_id]); ?>';
+                {else:}
+                  location.href = '<?php echo IUrl::creatUrl("/simple/cart2n/num/1/type/goods/id/" . $chit_info[goods_id]); ?>';
+                {/if}
+            }else{
+                console.log('线下使用');
+                location.href = '<?php echo IUrl::creatUrl("/ucenter/redpacket_detail/id/" . $chit_info[id] . "/order_id/" . $order_id); ?>';
+            }
+        });
+    });
+})
+</script>

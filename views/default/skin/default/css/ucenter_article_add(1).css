@@ -1,0 +1,19 @@
+.ucenter .uc_title {
+  margin-bottom: 0px;
+}
+.wrapper .box {
+  margin-top: 10px;
+}
+.list_table {
+  text-align: left;
+}
+.list_table .tt {
+  text-align: center;
+}
+textarea {
+  width: 600px;
+  height: 400px;
+}
+input.normal {
+  width: 350px;
+}

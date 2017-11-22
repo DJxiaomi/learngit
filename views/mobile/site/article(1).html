@@ -1,0 +1,40 @@
+<link href="{skin:css/prolist.css}" rel="stylesheet" type="text/css" />
+<div class="pro-tab">
+	{foreach:items=$category_list}
+	<a href="{url:/site/article/cid/$item['id']}" {if:$cid == $item['id']}class="active"{/if}>{$item['name']}</a>
+	{/foreach}
+</div>
+<ul class="mui-table-view">
+	{foreach:items=$article_list}
+	{if:$item['thumb']}
+	<li class="mui-table-view-cell mui-media">
+		{if:$item['category_id'] == 7}
+		<a href="{url:/site/article_detail2/id/$item['id']}">
+		{else:}
+		<a href="{url:/site/article_detail/id/$item['id']}">
+		{/if}
+			<img class="mui-media-object mui-pull-left" src="{webroot:$item['thumb']}" />
+			<div class="mui-media-body">
+				{$item['title']}
+				<p><span class="blue">{if:$item['username']}{$item['username']}{else:}乐享生活{/if}</span>
+				<span>{$item['views']}浏览</span>
+				<span>{echo: date('m-d H:i', strtotime( $item['create_time']));}</span></p>
+			</div>
+		</a>
+	</li>
+	{else:}
+	<li class="mui-table-view-cell">
+		{if:$item['category_id'] == 7}
+		<a href="{url:/site/article_detail2/id/$item['id']}">
+		{else:}
+		<a href="{url:/site/article_detail/id/$item['id']}">
+		{/if}
+			{$item['title']}
+			<p><span class="blue">{if:$item['username']}{$item['username']}{else:}乐享生活{/if}</span>
+				<span>{$item['views']}浏览</span>
+				<span>{echo: date('m-d H:i', strtotime( $item['create_time']));}</span></p>
+		</a>
+	</li>
+	{/if}
+	{/foreach}
+</ul>

@@ -1,0 +1,222 @@
+<link href="{skin:css/tutor.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/views/default/javascript/result.js"></script>
+
+<div class="w main_cont">
+
+
+
+    <div class="card_cont">
+
+
+    <div class="teacher-detail-header">
+  <div class="w">
+    <div class="avatar-box">
+      <div class="head"><img src="{if:$seller_info['logo'] != ''}{webroot:$seller_info['logo']}{else:}{echo:get_default_icon($seller_info['teacher_info']['sex'])}{/if}"></div>
+    </div>
+    <div class="user-info-box">
+      <div class="info">
+        <span class="user-name">{$seller_info['true_name']}</span>
+        <span>{echo:get_gender_title($seller_info['teacher_info']['sex'])}</span>
+        <span class="city-area-name">
+          综合评分：
+          <?php
+            for($i = 0; $i < $seller_info['point']; $i++)
+            {
+              echo '<i class="icon-star"></i>';
+            }
+          ?>
+
+        </span>
+        <span class="user-view">
+          <span>{$seller_info['views']}</span>人看过
+        </span>
+        {if:$seller_info['is_authentication']}
+        <span class="user-rz">
+          <i class="icon-user"></i> 身份认证
+        </span>
+        {/if}
+
+      </div>
+
+      <ul>
+        <li>
+          <div class="name">讲课次数</div>
+          <div class="value">
+            <p>{$seller_info['lecture_nums']}</p>
+            <span>次</span>
+          </div>
+        </li>
+        <li>
+          <div class="name">成功受聘</div>
+          <div class="value">
+            <p>{$seller_info['hired_nums']}</p>
+            <span>次</span>
+          </div>
+        </li>
+        <li>
+          <div class="name">续聘次数</div>
+          <div class="value">
+            <p>{$seller_info['rehired_nums']}</p>
+            <span>次</span>
+          </div>
+        </li>
+        <li>
+          <div class="name">实际教龄</div>
+          <div class="value">
+            <p>{$seller_info['experience']}</p>
+            <span>年</span>
+          </div>
+        </li>
+        <li>
+          <div class="name">评价总数</div>
+          <div class="value">
+            <p>{echo:sizeof($seller_info['comment_info']['comment_list'])}</p>
+            <span>条</span>
+          </div>
+        </li>
+        <li class="no-border">
+          <div class="name">好评率</div>
+          <div class="value">{if:!$seller_info['comment_info']['comment_list']}100%{else:}{echo:$seller_info['comment_info']['perfect'] / sizeof($seller_info['comment_info']['comment_list']) * 100}%{/if}</div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+    <div class="card-body">
+      <div>
+          <h2>基本资料</h2>
+          <p>教学科目：
+            {foreach:items=$seller_info['seller_tutor_list']}
+            <span>{echo:tutor_class::get_tutor_category_title($item)}</span>
+            {/foreach}
+          </p>
+          {if:$seller_info['teacher_info']['graduate']}<p>毕业院校：<span>{$seller_info['teacher_info']['graduate']}</span></p>{/if}
+          {if:$seller_info['teacher_info']['major']}<p>主修专业：<span>{$seller_info['teacher_info']['major']}</span></p>{/if}
+          {if:$seller_info['teaching_time']}<p>授课时段：<span>{echo:tutor_class::get_teaching_time2_title($seller_info['teaching_time'])}</span></p>{/if}
+          {if:$seller_info['teaching_type']}<p>授课方式：<span>{foreach:items=$seller_info['teaching_type'] key=$key}{if:!$key}{$teaching_type_arr[$item]}{else:} {$teaching_type_arr[$item]}{/if}{/foreach}</span></p>{/if}
+          {if:$seller_info['teacher_info']['teaching_direction']}<p>教学特点：<span>{$seller_info['teacher_info']['teaching_direction']}</span></p>{/if}
+          <p>对学生要求：<span>{if:$seller_info['student_reqiures']}$seller_info['student_reqiures']}{else:}无{/if}</span></p>
+      </div>
+
+    </div>
+    <div class="section teacher-credit">
+      <div class="card-body">
+        <h2 class="pj">教学评价</h2>
+        <div class="score-box">
+          <div class="score-total">
+            <p><span class="avg-score">{$seller_info['point']}</span> 分</p>
+            <p>
+              <?php
+                for($i = 0; $i < $seller_info['point']; $i++)
+                {
+                  echo '<i class="icon-star"></i> ';
+                }
+              ?>
+            </p>
+            <p> 共<span class="comment-count">{echo:sizeof($seller_info['comment_info']['comment_list'])}</span>条评价 </p>
+          </div>
+
+          <div class="score-val">
+            <p><span class="score">好评</span><span class="score-rate-box"><span class="rate-val" style="width:{if:!$seller_info['comment_info']['comment_list']}100%{else:}{echo:$seller_info['comment_info']['perfect'] / sizeof($seller_info['comment_info']['comment_list']) * 100}%{/if}"></span></span><span class="score-num">{$seller_info['comment_info']['perfect']}条</span></p>
+            <p><span class="score">中评</span><span class="score-rate-box"><span class="rate-val" style="width:{if:!$seller_info['comment_info']['good'] || !$seller_info['comment_info']['comment_list']}0{else:}{echo:$seller_info['comment_info']['good'] / sizeof($seller_info['comment_info']['comment_list']) * 100}{/if}%"></span></span><span class="score-num">{$seller_info['comment_info']['good']}条</span></p>
+            <p><span class="score">差评</span><span class="score-rate-box"><span class="rate-val" style="width:{if:!$seller_info['comment_info']['bad'] || !$seller_info['comment_info']['comment_list']}0{else:}{echo:$seller_info['comment_info']['bad'] / sizeof($seller_info['comment_info']['comment_list']) * 100}%{/if}"></span></span><span class="score-num">{$seller_info['comment_info']['bad']}条</span></p>
+          </div>
+        </div>
+      </div>
+      <a name="coments"></a>
+      <div class="rate">
+        <div class="rate_tab">
+          <div class="tab">
+            <a judge="" {if:!$type}class="on"{/if} href="{url:/site/tutor_info/id/$seller_info['id']}#coments">全部({echo:sizeof($seller_info['comment_info']['comment_list'])})</a>
+            <a judge="3" {if:$type == 1}class="on"{/if} href="{url:/site/tutor_info/id/$seller_info['id']/type/1}#coments">好评({$seller_info['comment_info']['perfect']})</a>
+            <a judge="2" {if:$type == 2}class="on"{/if} href="{url:/site/tutor_info/id/$seller_info['id']/type/2}#coments">中评({$seller_info['comment_info']['good']})</a>
+            <a judge="1" {if:$type == 3}class="on"{/if} href="{url:/site/tutor_info/id/$seller_info['id']/type/3}#coments">差评({$seller_info['comment_info']['bad']})</a>
+          </div>
+          </div>
+      </div>
+      <a name="teacher-credit"></a>
+      <div class="comment-list">
+        <ul>
+          {foreach:items=$comment_list}
+          <li>
+            <div class="head-img">
+              <p><img src="{if:$item['user_info']['head_ico']}{webroot:$item['user_info']['head_ico']}{else:}/views/default/skin/default/images/002.jpg{/if}" /></p>
+              <p>{$item['user_info']['username']}</p>
+            </div>
+            <div class="comment-box">
+              <p><span class="subject-name">{echo:category_class::get_category_title($item['tutor_info']['grade_level'])} / {echo:category_class::get_category_title($item['tutor_info']['grade'])}</span><span class="comment-time"><i class="icon-time"></i> {$item['comment_time']}</span></p>
+              <p><span class="judge-desc"><i class="icon-"></i>{echo:comment_class::get_comment_level_title($item['point'])}</span><span class="score-name"></span><span class="pf_star">
+                <?php
+                  for($i = 0; $i < $seller_info['point']; $i++)
+                  {
+                    echo '<i class="icon-star"></i> ';
+                  }
+                ?>
+              </span></p>
+              <p>评价内容：{if:!$item['contents']}无{else:}{$item['contents']}{/if}</p>
+            </div>
+          </li>
+          {/foreach}
+
+        </ul>
+        {if:$next_page}<div class="Page"> <a href='{url:/site/tutor_info/id/$seller_info['id']/type/$type/page/$next_page}'>下一页</a></div>{/if}
+      </div>
+    </div>
+  </div>
+
+
+    <div class="card_sidebar">
+
+        <div class="tutor_menu" style="width: 334px;">
+            <a href="{url:/site/tutor}" class="active">我是学生</a>
+            <a href="{url:/site/user_tutor_list}">我是家教</a>
+        </div>
+
+        <div class="sidebar_box">
+            <h3 class="tab-nav-default"><i class="icon-book"></i> 授课科目</h3>
+            <div class="order_submit">
+
+                    {if:$seller_info['is_authentication'] && $is_receive_booking}
+                    <p class="subject-price">￥：<strong>{$seller_info['price']}</strong> 元 / 小时 </p>
+                    <div class="form-select subject-info"><span class="selected-name"><span class="label">请选择科目</span><span class="arrow"></span></span>
+                        <ul class="subject_list">
+                          {foreach:items=$seller_info['seller_tutor_list']}
+                            <li val="{$item['id']}" price={$item['price']}>{echo:category_class::get_category_title($item['grade_level'])} {echo:category_class::get_category_title($item['grade'])}</li>
+                            {/if}
+                        </ul>
+                    </div>
+
+                    <input type="hidden" name="id" value="" />
+                    <input type="button" class="btn-zx" value="马上约课">
+                    {else:}
+                      {if:!$is_receive_booking}
+                        <p class="subject-price red">教师行程已满，暂不接受预定<p>
+                      {else:}
+                        <p class="subject-price red">该教师尚未通过实名认证<p>
+                      {/if}
+                    {/if}
+            </div>
+        </div>
+
+        <div class="card_sidebar">
+            <div class="sidebar_box">
+                <h3 class="tab-nav-default"><i class="icon-user"></i> 推荐教师</h3>
+
+                <div class="t_list_sbox">
+                    <ul>
+                        {foreach:items=$intro_tutor_seller_list}
+                        <li><a href="{url:/site/tutor_info/id/$item['id']}" class="t_simg"><img src="{if:$item['logo'] != ''}{webroot:$item['logo']}{else:}{echo:get_default_icon($item['sex'])}{/if}"></a>
+                            <div class="fl"><a href="{url:/site/tutor_info/id/$item['id']}" class="t_sname">{$item['true_name']}</a><span>教龄：{$item['experience']}年</span>
+                                <p>{echo:tutor_class::get_tutor_category_title($item['seller_tutor_list'][0])}</p>
+                            </div>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+    </div>
+  <div class="cb"></div>
+</div>

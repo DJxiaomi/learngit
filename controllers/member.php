@@ -212,6 +212,7 @@ class Member extends IController implements adminAuthorization
 	function member_balance()
 	{
 		$this->layout = '';
+		
 		$this->redirect('member_balance');
 	}
 	/**
@@ -1252,98 +1253,7 @@ class Member extends IController implements adminAuthorization
         $this->redirect('teacher_list');
     }
     
-    // 编辑教师信息
-    function teacher_edit()
-    {
-        $id = IFilter::act(IReq::get('id'),'int');
-        if ( $id )
-        {
-            $teacher_info = Teacher_class::get_teacher_info( $id );
-            $teacher_info['birth_date'] = ( $teacher_info['birth_date'] ) ? date('Y-m-d', $teacher_info['birth_date'] ) : '';
-            $this->setRenderData(array(
-                'teacher_info'     =>  $teacher_info
-            ));
-        }
-         
-        $seller_list = Seller_class::get_seller_list('', 'id,true_name', 0, 0);
-        $this->setRenderData(array(
-            'seller_list'    =>  $seller_list,
-        ));
-        $this->redirect('teacher_edit');
-    }
-    
-    // 删除教师
-    function teacher_del()
-    {
-        $id = IFilter::act(IReq::get('id'),'int');
-        if ( !$id )
-            IError::show(403,'参数不正确，操作失败');
-         
-        $teacher_info = Teacher_class::get_teacher_info( $id );
-        if ( !$teacher_info )
-            IError::show(403,'该教师可能已被删除');
-         
-        if ( !Teacher_class::del_teacher( $id ) )
-        {
-            IError::show(403,'操作失败');
-        }
-         
-        $this->redirect('teacher_list');
-    }
-    
-    // 保存教师信息
-    function teacher_save()
-    {
-        $id = IFilter::act(IReq::get('id'),'int');
-        $data = array(
-            'name'         =>  IFilter::act(IReq::get('name')),
-            'seller_id'    =>  IFilter::act(IReq::get('seller_id'),'int'),
-            'sex'          =>  IFilter::act(IReq::get('sex'),'int'),
-            'mobile'       =>  IFilter::act(IReq::get('mobile')),
-            'birth_date'   =>  IFilter::act(IReq::get('birth_date')),
-            'graduate'     =>  IFilter::act(IReq::get('graduate')),
-            'major'        =>  IFilter::act(IReq::get('major')),
-            'teaching_direction'   =>  IFilter::act(IReq::get('teaching_direction')),
-            'teaching_experience'  =>  IFilter::act(IReq::get('teaching_experience'), 'text'),
-            'description'  =>  IFilter::act(IReq::get('description'), 'text'),
-            'awards'       =>  IFilter::act(IReq::get('awards'), 'text'),
-        );
-         
-        $data['birth_date'] = ( $data['birth_date'] ) ? strtotime( $data['birth_date'] ) : 0;
-        if ( !$data['name'] )
-            $errorMsg = '请输入教师姓名';
-        if ( $data['seller_id'] <= 0 )
-            $errorMsg = '请选择所属学校';
-         
-        //logo上传
-        if(isset($_FILES['icon']['name']) && $_FILES['icon']['name'])
-        {
-            $uploadObj = new PhotoUpload();
-            $uploadObj->setIterance(false);
-            $photoInfo = $uploadObj->run();
-            if(isset($photoInfo['icon']['img']) && file_exists($photoInfo['icon']['img']))
-            {
-                $data['icon'] = $photoInfo['icon']['img'];
-            }
-        }
-    
-        //操作失败表单回填
-        if(isset($errorMsg))
-        {
-            $this->userInfo = $_POST;
-            $this->redirect('teacher_edit',false);
-            Util::showMessage($errorMsg);
-        }
-         
-        $teacher_db = new IModel('teacher');
-        $teacher_db->setData( $data );
-        if ( !$id )
-        {
-            $teacher_db->add();
-        } else {
-            $teacher_db->update('id = ' . $id );
-        }
 
-        $this->redirect('teacher_list');
-    }
+    
+
 }

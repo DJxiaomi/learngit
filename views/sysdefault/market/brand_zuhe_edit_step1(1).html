@@ -1,0 +1,73 @@
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>短期课套餐</span><span>></span><span>选择短期课</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+    <a href="javascript:void(0)" onclick="create_dqk();"><button class="operating_btn" type="button"><span class="sel_all">生成短期课套餐</span></button></a>
+	</div>
+</div>
+<div class="content">
+	<form method='post' action='#'>
+		<table class="list_table">
+			<colgroup>
+				<col width="40px" />
+				<col width="120px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="180px" />
+				<col width="140px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>商户</th>
+					<th>课程</th>
+					<th>单价格</th>
+					<th>套餐价格</th>
+					<th>使用次数</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items=$brand_chit_list}
+				<tr>
+					<td><input type='checkbox' name='id[]' value='{$item['id']}' /></td>
+					<td>{$item['seller_info']['shortname']}</td>
+					<td>{$item['goods_info']['name']}</td>
+					<td>{$item['max_price']}</td>
+					<td>{if:$item['tc_price'] > 0}{$item['tc_price']}{else:}0{/if}</td>
+					<td>{$item['use_times']}</td>
+				</tr>
+				{/foreach}
+				{if:$page_info}
+				<tr>
+					<td colspan="7">{$page_info}</td>
+				</tr>
+				{/if}
+			</tbody>
+		</table>
+	</form>
+</div>
+
+<script type='text/javascript'>
+  function create_dqk()
+  {
+    var ids = '';
+    var count = 0;
+    $("input[type=checkbox]:checked").each(function(i){
+      count++;
+      ids = (ids == '') ? $(this).val() : ids + ',' + $(this).val();
+      if ( count <= 0 )
+      {
+        alert('请至少选择一个短期课');
+        return false;
+      } else {
+        var url = '{url:/market/brand_zuhe_edit/ids/@ids@}';
+        url = url.replace('@ids@',ids);
+        location.href = url;
+      }
+    })
+  }
+</script>

@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="{skin:css/product.css}">
+<link rel="stylesheet" href="{rs:/scripts/swiper/swiper.min.css}">
+<link rel="stylesheet" href="{theme:javascript/mui/css/mui.picker.min.css}">
+<script type='text/javascript' src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<div class="shop-nav-bot cxd-2">
+	<a href="javascript:;" class="shopbtn" id="buyNowButton">立即购买</a>
+</div>
+<div class="swiper-container">
+	<div class="swiper-wrapper">
+		{if:$transfer['transferpic']}
+		<div class="swiper-slide">
+			<img width="100%" src="{webroot:$transfer['transferpic']}" />
+		</div>
+		{else:}
+		{foreach:items=$transfer['goods']['photo']}
+		<div class="swiper-slide">
+			<img width="100%" src="{webroot:$item['img']}" />
+		</div>
+		{/foreach}
+		{/if}
+	</div>
+	<div class="swiper-pagination"></div>
+</div>
+<div class="mui-content-padded">
+	<h5>{if:$transfer['transfername']}{$transfer['transfername']}{else:}转让-{$transfer['goods']['name']}{/if}</h5>
+	<div class="pro-price goodsprice">
+		&yen;{$transfer['transprice']}
+	</div>
+</div>
+{if:$transfer['seller_id']}
+<ul class="mui-table-view mui-table-view-chevron">
+	<li class="mui-table-view-cell mui-media">
+		<a href="{url:/school/show/id/$transfer['seller']['id']}" class="mui-navigate-right">
+			<img class="mui-media-object mui-pull-left" src="{webroot:$transfer['seller']['logo']}">
+			<div class="mui-media-body">
+				{$transfer['seller']['shortname']}
+				<p class="mui-ellipsis">{echo:join(' ',area::name($transfer['seller']['province'],$transfer['seller']['city'],$transfer['seller']['area'])).' '.$transfer['seller']['address']}</p>
+			</div>
+		</a>
+	</li>
+</ul>
+{/if}
+<div class="mui-content-padded">
+	<div class="content">
+		<p>{$transfer['content']}</p>
+	</div>
+</div>
+<form id="transferForm" action="{url:/simple/trasnferorder}" method="post">
+
+	<input type="hidden" name="goods_id" value="{$transfer['goods']['id']}">
+
+    <input type="hidden" name="goods_name" value="{$transfer['goods']['name']}">
+
+    <input type="hidden" name="selleruid" value="{$transfer['uid']}">
+
+    <input type="hidden" name="sellerid" value="{$transfer['seller_id']}">
+
+    <input type="hidden" name="transferid" value="{$transfer['id']}">
+
+</form>
+<script type="text/javascript">
+$(function(){
+
+	$('#buyNowButton').click(function(){
+
+		$('#transferForm').submit();
+
+	});
+
+});
+var swiper = new Swiper('.swiper-container', {
+
+    pagination: '.swiper-pagination',
+
+    paginationClickable: true,
+
+    loop: true
+
+});
+</script>

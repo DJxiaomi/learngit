@@ -1,0 +1,37 @@
+{set:$defaultWhere = array('search' => $this->word , 'category_extend' => $this->cat_id )}
+{set:$goodsObj = search_goods::find($defaultWhere);$resultData = $goodsObj->find();}
+
+{js:bxSlider}
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<link href="{skin:css/goods_new.css}" rel="stylesheet" type="text/css" />
+<div class="wrapper clearfix">
+
+	<div class="main f_l" style="margin-top: 0px;">
+
+		<!--最新商品-->
+		{if:$resultData}
+		<div class="box yellow m_10">
+			<div class="cont clearfix">
+				<ul class="prolist">
+					{foreach:items=$resultData}
+					<?php $goods_info = goods_class::get_goods_info($item['id']); ?>
+					{if:$item['id'] != 1967}
+					<li style="overflow:hidden">
+						<a href="{url:/site/products/id/$item[id]}"><img src="{url:/pic/thumb/img/$item[img]/w/175/h/175}" width="175" height="175" alt="{$item['name']}" /></a>
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$id}">{$item['name']}</a></p>
+						<p class="brown">惊喜价：<b>￥{$item['sell_price']}</b></p>
+						<p class="light_gray">{$goods_info['keywords']}</p>
+					</li>
+					{/if}
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		{/if}
+		<!--最新商品-->
+
+	</div>
+</div>

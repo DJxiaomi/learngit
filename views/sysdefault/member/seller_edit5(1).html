@@ -1,0 +1,106 @@
+{js:artTemplate}
+{js:areaSelect}
+
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>商户管理</span><span>></span><span>商户账户设置</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/seller_add5}" method="post" name="sellerForm" enctype='multipart/form-data'>
+
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+
+				<tbody>
+					<tr>
+						<th>商户名称：</th>
+						<td>
+							<select class="auto selectpicker show-tick form-control" name="seller_id" data-live-search="true">
+								<option value="">请选择商户</option>
+								{query:name=seller where=is_del eq 0 order=id desc}
+								<option value="{$item['id']}"{if:$item['id'] == $this->sellerRow['id']} selected{/if}>{$item['true_name']}-{$item['seller_name']}</option>
+								{/query}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>商户真实全称：</th>
+						<td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
+					</tr>
+					<tr>
+						<th>登录密码：</th><td><input class="normal" name="password" type="password" bind='repassword' empty /><label>* 输入登录密码</label></td>
+					</tr>
+					<tr>
+						<th>确认登录密码：</th><td><input class="normal" name="repassword" type="password" bind='password' empty /><label>* 重复登录密码</label></td>
+					</tr>
+					<tr>
+						<th>账户信息：</th>
+						<td><input class="normal" name="account_bank_name" type="text" value="" empty pattern="required" /><label>银行填写开户行，支付宝填写支付宝账户用户名</label></td>
+					</tr>
+					<tr>
+						<th>账户户名：</th>
+						<td><input class="normal" name="account_name" type="text" value="" empty pattern="required" /><label></label>账户真实姓名</td>
+					</tr>
+					<tr>
+						<th>结算账号：</th>
+						<td><input class="normal" name="account_cart_no" type="text" value="" empty pattern="required" /><label></label></td>
+					</tr>
+                     <tr>
+						<th>接收信息手机：</th>
+						<td><input type="text" class="normal" name="mobile" pattern="mobi" />用户接收网站提醒的手机号码，不可用于修改结算的账户信息</td>
+					</tr>
+					<tr>
+						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+//DOM加载完毕
+$(function()
+{
+$('select[name=seller_id]').change(function(){
+	var seller_id = $(this).val();
+	$.getJSON('{url:/member/get_seller_info}',{seller_id:seller_id},function(res){
+		if(res.status == 1){
+			var data = res.data;
+			$('input[name=true_name]').val(data.true_name);
+			$('input[name=account_bank_name]').val(data.account_bank_name);
+			$('input[name=account_name]').val(data.account_name);
+			$('input[name=account_cart_no]').val(data.account_cart_no);
+			$('input[name=mobile]').val(data.mobile);
+
+		}
+	})
+})
+
+
+	//修改模式
+	{if:$this->sellerRow}
+	var formObj = new Form('sellerForm');
+	formObj.init({echo:JSON::encode($this->sellerRow)});
+
+	//锁定字段一旦注册无法修改
+	if($('[name="id"]').val())
+	{
+		var lockCols = ['seller_name'];
+		for(var index in lockCols)
+		{
+			$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+			$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+		}
+	}
+	{/if}
+
+	//地区联动插件
+	var areaInstance = new areaSelect('province');
+	areaInstance.init({echo:JSON::encode($this->sellerRow)});
+});
+</script>

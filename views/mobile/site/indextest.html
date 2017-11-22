@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>康卓商城</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script type="text/javascript" src="{theme:javascript/mui2/js/mui.picker.js}"></script>
+	<link rel="stylesheet" href="{theme:javascript/weui/weui.css}">
+	<link rel="stylesheet" href="{theme:javascript/mui2/css/mui.min.css}">
+	<link rel="stylesheet" href="{theme:javascript/mui2/css/icons-extra.css}">
+	<link rel="stylesheet" type="text/css" href="{theme:javascript/mui2/css/app.css}"/>
+	<style>
+		.title{color: #6d6d72;font-size: 15px;}
+		.oa-contact-cell.mui-table .mui-table-cell {padding: 11px 0;vertical-align: middle;}
+		.oa-contact-cell {position: relative;margin: -11px 0;}
+		.oa-contact-avatar {width: 75px;}
+		.oa-contact-avatar img {border-radius: 50%;}
+		.oa-contact-content {width: 100%;}
+		.oa-contact-name {margin-right: 20px;}
+		.oa-contact-name, oa-contact-position {float: left;}
+		.layer {width:100%;height:35px;position:absolute;left:0;bottom:0;z-index:2;background:rgba(0,0,0,0.5);}
+		.layertxt {width:100%;height:28px;position:absolute;left:0;bottom:0;z-index:3;}
+	</style>
+</head>
+
+<body>
+<nav class="mui-bar mui-bar-tab">
+	<a class="mui-tab-item mui-active" href="#tabbar">
+		<span class="mui-icon mui-icon-home"></span>
+		<span class="mui-tab-label">首页</span>
+	</a>
+	<a class="mui-tab-item" href="#tabbar-with-chat">
+		<span class="mui-icon mui-icon-extra mui-icon-extra-cart"></span>
+		<span class="mui-tab-label">购物车</span>
+	</a>
+	<a class="mui-tab-item" href="#tabbar-with-contact">
+		<span class="mui-icon mui-icon-contact"><span class="mui-badge">1</span></span>
+		<span class="mui-tab-label">个人中心</span>
+	</a>
+</nav>
+		
+
+<div class="mui-content">
+	<div id="tabbar" class="mui-control-content mui-active">
+		<header class="mui-bar mui-bar-nav" style="background-color: #5cc2d0;">
+			<h1 class="mui-title" style="color:#fff">商 品 列 表</h1>
+		</header>
+		<div class="title" style="margin-top:52px">
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media" style="height:45vw;background-image:url(/public/1111.jpg)">
+				    <div class="layer"></div>
+				    <div class="layertxt">
+				        已售:5526         原价：47454 ￥1280 
+				    </div>
+				</div>
+				<div class="mui-card-footer">
+					<a class="mui-card-link">天赋测评基础版</a>
+					<a class="mui-card-link mui-btn mui-btn-warning" style="height:28px">购买</a>
+				</div>
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media" style="height:45vw;background-image:url(/public/2222.png)">
+				    <div class="layer"></div>
+				    <div class="layertxt">
+				        已售:5526         原价：47454 ￥1280 
+				    </div>
+				</div>
+				<div class="mui-card-footer">
+					<a class="mui-card-link">天赋测评基础版</a>
+					<a class="mui-card-link mui-btn mui-btn-warning" style="height:28px">购买</a>
+				</div>
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-header mui-card-media" style="height:45vw;background-image:url(/public/3333.png)">
+				    <div class="layer"></div>
+				    <div class="layertxt">
+				        已售:5526         原价：47454 ￥1280 
+				    </div>
+				</div>
+				<div class="mui-card-footer">
+					<a class="mui-card-link">天赋测评基础版</a>
+					<a class="mui-card-link mui-btn mui-btn-warning" style="height:28px">购买</a>
+				</div>
+			</div>
+			<br><br>
+            <div class="weui-footer">
+              <p class="weui-footer__text">Copyright © 2017 乐享生活</p>
+            </div>
+		</div>
+	</div>
+	
+	
+	<div id="tabbar-with-chat" class="mui-control-content">
+		<header class="mui-bar mui-bar-nav" style="background-color: #5cc2d0;">
+			<h1 class="mui-title" style="color:#fff">购 物 车 </h1>
+		</header>
+		<ul class="mui-table-view mui-table-view-chevron" style="margin-top:52px">
+			<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">订单000100000001</a></li>
+			<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">订单000100000001</a></li>
+			<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">订单000100000001</a></li>
+		</ul>
+	</div>
+	
+	
+	<div id="tabbar-with-contact" class="mui-control-content">
+		<header class="mui-bar mui-bar-nav" style="background-color: #5cc2d0;">
+			<h1 class="mui-title" style="color:#fff">用 户 中 心</h1>
+		</header>			    
+        <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top:45px">
+        	<li class="mui-table-view-cell">
+        		<div class="mui-slider-cell">
+        			<div class="oa-contact-cell mui-table">
+        			    <a class="mui-navigate-right">
+        					<div class="oa-contact-avatar mui-table-cell">
+        						<img src="http://img1.imgtn.bdimg.com/it/u=381612112,4277065417&fm=15&gp=0.jpg" />
+        					</div>
+        					<div class="oa-contact-content mui-table-cell">
+        						<div class="mui-clearfix">
+        							<span class="oa-contact-position mui-h6"> 会员号：2456465</span>
+        						</div>
+        						<p class="oa-contact-email mui-h5"> 会员昵称：小米</p>
+        						<p class="oa-contact-email mui-h6"> 推荐人：小米</p>
+        					</div>
+        		        </a>
+        			</div>
+        		</div>
+        	</li>
+        </ul>
+    
+        <div class="weui-grids" style="margin-top: 1px;">
+            <a href="javascript:;" class="weui-grid" style="background: #fff;padding: 10px 10px">
+                <div class="weui-grid__icon">
+                    <img src="{theme:javascript/weui/}icon_tabbar.png" alt="">
+                </div>
+                <p class="weui-grid__label">我的订单</p>
+            </a>
+            <a href="javascript:;" class="weui-grid" style="background: #fff;padding: 10px 10px">
+                <div class="weui-grid__icon">
+                    <img src="{theme:javascript/weui/}icon_tabbar.png" alt="">
+                </div>
+                <p class="weui-grid__label">我的订单</p>
+            </a>
+            <a href="javascript:;" class="weui-grid" style="background: #fff;padding: 10px 10px">
+                <div class="weui-grid__icon">
+                    <img src="{theme:javascript/weui/}icon_tabbar.png" alt="">
+                </div>
+                <p class="weui-grid__label">我的订单</p>
+            </a>
+            <a href="javascript:;" class="weui-grid" style="background: #fff;padding: 10px 10px">
+                <div class="weui-grid__icon">
+                    <img src="{theme:javascript/weui/}icon_tabbar.png" alt="">
+                </div>
+                <p class="weui-grid__label">我的订单</p>
+            </a>
+            <a href="javascript:;" class="weui-grid" style="background: #fff;padding: 10px 10px">
+                <div class="weui-grid__icon">
+                    <img src="{theme:javascript/weui/}icon_tabbar.png" alt="">
+                </div>
+                <p class="weui-grid__label">我的订单</p>
+            </a>
+            <a href="javascript:;" class="weui-grid" style="background: #fff;padding: 10px 10px">
+                <div class="weui-grid__icon">
+                    <img src="{theme:javascript/weui/}icon_tabbar.png" alt="">
+                </div>
+                <p class="weui-grid__label">我的订单</p>
+            </a>
+        </div>
+
+        <h5 class="mui-content-padded">我的会员</h5>
+        <div class="weui-navbar" style="position: relative;background-color: #FFF;">
+          <div class="weui-navbar__item weui_bar__item_on">
+            已购买会员：<span class="mui-badge mui-badge-success mui-badge-inverted">525</span>
+          </div>
+          <div class="weui-navbar__item">
+            未购买会员：<span class="mui-badge mui-badge-danger mui-badge-inverted">5</span>
+          </div>
+        </div>	
+    
+        <ul class="mui-table-view mui-table-view-chevron">
+    		<li class="mui-table-view-cell mui-media">
+    			<a class="mui-navigate-right">
+    				<span class="mui-icon mui-icon-location"></span>
+    				<label stlye="font-size:5px">评测地址</label>
+    			</a>
+    		</li>
+    		<li class="mui-table-view-cell mui-media">
+    			<a class="mui-navigate-right">
+    				<span class="mui-icon mui-icon-extra mui-icon-extra-prech"></span>
+    				<label stlye="font-size: 10px;">我的消费额</label>
+    			</a>
+    		</li>
+    	</ul>
+
+	</div>
+
+</div>
+		
+</body>
+<script src="{theme:javascript/mui2/js/mui.min.js}"></script>
+<script>
+	mui.init({swipeBack:true});
+</script>
+</html>

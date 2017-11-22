@@ -1,0 +1,144 @@
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>代金券管理</span><span>></span><span>代金券列表2</span></div>
+	<div class="searchbar">
+		<form action="{url:/}" method="get" name="searchListForm">
+			<input type='hidden' name='controller' value='market' />
+			<input type='hidden' name='action' value='brand_chit_list2' />
+			<select class="auto" name="search[seller_id]">
+				<option value="0">选择商户</option>
+				{foreach:items=$seller_list}
+				<option value="{$item['id']}" {if:$search['seller_id'] && $search['seller_id'] == $item['id']}selected{/if}>{$item['shortname']}</option>
+				{/foreach}
+			</select>
+			<select class="auto" name="search[manual_category_id]">
+				<option value="">选择分类</option>
+				{foreach:items=$category_list}
+				<option value="{$item['id']}" {if:$search['manual_category_id'] == $item['id']}selected{/if}>{$item['name']}</option>
+				{/foreach}
+			</select>
+			<select class="auto" name="search[is_intro]">
+				<option value="">选择推荐</option>
+				<option value="1" {if:$search['is_intro'] == 1}selected{/if}>是</option>
+				<option value="0" {if:$search['is_intro'] != '' && $search['is_intro'] == '0'}selected{/if}>否</option>
+			</select>
+			<select class="auto" name="search[is_top]">
+				<option value="">选择置顶</option>
+				<option value="1" {if:$search['is_top'] == 1}selected{/if}>是</option>
+				<option value="0" {if:$search['is_top'] != '' && $search['is_top'] == '0'}selected{/if}>否</option>
+			</select>
+			<select class="auto" name="search[is_del]">
+				<option value="">选择状态</option>
+				<option value="1" {if:$search['is_del'] == 1}selected{/if}>上架</option>
+				<option value="0" {if:$search['is_del'] != '' && $search['is_del'] == '0'}selected{/if}>下架</option>
+			</select>
+			<input class="small" name="search[keywords]" type="text" value="{if:$search['keywords']}{$search['keywords']}{/if}" placeholder="请输入关键词" />
+
+			<!--分类数据显示-->
+			<span id="__categoryBox" style="margin-bottom:8px"></span>
+			<button class="btn" type="submit"  onclick='changeAction(false)'><span class="sel">筛 选</span></button>
+			<input type="hidden" name="search[adv_search]" value="" />
+			<input type="hidden" name="search[brand_id]" value="" />
+			<input type="hidden" name="search[sell_price]" value="" />
+			<input type="hidden" name="search[create_time]" value="" />
+		</form>
+	</div>
+</div>
+<div class="content">
+	<form method='post' action='#'>
+		<table class="list_table">
+			<colgroup>
+				<col width="40px" />
+				<col width="100px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="50px" />
+				<col width="50px" />
+				<col width="50px" />
+				<col width="120px" />
+				<col width="120px" />
+				<col width="80px" />
+				<col width="140px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>商户</th>
+					<th>课程</th>
+					<th>分类</th>
+					<th>单价格</th>
+					<th>套餐价格</th>
+					<th>原价</th>
+					<th>商家返还</th>
+					<th>推荐</th>
+					<th>置顶</th>
+					<th>状态</th>
+					<th>总课时</th>
+					<th>每次</th>
+					<th>logo</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items=$brand_chit_list}
+				<tr>
+					<td></td>
+					<td>{$item['seller_info']['shortname']}</td>
+					<td>{$item['name']}</td>
+					<td>{if:$item['seller_info']['manual_category_id']}{$category_list[$item['seller_info']['manual_category_id']]['name']}{else:}无{/if}</td>
+					<td>{$item['max_price']}</td>
+					<td>{if:$item['tc_price'] > 0}{$item['tc_price']}{else:}0{/if}</td>
+					<td>{$item['max_order_chit']}</td>
+					<td>{$item['commission']}</td>
+					<td>{echo:get_boolen_title($item['is_intro'])}</td>
+					<td>{echo:get_boolen_title($item['is_top'])}</td>
+					<td>{if:$item['is_del']}下架{else:}上架{/if}</td>
+					<td>{$item['use_times']}课时</td>
+					<td>{$item['each_times']}课时</td>
+					<td><a href="{webroot:$item['logo']}" target="_blank"><img src="{webroot:$item['logo']}" width="80" height="80" /></a></td>
+					<td>
+						<a href='{url:/brand/brand_chit_edit2/id/$item[id]/page/$page}'>
+							<img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" title="修改" />
+						</a>
+
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/market/brand_chit_del/id/$item[id]}'});">
+							<img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" />
+						</a>
+					</td>
+				</tr>
+				{/foreach}
+				{if:$page_info}
+				<tr>
+					<td colspan="15">{$page_info}</td>
+				</tr>
+				{/if}
+			</tbody>
+		</table>
+	</form>
+</div>
+
+<script type='text/javascript'>
+	//创建优惠券
+	function create_dialog(ticket_id)
+	{
+		art.dialog.prompt('请输入生成线下实体代金券数量：',function(num)
+		{
+			var num = parseInt(num);
+			if(isNaN(num) || num <= 0)
+			{
+				alert('请填写正确的数量');
+				return false;
+			}
+
+			var url = '{url:/market/ticket_create/ticket_id/@ticket_id@/num/@num@}';
+			    url = url.replace('@ticket_id@',ticket_id).replace('@num@',num);
+			window.location.href = url;
+		});
+	}
+</script>

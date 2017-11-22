@@ -1,0 +1,94 @@
+<?php
+$search = IFilter::act(IReq::get('search'),'strict');
+$conditon = Util::search($search);
+?>
+<div class="headbar">
+	<div class="position"><span>学校</span><span>></span><span>学校管理</span><span>></span><span>学校列表</span></div>
+	<div class="operating">
+		<a href="javascript:;"><button class="operating_btn" type="button" onclick="window.location='{url:/brand/brand_edit}'"><span class="addition">添加学校</span></button></a>
+		<div class="search f_r">
+			<form name="searchbrand" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='brand' />
+				<input type='hidden' name='action' value='brand_list' />
+				<select class="auto" name="search[like]">
+					<option value="username">登录名</option>
+					<option value="name">学校名称</option>
+				</select>
+				<input class="small" name="search[likeValue]" type="text" value="<?php echo $_GET['search']['likeValue']; ?>" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="content">
+	<table id="list_table" class="list_table">
+		<colgroup>
+			<col width="100px" />
+			<col width="150px" />
+			<col width="150px" />
+			<col width="200px" />
+			<col width="200px" />
+			<col width="150px" />
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>排序</th>
+				<th>学校名称</th>
+				<th>学校简称</th>
+				<th>二级域名</th>
+				<th>学校分类</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{set:$catAll = array()}
+			{query: name = brand_category}
+				{set:$catAll[$item['id']] = $item['name']}
+			{/query}
+
+			{query: name=brand order=id desc where=$conditon page=$page}
+			<tr>
+				<td><input class="tiny" id="sort{$item['id']}" type="text" onblur="toSort({$item['id']});" value="{$item['sort']}" pattern='int' /></td>
+				<td><a href="{url:/site/brand_zone/id/$item['id']}" target="_blank">{$item['name']}</a></td>
+				<td>{$item['shortname']}</td>
+				<td>{$item['url']}</td>
+				<td>
+				{foreach:items = explode(',',$item['category_ids']) item = $val}
+				{$catAll[$val]} &nbsp;
+				{/foreach}
+				</td>
+				<td><a href="{url:/brand/brand_edit/bid/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a><a href="javascript:void(0)" onclick="delModel({link:'{url:/brand/brand_del/bid/$item[id]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a></td>
+			</tr>
+			{/query}
+			{$query->getPageBar()}
+		</tbody>
+	</table>
+</div>
+
+<script language="javascript">
+//排序
+function toSort(id)
+{
+	if(id!='')
+	{
+		var va = $('#sort'+id).val();
+		var part = /^\d+$/i;
+		if(va!='' && va!=undefined && part.test(va))
+		{
+			$.get("{url:/goods/brand_sort}",{'id':id,'sort':va}, function(data)
+			{
+				if(data=='1')
+				{
+					alert('修改学校排序成功!');
+				}else
+				{
+					alert('修改学校排序错误!');
+				}
+			});
+		}
+	}
+}
+</script>

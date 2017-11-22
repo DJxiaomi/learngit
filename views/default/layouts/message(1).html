@@ -1,0 +1,48 @@
+<style>
+.error {
+	padding: 30px;
+    border: 1px solid #eee;
+    width: 80%;margin:35px auto;
+}
+th {
+	text-align: right;
+}
+th img {
+	margin-top: 12px;
+}
+</style>
+<div class="error wrapper clearfix">
+	<table class="form_table prompt_3 f_l">
+		<col width="250px" />
+		<col />
+		<tr>
+			<th valign="top">
+				{if:$icon == "notice"}
+					<img src="/views/mobile/skin/blue/images/right.png" width="32" height="32" />
+				{else:}
+					<img src="/views/mobile/skin/blue/images/wrong.png" width="32" height="32" />
+				{/if}
+			</th>
+			<td>
+				<p class="mt_10"><strong class="f14 gray">{$message}</strong></p>
+
+				{if:$redirect}
+				<p class="gray">{$auto_redirect}</p>
+				{/if}
+
+				<p class="gray">您可以：</p>
+				{foreach:items=$links key=$key}
+				<a href="{$item['href']}" class="orange">{$item['text']}</a>{if:$key != $links_count - 1}|{/if}
+				{/foreach}
+			</td>
+		</tr>
+	</table>
+</div>
+
+{if:$redirect}
+<script type="text/javascript">
+<!--
+window.setTimeout("{$redirect}", 3000);
+//-->
+</script>
+{/if}

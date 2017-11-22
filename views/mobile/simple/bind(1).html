@@ -1,0 +1,63 @@
+<?php $title = '用户绑定'; ?>
+{set:$callback = IReq::get('callback') ? IUrl::creatUrl(IReq::get('callback')) :IUrl::getRefRoute()}
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>绑定页</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<script src="/views/mobile/skin/new/scripts/ionic/js/ionic.bundle.min.js"></script>
+<link href="/views/mobile/skin/new/scripts/ionic/css/ionic.min.css" rel="stylesheet" type="text/css" />
+<script src="/views/mobile/skin/new/scripts/login.js"></script>
+<link href="/views/mobile/skin/new/styles/common.css" rel="stylesheet" type="text/css" />
+<link href="/views/mobile/skin/new/styles/login.css" rel="stylesheet" type="text/css" />
+<script language="javascript">
+  var _post_url = '{url:/simple/bind_ajax?openid=$this->openid}';
+  {if:$callback}
+    var _ucenter_url = '{$callback}';
+  {else:}
+    var _ucenter_url = '{url:/ucenter/index}';
+  {/if}
+</script>
+<style>
+body {
+  background-color: #fff;
+}
+</style>
+</head>
+
+<body ng-app="loginApp">
+    {template:'/views/mobile/layouts/header_2016.html'}
+
+    <ion-content ng-controller="loginCtrl">
+      <form name="form1" method="POST" ng-submit="submit()" novalidate>
+      <ul>
+        <li class="input_li">
+          <input type="text" name="login_info" placeholder="用户名/手机号/邮箱" ng-model="username" focus-on="username" />
+          <i ng-if="user_status" ng-click="reset_user()"></i>
+        </li>
+        <li class="input_li">
+          <input type="password" name="password" placeholder="密码" ng-model="password" focus-on="passwd"/>
+          <i ng-if="password_status" ng-click="reset_passwd()"></i>
+        </li>
+        <li class="padding">
+          <button class="button button-block button-positive">绑&nbsp; 定</button>
+        </li>
+
+        <li class="others">
+          <div class="t-left">
+
+          </div>
+          <div class="t-right">
+            <a href="{url:simple/skip?openid=$this->openid}">跳过</a>
+          </div>
+        </li>
+      </ul>
+      </form>
+    </ion-content>
+
+</body>
+</html>

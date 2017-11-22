@@ -1,0 +1,977 @@
+{js:artTemplate}
+{js:my97date}
+{js:jquery}
+<style>
+.hide { display: none;}
+.hd {font-size:14px;margin-top: 14px;height: 30px;line-height: 30px;text-align: right;}
+.hd input[type=text] { border: 1px solid #ccc; width: 50px; margin-left: 8px; text-align: center; height: 23px;line-height: 23px; margin-right: 3px;}
+.hd input[type=checkbox] {cursor: pointer;vertical-align: middle;margin-right: 3px;}
+.bd { margin-top: 8px;}
+.bd ul {padding-left: 15px;}
+.bd li { float: left; margin-right: 20px;}
+.bd li input[type=checkbox],.bd li label {cursor: pointer;vertical-align: middle;}
+.coupon_notice {text-align:left;margin-left: 5px;}
+.wrap_box .tutor_detail input, .wrap_box .tutor_detail label{cursor:pointer;}
+.list_table {text-align: left;}
+.notice {font-size:12px;}
+.notice b{color:red;}
+.list_table .tt {text-align: right;}
+.teaching_time2 li {text-indent: 67px; font-size:14px; margin-bottom:5px;}
+.teaching_time2 li input, .tutor_num input {border: 1px solid #666; width: 50px; height: 22px; text-align:center;}
+.form_table2 input {width: 70px;text-align:center;}
+</style>
+<script type='text/javascript' src='{theme:javascript/artTemplate/area_select.js}'></script>
+<script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
+<link rel="stylesheet" href="{skin:css/cart2.css}">
+<script type='text/javascript'>
+var _tutor_cate_list = {if:$tutor_cate_list_json}{$tutor_cate_list_json}{else:}new Array(){/if};
+
+//创建订单表单实例
+orderFormInstance = new orderFormClass();
+sellerList = {echo:JSON::encode($this->seller)};
+ticketList = {echo:JSON::encode($this->prop)};
+addressList = {if:$this->addressListJson}{$this->addressListJson}{else:}array(){/if};
+sell_count = {$this->sell_count};
+market_count = {$this->market_count};
+order_chit = {$this->order_chit};
+
+{if:$this->statement != 2}
+var _max_cprice = {if:$this->max_cprice}{$this->max_cprice}{else:}0{/if};
+var _max_order_chit = {$this->order_chit};
+var _cprice = {if:$this->max_cprice}{$this->max_cprice}{else:}0{/if};
+var _order_chit = {$this->order_chit};
+var _order_amount = {$this->final_sum};
+{/if}
+
+{if:$this->is_show_tutor_detail}
+function show_tutor_detail()
+{
+	if ( $('#tutor_detail_1').get(0).checked)
+	{
+		$('.list_table').show();
+	} else {
+		$('.list_table').hide();
+	}
+}
+{/if}
+
+//DOM加载完毕
+jQuery(function(){
+
+	$(document).ready(function(){
+	  $(document).on('change', '.grade_level',function(){
+	    set_category($(this),$(this).val());
+	  });
+
+		$('.add_teaching_time').click(function(){
+			$('.teaching_time2 ul').append('<li>' + $('.teaching_time2 li').eq(0).html() + '</li>');
+		})
+	})
+
+	{if:$this->is_show_tutor_detail}
+		$('.submit_order').click(function(){
+			if ( $('#tutor_detail_1').get(0).checked)
+			{
+				if ( $("select[name=grade_level]").val() == '')
+				{
+					alert('请选择年级');
+				} else if ($("select[name=grade]").val() == '') {
+					alert('请选择分类');
+				} else if ( $('input[name=lowest_reward]').val() == '')
+				{
+					alert('请输入每小时报酬');
+				} else {
+					$('form[name=order_form]').submit();
+				}
+			} else {
+				$('form[name=order_form]').submit();
+			}
+		})
+	{/if}
+
+	{if:$this->statement == 4 && $this->is_rehired}
+	$('.tutor_num input').change(function(){
+		var _num = parseInt($(this).val());
+		if ( _num <= 0 )
+		{
+			alert('请输入正确的课时');
+			$('.tutor_num input').focus();
+			return false;
+		} else {
+			{if:$this->seller_tutor_info}
+				$.post('/simple/get_tutor_order_count', {seller_tutor_id: {$this->seller_tutor_id}, num: _num}, function(data){
+			{elseif:$this->user_tutor_info}
+				$.post('/simple/get_tutor_order_count', {user_tutor_id: {$this->user_tutor_id}, num: _num}, function(data){
+			{/if}
+				//console.log(data);
+				if ( data == '0')
+				{
+					alert('该家教已关闭账户');
+				} else if ( data == '-1') {
+					alert('请核对信息后刷新网页');
+				} else {
+					{if:$this->user_tutor_info}
+						$('.form_table2 tr').each(function(i){
+							if (i > 0)
+							{
+								var _money = parseFloat($(this).find("input").eq(3).val());
+								data = parseFloat(data) + _money;
+							}
+						})
+					{/if}
+					$('.yf_count').html(data);
+					$("input[name=direct_num]").val(_num);
+				}
+			})
+		}
+	});
+	{/if}
+
+	$('.submit_order').click(function(){
+		{if:$this->statement == 4 && $this->is_rehired}
+			var _val = $('.teaching_time2 li').eq(0).find("input").val();
+			if ( _val == '')
+			{
+				alert('请选择上课时间');
+				//$('.teaching_time2 li').eq(0).find("input").focus();
+			} else {
+				$('form[name=order_form]').submit();
+			}
+		{else:}
+			$('form[name=order_form]').submit();
+		{/if}
+	});
+
+	{if:$this->statement == 4 && $this->user_tutor_info }
+	$('.add_test').click(function(){
+		var _html = $('.add_test_html tbody').html();
+		console.log(_html);
+		$('.form_table2').html( $('.form_table2 tbody').html() + _html );
+	});
+
+	$(document).on('click', '.del_test', function(){
+		$(this).parent().parent().remove();
+		var _num = $('.tutor_num input').val();
+		$('.tutor_num input').change();
+	});
+	{/if}
+
+	$('select[name=user_prop_list]').change(function(){
+		var prop_count = 0;
+		var prop_ids = '';
+		if ( $(this).val() != '0')
+		{
+			//prop_count += parseInt($(this).attr('count'));
+			//prop_ids = (prop_ids=='') ? $(this).attr('id') : prop_ids + ',' + $(this).attr('id');
+			prop_count += parseInt($('select[name=user_prop_list]').find("option:selected").attr('count'));
+			prop_ids = $(this).val();
+		}
+
+		$('input[name=user_prop_ids]').val(prop_ids);
+		prop_count = parseInt(prop_count);
+		if ( prop_count > 0 )
+		{
+			$('input[name=use_coupon]').val(1);
+			$('input[name=coupon_nums]').val(prop_count);
+		} else {
+			$('input[name=use_coupon]').val(0);
+			$('input[name=coupon_nums]').val(0);
+		}
+
+		update_use_coupon();
+	})
+
+
+	//初始化地域联动JS模板
+	template.compile("areaTemplate",areaTemplate);
+
+	//收货地址数据
+	orderFormInstance.addressInit("{$this->defaultAddressId}", "{$this->mtruename}", "{$this->mtelephone}");
+
+	//配送方式初始化
+	//orderFormInstance.deliveryInit("{$this->custom['delivery']}");
+
+	//自提点初始化
+	//$('[name="takeself"]').val({$this->custom['takeself']});
+
+	//支付方式
+	orderFormInstance.paymentInit("{$this->custom['payment']}");
+
+	//课程价格
+	orderFormInstance.goodsSum = "{$this->final_sum}";
+
+	//统计总价格
+	orderFormInstance.doAccount();
+
+	// 使用学习券的交互
+	$('input[name=coupon_nums]').change(function(){
+		var _val = $(this).val();
+		var _stm = $("input[name=statement]").val();
+		if ( _val < 0 )
+		{
+			alert('券金额不能小于0');
+			$(this).val(_max_cprice);
+		} else if ( _val % 10 != 0 )
+		{
+			alert('券必须为10的倍数');
+			$(this).val(_max_cprice);
+		} else if ( _val > _max_cprice )
+		{
+			alert('券最多只能使用' + _max_cprice + '元');
+			$(this).val(_max_cprice);
+		} else {
+			//console.log('ajax');
+			var _url = '{url:/site/get_order_chit_ajax/cprice/@cprice@/stime/1/statement/@stm@/id/@id@/type/@type@/num/@num@}';
+			_url = _url.replace('@cprice@', _val);
+			_url = _url.replace('@stm@', _stm );
+			_url = _url.replace('@id@', {$this->gid} );
+			_url = _url.replace('@type@', '{$this->type}' );
+			_url = _url.replace('@num@', '{$this->num}' );
+			$.getJSON(_url, function(data){
+				if ( data.done )
+				{
+					$('.prop_value').html(data.retval.chit);
+					_order_chit = data.retval.chit;
+					update_use_coupon();
+				}
+			});
+		}
+	});
+
+	{if:$this->statement == 1 or $this->statement == 3}
+	$('input[name=use_coupon]').click(function(){
+		update_use_coupon();
+	});
+
+	function update_use_coupon()
+	{
+		if ( $('input[name=use_coupon]').val() == '1' )
+		{
+			var _coupon_nums = $("input[name=coupon_nums]").val();
+			$('input[name=coupon_nums]').removeAttr('disabled');
+			$('.dai_nums').html(_coupon_nums );
+		} else {
+			$('.dai_nums').html('0');
+			$('input[name=coupon_nums]').attr('disabled', 'disabled');
+		}
+
+		caculate();
+	}
+	{/if}
+
+	function caculate()
+	{
+		var _coupon_nums = $("input[name=coupon_nums]").val();
+		if ( $('input[name=use_coupon]').val() == '1' )
+		{
+			var _sum = market_count - _coupon_nums;
+			var _t_yh = _order_chit - parseFloat($("input[name=coupon_nums]").val());
+			$('.yh').html( _t_yh );
+		} else {
+			var _sum = market_count;
+		}
+
+		$('.yf_count').html(_sum);
+	}
+
+	// 支付方式自动保存
+	$('input[name=payment]').click(function(){
+		orderFormInstance.paymentSave();
+	})
+
+	// 地址自动保存
+
+	/*$('.addr_list input[name=radio_address]').click(function(){
+		var _radio_id = $(this).val();
+		if ( _radio_id != '' )
+		{
+			address_save();
+		}
+	})*/
+});
+
+/**
+ * 生成地域js联动下拉框
+ * @param name
+ * @param parent_id
+ * @param select_id
+ */
+function createAreaSelect(name,parent_id,select_id)
+{
+	//生成地区
+	$.getJSON("{url:/block/area_child}",{"aid":parent_id,"random":Math.random()},function(json)
+	{
+		$('[name="'+name+'"]').html(template.render('areaTemplate',{"select_id":select_id,"data":json}));
+	});
+}
+
+//[address]保存到常用的地址
+function address_save()
+{
+	if(orderFormInstance.addressCheck())
+	{
+		if ( addressList.length > 0 )
+		{
+			var _accept_name = $('input[name=accept_name]').val();
+			var _mobile = $('input[name=mobile]').val();
+			if ( _accept_name == '' || _mobile == '')
+			{
+				alert('姓名或联系方式不能为空');
+				return false;
+			}
+			for( var i = 0; i < addressList.length; i++)
+			{
+				if ( addressList[i]['accept_name'] == _accept_name && addressList[i]['mobile'] == _mobile )
+				{
+					/*$('.addr_list').find("input[type=radio]").eq(i).attr("checked","checked");
+					orderFormInstance.addressSave();*/
+					return;
+				}
+			}
+		}
+
+		$.getJSON('{url:/simple/address_add}',$('form[name="order_form"]').serialize(),function(content){
+			if(content.data)
+			{
+				$('.address_info').find('li').each(function(){
+					if( content.data.id == $(this).find('.stu_name').data('id')){
+						$(this).remove();
+					}
+				});
+				var addressLiHtml = '<li class="on"><p>订单联系人：<span class="stu_name" data-id="'+content.data.id+'">'+content.data.accept_name+'</span></p><p>手机：<span class="stu_mobile">'+content.data.mobile+'</span></p></li>';
+
+				$('.address_info').find('li.on').removeClass('on');
+				$('.address_info').children('ul').append(addressLiHtml);
+			}
+			// orderFormInstance.addressSave();
+		});
+
+		var _address_info = Array();
+		var _accept_name = $('input[name=accept_name]').val();
+		var _mobile = $('input[name=mobile]').val();
+		_address_info['accept_name'] = _accept_name;
+		_address_info['mobile'] = _mobile;
+		addressList.push(_address_info);
+	}
+}
+
+//[delivery]根据省份地区ajax获取配送方式
+function get_delivery()
+{
+	var province = $('[name="province"]').val();
+	var delivery = $('[name="delivery_id"]:checked').val();
+	if(!province || !delivery)
+	{
+		return;
+	}
+
+	var goodsId   = [];
+	var productId = [];
+	var num       = [];
+	$('[id^="deliveryFeeBox_"]').each(function(i)
+	{
+		var idValue = $(this).attr('id');
+		var dataArray = idValue.split("_");
+
+		goodsId.push(dataArray[1]);
+		productId.push(dataArray[2]);
+		num.push(dataArray[3]);
+	});
+
+	$.getJSON("{url:/block/order_delivery}",{"province":province,"distribution":delivery,"goodsId":goodsId,"productId":productId,"num":num,"random":Math.random()},function(content){
+		//无此服务
+		if(content.if_delivery == 1)
+		{
+			$("#deliveryPrice").html('无此服务');
+			alert('无此服务');
+		}
+		else
+		{
+			$("#deliveryPrice").html('￥'+content.price);
+			orderFormInstance.protectPrice  = parseFloat(content.protect_price);
+			orderFormInstance.deliveryPrice = parseFloat(content.price);
+			orderFormInstance.doAccount();
+		}
+	});
+}
+
+//选择自提点
+function selectTakeself(deliveryId)
+{
+	art.dialog.open("{url:/block/takeself}",{
+		title:'选择店铺',
+		okVal:'选择',
+		ok:function(iframeWin, topWin)
+		{
+			var takeselfJson = $(iframeWin.document).find('[name="takeselfItem"]:checked').val();
+
+			if(!takeselfJson)
+			{
+				alert('请选择店铺');
+				return false;
+			}
+			var json = $.parseJSON(takeselfJson);
+			$('#takeself'+deliveryId).empty();
+			$('[name="takeself"]').val(json.id);
+			$('#takeself'+deliveryId).html(template.render('takeselfTemplate',{"item":json}));
+			return true;
+		}
+	});
+}
+
+function set_category(obj, grade_level, grade, cate_id)
+{
+	var _grade_html = '';
+	var _cate_id_html = '';
+	if ( obj && grade_level )
+	{
+			for( var i in _tutor_cate_list )
+			{
+				if ( _tutor_cate_list[i]['id'] == grade_level && _tutor_cate_list[i]['child'] )
+				{
+						for( var j in _tutor_cate_list[i]['child'] )
+						{
+							var _selected = (grade && _tutor_cate_list[i]['child'][j]['id'] == grade ) ? 'selected' : '';
+							_grade_html += "<option value='" + _tutor_cate_list[i]['child'][j]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['name'] + "</option>";
+
+							if ( _tutor_cate_list[i]['child'][j]['id'] == grade && _tutor_cate_list[i]['child'][j]['child'])
+							{
+								for ( var k in _tutor_cate_list[i]['child'][j]['child'] )
+								{
+									var _selected = (cate_id && _tutor_cate_list[i]['child'][j]['child'][k]['id'] == cate_id ) ? 'selected' : '';
+									_cate_id_html += "<option value='" + _tutor_cate_list[i]['child'][j]['child'][k]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['child'][k]['name'] + "</option>";
+								}
+
+								obj.parent().find('.cate_id').html(_cate_id_html);
+								obj.parent().find('.cate_id').show();
+							}
+						}
+
+						obj.parent().find(".grade").html(_grade_html);
+						obj.parent().find(".grade").show();
+				}
+			}
+	}
+}
+</script>
+
+<a href="{url:/school/home/id/366}" target="_blank"><img src="{skin:images/djq2.jpg}" /></a>
+
+<div class="wrapper clearfix">
+	<div class="position mt_10"><span>您当前的位置：</span> <a href="{url:}"> 首页</a> » 核对订单</div>
+	<div class="step_warp m_10">
+		<ul class="cart2_order_step">
+			<li class="current_prev"><span class="first"><a href='{if:IReq::get('id')}javascript:window.history.go(-1);{else:}{url:/simple/cart}{/if}'>查看订单</a></span></li>
+			<li class="current"><span>核对订单</span></li>
+			<li class="last"><span>订单提交成功</span></li>
+		</ul>
+	</div>
+
+	<form action='{url:/simple/cart31}' method='post' name='order_form' callback='orderFormInstance.isSubmit();'>
+
+		<input type='hidden' name='timeKey' value='{echo:time()}' />
+		<input type='hidden' name='direct_gid' value='{$this->gid}' />
+		<input type='hidden' name='direct_type' value='{$this->type}' />
+		<input type='hidden' name='direct_num' value='{$this->num}' />
+		<input type='hidden' name='direct_promo' value='{$this->promo}' />
+		<input type='hidden' name='direct_active_id' value='{$this->active_id}' />
+		<input type='hidden' name='takeself' value='0' />
+		<input type='hidden' name='dprice' value='{$this->dprice}' />
+		<input type='hidden' name='stime' value='{$this->stime}' />
+		<input type='hidden' name='statement' value='{$this->statement}' />
+		<input type="hidden" name="choose_date" value="{$this->choose_date}" />
+		<input type="hidden" name="ischit" value="{$this->ischit}" />
+		<input type="hidden" name="chitid" value="{$this->chitid}" />
+		<input type="hidden" name="seller_tutor_id" value="{$this->seller_tutor_id}" />
+		<input type="hidden" name="user_tutor_id" value="{$this->user_tutor_id}" />
+		<input type="hidden" name="seller_id" value="{$this->seller_id}" />
+		<input type="hidden" name="seats" value="{$seat_str}" />
+		<input type="hidden" name="zuhe_id" value="{$this->zuhe_id}" />
+
+
+		<div class="cart2_box m_10">
+			<div class="cart_title">订单联系人</div>
+
+			<div class="cont">
+
+				<!--地址管理 开始-->
+				<div class="wrap_box">
+					<div class="address_info">
+					<ul>
+						{foreach:items=$this->addressList}
+						<li {if:$item['is_default'] == 1}class="on"{/if}>
+							<p>订单联系人：<span class="stu_name" data-id="{$item['id']}">{$item['accept_name']}</span></p>
+							<p>手机：<span class="stu_mobile">{$item['mobile']}</span></p>
+						</li>
+						{/foreach}
+
+					</ul>
+					</div>
+					<div class="opear_menu">
+						<div class="show_all">
+							<a href="javascript:void(0);">显示全部联系人</a>
+						</div>
+						<div class="modify">
+							<a href="javascript:void(0);" class="add_user">新增学员信息</a>
+							<a href="javascript:void(0);" class="modi_user">修改学员信息</a>
+						</div>
+					</div>
+
+					<div class="cart_contact" id='address_form' {if:$this->addressList[0] != ''}style="display:none;"{/if}>
+						<table class="form_table">
+							<col width="100px" />
+							<col />
+
+							<tbody>
+								<tr class="dingdan">
+									<th>订单联系人：</th><td><input class="normal" type="text" name="accept_name" pattern='required' alt='联系人不能为空' /> <span>*</span> </td>
+								</tr>
+								<tr>
+									<th>手机：</th><td><input class="middle" name='mobile' type="text" pattern='mobi' alt='格式不正确' /> <span>*</span></td>
+								</tr>
+								<input type="hidden" name="province" value="111111">
+								<input type="hidden" name="city" value="111111">
+								<input type="hidden" name="area" value="111111">
+								<input type="hidden" name="address" value="默认地址">
+								<input type="hidden" name="phone" value="123456">
+								<input type="hidden" name="zip" value="000000">
+								<input type="hidden" name="id" value="">
+							</tbody>
+						</table>
+						<label class="btn_orange3" id='address_save_button' style="display:none;"><input type="button" value="" onclick="address_save();" /></label>
+					</div>
+					<!--收货表单信息 结束-->
+
+
+				</div>
+				<!--地址管理 结束-->
+
+				<!--配送方式 开始-->
+				<div class="wrap_box hide" id='deliveryBox'>
+					<h3>
+						<span class="orange">接送方式</span>
+						<a class="normal f12" href="javascript:void(0)" id='deliveryToggleButton' onclick="orderFormInstance.deliveryModToggle();">[关闭]</a>
+					</h3>
+
+					<!--配送展示 开始-->
+					<table class="form_table" id="delivery_show_box" style='display:none'>
+						<col width="120px" />
+						<col />
+
+						<tbody id="deliveryShowBox"></tbody>
+
+						<!--配送方式展示模板-->
+						<script type='delivery' id='deliveryShowTemplate'>
+						<tr><th>接送方式：</th><td><%=name%></td></tr>
+						<tr><th>运费：</th><td id="deliveryPrice"></td></tr>
+						</script>
+					</table>
+					<!--配送展示 结束-->
+
+					<!--配送修改 开始-->
+					<table width="100%" class="border_table m_10" id='delivery_form'>
+						<col width="180px" />
+						<col />
+
+						<tbody>
+							{set:$deliveryData = Api::run('getDeliveryList')}
+							{foreach:items = $deliveryData}
+							<tr>
+								<th><label><input type="radio" name="delivery_id" value="{$item['id']}" paytype="{$item['type']}" onclick='orderFormInstance.deliverySelected({echo:JSON::encode($item)});' />{$item['name']}</label></th>
+								<td>
+									{$item['description']}
+
+									{if:$item['type'] == 2}
+									<a href="javascript:selectTakeself({$item['id']});"><span class="red">选择学校</span></a>
+									<span id="takeself{$item['id']}"></span>
+									{/if}
+								</td>
+							</tr>
+							{/foreach}
+						</tbody>
+
+						<script type='text/html' id='takeselfTemplate'>
+							<%=item['province_str']%> <%=item['city_str']%> <%=item['area_str']%> <%=item['address']%> <%=item['name']%> <%=item['phone']%> <%=item['mobile']%>
+						</script>
+
+						<tfoot>
+							<th>指定接送时间：</th>
+							<td>
+								<label class='attr'><input type='radio' name='accept_time' checked="checked" value='任意' />任意</label>
+								<label class='attr'><input type='radio' name='accept_time' value='上午' />上午</label>
+								<label class='attr'><input type='radio' name='accept_time' value='中午' />中午</label>
+								<label class='attr'><input type='radio' name='accept_time' value='晚上' />晚上</label>
+							</td>
+						</tfoot>
+					</table>
+					<!--配送修改 结束-->
+
+					<label class="btn_orange3" id="delivery_save_button"><input type="button" onclick="orderFormInstance.deliverySave();" value="保存接送方式" /></label>
+				</div>
+				<!--配送方式 结束-->
+
+				<!--支付方式 开始-->
+				<div class="cart_pay" id='paymentBox'>
+					<h3>
+						<span class="tit">支付方式</span>
+
+					</h3>
+
+					<div class="pay_inner">
+						{set:$paymentList=Api::run('getPaymentList')}
+						{foreach:items = $paymentList}
+						{set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],$this->sum);}
+						{set:unset($item['config_param'])}
+						{set:unset($item['description'])}
+						<input class="radio" name="payment" alt="{$paymentPrice}" title="{$item['name']}" type="radio" value="{$item['id']}" />{$item['name']}
+							<!-- {$item['note']} 支付手续费：￥{$paymentPrice} -->
+
+						{/foreach}
+					</div>
+
+
+
+				</div>
+				<!--支付方式 结束-->
+
+				<!--付款对象 开始-->
+				{if:$this->statement == 4 && $this->is_rehired}
+				<div class="wrap_box" id='receive_method'>
+					<h3>
+						<span class="orange">报酬支付方式</span>
+						<span><input type="radio" name="receive_method" value="1" checked id="receive_method_1" /><label for="receive_method_1">由第三课账户转付</label>&nbsp; &nbsp; <input type="radio" name="receive_method" value="2" id="receive_method_2" />直接支付到老师账户</span>
+					</h3>
+				</div>
+				{/if}
+				<!--付款对象 结束-->
+
+				{if:!$this->seller_tutor_id && !$this->user_tutor_id}
+				<!--订单留言 开始-->
+				<div class="wrap_box">
+					<h3>
+						<span class="orange">订单附言</span>
+						<a class="normal f12" href="javascript:void(0)" id='messageToggleButton' onclick="orderFormInstance.messageModToggle();">[留言]</a>
+					</h3>
+
+					<table width="100%" class="border_table" id='message_show_box'>
+						<col width="120px" />
+						<col />
+						<tbody>
+							<tr>
+								<td id="messageShowBox" colspan="2"></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table width="100%" class="form_table" id='message_form' style='display:none'>
+						<col width="120px" />
+						<col />
+						<tr>
+							<td colspan="2"><input class="normal" type="text" name='message' /></td>
+						</tr>
+					</table>
+
+					<label class="btn_orange3" id='message_save_button' style='display:none'><input type="button" onclick="orderFormInstance.messageSave();" value="保存订单附言" /></label>
+				</div>
+				<!--订单留言 结束-->
+				{/if}
+
+
+				<!--购买清单 开始-->
+				{if:!$is_seat}
+				{if:$this->ischit || $this->seller_tutor_id || $this->user_tutor_id}
+
+				{else:}
+				<div class="wrap_box warp_kc">
+
+					<h3><span class="orange">订单详情</span></h3>
+
+					<div class="cart_prompt f14 t_l m_10" {if:empty($this->promotion)}style="display:none"{/if}>
+						<p class="m_10 gray"><b class="orange">恭喜，</b>您的订单可以参加以下优惠活动！</p>
+						{foreach:items = $this->promotion}
+						<p class="indent blue">{$item['plan']}，{$item['info']}</p>
+						{/foreach}
+					</div>
+
+					{if:$this->statement == 1}
+					<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col />
+							<col width="120px" />
+							<col width="150px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>课程</th>
+								<th>属性</th>
+								<th>学校</th>
+								<th>订单类型</th>
+								<th>使用代金券</th>
+								<th>定金</th>
+								<th>未付金额</th>
+								<th>人数</th>
+								<th>付款金额</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- 课程展示 开始-->
+							{foreach:items = $this->goodsList}
+							<tr>
+								<td><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}" title="{$item['name']}" /></td>
+								<td class="t_l"><a href="{url:/site/products/id/$item[goods_id]}" class="blue">{$item['name']}</a></td>
+								<td>{$item['spec']}</td>
+								<td>{$item['seller_info']['true_name']}</td>
+								<td>{echo:order_class::get_order_type($this->statement);}</td>
+								<td class="dai_nums">0</td>
+								<td>0</td>
+								<td>{if:$item['rest_price'] > 0 }&yen;{$item['rest_price']}{else:}0{/if}</td>
+								<td>{$item['count']}</td>
+								<td>&yen;{echo:number_format($item['market_price'] * $item['count'], 2, '.', '');}</td>
+							</tr>
+							{/foreach}
+							<!-- 课程展示 结束-->
+						</tbody>
+					</table>
+					{elseif:$this->statement == 2}
+					<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col />
+							<col width="180px" />
+							<col width="120px" />
+							<col width="120px" />
+							<col width="120px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>课程</th>
+								<th>课程属性</th>
+								<th>学校</th>
+								<th>订单类型</th>
+								<th>学习券</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- 课程展示 开始-->
+							{foreach:items = $this->goodsList}
+							<tr>
+								<td><img src="/views/default/skin/default/images/xuexiquan.jpg" width="151px" height="66px" alt="{$item['name']}" title="{$item['name']}" /></td>
+								<td class="t_l"><a href="{url:/site/products/id/$item[goods_id]}" class="blue">{$item['name']}</a></td>
+								<td>{$item['spec']}</td>
+								<td>{$item['seller_info']['true_name']}</td>
+								<td>{echo:order_class::get_order_type($this->statement);}</td>
+								<td class="dai_nums">{echo:$item['sell_price']*$item['count']}</td>
+							</tr>
+							{/foreach}
+							<!-- 课程展示 结束-->
+						</tbody>
+					</table>
+					{else:}
+					<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col />
+							<col width="120px" />
+							<col width="150px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+							<col width="80px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>课程</th>
+								<th>课程属性</th>
+								<th>课程学费</th>
+								<th>学校</th>
+								<th>订单类型</th>
+								<th>使用学习券</th>
+								<th>定金</th>
+								<th>未付学费</th>
+								<th>人数</th>
+								<th>上课时间</th>
+								<th>付款金额</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- 课程展示 开始-->
+							{foreach:items = $this->goodsList}
+							<tr>
+								<td><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}" title="{$item['name']}" /></td>
+								<td class="t_l"><a href="{url:/site/products/id/$item[goods_id]}" class="blue">{$item['name']}</a></td>
+								<td>{$item['spec']}</td>
+								<td>&yen;{echo:number_format($item['market_price'] * $item['count'], 2, '.', '');}</td>
+								<td>{$item['seller_info']['true_name']}</td>
+								<td>{echo:order_class::get_order_type($this->statement);}</td>
+								<td class="dai_nums">0</td>
+								<td>{$item['sell_price']}</td>
+								<td>{if:$item['rest_price'] > 0 }&yen;{$item['rest_price']}{else:}0{/if}</td>
+								<td>{$item['count']}</td>
+								<td>{echo:date('Y年m月d日', strtotime($this->choose_date));}</td>
+								<td>{$this->market_count}</td>
+							</tr>
+							{/foreach}
+							<!-- 课程展示 结束-->
+						</tbody>
+					</table>
+					{/if}
+				</div>
+				{/if}
+{else:}
+				<!-- 订票模板 开始-->
+				<table width="100%" class="cart_table t_c">
+						<colgroup>
+							<col width="115px" />
+							<col width="120px" />
+							<col width="150px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>座位号</th>
+								<th>等级</th>
+								<th>付款金额</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							{foreach:items = $seat_list}
+							<tr>
+								<td>{$item['position']}</td>
+								<td>{$item['info']}</td>
+								<td>￥{$item['price']}</td>
+
+							</tr>
+							{/foreach}
+
+						</tbody>
+					</table>
+					<!-- 订票模板 结束-->
+			{/if}
+				<!--购买清单 结束-->
+
+			</div>
+		</div>
+
+		<!--金额结算-->
+		<div class="cart2_box" id='amountBox'>
+			<div class="cont_2">
+				{if:$this->statement != 2 && $this->prop_list}
+				<div class="pink_box">
+						<p class="f14 t_l">
+							<div class="hd">
+								<p style="text-align: right;">
+										选择代金券：<select name="user_prop_list">
+											<option value="0">请选择</option>
+										{foreach:items=$this->prop_list}
+											<option value="{$item['prop_id']}" count="{$item['prop_value']}">{$item['prop_value']}元代金券</option>
+										{/foreach}
+										</select>
+										<input type="hidden" name="user_prop_ids" value="" />
+										<input type="hidden" name="coupon_nums" value="" />
+										<input type="hidden" name="use_coupon" value="0"/>
+								</p>
+							</div>
+						</p>
+				</div>
+				{/if}
+
+				<hr class="dashed" />
+				<div class="pink_box gray m_10 hide">
+					<table width="100%" class="form_table t_l">
+						<colgroup>
+							<col width="220px" />
+							<col />
+							<col width="250px" />
+						</colgroup>
+
+						<tr>
+							<td>是否需要发票？(税金:￥{$this->goodsTax}) <input class="radio" onclick="orderFormInstance.doAccount();$('#tax_title').toggle();" name="taxes" type="checkbox" value="{$this->goodsTax}" /></td>
+							<td><label id="tax_title" class='attr' style='display:none'>发票抬头：<input type='text' class='normal' name='tax_title' /></label></td>
+							<td class="t_r"><b class="price f14">应付总额：<span class="red2">￥<b id='final_sum' style="font-size: 18px;">{$this->final_sum}</b></span>元</b></td>
+						</tr>
+					</table>
+				</div>
+
+
+				<p class="m_10 t_r" style="line-height: 44px;margin-top:10px;">
+					{if:$this->statement == 4 && !$this->is_rehired}<span class="notice"><b>温馨提示：付款成功后将安排试讲，试讲成功后则可以进行购买，试讲失败则会退款90%的支付金额</b></span>{/if}
+										&nbsp; &nbsp; &nbsp; &nbsp; 应付金额：￥<b class="red2 yf_count" style="font-size: 26px;color:#ff3c00">{if:!$seat_market}{$this->market_count}{else:}{$seat_market}{/if}</b>元</span>
+					<input type="submit" class="submit_order cart2_submit" style="float:right;margin-left: 20px;" />
+				</p>
+
+			</div>
+		</div>
+	</form>
+</div>
+
+<table border="0" class="add_test_html" style="display:none;">
+  <tbody>
+    <tr>
+        <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small"/></td>
+        <td><input type="text" name="test_type[]" class="normal small"/></td>
+        <td><input type="text" name="test_condition[]" class="normal small" />分</td>
+        <td><input type="text" name="test_money[]" class="normal small"/>元</td>
+        <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<script>
+	$(function(){
+		$('.cart_contact').find('input[name=accept_name]').val($('.address_info').find('.on').find('.stu_name').text());
+		$('.cart_contact').find('input[name=mobile]').val($('.address_info').find('.on').find('.stu_mobile').text());
+
+		$(document).on('click','.address_info li',function(){
+			$(this).addClass('on').siblings('li').removeClass('on');
+
+			$('.cart_contact').find('input[name=accept_name]').val($(this).find('.stu_name').text());
+			$('.cart_contact').find('input[name=mobile]').val($(this).find('.stu_mobile').text());
+			$('.cart_contact').find('input[name=id]').val($(this).find('.stu_name').data('id'));
+		})
+
+		$('.show_all').on('click',function(){
+			 $(".address_info").css({height: "auto"});
+		})
+
+		$('.cart_contact').find('input[name=accept_name]').on('change',function(){
+			$(this).parents('.cart_contact').children('label').show();
+		})
+		$('.cart_contact').find('input[name=mobile]').on('change',function(){
+			$(this).parents('.cart_contact').children('label').show();
+		})
+		$('.pay_inner').children('input:first-child').attr('checked','checked');
+
+		$('.add_user').click(function(){
+			$('.cart_contact').find('input[name=accept_name]').val('');
+			$('.cart_contact').find('input[name=mobile]').val('');
+			$('.cart_contact').find('input[name=id]').val('');
+			$('#address_form').slideDown();
+		})
+
+		$('.modi_user').click(function(){
+			$('.cart_contact').find('input[name=accept_name]').val($('.address_info').find('.on').find('.stu_name').text());
+			$('.cart_contact').find('input[name=mobile]').val($('.address_info').find('.on').find('.stu_mobile').text());
+			$('.form_table').find('input[name=id]').val($('.address_info').find('.on').find('.stu_name').data('id'));
+			$('#address_form').slideDown();
+		})
+	})
+</script>

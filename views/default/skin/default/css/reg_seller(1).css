@@ -1,0 +1,37 @@
+.form_table input.send_sms {
+	padding: 0 10px;
+	height: 28px;
+	line-height: 28px;
+	display: inline-block;
+	background-color: #f2f2f2;
+	color: #000;
+	border-radius: 5px;
+	text-decoration: none;
+	border: 1px solid #c5c5c5;
+	cursor: pointer;
+}
+.form_table input.disable {
+	color: #ccc;
+}
+.form_table .send_sms_notice {
+	margin-top: 10px;
+	background: url(/views/mobile/skin/blue/images/right.png) 0 3px no-repeat;
+	background-size: 13px 13px;
+	padding-left: 18px;
+	display: none;
+}
+#protocol {
+	color: #38f;
+}
+.hide {
+	display: none;
+}
+input.gray_s {
+	border: 1px solid #7f9db9;
+	line-height: 15px;
+}
+.box_tab {height: 40px;line-height: 40;}
+.box_tab ul {list-style:none; padding: 0px;margin: 0px;width: 40%;margin: 0px auto;}
+.box_tab li {float: left;width: 49%;height: 40px;line-height: 40px;background-color: #fff;color: #000;font-weight: 400;text-align: center;border: 1px solid #038bd0;cursor: pointer;}
+.box_tab li.active {background-color: #038bd0;color: #fff;font-weight: 700;}
+.box2 {display: none;}select { border: 1px solid #7f9db9; height: 27px; line-height: 27px; }

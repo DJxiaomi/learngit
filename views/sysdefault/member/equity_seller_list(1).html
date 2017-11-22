@@ -1,0 +1,164 @@
+<link rel="stylesheet" href="{rs:}/scripts/layer/skin/layer.css"/>
+<script type="text/javascript" src="{rs:}/scripts/layer/layer.js"></script>
+
+<div class="headbar">
+	<div class="position"><span>用户</span><span>></span><span>股权分配</span><span>></span><span>股权分配商户列表</span></div>
+	
+</div>
+
+<div class="content">
+	<table id="list_table" class="list_table">
+
+		<thead>
+			<tr>
+				<th width="40">ID</th>
+				<th>商家名称</th>
+				<th>已获得股权</th>
+				<th>总成交金额</th>
+				<th>总成交人数</th>
+				<th>剩余成交金额</th>
+				<th>剩余成交人数</th>
+				<th>推广人</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{if:$this->seller_list != null}
+				
+			{foreach:items=$this->seller_list}
+			<tr>
+				<td class="id">{$item['id']}</td>
+				<td class="name"><a href="javascript:void(0);">{$item['true_name']}</a></td>
+				<td class="equity_num"><span>{$item['equity']['equity_num']}</span>%</td>
+				<td>{$item['equity']['total_price']}</td>
+				<td>{$item['equity']['total_num']}</td>
+				<td>{$item['equity']['surplus_price']}</td>
+				<td>{$item['equity']['surplus_num']}</td>
+				<td>{if:$item['promo_info']['true_name']}{$item['promo_info']['true_name']}{else:}{$item['promo_info']['username']}{/if}</td>
+				<td>{if:$item['is_equity'] == 1}正常{elseif:$item['is_equity'] == 2}暂停{elseif:$item['is_equity'] == 3}终止{/if}</td>
+				<td>
+					<input type="hidden" name="type" value="1"/>
+					<input type="hidden" name="promo" value="{$item['promo_code']}"/>
+					<a href="javascript:void(0);" class="modify"> 修改</a>
+					{if:$item['is_equity'] == 1}
+					<a href="javascript:void(0);" class="operation" data-num='2'>暂停</a>
+					{elseif:$item['is_equity'] == 2}
+					<a href="javascript:void(0);" class="operation" data-num='1'>开始</a>
+					{else:}
+					<a href="javascript:void(0);" style="color:#ccc;">暂停</a>
+					{/if}
+					{if:$item['is_equity'] == 3}
+					<a href="javascript:void(0);" style="color:#ccc;">终止</a>
+					{else:}
+					<a href="javascript:void(0);" class="operation" data-num='3'>终止</a>
+					{/if}
+					
+				</td>
+			</tr>
+			{/foreach}
+{else:}
+			<tr>
+					<td colspan="10">暂无股权分配商户！</td>
+				</tr>
+			
+
+			{/if}
+			<tr>
+					<td colspan="10">{$page_info}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<style>
+	.modify_info p{text-align: left;font-size:16px;padding:10px;}
+	.modify_info .tj{text-align: center;}
+	.modify_info .tj input{background:#F77804;padding:5px 20px;border-color:#F77804;color:#fff;}
+</style>
+
+
+<div class="modify_info" style="display:none;">
+	<p><label>商家名称：</label><span class="y_name"></span></p>
+	<p><label>已获得股权：</label><input type="text" class="y_equity" name="equity_num" value=""/></p>
+	<p><label>推&nbsp;&nbsp;&nbsp;广&nbsp;&nbsp;&nbsp;码：&nbsp;</label><input type="text" class="y_promo" name="promo" value=""/></p>
+
+</div>
+
+<script language="javascript">
+//排序
+$(function(){
+	$('.modify').on('click',function(){
+		var id = $(this).parent('td').siblings('.id').text();
+		var type = $(this).siblings('input[name=type]').val();
+		var promo = $(this).siblings('input[name=promo]').val();
+		var equity_num = $(this).parent('td').siblings('.equity_num').children('span').text();
+		var name = $(this).parent('td').siblings('.name').children('a').text();
+		
+		$('.y_equity').val(equity_num);
+		$('.y_promo').val(promo);
+		$('.y_name').text(name);
+
+		layer.open({
+		  type: 1,
+		  skin: 'layui-layer-rim', 
+		  area: ['420px', '240px'], 
+		  content: $('.modify_info'),
+		  btn: ['修改', '关闭'],
+		  yes: function(index, layero){
+		  	$.ajax({
+				type:'post',
+				data:'id='+id+'&promo_code='+promo+'&type='+type+'&equity_num='+$('.y_equity').val()+'&new_promo_code='+$('.y_promo').val(),
+				url:'{url:member/equity_modify}',
+				success:function(data){
+					var parseData = $.parseJSON(data);
+					if(parseData.status == 1){
+						layer.alert(parseData.info,{icon:1},function(){
+							location.reload();
+						});
+					}else{
+						layer.alert(parseData.info,{icon:2});
+					}
+				}
+			})
+		  }
+		});
+		
+	})
+
+	$('.operation').on('click',function(){
+		var id = $(this).parent('td').siblings('.id').text();
+		var status_name = $(this).text();
+		var status_num = $(this).data('num');
+
+		layer.confirm('是否确定要'+status_name+'此商户的股权分配？', {
+		  btn: ['确定','取消']
+		}, function(){
+			$.ajax({
+				type:'post',
+				data:'id='+id+'&flag='+status_num+'&type=1',
+				url:'{url:member/status_modify}',
+				success:function(data){
+					var parseData = $.parseJSON(data);
+					if(parseData.status == 1){
+						layer.alert(parseData.info,{icon:1},function(){
+							location.reload();
+						});
+					}else{
+						layer.alert(parseData.info,{icon:2});
+					}
+				}
+			})
+		  
+		}, function(cancel){
+		  	layer.close(cancel);
+		});
+
+
+		
+		
+	})
+	
+})
+</script>

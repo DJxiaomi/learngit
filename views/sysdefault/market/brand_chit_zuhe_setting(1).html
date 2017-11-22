@@ -1,0 +1,233 @@
+{js:kindeditor}
+{js:artTemplate}
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>网站管理</span><span>></span><span>站点设置</span></div>
+</div>
+<div class="content_box">
+
+	<div class="content form_content">
+		<form action="{url:/market/brand_chit_zuhe_save}"  method="post" enctype='multipart/form-data' name='base_conf'>
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>短期课自选折扣比例：</th>
+					<td><input type='text' class='normal' name='commission' pattern='int' value="{$this->commission}" alt='短期课自选折扣比例不正确' /><label>* 百分比</label></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>
+						<button class="submit" type='submit'><span>保存设置</span></button>
+					</td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+</div>
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	//默认系统定义
+	select_tab("{$this->confRow['form_index']}");
+	show_mail(1);
+
+	//生成导航
+	{query:name=guide items=$guideList}{/query}
+	{if:$guideList}
+	var guideList = {echo:JSON::encode($guideList)};
+	for(var index in guideList)
+	{
+		add_guide(guideList[index]);
+	}
+	{else:}
+		add_guide();
+	{/if}
+
+	//生成幻灯片
+	{if:isset($this->confRow['index_slide']) && $this->confRow['index_slide'] && $slide = unserialize($this->confRow['index_slide'])}
+	var slideList = {echo:JSON::encode($slide)};
+	for(var index in slideList)
+	{
+		add_slide(slideList[index]);
+	}
+	{else:}
+		add_slide();
+	{/if}
+
+	//全部表单自动填入值
+	var formNameArray = ['base_conf','other_conf','mail_conf','system_conf'];
+	for(var index in formNameArray)
+	{
+		var formObject = new Form(formNameArray[index]);
+		formObject.init({echo:JSON::encode($this->confRow)});
+	}
+
+	//装载编辑器
+	KindEditor.ready(function(K){
+		K.create('#site_footer_code',{"filterMode":false});
+	});
+});
+
+//测试邮件发送
+function test_mail(obj)
+{
+	$('form[name="mail_conf"] input:text').each(function(){
+		$(this).trigger('change');
+	});
+
+	if($('form[name="mail_conf"] input:text.invalid-text').length > 0)
+	{
+		return;
+	}
+
+	//按钮控制
+	obj.disabled = true;
+	$('#testmail').html('正在测试发送请稍后...');
+
+	var ajaxUrl = '{url:/system/test_sendmail/@random@}';
+	ajaxUrl     = ajaxUrl.replace('@random@',Math.random());
+
+	$.getJSON(ajaxUrl,$('form[name="mail_conf"]').serialize(),function(content){
+		obj.disabled = false;
+		$('#testmail').html('测试邮件发送');
+		alert(content.message);
+	});
+}
+
+//添加导航
+function add_guide(data)
+{
+	var data = data ? data : {};
+	var guideTrHtml = template.render('guideTrTemplate',data);
+	$('#guide_box tbody').append(guideTrHtml);
+	var last_index = $('#guide_box tbody tr').size()-1;
+	buttonInit(last_index);
+}
+
+//增加幻灯片
+function add_slide(data)
+{
+	var data = data ? data : {};
+	var slideTrHtml = template.render('slideTrTemplate',data);
+	$('#slide_box tbody').append(slideTrHtml);
+	var last_index = $('#slide_box tbody tr').size()-1;
+	buttonInit(last_index,'#slide_box');
+}
+
+//操作按钮绑定
+function buttonInit(indexValue,ele)
+{
+	ele = ele || "#guide_box";
+	if(indexValue == undefined || indexValue === '')
+	{
+		var button_times = $(ele+' tbody tr').length;
+
+		for(var item=0;item < button_times;item++)
+		{
+			buttonInit(item,ele);
+		}
+	}
+	else
+	{
+		var obj = $(ele+' tbody tr:eq('+indexValue+') .operator')
+
+		//功能操作按钮
+		obj.each(
+			function(i)
+			{
+				switch(i)
+				{
+					//向上排序
+					case 0:
+					{
+						$(this).click(
+							function()
+							{
+								var insertIndex = $(this).parent().parent().prev().index();
+								if(insertIndex >= 0)
+								{
+									$(ele+' tbody tr:eq('+insertIndex+')').before($(this).parent().parent());
+								}
+							}
+						)
+					}
+					break;
+
+					//向上排序
+					case 1:
+					{
+						$(this).click(
+							function()
+							{
+								var insertIndex = $(this).parent().parent().next().index();
+								$(ele+' tbody tr:eq('+insertIndex+')').after($(this).parent().parent());
+							}
+						)
+					}
+					break;
+
+					//删除排序
+					case 2:
+					{
+						$(this).click(
+							function()
+							{
+								var obj = $(this);
+								art.dialog.confirm('确定要删除么？',function(){obj.parent().parent().remove()});
+							}
+						)
+					}
+					break;
+				}
+			}
+		)
+	}
+}
+
+//清理缓存
+function clearCache()
+{
+	loadding('请稍候，系统正在清理缓存文件...');
+	jQuery.get('{url:/system/clearCache}',function(content)
+	{
+		unloadding();
+		var content = $.trim(content);
+		if(content == 1)
+			art.dialog.tips('清理成功！', 1.5);
+		else
+			art.dialog.tips('清理失败！', 1.5);
+	});
+}
+
+//滑动门
+function select_tab(indexVal)
+{
+	//设置默认值
+	if(indexVal == '')
+	{
+		indexVal = 'base_conf';
+	}
+
+	var formObj  = $('form[name="'+indexVal+'"]');
+	var li_index = $('form').index(formObj);
+
+	//切换form
+	$('form').hide();
+	$('form:eq('+li_index+')').show();
+
+	//切换li
+	$('ul[name="conf_menu"] li').attr('class','');
+	$('ul[name="conf_menu"] li:eq('+li_index+')').attr('class','selected');
+}
+
+//切换邮箱设置
+function show_mail(checkedVal)
+{
+	if(checkedVal==1)
+		$('table tr[name="smtp"] *').show();
+	else
+		$('table tr[name="smtp"] *').hide();
+}
+</script>

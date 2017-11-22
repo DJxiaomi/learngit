@@ -1,0 +1,306 @@
+<link href="{skin:/css/index111.css}" rel="stylesheet" type="text/css" />
+{js:bxSlider}
+ <style>
+	 .t-right a:hover{
+		   color:#DE4002;
+	}
+	
+	
+ </style>
+
+
+	
+	
+
+	<!--幻灯片 开始-->
+	
+		<div class="main1 f_l">
+		{if:$this->index_slide}
+		<ul class="bxslider">
+			{foreach:items=$this->index_slide}
+			<li title="{$item['name']}"><a href="{url:$item[url]}" target="_blank"><img src="{url:/pic/thumb/img/$item['img']}" width="1200px" title="{$item['name']}" /></a></li>
+			{/foreach}
+		</ul>
+		{/if}
+	</div>
+	<!--幻灯片 结束-->
+
+
+{echo:Ad::show("首页中部通栏960*70(default)")}
+
+ <div class="wrapper clearfix" >
+	<div class="sidebar f_r">
+        <!-- cms新闻展示 -->
+		<div class="box m_10">
+			<div class="title"><h2>最新资讯</h2><a class="more" href="{url:/site/article/cid/2}">更多...</a></div>
+			<div class="cont">
+				<ul class="list" >
+				{foreach:items=Api::run('getArtList',5)}
+				{set:$tmpId=$item['id'];}
+				<li><a href="{url:/site/article_detail/id/$tmpId}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
+				{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!-- cms新闻展示 -->
+		{echo:Ad::show("首页右上方198*104(default)")}        
+		
+{echo:Ad::show("页面顶部通栏广告条")}
+		<!--热卖商品-->
+		<div class="hot box m_10">
+			<div class="title" ><h2>热卖商品</h2></div>
+			<div class="cont clearfix" >
+				<ul class="prolist" id="hot">
+					{foreach:items=Api::run('getCommendHot',8)}
+					{set:$tmpId=$item['id']}
+					
+					<li >
+						<a href="{url:/site/products/id/$tmpId}"><img class="lazy" data-original="{url:/pic/thumb/img/$item[img]}" width="85px" height="85px" alt="{$item['name']}" src="{skin:images/dsanke.png}" /></a>
+						<p class="pro_title"><a href="{url:/site/products/id/$tmpId}">{$item['name']}</a></p>
+						<p class="brown1"><b>￥{$item['sell_price']}</b></p>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--热卖商品-->
+
+		
+	</div>
+
+	<div class="main f_l" >
+		<!--商品分类展示-->
+		<div class="category box" >
+			<div class="title2">
+				<h2><img src="{skin:images/front/category.gif}" alt="商品分类" width="155" height="36" /></h2>
+				<a class="more" href="{url:/site/sitemap}">全部商品分类</a>
+			</div>
+		</div>
+
+		<table id="index_category" class="sort_table m_10" width="900px" >
+			<col width="100px" />
+			<col />
+			{foreach:items=Api::run('getCategoryListTop') item=$first}
+			<tr>
+				<th><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a></th>
+				<td>
+					{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+					<a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a>
+					{/foreach}
+				</td>
+			</tr>
+			{/foreach}
+		</table>
+		<!--商品分类展示-->
+
+		<!--最新商品-->
+		<div class="box yellow m_10" >
+			<div class="title2">
+				<h2><img src="{skin:images/front/new_product.gif}" alt="最新商品" width="160" height="36" /></h2>
+			</div>
+			<div class="cont clearfix" >
+				<ul class="prolist" >
+                              
+					{foreach:items=Api::run('getCommendNew',8)}
+				
+					{set:$tmpId=$item['id']}
+                     
+				         
+					<li class="intro_goods">
+					    <div class="intro_img">
+						<a href="{url:/site/products/id/$tmpId}"><img class="lazy" data-original="{url:/pic/thumb/img/$item[img]}"  alt="{$item['name']}"  src="{skin:images/dsanke.png}"/></a>
+						</div>
+						<div class="introduct"  id="{$tmpId}">
+						<p class="pro_title"><a title="{$item['name']}" href="{url:/site/products/id/$tmpId}">{$item['name']}</p>						
+						<p class="light_gray" id="address" >{$item['keywords']}</p>
+						<p class="seller_name">{$item['shortname']}</p>
+						<p class="seller_address">{$item['address']}</p>
+						</a>
+						</div>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!--更改样式-->
+		<!--最新商品-->
+
+		<!--首页推荐商品-->
+		<div class="Warp" >
+		
+		{foreach:items=Api::run('getCategoryListTop')  item=$first key=$k }
+	
+		 <div class="index_goods_intro ConB mbot25"  >
+             
+		 <div class="Title part01"  >
+                      
+			    <div class="t-left">
+				<a class="introtitle" href="{url:/site/pro_list/cat/$first[id]}" >{$first['name']}</a>
+				</div>
+			
+			 <div class="t-right" >
+				<ul  style="border:none">				{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id']))  item=$second}
+				   
+					<li ><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
+					{/foreach}
+					<li><a class="more"  href="{url:/site/pro_list/cat/$first[id]}">更多商品...</a></li>
+				</ul>
+			 </div>	
+		</div>
+	  
+	 <div>
+		<div class="left">
+		   <a href="{url:/site/pro_list/cat/$first[id]}"><img src="{$this->contents[$k]}"  ></a>
+		
+		</div>
+		
+             
+
+			<div class="ConCC">
+
+				<ul class="prolist" >
+					{foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),8)}
+					
+					<li  class="intro_goods1">
+					   <div class="intro">
+						<a href="{url:/site/products/id/$item[id]}">
+						<img class="lazy" data-original="{url:/pic/thumb/img/$item[img]}" 
+					 alt="{$item['name']}" title="{$item['name']}" src="{skin:images/dsanke.png}" /></a>
+						</div >
+						
+                      <div class="intro1">
+					 
+						<p  class="pro_title1" > <a title="{$item['name']}" href="{url:/site/products/id/$item[id]}">{$item['name']}</p>
+						<p class="brown2">{$item['keywords']}
+						</p>
+						<p class="seller_name1">{$item['shortname']}</p>
+						<p class="seller_address1">{$item['address']}</p>
+						</a>
+						
+					  </div>	
+					</li>
+					{/foreach}
+				</ul>
+			</div> 
+			
+		</div> 
+	</div>
+		   			
+		{/foreach}
+       </div>
+	 
+	
+		<!--品牌列表-->
+		 <!--
+		<div class="brand box m_10">
+			<div class="title2"><h2><img src="{skin:images/front/brand.gif}" alt="品牌列表" width="155" height="36" /></h2><a class="more" href="{url:/site/brand}">&lt;<span>全部品牌</span>&gt;</a></div>
+			<div class="cont clearfix">
+				<ul>
+					{foreach:items=Api::run('getBrandList',6)}
+					{set:$tmpId=$item['id'];}
+					<li><a href="{url:/site/brand_zone/id/$tmpId}"><img src="{webroot:$item[logo]}"  width="110" height="50"/>{$item['name']}</a></li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		
+		<!--品牌列表-->
+
+		<!--最新评论-->
+		<!--
+		<div class="comment box m_10">
+			<div class="title2"><h2><img src="{skin:images/front/comment.gif}" alt="最新评论" width="155" height="36" /></h2></div>
+			<div class="cont clearfix">
+				{foreach:items=Api::run('getCommentList',6)}
+				<dl class="no_bg">
+					{set:$tmpGoodsId=$item['goods_id'];}
+					<dt><a href="{url:/site/products/id/$tmpGoodsId}"><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66" height="66" /></a></dt>
+					<dd><a href="{url:/site/products/id/$tmpGoodsId}">{$item['name']}</a></dd>
+					<dd><span class="grade-star g-star{$item['point']}"></span></dd>
+					<dd class="com_c">{$item['contents']}</dd>
+				</dl>
+				{/foreach}
+			</div>
+		</div>
+		
+		<!--最新评论-->
+		            
+	</div>
+</div>
+
+<script type='text/javascript'>
+//dom载入完毕执行
+jQuery(function()
+{
+	//幻灯片开启
+	$('.bxslider').bxSlider({'mode':'fade','captions':true,'pager':false,'auto':true});
+
+	//index 分类展示
+	$('#index_category tr').hover(
+		function(){
+			$(this).addClass('current');
+		},
+		function(){
+			$(this).removeClass('current');
+		}
+	);
+	
+
+	//显示抢购倒计时
+	var cd_timer = new countdown();
+	{if:isset($countNumsItem) && $countNumsItem}
+	{foreach:items = $countNumsItem}
+		cd_timer.add({$item});
+	{/foreach}
+	{/if}
+
+	//首页商品变色
+	var colorArray = ['green','yellow','purple','black'];
+	$('div[name="showGoods"]').each(function(i)
+	{
+		$(this).addClass(colorArray[i%colorArray.length]);
+	});
+	
+	// 商品列表鼠标效果
+	$('.intro_goods').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+	//推荐列表鼠标效果
+	$('.intro_goods1').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+	//推荐菜单鼠标效果
+	$('.t-right ul li a').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+	
+});
+  
+//电子邮件订阅
+function orderinfo()
+{
+	var email = $('[name="orderinfo"]').val();
+	if(email == '')
+	{
+		alert('请填写正确的email地址');
+	}
+	else
+	{
+		$.getJSON('{url:/site/email_registry}',{email:email},function(content){
+			if(content.isError == false)
+			{
+				alert('订阅成功');
+				$('[name="orderinfo"]').val('');
+			}
+			else
+				alert(content.message);
+		});
+	}
+}
+</script>

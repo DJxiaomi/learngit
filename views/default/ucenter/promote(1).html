@@ -1,0 +1,124 @@
+<link href="{skin:css/ucenter_promote.css}" rel="stylesheet" type="text/css" />
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-group"></i>我的推广</div>
+        <div class="">
+          <table border="0" class="new-table2">
+            <tr>
+              <td class="promo_code">我的推广码：<b>{$my_promote_code}</b><a href="http://www.dsanke.com/plugins/phpqrcode/index.php?data=http://www.dsanke.com/site/index/promote/{$my_promote_code}" target="_blank">我的推广二维码</a></td>
+            </tr>
+          </table>
+            <table class="new-table info">
+                <tr>
+                  <th>我的推广</th>
+                  <th>个人用户</th>
+                  <th>个人返佣</th>
+                  <th>&nbsp;</th>
+                  <th>培训机构</th>
+                  <th>机构返佣</th>
+                  <th>下级推广</th>
+                  <th>下级返佣</th>
+                </tr>
+                <tr>
+                  <td>总推广</td>
+                  <td><a href="{url:/ucenter/promote_user_list}">{$promote_statics['user_count']}</a></td>
+                  <td>{$promote_statics['user_prommission_count']}</td>
+                  <td>&nbsp;</td>
+                  <td><a href="{url:/ucenter/promote_seller_list}">{$promote_statics['seller_count']}</a></td>
+                  <td>{$promote_statics['seller_prommission_count']}</td>
+                  <td><a href="{url:/ucenter/promote_subordinate_user_list}">{$promote_statics['get_promote_list_by_account']}</a></td>
+                  <td>{$promote_statics['other_commision_count']}</td>
+                </tr>
+                <tr>
+                  <td><a href="{url:/ucenter/promote_previous_month}">上月推广</a></td>
+                  <td>{$promote_statics['user_count_by_month']}</td>
+                  <td>{$promote_statics['user_prommission_count_by_month']}</td>
+                  <td>&nbsp;</td>
+                  <td>{$promote_statics['seller_count_by_month']}</td>
+                  <td>{$promote_statics['seller_prommission_count_by_month']}</td>
+                  <td>{$promote_statics['get_promote_list_by_account_by_month']}</td>
+                  <td>{$promote_statics['other_commision_count_by_month']}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="hd">
+          <ul>
+            <li {if:$type == '1'}class="active"{/if}><a href="{url:/ucenter/promote/type/1}">最新推广</a></li>
+            <li {if:$type == '2'}class="active"{/if}><a href="{url:/ucenter/promote/type/2}">最新成交</a></li>
+            <li {if:$type == '3'}class="active"{/if}><a href="{url:/ucenter/promote/type/3}">商家用户</a></li>
+            <li {if:$type == '4'}class="active"{/if}><a href="{url:/ucenter/promote/type/4}">个人用户</a></li>
+          </ul>
+        </div>
+
+        {if:$type == 1}
+        <!-- 最新推广 -->
+        <table class="new-table">
+            <tr>
+              <th>编号</th>
+              <th>用户</th>
+              <th>日期</th>
+            </tr>
+            {foreach:items = $promotelist key=$key}
+                <tr>
+                    <td>{echo:$key+1}</td>
+                    <td>{$item['username']}</td>
+                    <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                </tr>
+            {/foreach}
+        </table>
+        {elseif:$type == 2}
+        <!-- 最新成交 -->
+        <table class="new-table">
+            <tr>
+              <th>编号</th>
+              <th>用户</th>
+              <th>课程</th>
+              <th>预计提成</th>
+              <th>日期</th>
+            </tr>
+            {foreach:items = $promotelistorder key=$key}
+                <tr>
+                    <td>{echo:$key+1}</td>
+                    <td>{$item['username']}</td>
+                    <td>{$item['goods_name']}</td>
+                    <td>{$item['commission']}</td>
+                    <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                </tr>
+            {/foreach}
+        </table>
+        {elseif:$type == 3}
+        <!-- 商家用户 -->
+        <table class="new-table">
+            <tr>
+              <th>编号</th>
+              <th>用户</th>
+              <th>注册日期</th>
+            </tr>
+            {foreach:items = $promotelistseller key=$key}
+                <tr>
+                    <td>{echo:$key+1}</td>
+                    <td>{$item['username']}</td>
+                    <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                </tr>
+            {/foreach}
+        </table>
+        {else:}
+        <!-- 个人用户 -->
+        <table class="new-table">
+            <tr>
+              <th>编号</th>
+              <th>用户</th>
+              <th>注册日期</th>
+            </tr>
+            {foreach:items = $promotelistperson key=$key}
+                <tr>
+                    <td>{echo:$key+1}</td>
+                    <td>{$item['username']}</td>
+                    <td>{echo:date('Y-m-d',strtotime($item['create_time']))}</td>
+                </tr>
+            {/foreach}
+        </table>
+        {/if}
+    </div>
+</div>

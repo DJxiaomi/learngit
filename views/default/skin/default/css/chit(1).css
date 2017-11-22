@@ -1,0 +1,36 @@
+.new-box {background-color:#fff;padding:10px;margin-top:30px;}
+.q {
+  position:relative;
+  background:url(../images/card.png) 0 0 no-repeat;
+  background-size: 100% 100%;
+  width:120px;
+  height:60px;
+  color:#fff;
+  margin-left: 20px;
+  float: left;
+}
+.i {
+  float: left;
+  width: 450px;
+  margin-left: 20px;
+}
+.i .hd {
+  text-align: left;
+  color: #825c3d;
+  font-size: 14px;
+}
+.i .bd {
+  font-size: 12px;
+  text-align: left;
+  margin-top: 5px;
+}
+.nt {
+  height: 30px;
+  line-height: 30px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.main {
+  margin-bottom: 60px;
+}
+.t_l {padding: 10px;}

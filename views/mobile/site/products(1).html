@@ -1,0 +1,578 @@
+<?php    $site_config=new Config('site_config');	$dcommission = $site_config->dcommission;?>
+<link rel="stylesheet" href="{skin:css/product.css}">
+<link rel="stylesheet" href="{rs:/scripts/swiper/swiper.min.css}">
+<link rel="stylesheet" href="{theme:javascript/mui/css/mui.picker.min.css}">
+<script type='text/javascript' src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<script type="text/javascript" src="{theme:javascript/payfor.js}"></script>
+<script type='text/javascript' src="{theme:javascript/mui/js/mui.picker.min.js}"></script>
+<script type='text/javascript' src="{rs:/scripts/layer_mobile/layer.js}"></script>
+
+<!-- 推广信息 S -->
+{if:$goods_promotion_commission > 0}
+<div class="promote_tips"><i></i>推荐好友赚&yen;{$goods_promotion_commission}</div>
+<div class="promote_content">
+	<div class="promote_info">
+		<div class="promote_image">
+			<img src="{webroot:$photo[0]['img']}" />
+		</div>
+		<div class="promote_infos">
+			<div class="promote_names">
+				<div class="promote_name">{$name}</div>
+				<div class="promote_addr">{$seller['address']}</div>
+				<div class="promote_brief">{$keywords}</div>
+				<div class="promote_price">&yen;{if:$sell_price != $this->hide_price}{$sell_price}{else:}<i>{$this->hide_price_str}</i>{/if}</div>
+			</div>
+			<div class="promote_qrcode">
+					<img src="http://www.dsanke.com/plugins/phpqrcode/index.php?data=http://www.dsanke.com{$_SERVER['REQUEST_URI']}" />
+			</div>
+		</div>
+		<div class="promote_notice">“长按图片发送”或“转发此页面链接”给朋友，朋友购买并使用以后，您将最高可得到{$goods_promotion_commission}元返利！</div>
+	</div>
+	<div class="promote_btn">
+		<a href="#" class="mui-btn mui-btn-block mui-btn-primary">我知道了</a>
+	</div>
+</div>
+{/if}
+<!-- 推广信息 E -->
+
+<div class="pro-header goodstab">
+	<input type='hidden' id='product_id' alt='课程ID' value='' />
+	<a href="javascript:;" class="current">课程</a>
+	<a href="#shop-pingjia">评价</a>
+	<a href="#shop-talk">咨询</a>
+	<a href="#shop-speak">讨论</a>
+</div>
+{if:$sell_price != $this->hide_price}
+<div class="shop-nav-bot{if:$seller['is_authentication'] == 1}{if:$discount <= 0} cxd-1{/if}{else:} cxd-2{/if}">
+		{if:$seller['is_authentication'] == 1}
+			<a href="javascript: void(0);" onclick="seller_receipt('{$seller[id]}');" class="shopbtn">面对面付款</a>
+			<a href="javascript: void(0);" onclick="joinCart();" class="add-shop" id="joinCarButton" style="display:none;">加入课表</a>
+			<a href="javascript: void(0);" onclick="buy_now();" class="buy-btn" id="buyNowButton">常规课报名</a>
+		{else:}
+		<a href="javascript:;" class="shopbtn">学校未认证</a>
+		{/if}
+</div>
+{/if}
+<div class="swiper-container">
+	<div class="swiper-wrapper">
+		<div class="swiper-slide">
+			<img width="100%" src="{webroot:$img}" />
+		</div>
+		{if:$photo}
+		{foreach:items = $photo}
+		<div class="swiper-slide">
+			<img width="100%" src="{webroot:$item['img']}" />
+		</div>
+		{/foreach}
+		{/if}
+	</div>
+	<div class="swiper-pagination"></div>
+</div>
+
+{if:$djq_list}
+<div class="swiper-container2" style="height:100px;">
+	<div class="mui-content-padded swiper-wrapper" style="background-color:#ebeff2;">
+		{foreach:items=$djq_list item=$it}
+		<ul class="djq_list c1 swiper-slide">
+				{foreach:items=$it}
+				<li>
+						<a href="{url:/simple/cart2d/id/5280/num/1/type/product/chitid/$item['id']}">
+							<div class="djq_info">
+								<div class="t-left">&yen;<em>{$item['max_order_chit']}</em></div>
+								<div class="t-right">
+									<div class="name">代金券</div>
+									<div class="subname">限指定课程使用</div>
+								</div>
+							</div>
+							<div class="djq_btn">立即领取</div>
+						</a>
+				</li>
+				{/foreach}
+		</ul>
+		{/foreach}
+	</div>
+</div>
+{/if}
+
+<div class="mui-content-padded">
+	<h5>{$name}</h5>
+	<div class="pro-price goodsprice">
+		{if:$promo == ''}
+			{if:$group_price}
+				<b class="price red2">￥<span class="f30" id="data_groupPrice">{$group_price}</span></b><br />
+			{else:}
+				<b class="price red2">￥<span class="f30" id="data_sellPrice">{if:$sell_price != $this->hide_price}{$sell_price}{else:}<i>{$this->hide_price_str}</i>{/if}</span></b>
+			{/if}
+		{/if}
+
+		<!--抢购活动,引入 "_products_time"模板-->
+		{if:$promo == 'time' && isset($time)}
+		{include:_products_time}
+		{/if}
+
+		<!--团购活动,引入 "_products_groupon"模板-->
+		{if:$promo == 'groupon' && isset($groupon)}
+		{include:_products_groupon}
+		{/if}
+	</div>
+
+</div>
+
+<div class="mui-content-padded">
+	{if:$store_nums <= 0}
+	<h5>该课程已结束</h5>
+	{else:}
+			<ul class="spec_list clearfix" id="spec_list_mao">
+				<li name="specCols">
+					{foreach:items=$goods_spec_array['value'] item=$spec_value}
+						<a href="javascript:void(0);" name="specColls" onclick="sele_spec(this);" id="{$spec_value['id']}" value='{"id":"{$spec_value['id']}","value":"{$spec_value['cusval']}","classnum":"{$spec_value['classnum']}","month":"{$spec_value['month']}","name":"{$goods_spec_array['name']}"}'>
+							{if:$spec_value['cusval']}
+								{$spec_value['cusval']}{if:$spec_value['classnum'] || $spec_value['month']}/{/if}
+							{/if}
+							{if:$spec_value['classnum']}
+								{$spec_value['classnum']}课时{if:$spec_value['month']}/{/if}
+							{/if}
+							{if:$spec_value['month']}{$spec_value['month']}个月{/if}
+						</a>
+					{/foreach}
+				</li>
+			</ul>
+
+		<div class="chit_info"></div>
+		<p class="numberbox clearfix">
+			<span>人数：</span>
+			<a class="reduce" onclick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)">
+			-</a>
+			<input type="text" name="qty_item_1" value="1" id="qty_item_1" onkeyup="setAmount.modify('#qty_item_1')" class="text">
+			<a class="add" onclick="setAmount.add('#qty_item_1')" href="javascript:void(0)">
+			+</a>
+			人
+		</p>
+		<p class="selected_spec"><span></span></p>
+	{/if}
+</div>
+
+{if:$dqk_list}
+<div class="mui-content-padded dqk">
+	<div class="hd">
+		<div class="t-left">短期课</div>
+		<div class="t-right"><a href="{url:/site/chit1_detail/id/$seller['id']}">更多</a></div>
+	</div>
+	<div class="bd">
+		<ul>
+			<li>
+				<a href="{url:/site/chit1_detail/id/$seller['id']}">
+					<div class="dqk_image"><img src="{if:$dqk_list['logo'] != ''}{webroot:$dqk_list['logo']}{else:}/views/mobile/skin/blue/images/dqk.png{/if}" /></div>
+					<div class="dqk_info">
+						<div class="dqk_seller_name">{$seller['shortname']}</div>
+						<div class="dqk_goods_name">{$name}短期课{$dqk_list['use_times']}节</div>
+						<div class="dqk_price">&yen;<em>{$dqk_list['max_price']}</em></div>
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+{/if}
+
+<ul class="mui-table-view mui-table-view-chevron">
+	<li class="mui-table-view-cell mui-media">
+		<a href="{url:/site/home/id/$seller['id']}" class="mui-navigate-right">
+			<img class="mui-media-object mui-pull-left" src="{webroot:$brand['pc_logo']}">
+			<div class="mui-media-body">
+				{$seller['shortname']}
+				<p class="mui-ellipsis">{$seller['location'][$seller['province']]}{$seller['location'][$seller['city']]}{$seller['location'][$seller['area']]}{$seller['address']}</p>
+			</div>
+		</a>
+	</li>
+</ul>
+<div class="mui-content-padded">
+	<div class="content">
+		<dl class="clearfix">
+			<dt>课程：</dt>
+			<dd>{$name}</dd>
+		</dl>
+		{if:$category}
+		<dl class="clearfix">
+			<dt>课程分类：</dt>
+			<dd>{$catname}</dd>
+		</dl>
+		{/if}
+		{if:$teacher_info}
+		<dl class="clearfix">
+			<dt>授课导师：</dt>
+			<dd>{$teacher_info['name']}</dd>
+		</dl>
+		{/if}
+		<dl class="clearfix">
+			<dt>联系电话：</dt>
+			<dd>{$seller['phone']}</dd>
+		</dl>
+		{if:$brand['certificate_of_authorization']}
+			{foreach:items=$brand['certificate_of_authorization']}
+				<img src="{webroot:$item}" />
+			{/foreach}
+		{/if}
+		<p>{$content}</p>
+	</div>
+</div>
+<div class="mui-content-padded" id="shop-pingjia">
+	<h5>评价({$comments})</h5>
+	<ul>
+	 	{foreach:items=Comment_Class::getCommentsList($id)}
+	  	<li class="pingjia-list clearfix">
+			<i class="clearfix">{$item['username']}</i>
+			<div class="pingjia-left">
+					<p class="">{$item['contents']}</p>
+			</div>
+			<span class="pl-time">{$item['time']}</span>
+		</li>
+		{/foreach}
+ 	</ul>
+</div>
+<div class="mui-content-padded" id="shop-talk">
+	<h5><a href="{url:/site/consult/id/$id}" class="pingjia">咨询({$refer})</a></h5>
+	{if:$referlist}
+	<ul>
+	 	{foreach:items=$referlist}
+	  	<li class="pingjia-list clearfix">
+			<i class="clearfix">{echo:Member_class::get_user_name_by_uid($item['user_id'])}</i>
+			<div class="pingjia-left">
+					<p class="">{$item['question']}</p>
+			</div>
+			<span class="pl-time">{$item['time']}</span>
+		</li>
+		{/foreach}
+ 	</ul>
+	{/if}
+</div>
+<div class="mui-content-padded mui-content-padded-last-child" id="shop-speak">
+	<h5><a href="{url:/site/article_discussion/id/$id}" class="pingjia">讨论({$discussion})</a></h5>
+	{if:$discussionlist}
+	<ul>
+	 	{foreach:items=$discussionlist}
+	  	<li class="pingjia-list clearfix">
+			<i class="clearfix">{echo:Member_class::get_user_name_by_uid($item['user_id'])}</i>
+			<div class="pingjia-left">
+					<p class="">{$item['content']}</p>
+			</div>
+			<span class="pl-time">{echo:date('Y-m-d H:i:s', $item['add_time']);}</span>
+		</li>
+		{/foreach}
+ 	</ul>
+	{/if}
+</div>
+<div class="card-list-bg"></div>
+<div class="card-list-box">
+	<div class="box"><h5>购券 <a href="javascript:;" class="card-list-close close">关闭</a></h5></div>
+	<div class="mui-inner-wrap">
+		<div id="chitscroll" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					{if:$goods_spec_array['name']}
+					{foreach:items=$goods_spec_array['value'] item=$spec_value}
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-media-object mui-pull-left">
+							<p class="tochit"><em>￥</em>{$spec_value['max_order_chit']}</p>
+							<p class="tobuy">购券{$spec_value['max_cprice']}可抵扣</p>
+						</div>
+						<div class="mui-media-body">
+							<p><em class="totip">乐享学习券</em>{$name}</p>
+							<p class="tospec" id="spec{$spec_value['id']}">
+								{if:$spec_value['cusval']}
+									{$spec_value['cusval']}{if:$spec_value['classnum'] || $spec_value['month']}/{/if}
+								{/if}
+								{if:$spec_value['classnum']}
+									{$spec_value['classnum']}课时{if:$spec_value['month']}/{/if}
+								{/if}
+								{if:$spec_value['month']}{$spec_value['month']}个月{/if}
+							</p>
+							<a class="buycard" onclick="buy_now_ding_card('{$spec_value['max_cprice']}')">点击购买</a>
+						</div>
+					</li>
+					{/foreach}
+					{else:}
+					<li class="mui-table-view-cell mui-media">
+						<div class="mui-media-object mui-pull-left">
+							<p class="tochit"><em>￥</em>10140</p>
+							<p class="tobuy">购券200可抵扣</p>
+						</div>
+						<div class="mui-media-body">
+							<p><em class="totip">乐享学习券</em>{$name}</p>
+							<p class="tospec">48课时</p>
+							<a class="buycard">点击购买</a>
+						</div>
+					</li>
+					{/if}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+var swiper = new Swiper('.swiper-container', {
+    loop : true,
+    autoHeight: true
+});
+{if:$djq_list}
+var swiper2 = new Swiper('.swiper-container2', {
+    loop : true,
+});
+{/if}
+
+var _is_buy_chit = false;
+var _store_nums = {$store_nums};
+var _spec_url = '{url:/site/getProduct}';
+var _join_url = '{url:/simple/joinCart}';
+var _show_cart_url = '{url:/simple/showCart}';
+var _goods_id = {$id};
+var _promo = '{$promo}';
+
+var _market_price = {$market_price};
+{if:$statement == 2}
+var _parchse_html = '';
+var _dprice = {if:$dprice}{$dprice}{else:}0{/if};
+var _sell_price = {if:$sell_price}{$sell_price}{else:}0{/if};
+var _min_dprice = 10;
+var _max_cprice = {if:$max_cprice}{$max_cprice}{else:}0{/if};
+var _max_order_chit = {if:$max_order_chit}{$max_order_chit}{else:}0{/if};
+{/if}
+</script>
+
+
+
+<script type="text/javascript">
+
+// 异步更新提示
+function update_parchse()
+{
+	if (check_parchse_param())
+	{
+		var _input_dprice = $('.input_dprice').val();
+		var _input_stime = $('.input_stime').val();
+		var _url = '{url:/site/get_dprice_info_ajax/dprice/@dprice@/stime/@stime@/sell_price/@sell_price@}';
+		_url = _url.replace('@dprice@', _input_dprice);
+		_url = _url.replace('@stime@', _input_stime);
+		_url = _url.replace('@sell_price@', _sell_price);
+		$.getJSON(_url, function(data){
+			if ( data.done )
+			{
+				$('.purchase .notice .price_1').html(data.retval.dprice);
+				$('.purchase .notice .price_2').html(data.retval.chit);
+				$('.purchase .notice .price_3').html(data.retval.rest_price);
+				$('.purchase .notice').show();
+			} else {
+				mui.alert('最多可购买' + data.msg + '元', '提示信息');
+				return;
+			}
+		})
+	}
+}
+
+function check_parchse_param(_input_dprice, _input_stime){
+	if ( _input_dprice < _min_dprice )
+	{
+		mui.alert('券最小面值为' + _min_dprice + '元', '提示信息');
+		$('.input_dprice').val(_max_cprice);
+		return false;
+	}	else if ( _input_dprice > _max_cprice )	{
+		mui.alert('最多可购券' + _max_cprice + '元', '提示信息');
+		$('.input_dprice').val(_max_cprice);
+		return false;
+	}	else if ( _input_dprice % 10 != 0 )	{
+		mui.alert('券值必须为10的倍数!', '提示信息');
+		$('.input_dprice').val(_max_cprice);
+		$('.input_dprice').focus();
+		return false;
+	}	else if ( _input_stime == '0')	{
+			mui.alert('请选择上课时间', '提示信息');
+			return false;
+		}
+	return true;
+}
+
+function buy_now_ding_card(_input_dprice){
+	var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+	var id = {$id};
+	if($('#product_id').val())
+	{
+		id = $('#product_id').val();
+		type = 'product';
+	} else {
+		type = 'goods';
+	}
+	var url = '{url:/simple/cart2d/id/@id@/num/@buyNums@/type/@type@/statement/2}';
+		url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+	var _input_stime = 1;
+	url += '/stime/' + _input_stime;
+	url += '/dprice/' + _input_dprice;
+
+	//console.log(url);
+	window.location.href = url;
+}
+
+/**
+ * 规格的选择
+ * @param _self 规格本身
+ */
+function sele_spec(_self)
+{
+	$('.tospec').removeClass('active');
+  var _parent = $(_self).parent().find('a').removeClass('current');
+  $(_self).addClass('current');
+  if ( _promo == '')
+  {
+    $('.pro-price i').html('');
+  } else if ( _promo == 'time') {
+    $('.pro-discount span').html('');
+  } else if ( _promo == 'groupon') {
+    $('.pro-discount span').html('');
+  }
+
+	//检查规格是否选择符合标准
+	if(checkSpecSelected())
+	{
+		//整理规格值
+		var specArray = [];
+		$('[name="specColls"]').each(function(){
+			//specArray.push($(this).find('a.current').attr('value'));
+			specArray.push($(this).attr('value'));
+		});
+		var specJSON = '['+specArray.join(",")+']';
+		var product_id = $(_self).attr('id');
+
+		//获取货品数据并进行渲染
+		$.getJSON(_spec_url,{"goods_id":_goods_id,"product_id":product_id,"specJSON":specJSON,"random":Math.random},function(json){
+			if(json.flag == 'success')
+			{
+				if ( json.data.sell_price != {$this->hide_price})
+				{
+					$('#data_goodsNo').text(json.data.products_no);
+					$('#data_storeNums').text(json.data.store_nums);$('#data_storeNums').trigger('change');
+					$('#data_groupPrice').text(json.data.group_price);
+					$('#data_sellPrice').text(json.data.sell_price);
+					$('#data_marketPrice').text(json.data.market_price);
+					$('#data_weight').text(json.data.weight);
+					$('#product_id').val(json.data.id);
+					_is_buy_chit = (parseFloat(json.data.chit) > 0) ? true : false;
+
+					//库存监测
+					checkStoreNums();
+				} else {
+					$('#data_sellPrice').html('<i>{$this->hide_price_str}</i>');
+					$('.shop-nav-bot').hide();
+				}
+			} else {
+				mui.alert(json.message, '提示信息');
+				closeBuy();
+			}
+		});
+	}
+}
+
+
+//立即购买按钮
+function buy_now()
+{
+	//对规格的检查
+	if(!checkSpecSelected())
+	{
+		mui.alert('请选择规格', '提示信息');
+		$('body,html').animate({ scrollTop: $('#spec_list_mao').offset().top - 250 }, 500);
+		return;
+	}
+
+	//设置必要参数
+	var buyNums  = parseInt($.trim($('#qty_item_1').val()));
+	var id = {$id};
+	var type = 'goods';
+
+	if($('#product_id').val())
+	{
+		id = $('#product_id').val();
+		type = 'product';
+	}
+
+	{if:$promo}
+	//有促销活动（团购，抢购）
+	var url = '{url:/simple/cart2n/id/@id@/num/@buyNums@/type/@type@/promo/$promo/active_id/$active_id}';
+	url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+	{else:}
+	//普通购买
+	var url = '{url:/simple/cart2n/id/@id@/num/@buyNums@/type/@type@}';
+	url = url.replace('@id@',id).replace('@buyNums@',buyNums).replace('@type@',type);
+	{/if}
+
+	//页面跳转
+	window.location.href = url;
+}
+
+function calculation_cprice()
+{
+	var _num = parseInt($.trim($('#qty_item_1').val()));
+	$('#data_dprice .buy').html('￥' + _max_cprice * _num);
+	var _chit = _max_order_chit * _num;
+	_chit = _chit.toFixed(2);
+	$('#data_dprice .chit').html('￥' + _chit);
+}
+</script>
+
+{if:$this->iswechat == 1}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"> </script>
+<script type="text/javascript">
+sharedata = {$this->sharedata};
+wx.config({
+    //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{$this->signPackage['appId']}', // 必填，公众号的唯一标识
+    timestamp: '{$this->signPackage['timestamp']}' , // 必填，生成签名的时间戳
+    nonceStr: '{$this->signPackage['nonceStr']}', // 必填，生成签名的随机串
+    signature: '{$this->signPackage['signature']}',// 必填，签名，见附录1
+    jsApiList: [
+      'checkJsApi',
+  		'onMenuShareTimeline',
+  		'onMenuShareAppMessage',
+  		'onMenuShareQQ',
+  		'onMenuShareWeibo',
+  		'hideMenuItems',
+  		'showMenuItems',
+  		'hideAllNonBaseMenuItem',
+  		'showAllNonBaseMenuItem',
+  		'translateVoice',
+  		'startRecord',
+  		'stopRecord',
+  		'onRecordEnd',
+  		'playVoice',
+  		'pauseVoice',
+  		'stopVoice',
+  		'uploadVoice',
+  		'downloadVoice',
+  		'chooseImage',
+  		'previewImage',
+  		'uploadImage',
+  		'downloadImage',
+  		'getNetworkType',
+  		'openLocation',
+  		'getLocation',
+  		'hideOptionMenu',
+  		'showOptionMenu',
+  		'closeWindow',
+  		'scanQRCode',
+  		'chooseWXPay',
+  		'openProductSpecificView',
+  		'addCard',
+  		'chooseCard',
+  		'openCard'
+    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
+wx.ready(function(){
+  wx.onMenuShareAppMessage(sharedata);
+  wx.onMenuShareTimeline(sharedata);
+  wx.onMenuShareQQ(sharedata);
+  wx.onMenuShareWeibo(sharedata);
+});
+wx.error(function (res) {
+  	//alert("调用微信jsapi返回的状态:"+res.errMsg);
+});
+</script>
+{/if}

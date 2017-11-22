@@ -1,0 +1,215 @@
+<link href="{skin:css/tutor.css}" rel="stylesheet" type="text/css" />
+<link href="{rs:/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{javascript:/result.js}"></script>
+<div class="">
+  <div class="w main_cont">
+    <div class="t_list_cont">
+      <div class="fl column">
+
+        <div class="filter">
+          <ul>
+            {if:$cat_list}
+            <li class="kc">
+              <strong>课程类别：</strong>
+              <a {if:!$search['cat']}class="on"{/if} href="{echo:search_goods::searchUrl('cat','')}">全部</a>
+              {foreach:items=$cat_list}
+              <a href="{echo:search_goods::searchUrl('cat',$item[id])}" {if:$this->catId == $item['id']}class='on'{/if} id="{$item['id']}">{$item['name']}</a>
+              {/foreach}
+            </li>
+            {else:}
+            <li class="kc">
+              <strong>课程类别：</strong>
+              <a {if:!$search['cat']}class="on"{/if} href="{echo:search_goods::searchUrl('cat','')}">全部</a>
+              {foreach:items=$cates_arr key=$key}
+              <a href="{echo:search_goods::searchUrl('cat',$key)}" {if:$search['cat'] == $key}class="on"{/if}>{$item}</a>
+              {/foreach}
+            </li>
+            {/if}
+
+            <li><strong>老师性别：</strong>
+              <a {if:!$search['sex']}class="on"{/if} href="{echo:search_goods::searchUrl('sex','')}">全部</a>
+              <a href="{echo:search_goods::searchUrl('sex','1')}" {if:$search['sex'] == 1}class="on"{/if}>男</a>
+              <a href="{echo:search_goods::searchUrl('sex','2')}" {if:$search['sex'] == 2}class="on"{/if}>女</a>
+            </li>
+
+            <li><strong>授课地区：</strong>
+              <a {if:!$search['region']}class="on"{/if} href="{echo:search_goods::searchUrl('region','')}">全部</a>
+              {foreach:items=$region_list}
+              <a href="{echo:search_goods::searchUrl('region',$item['area_id'])}" {if:$search['region'] == $item['area_id']}class="on"{/if}>{$item['area_name']}</a>
+              {/foreach}
+            </li>
+            <!--
+            <li><strong>上课时间：</strong>
+              <a {if:!$search['teaching_time']}class="on"{/if} href="{echo:search_goods::searchUrl('teaching_time','')}">不限</a>
+              {foreach:items=$teaching_time key=$key}
+              <a href="{echo:search_goods::searchUrl('teaching_time',$key)}" {if:$search['teaching_time'] == $key}class="on"{/if}>{$item}</a>
+              {/foreach}
+            </li> -->
+
+            <li><strong>上课方式：</strong>
+              <a {if:!$search['teaching_type']}class="on"{/if} href="{echo:search_goods::searchUrl('teaching_type','')}">全部</a>
+              {foreach:items=$teaching_type_arr key=$key}
+              <a href="{echo:search_goods::searchUrl('teaching_type',$key)}" {if:$search['teaching_type'] == $key}class="on"{/if}>{$item}</a>
+              {/foreach}
+            </li>
+          </ul>
+        </div>
+
+
+        <!-- <div class="wrapper clearfix container_2">
+        		<div class="cont">
+        				{if:$catname || $areaname}
+        				<dl class="sorting">
+        					<dt>当前搜索：</dt>
+        					<dd>
+        						<div class="inner">
+        							{if:$catname}<a href="#" class="nolimit current">{$catname}</a>{/if}
+        							{if:$areaname}<a href="#" class="nolimit current">{$areaname}</a>{/if}
+        						</div>
+        					</dd>
+        				</dl>
+        				{/if}
+
+        				课程属性
+        				{foreach:items = search_goods::$attrSearch}
+        				<dl class="sorting">
+        					<dt>{$item['name']}：</dt>
+        					<dd id='attr_dd_{$item['id']}'>
+        						<div class="inner">
+        						<a class="nolimit current" href="{echo:search_goods::searchUrl('attr['.$item["id"].']','')}">不限</a>
+        						{foreach:items=$item['value'] item=$attr}
+        						<a href="{echo:search_goods::searchUrl('attr['.$item["id"].']',$attr)}" id="attr_{$item['id']}_{echo:md5($attr)}">{$attr}</a>
+        						{/foreach}
+        						</div>
+        					</dd>
+        				</dl>
+        				{/foreach}
+        				课程属性
+
+        			</div>
+        		</div> -->
+        		<!--条件检索-->
+
+
+
+        <div class="filter-sortbar">
+          <a class="fl {if:!$search['order']}default{/if}" href="{echo:search_goods::searchUrl('order','')}">默认排序</a>
+          <a class="fl {if:$search['order'] == 'tutor_price'}default{/if}" href="{echo:search_goods::searchUrl('order','tutor_price')}"><span>价格</span><i class="icon-sort"></i></a>
+          <div class="dropdown" style="border-top: none; background: rgb(255, 255, 255);"><a class="bt"><span> 教龄：
+            {if:$search['experience']}{if:$seller_experience_arr[$search['experience']]['min'] && $seller_experience_arr[$search['experience']]['max']}{$seller_experience_arr[$search['experience']]['min']}-{$seller_experience_arr[$search['experience']]['max']}年{else:}{$seller_experience_arr[$search['experience']]['min']}年以上{/if}{else:}全部{/if}</span></a>
+            <div class="down hide" style="display: none;">
+              <a href="{echo:search_goods::searchUrl('experience','')}">全部</a>
+              {foreach:items=$seller_experience_arr key=$key}
+              <a href="{echo:search_goods::searchUrl('experience',$key)}">{if:$item['min'] && $item['max']}{$item['min']}-{$item['max']}年{else:}{$item['min']}年以上{/if}</a>
+              {/foreach}
+            </div>
+          </div>
+          <div class="check_list fr" style="display:none;">
+            <a href="" class="on">
+              <span class="check ico">
+                <i class="icon-check"></i>
+              </span>
+              <span>试讲次数</span>
+            </a>
+            <a href="" class="on">
+              <span class="check ico"><i class="icon-check"></i></span>
+              <span>成功受聘次数</span>
+            </a>
+            <a href="" class="on">
+              <span class="check ico"><i class="icon-check"></i></span>
+              <span>综合评分</span>
+            </a>
+          </div>
+        </div>
+        <div class="filter_list">
+          <ul>
+            {foreach:items=$seller_list}
+            <a href="{url:/site/tutor_info/id/$item['id']}" target="_blank">
+              <li>
+                <table>
+                  <tbody>
+                  <tr>
+                    <td class="head">
+                      <img src="{if:$item['logo'] != ''}{webroot:$item['logo']}{else:}{echo:get_default_icon($item['sex'])}{/if}">
+                    </td>
+                    <td class="user-info">
+                      <p><span class="user-name">{$item['true_name']}</span> 评分： <span class="pf_star">
+                      <?php
+                        for($i = 0; $i < $item['point']; $i++)
+                        {
+                          echo '<i class="icon-star"></i>';
+                        }
+                      ?>
+                      </span>{$item['point']}分
+                      </p>
+                      <p><i class="icon-book"></i> 科目：
+                        {foreach:items=$item['seller_tutor_list'] item=$it key=$key}
+                          {if:!$key}{echo:tutor_class::get_tutor_category_title($it)}{else:},{echo:tutor_class::get_tutor_category_title($it)}{/if}
+                        {/foreach}
+                      </p>
+                      <p><i class="icon-time"></i> 教龄：{$item['experience']}年</p>
+                      <p>&nbsp;<i class="icon-map-marker"></i>&nbsp;&nbsp;地址：{echo:area::getName($item['province']) . area::getName($item['city']) . area::getName($item['area']) . $item['address']}</p>
+                      <p class="specialty"></p></td>
+                    <td class="price-info"><p><strong> ￥<span class="price">{$item['price']}</span></strong> 元/小时 </p></td>
+                    <td class="credentials-info">{if:$item['is_authentication']}<p><i class="icon-user"></i> 身份认证</p>{/if}</td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="full-course"></div>
+              </li>
+            </a>
+            {/foreach}
+          </ul>
+          <div class="cb"></div>
+          <div class="Page"> </div>
+        </div>
+      </div>
+      <div class="fr sidebar">
+
+        <div class="tutor_menu">
+            <a href="{url:/site/tutor}" class="active">我是学生</a>
+            <a href="{url:/site/user_tutor_list}">我是家教</a>
+        </div>
+
+        <div class="t_list_sbox">
+          <h2><span>HOT</span> 老师排行榜</h2>
+          <ul>
+            {foreach:items=$hotest_tutor_seller_list key=$key}
+            {set: $i = $key + 1;}
+            <li>
+              <div class="num {if:$key > 2}gray{/if}">{echo:$i;}</div>
+              <a href="{url:/site/tutor_info/id/$item['id']}" class="t_simg"><img src="{if:$item['logo'] != ''}{webroot:$item['logo']}{else:}{echo:get_default_icon($item['sex'])}{/if}"></a>
+              <div class="fl"><a href="{url:/site/tutor_info/id/$item['id']}" class="t_sname">{$item['true_name']}</a><span>教龄：{$item['experience']}年</span>
+                <p>{echo:tutor_class::get_tutor_category_title($item['seller_tutor_list'][0])}</p>
+              </div>
+            </li>
+            {/if}
+          </ul>
+        </div>
+
+
+        <div class="t_list_sbox">
+          <h2><span>NEW</span> 最新入驻</h2>
+          <ul>
+            {foreach:items=$latest_tutor_seller_list}
+            <li>
+              <a href="{url:/site/tutor_info/id/$item['id']}" class="t_simg"><img src="{if:$item['logo'] != ''}{webroot:$item['logo']}{else:}{echo:get_default_icon($item['sex'])}{/if}"></a>
+              <div class="fl"><a href="{url:/site/tutor_info/id/$item['id']}" class="t_sname">{$item['true_name']}</a><span>教龄：{$item['experience']}年</span>
+                <p><p>{echo:tutor_class::get_tutor_category_title($item['seller_tutor_list'][0])}</p></p>
+              </div>
+            </li>
+            {/foreach}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="cb"></div>
+  </div>
+</div>
+<script>
+  $(function(){
+      $('.kc > a').click(function(){
+          $(this).siblings('.Subclass').slideToggle();
+      })
+  })
+</script>

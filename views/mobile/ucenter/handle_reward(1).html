@@ -1,0 +1,44 @@
+{set: $title = '处理奖金';}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<style>
+.border_table {margin: 0px auto;margin-top:5px;}
+.border_table td {text-align: center; font-size:90%;}
+</style>
+<h5 class="mui-content-padded">处理奖金</h5>
+<div class="mui-card">
+    <div class="mui-card-header">奖金信息</div>
+    <div class="mui-card-content">
+        <table class="dotted_table f_l" width="100%" cellpadding="0" cellspacing="0">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell"><span>关键考试时间：</span>{echo:date('Y-m-d',$reward_info['test_time'])}</li>
+            <li class="mui-table-view-cell"><span>关键考试类型：</span>{$reward_info['test_type']}</li>
+            <li class="mui-table-view-cell"><span>关键考试的分数：</span>{$reward_info['test_condition']}</li>
+            <li class="mui-table-view-cell"><span>关键考试的奖励金额：</span>{$reward_info['test_money']}</li>
+            <li class="mui-table-view-cell"><span>状态：</span>{echo:order_tutor_rewards_class::get_reward_status_title($reward_info['status'])}</li>
+            {if:$reward_info['status'] == 2}
+              <li class="mui-table-view-cell"><span>说明：</span><textarea name="content"></textarea></li>
+              <li class="mui-table-view-cell"><span>操作：</span><input type="radio" name="type" value="1" checked />同意&nbsp; &nbsp; <input type="radio" name="type" value="2" />拒绝</li>
+            {/if}
+
+            <div class="mui-button-row">
+              <input type="hidden" name="id" value="{$reward_info['id']}" />
+              <a href="javascript:void(0);" class="mui-btn mui-btn-primary">提交</a>
+            </div>
+            <li class="mui-table-view-cell"></li>
+        </ul>
+      </form>
+    </div>
+</div>
+
+{if:$reward_logs}
+<div class="mui-card">
+  <div class="mui-card-header">操作记录</div>
+  <div class="mui-card-content">
+      <ul class="mui-table-view">
+          {foreach:items=$reward_logs}
+          <li class="mui-table-view-cell"><span>{echo:date('Y-m-d h:i', $item['add_time'])}</span>{echo:order_tutor_rewards_log_class::get_reward_log_title($item)}</li>
+          {/foreach}
+      </ul>
+  </div>
+</div>
+{/if}

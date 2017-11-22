@@ -1,0 +1,42 @@
+{set: $type = $_GET['type'] + 0;}
+
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<h5 class="mui-content-padded">购买转让订单</h5>
+{if:$orders}
+{foreach:items = $orders}
+<div class="mui-card">
+    <div class="mui-card-header">
+        {$item['goods_name']}
+    </div>
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            <p class="ordbigbt"><span>价格:</span>{$item['price']}</p>
+
+            <p class="ordbigbt"><span>手续费:</span>{$item['commission']}</p>
+
+            <p class="ordbigbt"><span>订单号:</span>{$item['ordersn']}</p>
+
+            <p class="ordbigbt"><span>下单时间:</span>{$item['addtime']}</p>
+
+            <p class="ordbigbt"><span>订转让方:</span>{$item['username']}</p>
+
+            <p class="ordbigbt"><span>支付方式:</span>{$item['paytype']}</p>
+
+            <p class="ordbigbt"><span>验证码:</span>{$item['verification_code']}</p>
+
+            <p class="ordbigbt"><span>{if:$item['state'] == 1}已支付，等待商家确认{/if}{if:$item['state'] == 2}已完成{/if}{if:$item['state'] == 3}商家已确认，待使用{/if}{if:$item['state'] == 0}未支付<br /><a href="{url:/block/tdoPay/order_id/$item[id]}" class="blue">去支付</a>{/if}</b></p>
+        </div>
+    </div>
+</div>
+{/foreach}
+{else:}
+<div class="mui-card">
+    <div class="mui-card-content">
+        <div class="mui-card-content-inner">
+            暂时没有购买转让信息
+        </div>
+    </div>
+</div>
+{/if}
+

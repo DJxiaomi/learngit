@@ -1,0 +1,23 @@
+.salebox p { margin-bottom: 20px; margin-top: 5px; }
+.preview {float: left;width: 437px;height: 540px;padding: 10px;border: 1px solid #eee;}
+.bx-wrapper .bx-viewport{margin-top:10px;}
+.pic_thumb li {float: left;width: 80px;height: 80px;margin: 0 5px 0 0;overflow:hidden;}
+.pic_thumb li a {display: block;width: 80px;height: 80px;margin:0px;  border: 1px solid #eee;}
+.summary {float: right;width: 700px;text-align: left;}
+.summary h2 {font-size: 16px;border-bottom: 1px dotted #ccc;font-weight:normal;color:#038bd0;max-width:700px;overflow: hidden;padding-bottom:10px;line-height: 20px;}
+.summary ul li{letter-spacing:0px;color:#666;font-weight:16px;line-height: 25px;}
+.orange{color:#f90;}
+a.blue-font{color:#038bd0;}
+.f16{font-size:16px;}
+.f20{font-size:20px;}
+.summary div.current{padding:20px;border: 1px solid #ccc;background: #f8f8f8;margin-top:20px;}
+a.red2, .red2 {color: #f90;}
+.submit_buy{background:#f8f8f8;font-size:16px;color:#038bd0;border:1px solid #038bd0;border-radius:5px;text-indent: 0;line-height: 0;}
+.submit_join{background:#f8f8f8;font-size:16px;color:#038bd0;border:1px solid #038bd0;border-radius:5px;text-indent: 0;line-height: 0;}
+.submit_buy:hover{background:#fff;color:#f90;border:1px solid #f90;}
+.submit_join:hover{background:#fff;color:#f90;border:1px solid #f90;}
+.container_2 .uc_title label.current span {color:#fff;background:none;}
+.container_2 .uc_title {background:none;border-bottom: 1px solid #038bd0;}
+.container_2 .uc_title label.current {background:#038bd0;color:#fff;border-radius:3px 3px 0 0;}
+
+.list_table .thead th {border-color: #038bd0;}

@@ -1,0 +1,70 @@
+<link href="{skin:css/search.css}" rel="stylesheet" type="text/css" />
+<link href="{rs:/scripts/swiper/swiper.min.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{rs:/scripts/swiper/swiper.min.js}"></script>
+<script type="text/javascript" src="{theme:javascript/search.js}"></script>
+
+<div class="search_content">
+  <div class="search_info">
+    <div class="search_form">
+      <a class="back_btn" href="{url:/}"></a>
+      <form action="{url:site/pro_list}" method="post">
+      <input type="text" value="" id="keywords" name="word" placeholder="在此输入想要搜索的内容"/>
+      <input type="button" value="" />
+      </form>
+      <a href="#" class="close_btn"></a>
+    </div>
+    <div class="search_tip">
+      <img src="{skin:images/search_tip.png}" />
+    </div>
+    <div class="search_btn">
+    	<a href="javascript:void(0);" class="search_icon">
+            <div class="t-left">
+                <img src="/views/mobile/skin/blue/images/1.png" />
+            </div>
+            <div class="t-right">
+                <img src="/views/mobile/skin/blue/images/2.png" />
+            </div>
+        </a>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    paginationClickable: true,
+    loop : true,
+    autoplay: 3000
+});
+
+
+</script>
+
+
+{if:$this->iswechat == 1}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"> </script>
+<script type="text/javascript">
+wx.config({
+    //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{$this->signPackage['appId']}', // 必填，公众号的唯一标识
+    timestamp: '{$this->signPackage['timestamp']}' , // 必填，生成签名的时间戳
+    nonceStr: '{$this->signPackage['nonceStr']}', // 必填，生成签名的随机串
+    signature: '{$this->signPackage['signature']}',// 必填，签名，见附录1
+    jsApiList: [
+                  'getLocation' //获取地理位置接口
+               ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
+wx.ready(function(){
+	wx.getLocation({
+      success: function (res) {
+        //alert(res);
+      },
+      cancel: function (res) {
+        alert('用户拒绝授权获取地理位置');
+      }
+    });
+});
+wx.error(function (res) {
+  	//alert("调用微信jsapi返回的状态:"+res.errMsg);
+});
+</script>
+{/if}

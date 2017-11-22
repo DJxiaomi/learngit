@@ -13,6 +13,7 @@ class Order_Class
 	 * @brief 产生订单ID
 	 * @return string 订单ID
 	 */
+	 
 	public static function createOrderNum()
 	{
 		$newOrderNo = date('YmdHis').rand(100000,999999);
@@ -88,12 +89,6 @@ class Order_Class
 			// 订单完成的操作
 		    if ( $orderRow['status'] == 5)
 		    {
-		        // 核销代金券
-		        if ( $orderRow['prop'] != '')
-			    {
-			        prop_class::finish_prop($orderRow['prop'] );
-			    }
-			    
 			    if ( $member_info && !$member_info['group_id'] )
 			    {
 			        Bill_class::_bill_auto( $orderRow['seller_id'], $orderRow['id'] );
@@ -232,112 +227,11 @@ class Order_Class
 			
 			$order_info = Order_class::get_order_info($orderNo,2);
 			
-			// 记录平台利润
-			self::handle_company_profit($order_info['id']);
-			
-			// 处理教育地图和手册的操作
-			self::handle_manual_operation($order_info);
-			
-			// 更新代金券付款状态
-			if ( $orderRow['statement'] == 2 )
-			{
-			    if ( $orderRow['prop'] != '' )
-			         prop_class::update_prop_pay_status($orderRow['prop']);
-			    
-			    // 代金券组合套餐的操作
-			    if ( $orderRow['zuhe_id'] > 0 )
-			    {
-			        $zuhe_detail_db = new IQuery('brand_chit_zuhe_detail as d');
-			        $zuhe_detail_db->join = 'left join brand_chit as c on d.brand_chit_id = c.id';
-			        $zuhe_detail_db->where = 'zuhe_id = ' . $orderRow['zuhe_id'];
-			        $detail_list = $zuhe_detail_db->find();
-			        	
-			        $brand_chit_zuhe_use_list_db = new IModel('brand_chit_zuhe_use_list');
-			        $brand_chit_db = new IModel('brand_chit');
-			        
-			        $seller_db = new IModel('seller');
-
-			        if ( $detail_list )
-			        {
-			            foreach( $detail_list as $kk => $vv )
-			            {
-			                $arr = array(
-			                    'order_id' => $orderRow['id'],
-			                    'brand_chit_id' => $vv['brand_chit_id'],
-			                    'seller_id' => $vv['seller_id'],
-			                    'use_times' => $vv['use_times'],
-			                    'availeble_use_times' => $vv['use_times'],
-			                    'commission' => $vv['commission'],
-			                );
-			                $brand_chit_zuhe_use_list_db->setData($arr);
-			                $brand_chit_zuhe_use_list_db->add();
-			                
-			                // 添加短期课销量
-			                $data = array(
-			                    'sale' => $vv['sale'] + 1,
-			                );
-			                $brand_chit_db->setData($data);
-			                $brand_chit_db->update('id = ' . $vv['brand_chit_id']);
-			                
-			                // 添加商户的销量
-			                $seller_info = seller_class::get_seller_info($vv['seller_id']);
-			                $seller_db->setData(array(
-			                    'sale'   =>  $seller_info['sale'] + 1,
-			                ));
-			                $seller_db->update('id = ' . $vv['seller_id'] );
-			            }
-			        }
-			    }
-			}
-			
-			// 面对面付款成功后自动操作
-			if ($orderRow['statement'] == 4)
-			{
-			    // 自动发货
-			    $order_goods_list = Order_goods_class::get_order_goods_list( $order_info['id'] );
-			    if ( $order_goods_list )
-			    {
-			        $order_goods_list = current($order_goods_list);
-			        Order_Class::sendDeliveryGoods($order_info['id'],array($order_goods_list['id']),1);
-			    }
-			    
-			    // 订单完成
-			    
-			    $order_id = $order_info['id'];
-			    $type     = 5;
-			    $order_no = $order_info['order_no'];
-			    //oerder表的对象
-			    $tb_order = new IModel('order');
-			    $tb_order->setData(array(
-			        'status'          => $type,
-			        'completion_time' => ITime::getDateTime(),
-			    ));
-			    $tb_order->update('id='.$order_id);
-			    $action = '完成';
-			    $note   = '订单【'.$order_no.'】完成成功';
-			    
-			    //完成订单并且进行支付
-			    self::updateOrderStatus($order_no);
-
-			    $logObj = new log('db');
-			    $logObj->write('operation',array("管理员:乐享生活订单更新为完成",'订单号：'.$order_no));
-			}
-			
 			// 获取商户信息
 			$seller_info = seller_class::get_seller_info($order_info['seller_id']);
 			
 			// 读取课程信息
 			$order_goods_list = Order_goods_class::get_order_goods_list( $order_info['id'] );
-			
-			// 更新订单中代金券的使用状态
-			if ( $order_goods_list )
-			{
-			    foreach($order_goods_list as $k => $v )
-			    {
-			        if ($v['use_prop_id'] > 0)
-			            prop_class::update_prop_use_status($v['use_prop_id']);
-			    }
-			}
 			
 			$goods = $order_goods_list[0];
 			$goods_array = $goods['goods_array'];
@@ -352,44 +246,7 @@ class Order_Class
 			        $notice_mobile[] = $order_info['mobile'];
 			
 			    $mobile = implode(',', $notice_mobile);
-			    
-			    $content = '';
-			    switch($order_info['statement'])
-			    {
-			        case 1:
-			            // 普通商户的课程
-			            if ( !$seller_info['is_system_seller'] )
-			            {
-			                $content = '您好，恭喜您成功订购' . $seller_info['shortname'] . '学校价值' . $order_info['order_amount'] . '元的' . $goods_name . '课程，0731-28308258【第三课】';
-			            }
-			            break;
-			        case 2:
-			            // 短期课
-			            if ( $order_info['zuhe_id'] > 0 )
-			            {
-			                $brand_chit_list = brand_chit_zuhe::get_brand_zuhe_list($order_info['zuhe_id']);
-			                $goods_name = array();
-			                if ( $brand_chit_list )
-			                {
-			                    foreach($brand_chit_list as $k => $v )
-			                    {
-			                        $goods_name[] = $v['shortname'] . '的' . $v['name'];
-			                    }
-			                }
-			                $content = '您好，恭喜您成功订购价值' . $order_info['order_amount'] . '元' . implode(',', $goods_name) . '短期课，0731-28308258【第三课】';
-			            } else if ( $order_info['chit_id'] > 0 ) {
-			            // 代金券
-//         			        $chit_info = brand_chit_class::get_chit_info($order_info['chit_id']);
-//         			        if ( $chit_info )
-//         			        {
-//         			            $chit_str = $chit_info['max_price'] . '抵' . $chit_info['max_order_chit'];
-//         			            $content = $order_info['accept_name'] . '您好，您购买的' . $seller_info['shortname'] . ' ' . $chit_str . '代金券已付款成功！【第三课】';
-//         			        }
-			            }
-			            break;
-			        default:
-			            break;
-			    }
+			    $content = '您好，恭喜您成功订购' . $seller_info['shortname'] . '学校价值' . $order_info['order_amount'] . '元的' . $goods_name . '课程，0731-28308258【第三课】';
 
 			    if ( $content != '' )
 			    {
@@ -408,72 +265,6 @@ class Order_Class
 			        $sms_db->add();
 			    }
 			}
-			
-			// 发送短信给商户
-			$member_info = member_class::get_member_info($order_info['user_id']);
-			if ( $member_info && !$member_info['group_id'] )
-			{
-				switch($order_info['statement'] )
-			    {
-			        case 1:
-			            // 普通课程，不包含代金券
-			            if ( $seller_info['mobile'] && !$order_info['chit_id'] )
-			            {
-			                $content = "您好，您在第三课上架的课程\"" . $goods_name . "\"已经被用户购买！详情请咨询0731-28308258【第三课】";
-			                $sms = new Sms_class();
-			                $result = $sms->send( $mobile, $content );
-			                
-			                // 记录短信信息
-			                $sms_db = new IModel('sms');
-			                $sms_db->setData(array(
-			                    'mobile'    =>  $seller_info['mobile'],
-			                    'code'      =>  '',
-			                    'action'    =>  11,
-			                    'addtime'   => time(),
-			                    'info'      => "用户（" . $order_info['user_id'] . "）购买课程成功，订单号：" . $order_info['id'] . "。短信内容：" . $content . "。当前参数：" . serialize($_SERVER),
-			                ));
-			                $sms_db->add();
-			            }
-			            break;
-			        case 2:
-			            // 短期课
-			            if ( $order_info['zuhe_id'] > 0 )
-			            {
-			                $sms_db = new IModel('sms');
-			                $sms = new Sms_class();
-			                $zuhe_detail_list = brand_chit_zuhe_detail::get_detail_list($order_info['zuhe_id']);
-			                if ( $zuhe_detail_list )
-			                {
-			                    foreach($zuhe_detail_list as $kk => $vv )
-			                    {
-			                        $seller_info = seller_class::get_seller_info($vv['seller_id']);
-			                        if ( $seller_info['mobile'] )
-			                        {
-			                            $content = "您好，您在第三课上架的短期课\"" . $vv['name'] . "\"已经被用户购买！详情请咨询0731-28308258【第三课】";
-			                            $result = $sms->send( $seller_info['mobile'], $content );
-			                            
-			                            // 记录短信信息
-			                            $sms_db->setData(array(
-			                                'mobile'    =>  $seller_info['mobile'],
-			                                'code'      =>  '',
-			                                'action'    =>  11,
-			                                'addtime'   => time(),
-			                                'info'      => "用户（" . $order_info['user_id'] . "）购买短期课成功，订单号：" . $order_info['id'] . "。短信内容：" . $content . "。当前参数：" . serialize($_SERVER),
-			                            ));
-			                            $sms_db->add();
-			                        }
-			                    }
-			                }
-			            }
-			            break;
-			        default:
-			            break;
-			    }
-			}
-			
-			//$smsContent = smsTemplate::payFinishToAdmin(array('{orderNo}' => $orderNo));
-			//Hsms::send($mobile,$smsContent,0);
-
 			return $orderRow['id'];
 		}
 		else
@@ -813,7 +604,6 @@ class Order_Class
 				$goodsArray['goods_weight']= $val['weight'];
 				$goodsArray['goods_array'] = IFilter::addSlash(JSON::encode($specArray));
 				$goodsArray['seller_id']   = $val['seller_id'];
-				$goodsArray['use_prop_id'] = ($val['prop_info']['id']) ? $val['prop_info']['id'] : 0; 
 				$orderGoodsObj->setData($goodsArray);
 				$orderGoodsObj->add();
 			}
@@ -988,7 +778,7 @@ class Order_Class
 			1 => '等待发货1',
 			2 => '等待付款',
 			3 => '学校确认授课',
-			4 => '等待上课',
+			4 => '等待采集',
 			5 => '已取消',
 			6 => '已完成',
 			7 => '已退款',
@@ -1503,6 +1293,9 @@ class Order_Class
 	 */
 	public static function isRefundmentApply($orderRow,$orderGoodsIds = array())
 	{
+	    // 不允许退款
+	    return false;
+	    
 		if(!is_array($orderGoodsIds))
 		{
 			return "退款商品ID数据类型错误";
@@ -1873,7 +1666,7 @@ class Order_Class
     	{
     		if(!$val)
     		{
-				return "请仔细填写订单所需内容";
+				return $key."$val请仔细填写订单所需内容";
     		}
     		$checkWhere[] = "`".$key."` = '".$val."'";
     	}
@@ -1908,7 +1701,7 @@ class Order_Class
 
 	    		if($nowBuy == $isBuyed)
 	    		{
-					return "您所提交的订单重复，频率太高，请稍候再试...";
+					//return "您所提交的订单重复，频率太高，请稍候再试...";
 	    		}
 			}
     	}
@@ -1972,7 +1765,6 @@ class Order_Class
         {
             return false;
         }
-            
         
         $log = new AccountLog();
         $prom_commission = new IModel('prom_commission'); 
@@ -2153,29 +1945,7 @@ class Order_Class
 				}
 			}
 			return $order_profit;
-			
-// 			if(!$is_use_prop)
-// 			{
-// 				$seller_info = seller_class::get_seller_info($order_info['seller_id']);
-// 				$config = new Config('site_config');
-// 				$charge = ($seller_info['charge'] > 0 ) ? $seller_info['charge'] : $config->charge;
-// 				return $order_info['order_amount'] * $charge / 100;
-// 			} else {
-// 				// 使用代金券购买
-// 				$order_amount = $order_info['order_amount'];
-// 				$commission = 0;
-// 				if ( $use_prop_ids )
-// 				{
-// 					foreach( $use_prop_ids as $kk => $vv )
-// 					{
-// 						$prop_info = prop_class::get_prop_info($vv);
-// 						$brand_chit_info = brand_chit_class::get_chit_info($prop_info['brand_chit_id']);
-// 						$commission += $brand_chit_info['commission'];
-// 					}
-// 				}
-// 				return $order_amount - $commission;
-// 			}
-			
+						
         } else if ( $order_info['statement'] == 4) {
             // 商家收款
             if ( $order_info['promotions'] > 0 )
@@ -2272,7 +2042,7 @@ class Order_Class
             return false;
     
         $order_db = new IQuery('order');
-        $where = 'user_id = ' . $user_id . ' and ((statement = 1) or (statement = 4) or (statement = 2 && zuhe_id > 0)) ';
+        $where = 'user_id = ' . $user_id;
         switch($type)
         {
             // 已付款
@@ -2309,7 +2079,7 @@ class Order_Class
     {
         $orderGoodsObj        = new IQuery('order_goods');
         $orderGoodsObj->where = "order_id = ".$order_id;
-        $orderGoodsObj->fields = 'id,goods_array,goods_id,product_id, goods_price,img, goods_nums, verification_code, is_send,cost_price,market_price';
+        $orderGoodsObj->fields = 'id,goods_array,goods_id,product_id, goods_price,img, goods_nums, is_send,cost_price,market_price';
         $orderGoodsList = $orderGoodsObj->find();
         foreach($orderGoodsList as $kk => $good)
         {
@@ -2318,244 +2088,6 @@ class Order_Class
         return $orderGoodsList;
     }
     
-    //更新短期课的使用状态
-    /**
-     * 
-     * @param number $id use_list_id
-     * @param number $order_id 
-     * @param number $type 0为用户操作，1为商户操作，(已取消)
-     */
-    public static function update_dqk_use_info($id = 0,$order_id = 0, $type = 0)
-    {
-        $order_info = order_class::get_order_info($order_id);
-        if ( !$order_info || $order_info['statement'] != 2)
-        {
-            return false;
-        }
-        
-        $brand_chit_zuhe_use_list_info = brand_chit_zuhe_use_list_class::get_brand_chit_zuhe_use_list_info($id);
-        if ( !$brand_chit_zuhe_use_list_info || $brand_chit_zuhe_use_list_info['order_id'] != $order_id )
-        {
-            return false;
-        }
-        
-        // 如果使用次数大于0
-        if ( $brand_chit_zuhe_use_list_info['availeble_use_times'] > 0 )
-        {
-            $dqk_info = brand_chit_class::get_dqk_info($brand_chit_zuhe_use_list_info['brand_chit_id']);
-            $each_times = max($dqk_info['each_times'], 1);
-            
-            $seller_info = seller_class::get_seller_info($dqk_info['seller_id']);
-            
-            $brand_chit_zuhe_use_list_db = new IModel('brand_chit_zuhe_use_list');
-            $data = array(
-                'availeble_use_times'   =>  ($brand_chit_zuhe_use_list_info['availeble_use_times'] >= $each_times) ? $brand_chit_zuhe_use_list_info['availeble_use_times'] - $each_times : 0,
-            );
-            $brand_chit_zuhe_use_list_db->setData($data);
-            $brand_chit_zuhe_use_list_db->update('id = ' . $id . ' and order_id = ' . $order_id);
-            
-            // 如果当前短期课上完，则返佣10% 给商户
-            $new_brand_chit_zuhe_use_list_info = brand_chit_zuhe_use_list_class::get_brand_chit_zuhe_use_list_info(($id));
-            if ( !$new_brand_chit_zuhe_use_list_info['availeble_use_times'] )
-            {
-                $brand_chit_zuhe_use_list_db = new IQuery('brand_chit_zuhe_use_list'); 
-                $brand_chit_zuhe_use_list_db->where = 'order_id = ' . $order_id;
-                $brand_chit_zuhe_use_list = $brand_chit_zuhe_use_list_db->find();
-                
-                // 计算出购买时该短期课的价格，并且返佣给商户
-                $price = ( sizeof($brand_chit_zuhe_use_list) > 1) ? $dqk_info['tc_price'] : $dqk_info['max_price'];
-                Bill_class::add_sale($brand_chit_zuhe_use_list_info['seller_id'], number_format( $price * 0.1,2,'.',''));
-            }
-            
-            // 结算给商户
-            if ( $brand_chit_zuhe_use_list_info['commission'] > 0 )
-                Bill_class::add_sale($brand_chit_zuhe_use_list_info['seller_id'], number_format($brand_chit_zuhe_use_list_info['commission'] / $brand_chit_zuhe_use_list_info['use_times'] * $each_times,2,'.',''));
-            
-            // 如果订单短期课全部上完，则自动完成订单
-            $brand_chit_zuhe_use_list_db = new IQuery('brand_chit_zuhe_use_list');
-            $brand_chit_zuhe_use_list_db->where = 'order_id = ' . $order_info['id'] . ' and availeble_use_times > 0';
-            $list = $brand_chit_zuhe_use_list_db->find();
-            if ( !$list )
-            {
-                $goods_list = Order_goods_class::get_order_goods_list($order_info['id']);
-                $sendgoods = array();
-                if ( $goods_list )
-                {
-                    foreach($goods_list as $kk => $vv )
-                    {
-                        $sendgoods[] = $vv['id'];
-                    }
-                }
-                
-                // 自动发货
-                $result = Order_Class::sendDeliveryGoods($order_info['id'],$sendgoods,1);
-                
-                // 自动完成
-                $model = new IModel('order');
-                $model->setData(array('status' => 5,'completion_time' => ITime::getDateTime()));
-                if($model->update("id = ".$order_info['id']." and distribution_status = 1 and user_id = ".$order_info['user_id']))
-                {
-                    //确认收货后进行支付
-                    Order_Class::updateOrderStatus($order_info['order_no']);
-                     
-                    //增加用户评论商品机会
-                    Order_Class::addGoodsCommentChange($order_id);
-                }
-            }
-            
-        	// 发送短信给双方
-	        // 发送短信给用户
-            $remaining_times = ($brand_chit_zuhe_use_list_info['availeble_use_times'] > 0 ) ? $brand_chit_zuhe_use_list_info['availeble_use_times'] / $dqk_info['each_times']: 0;
-            $remaining_times = ($remaining_times) ? $remaining_times - 1 : $remaining_times;
-	        $member_info = member_class::get_member_info($dqk_info['user_id']);
-	        $user_mobile = $order_info['mobile'];
-	        
-	        // 测试和灌水组不需要发送短信
-	        if ( $member_info && !$member_info['group_id'] )
-	        {
-	            if ( $user_mobile )
-	            {
-	                $user_sms_content = '短期课验证成功。' . $seller_info['shortname'] . '学校' . $dqk_info['name'] . '课程，还剩' . $remaining_times . '次。0731-28308258【第三课】';
-	                $sms = new Sms_class();
-	                $result = $sms->send( $user_mobile, $user_sms_content );
-	            }
-	             
-	            // 发送短信给商户
-	            if ( $seller_info['mobile'] )
-	            {
-	                $seller_sms_content = '用户' . $order_info['accept_name'] . '成功使用第三课短期课完成' . $dqk_info['name'] . '课程，还剩' . $remaining_times . '次。0731-28308258【第三课】';
-	                $sms = new Sms_class();
-	                $result = $sms->send( $seller_info['mobile'], $seller_sms_content );
-	            }
-	        }
-            
-            return true;
-        }
-
-        return false;
-    }
-    
-    /**
-     * 记录平台的利润
-     * @param number $order_id
-     */
-    public static function handle_company_profit($order_id = 0)
-    {
-        if ( !$order_id )
-        {
-            return false;
-        }
-        
-        $order_info = order_class::get_order_info($order_id);
-        if ( !$order_info )
-        {
-            return false;
-        }
-        
-        $member_info = member_class::get_member_info($order_info['user_id']);
-        if ( $member_info && $member_info['group_id'] > 0)
-        {
-            return false;
-        }
-        
-        $order_goods_list = order_goods_class::get_order_goods_list($order_id);
-        $profit = order_class::get_order_profit($order_info);
-        $seller_profit = CountSum::countSellerOrderFee(array($order_info));
-        $seller_profit = $seller_profit['settled'];
-        switch($order_info['statement'])
-        {
-            case 1:
-                $data = array(
-                    'seller_id' =>  $order_info['seller_id'],
-                    'goods_id'  =>  $order_goods_list[0]['goods_id'],
-                    'user_id'   =>  $order_info['user_id'],
-                    'pay_amount'    =>  $order_info['order_amount'],
-                    'time'      =>  time(),
-                    'seller_profit' => $seller_profit,
-                    'order_id'  =>  $order_id,
-                    'company_profit'    =>  $profit,
-                    'type'  =>  1,
-                );
-                break;
-            case 2:
-                // 购买短期课
-                if ( $order_info['zuhe_id'] )
-                {
-                    $data = array(
-                        'seller_id' =>  $order_info['seller_id'],
-                        'goods_id'  =>  0,
-                        'user_id'   =>  $order_info['user_id'],
-                        'pay_amount'    =>  $order_info['order_amount'],
-                        'time'      =>  time(),
-                        'seller_profit' =>  $seller_profit,
-                        'order_id'  =>  $order_id,
-                        'company_profit'    =>  $profit,
-                        'type'  =>  3,
-                    );
-                } else {
-                    // 购买代金券
-                    $data = array(
-                        'seller_id' =>  $order_info['seller_id'],
-                        'goods_id'  =>  0,
-                        'user_id'   =>  $order_info['user_id'],
-                        'pay_amount'    =>  $order_info['order_amount'],
-                        'time'      =>  time(),
-                        'seller_profit' =>  $seller_profit,
-                        'order_id'  =>  $order_id,
-                        'company_profit'    =>  $profit,
-                        'type'  =>  2,
-                    );
-                }
-                
-                break;
-            case 4:
-                $data = array(
-                    'seller_id' =>  $order_info['seller_id'],
-                    'goods_id'  =>  0,
-                    'user_id'   =>  $order_info['user_id'],
-                    'pay_amount'    =>  $order_info['order_amount'],
-                    'time'      =>  time(),
-                    'seller_profit' => $seller_profit,
-                    'order_id'  =>  $order_id,
-                    'company_profit'    =>  $profit,
-                    'type'  =>  4,
-                );
-                break;
-        }
-        
-        $company_profit_db = new IModel('company_profit');
-        $company_profit_db->setData($data);
-        $company_profit_db->add();
-    }
-    
-    // 处理教育地图购买的操作
-    public static function handle_manual_operation($order_info = array())
-    {
-        $order_goods_list = Order_goods_class::get_order_goods_list($order_info['id']);
-        if ($order_goods_list )
-        {
-            $manual_db = new IModel('manual');
-            foreach($order_goods_list as $kk => $vv )
-            {
-                // 购买完整版手册
-                if ( $vv['goods_id'] == 1980 )
-                {
-                    manual_class::create_manual($order_info['user_id']);
-                }
-                
-                if ( $vv['goods_id'] == 1981 && $order_info['category_id'] > 0 && $order_info['manual_id'] > 0 )
-                {
-                    $manual_info = manual_class::get_manual_info($order_info['manual_id']);
-                    $manual_category_id = explode(',', $manual_info['category_id']);
-                    $manual_category_id[] = $order_info['category_id'];
-                    $manual_db->setData(array(
-                        'category_id'   =>  implode(',', $manual_category_id),
-                    ));
-                    $manual_db->update('id = ' . $manual_info['id']);
-                }
-            }
-        }
-    }
     
     /**
      * 获取课程最高的订单推广提成
@@ -2622,5 +2154,27 @@ class Order_Class
         
         $nums = $nums * $promo_rules[0]['order_value'] / 100;
         return get_real_money($nums);
+    }
+    
+    /**
+     * 获取用户的消费总额
+     * @param number $user_id
+     */
+    public static function get_user_order_consume($user_id = 0)
+    {
+        $count = 0;
+        $order_db = new IQuery('order');
+        $order_db->where = 'user_id = ' . $user_id . ' and pay_status = 1';
+        $order_db->fields = 'real_amount';
+        $order_list = $order_db->find();
+        
+        if ( $order_list )
+        {
+            foreach($order_list as $kk => $vv )
+            {
+                $count += $vv['real_amount'];
+            }
+        }
+        return number_format($count, 2, '.', '');
     }
 }

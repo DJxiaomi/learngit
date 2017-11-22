@@ -1,0 +1,35 @@
+<style>
+.seller_name {font-size:.9rem;line-height:40px;}
+</style>
+<div class="mui-content">
+  <form class="mui-input-group" method="POST">
+    <div class="mui-input-row">
+        <label>姓名</label>
+        <div class="seller_name">{$order_info['accept_name']}</div>
+    </div>
+    <div class="mui-input-row">
+        <label>商品名称</label>
+        <div class="seller_name">{$order_goods_list[0]['goods_name']}</div>
+    </div>
+    <div class="mui-input-row">
+        <label>验证码</label>
+        <input type="text" class="mui-input-text" name="code" placeholder="请输入核销验证码">
+    </div>
+    <div class="mui-button-row">
+        <button type="button" class="mui-btn mui-btn-primary" >确认</button>
+    </div>
+    <input type="hidden" name="id" value="{$order_info['id']}" />
+</form>
+</div>
+
+<script language="javascript">
+$('.mui-btn-primary').click(function(){
+  var pass = $('input[type=password]').val();
+  if ( pass == '')
+  {
+    mui.toast('请输入核销验证码');
+  } else {
+    $('form').submit();
+  }
+})
+</script>

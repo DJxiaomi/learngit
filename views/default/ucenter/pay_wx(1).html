@@ -1,0 +1,46 @@
+<div class="wrapper clearfix">
+	<div class="position mt_10"><span>您当前的位置：</span> <a href="{url:}"> 首页</a> » 在线支付</div>
+	<div class="myshopping m_10">
+		<ul class="order_step">
+			<li><span class="first">1、查看购物车</span></li>
+			<li class="current_prev"><span>2、填写核对订单信息</span></li>
+			<li class="last_current"><span>3、成功提交订单</span></li>
+		</ul>
+	</div>
+
+	<div class="cart_box m_10">
+		<div class="title">微信支付</div>
+		<div class="cont">
+			<div class="block clearfix">
+				<div id="qrcode" style="margin:0 auto; width:150px; height:150px;" />
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/js/qrcode.js"></script>
+<script type="text/javascript">
+	var url = "{$codeurl}";
+	//参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
+	var qr = qrcode(10, 'M');
+	qr.addData(url);
+	qr.make();
+	var wording=document.createElement('p');
+	wording.innerHTML = "扫我，扫我";
+	var code=document.createElement('DIV');
+	code.innerHTML = qr.createImgTag();
+	var element=document.getElementById("qrcode");
+	//element.appendChild(wording);
+	element.appendChild(code);
+	
+	/*$(function(){
+		setInterval("checkOrder()", 1000);   
+	});
+	
+	function checkOrder(){
+		$.getJSON(SITE_URL + 'card/check', {'ordersn': '<!--{$ordersn}-->'}, function(json){
+			if(json.msg == 1){
+				window.location.href = SITE_URL + 'card/success';
+			}
+		});
+	}*/
+</script>

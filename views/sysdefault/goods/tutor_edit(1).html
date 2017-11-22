@@ -1,0 +1,188 @@
+{js:kindeditor}
+{js:my97date}
+{js:artTemplate}
+{set:
+$site_config=new Config('site_config');
+}
+<style>
+#thumbnails2, #thumbnails3 {
+	margin-top: 12px;
+}
+#thumbnails2 .pic, #thumbnails3 .pic {
+	width: 12%;
+}
+#thumbnails2 .pic img, #thumbnails3 .pic img {
+	max-width: 100%;
+}
+.form_table input[type=radio] {
+	vertical-align: middle;
+	margin-right: 3px;
+	cursor: pointer;
+}
+.form_table .statement_label {
+	cursor: pointer;
+}
+.hide {
+	display: none;
+}
+</style>
+
+<div class="headbar clearfix">
+	<div class="position">
+			<span>课程</span>
+			<span>></span>
+			<span>家教管理</span>
+			<span>></span>
+			<span>家教信息编辑</span>
+	</div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/goods/tutor_update}" name="goodsForm" method="post">
+			<div id="table_box_1">
+				<table class="form_table">
+					<col width="150px" />
+					<col />
+
+          <tr>
+            <td class="tt">发布用户：</td>
+            <td>
+              {$user_info['username']}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">性别：</td>
+            <td>
+              <input type="radio" name="gender" value="1" checked id="gender_1" /><label for="gender_1">男</label>
+              <input type="radio" name="gender" value="2" id="gender_2" {if:$tutor_info['gender'] == 2}checked{/if} /><label for="gender_2">女</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">年级：</td>
+            <td>
+              <select name="grade_level" class="normal" style="width: 100px;">
+                {foreach:items=$grade_arr key=$key}
+                <option value="{$key}" {if:$tutor_info['grade_level'] == $key}selected{/if}>{$item}</option>
+                {/foreach}
+              </select>
+              <select name="grade" class="normal grade" style="width: 100px;">
+                <option value="1" {if:$tutor_info['grade'] == 1}selected{/if}>1</option>
+                <option value="2" {if:$tutor_info['grade'] == 2}selected{/if}>2</option>
+                <option value="3" {if:$tutor_info['grade'] == 3}selected{/if}>3</option>
+              </select>年级
+              <label></label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">需要补课的分类：</td>
+            <td>
+              <select name="category_id" pattern="required">
+                {foreach:items=$tutor_cate_list}
+                  <option value="{$item['id']}" {if:$tutor_info['category_id'] == $item['id']}selected{/if}>{$item['name']}</option>
+                {/foreach}
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">最近一次考分：</td>
+            <td><input name="lastest_scores" type="text" pattern='float' empty alt='请输入最近一次考分' class="normal small" value="{$tutor_info['lastest_scores']}" /></td>
+          </tr>
+
+          <tr>
+            <td class="tt">期望的考分：</td>
+            <td><input name="expected_scores" type="text" pattern='float' empty alt='请输入期望的考分' class="normal small" value="{$tutor_info['expected_scores']}" /></td>
+          </tr>
+
+          <tr>
+            <td class="tt">支付的最低报酬：</td>
+            <td><input name="lowest_reward" type="text" pattern='float' empty alt='请输入最低报酬' class="normal small" value="{$tutor_info['lowest_reward']}" /> 元</td>
+          </tr>
+
+					<tr>
+						<td class="tt">支付的最高报酬：</td>
+						<td><input name="highest_reward" type="text" pattern='float' empty alt='请输入最高报酬' class="normal small" value="{$tutor_info['highest_reward']}" /> 元</td>
+					</tr>
+
+          <tr>
+            <td class="tt">预计补课的时间：</td>
+            <td>
+              <select name="expected_hours" pattern="required">
+                  <option value="1" {if:$tutor_info['expected_hours'] == 1}selected{/if}>1个月以内</option>
+                  <option value="2" {if:$tutor_info['expected_hours'] == 2}selected{/if}>3个月以内</option>
+                  <option value="3" {if:$tutor_info['expected_hours'] == 3}selected{/if}>6个月以内</option>
+                  <option value="4" {if:$tutor_info['expected_hours'] == 4}selected{/if}>1年以内</option>
+                  <option value="5" {if:$tutor_info['expected_hours'] == 5}selected{/if}>1年以上</option>
+              </select>
+            </td>
+          </tr>
+
+					<tr>
+						<td class="tt">接受补课的时间：</td>
+						<td><input name="teaching_time" type="text" empty alt='请输入接受补课的时间段' class="normal small" value="{$tutor_info['teaching_time']}" /></td>
+					</tr>
+
+          <tr>
+            <td class="tt">是否提供交通费用：</td>
+            <td>
+              <input type="radio" name="is_provide_transportation_fee" value="1" checked id="transportation_fee_1" /><label for="transportation_fee_1">是</label>
+              <input type="radio" name="is_provide_transportation_fee" value="0" {if:$tutor_info['is_provide_transportation_fee'] == 0}checked{/if} id="transportation_fee_0" /><label for="transportation_fee_0">否</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">是否提供就餐：</td>
+            <td>
+              <input type="radio" name="is_provide_repast" value="1" checked id="is_provide_repast_1" /><label for="is_provide_repast_1">是</label>
+              <input type="radio" name="is_provide_repast" value="0" {if:$tutor_info['is_provide_repast'] == 0}checked{/if} id="is_provide_repast_0" /><label for="is_provide_repast_0">否</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">补课地址：</td>
+            <td>
+                <select name="region_id" pattern="required">
+                  {foreach:items=$region_list}
+                    <option value="{$item['area_id']}" {if:$tutor_info['region_id'] == $item['area_id']}selected{/if}>{$item['area_name']}</option>
+                  {/foreach}
+                </select>
+                <input type="text" name="address" value="{$tutor_info['address']}" class="normal big" />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">详细描述：</td>
+            <td>
+                <textarea name="description">{$tutor_info['description']}</textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>
+              {if:$id}<input type="hidden" name="id" value="{$id}"  />{/if}
+              <label class="btn"><input type="submit" value=" 发 布 "></label>
+            </td>
+          </tr>
+
+				</table>
+			</div>
+
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<td></td>
+					<td>
+            <button class="submit" type="submit" onclick="return checkForm()" style="width: 140px;"><span>发&nbsp; &nbsp; 布</span></button>
+					</td>
+				</tr>
+			</table>
+
+		</form>
+	</div>
+</div>

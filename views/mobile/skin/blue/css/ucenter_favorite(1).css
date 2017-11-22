@@ -1,0 +1,30 @@
+@charset "utf-8";
+.mui-scroll-wrapper{ bottom: 51px; }
+.mui-table-view{background:#f8f1e1;}
+.mui-media-body{color:#0b2956;padding-left:15px;}
+.article .mui-table-view .mui-media-object, .list .mui-table-view .mui-media-object{height: 80px;line-height: 80px;max-width: 80px;width: 80px;}
+.mui-table-view-cell p{/* height: 40px; */line-height: 40px;width: 100%;/* white-space: normal; */color:#452300;position:relative;}
+.mui-table-view-cell .goodsprice{ color: #f60; margin-top: 5px; float:left;}
+.mui-table-view-cell .address {/* height: 40px; *//* line-height: 40px; */width: 100%;font-size: 14px;color:#452300;display: -webkit-box;}
+.mui-table-view-cell .mui-del {position:absolute;top: 15px;right:10px;width:70px;height:25px;line-height:25px;text-align:center;color:#de4102;border: 1px solid #de4102;border-radius:5px;}
+/* .address{margin-top:15px;) */
+.card-list-box{}
+.card-list-box .box{padding: 10px 15px;}
+.card-list-box h5{padding: 0 0 10px 0;margin: 0;border-bottom: 1px solid #ddd;}
+.card-list-box .mui-table-view{margin-top: 0;}
+.card-list-box .mui-table-view:before{background: none;}
+.card-list-box .mui-table-view-cell{position: relative;}
+.card-list-box .mui-table-view-cell p{ height: auto; line-height: normal; }
+.card-list-box .mui-media-object{ text-align: center; line-height: normal;background:url(../images/card.png); background-size:100px 100px;color: #fff; width: 100px;height: 80px;max-width: 100px; }
+.card-list-box .mui-media-object .tochit{ font-size: 1.3rem; color: #fff; padding-top: 5px; }
+.card-list-box .mui-media-object .tochit em{ font-size: 12px; margin-right: 2px; }
+.card-list-box .mui-media-object .tobuy{ font-size: 12px; color: #fff; padding-top: 15px; }
+.card-list-box .totip{ padding: 1px 3px; background: #ff8508; color: #fff; margin-right: 5px; font-size: 12px; border-radius: 3px; }
+.card-list-box .totip-1{ background: #f23030;}
+.card-list-box .mui-table-view-cell .tospec{ padding-top: 6px; color: #452300; font-size: 12px; }
+.card-list-box .mui-table-view-cell .tospec-1{ color: #f23030; }
+.card-list-box .mui-table-view-cell .buycard{ position: absolute; bottom: 20px;right: 20px;font-size: 12px; padding: 0 8px; border-radius: 10px; color: #de4002; border:1px solid #de4002; }
+.card-list-box .mui-table-view-cell.mui-active .buycard{background: #08c;color: #fff; border:1px solid #08c;}
+.card-list-box .mui-table-view-cell .limitnum{padding:10px 0;}
+.card-list-box .mui-table-view-cell .maxprice{color:#f23030;}
+.mui-seller { color: #825c3d; }

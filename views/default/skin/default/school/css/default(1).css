@@ -1,0 +1,164 @@
+@charset "utf-8";
+
+/*css reset*/
+*{ margin:0; padding:0;}
+body { margin:0 auto; font-size:14px; font-family:Verdana; line-height:1.5; font-family: "微软雅黑";color:#333;-webkit-font-smoothing: antialiased;}
+ul,dl,dd,h1,h2,h3,h4,h5,h6,form,p { padding:0; margin:0;}
+ul { list-style:none;}
+img,input,select,option,fieldset,img ,abbr,acronym{ border:0px;}
+a { color:#333; text-decoration:none;}
+a:hover { color:#0093dd;}
+
+table { border-collapse: collapse; border-spacing: 0; }
+address,caption,cite,code,dfn,em,th,var,i { font-weight:normal; font-style:normal; }
+ol,ul,li { list-style: none; }
+div,dl,dt,dd,ul,ol,li{ zoom:1; }
+caption,th { text-align: left; }
+h1,h2,h3,h4,h5,h6 { font-weight: normal; font-size:100%; }
+
+/*基本设置*/
+.clear{ clear:both;height:0px;line-height:0px;font-size:0px;}
+.clear:after {visibility:hidden;display:block;content:".";}
+.Wrap{width:1200px;margin: 0 auto;}
+.fl{float:left;}
+.fr{float:right;}
+.mbot15{margin-bottom:15px;}
+.mtop15{margin-top:15px;}
+.mt20{margin-top:20px;}
+.mr20{margin-right:20px;}
+.mb20{margin-bottom:20px;}
+.ml20{margin-left:20px;}
+.c9{color:#999;}
+.c6{color:#666;}
+.c3(color:#333;)
+.orange{color:#f90;}
+.blue{color:#0093dd;}
+.f12{font-size:12px;}
+.f14{font-size:14px;}
+.f16{font-size:16px;}
+.mbot25{margin-bottom:25px;}
+
+/*Header*/
+.toolbar{position:fixed;right:0;top:0;width:3px;height:100%;background:#6e767a;}
+.toolbar .top-btn{top:90%;position:absolute;left:-35px;width:35px;height:35px;display:block;background:#6e767a url(../images/top01.png) no-repeat center center;}
+.toolbar ul{top:50%;margin-top:-50px;position:absolute;left:-35px;}
+.toolbar ul li{display:block;margin-bottom:2px;width:35px;height:35px;background:#6e767a;border-radius:3px 0 0 3px;position:relative;}
+.toolbar ul li .yonghu{width:35px;height:35px;display:block;background:url(../images/gerenzhongxin.png) no-repeat center center;}
+.toolbar ul li .shopcar{width:35px;height:35px;display:block;background:url(../images/gouwuche.png) no-repeat center center;}
+.toolbar ul li .phone-icon{width:35px;height:35px;display:block;background:url(../images/iPone.png) no-repeat center center;}
+.toolbar ul li span.normal{display:none;padding:0px;position:absolute;left:-92px;bottom:0;width:102px;min-height:35px;background:url(../images/blue-icon.png) no-repeat center center;}
+.toolbar ul li span.phone-box{display:none;padding:0px;position:absolute;left:-92px;bottom:0;width:102px;height:35px;padding-top:95px;background:url(../images/blue-icon.png) no-repeat center bottom;}
+.toolbar ul li span p{color:#fff;line-height:35px;text-align: center;margin-left: -8px;}	
+i.phone-erweima{width:85px;height:85px;display:block;background:url(../images/Ad/erweima.png) no-repeat 0 0;background-size:85px 85px; margin-bottom: 5px;margin-left: 5px;margin-top: -90px;}	
+.Header{}
+.TopBar{width:100%;background:#f3f3f3;}
+.TopBar,.TopBar a{ color:#919191;font-size:12px;}
+.TopBar{height:35px;line-height: 35px;}
+.TopBar .place-on{}
+.TopBar .head-right{height:35px;position:relative;}
+.TopBar i.arrow-icon{display:inline-block;height:8px;width:20px;background:url(../images/icon996.png) no-repeat center center;}
+i.phone-icon{display:inline-block;margin-bottom: -3px;height:17px;width:22px;background:url(../images/icon994.png) no-repeat center center;}
+i.shopping-icon{display:inline-block;margin-bottom: -3px;margin-left: -15px;height:17px;width:45px;background:url(../images/shop-car.png) no-repeat center center;}
+i.arrow-icon-right{display:inline-block;height:8px;width:25px;background:url(../images/icon997.png) no-repeat right center;}
+.TopBar a:hover .arrow-icon{transform:rotate(180deg);}
+.TopBar a{padding: 0 8px;border-left:1px solid #eee;}
+.TopBar a:hover{color:#038bd0;}
+.TopBox{padding: 40px 0; }
+.logo{display: block;height:53px;width:230px;padding-right: 100px; background: url(../images/logo.png) no-repeat 0 0;}
+.place-on ,.bzzx-on,.sjlx-on{display:inline-block;z-index:999;position:relative;cursor: default;zoom: 1;}
+.place-on{}
+.wdlx{background:#fff;width:83px;border:1px solid #ebebeb;height:70px;padding-top:35px;position:absolute;top:0px;left:231px;display:none;z-index:9;}
+.bzzx{background:#fff;width:88px;border:1px solid #ebebeb;height:130px;padding-top:35px;position:absolute;top:0px;left:499px;display:none;z-index:10;}
+.sjlx{background:#fff;width:105px;border:1px solid #ebebeb;height:110px;padding-top:35px;position:absolute;top:0px;left:388px;display:none;z-index:12;}
+.sjlx .erweima{width:85px;height:85px;display:block;background:url(../images/Ad/erweima.png) no-repeat 0 0;background-size:85px 85px;margin:10px;}
+.wdlx li,.bzzx li{height:30px;text-align:center;font-size:12px;color:#666;}
+.wdlx li a,.bzzx li a{border-left:0;line-height:30px;}
+					
+.search{}
+
+.s-text{width:320px;height:40px;padding-left:10px;color:#ccc;}
+.s-but{width:70px;height:40px; background: #b62827;font-size: 16px;color:white;font-family: "微软雅黑";cursor:pointer;}
+
+.sign{width:209px;height:53px; padding-right:30px;background:url(../images/TopSign.png) no-repeat 0 0;}
+.shopping-car{background:#f9f9f9;width:160px;height:38px;line-height: 38px;border:1px solid #dfdfdf;color:#666;text-align: center;font-size:14px;display: inline-block;border-radius: 2px;;}
+/*search*/
+	.searchTool{position:relative;float:left;width:524px;height:40px;border:2px solid #038bd0;}
+	.searchTool .searchExtend{float:left;line-height:24px;_padding-top:5px;}
+	.searchTool .radio{vertical-align:middle;margin-left:10px;margin-right:2px;*margin-right:0;}
+	.searchTool .txtSearch{float:left;width:440px;height:40px;line-height:40px;vertical-align:bottom;padding-left:10px;color:#999;}
+
+	/*隐藏菜单*/
+	.searchTool .selOption{position:absolute;z-index:10;top:42px;left:0;margin-left:-2px;width:118px;text-align:center;border:2px solid #0093dd;background:#0093dd;}
+	.searchTool .selOption a{display:block;height:28px;padding-left:5px;line-height:28px;color:white;text-decoration:none;}
+	.searchTool .selOption a:hover{background:#038bd0;}
+
+	/*搜索按钮*/
+	.searchTool .btnSearch{float:left;width:74px;overflow:hidden;}
+	.searchTool .btnSearch a{display:block;text-decoration:none;height:40px;line-height:40px;overflow:hidden;background:#0093dd;}
+	.searchTool .btnSearch a:hover{background:#0093dd;}
+	.searchTool .btnSearch .lbl{cursor:pointer;display:block;padding-left:5px;font-size:14px;letter-spacing:5px;text-align:center;height:40px;line-height:40px;filter:progid:DXImageTransform.Microsoft.DropShadow(color=#daeefa,offX=1,offY=1,positives=true);color:white;}
+
+
+
+/*Nav*/
+.Nav{border-bottom:2px solid #038bd0; }
+.mainNav{}
+.nav_menu {position: relative;}
+.nav_menu .nav_menu-item{float:left;position: relative;   width:146px;font-size: 16px;text-align: center;background:url(../images/liIco.png) no-repeat right center;}
+.nav_menu .nav_menu-item a{display: block;height:40px; line-height: 40px;margin-right:2px;}
+.nav_menu .nav_menu-item a:hover,.nav_menu .cur a ,.nav_menu .on a{ background: #038bd0; color: white; }
+.nav_menu .nav_menu-item:hover .nav_submenu {  display: block;}
+.nav_menu li ul { display: none; position:absolute;top:40px; left:0;z-index: 1; font-weight: 300;  text-transform: none;font-size: 14px; }
+.nav_menu li ul li a{ background: #038bd0; color: white;}
+.nav_menu li ul li a:hover{background: #038bd0 !important;}
+.nav_menu .nav-myhome{background:none;}
+.nav_menu .last{position: absolute;bottom:0; right:0;}
+.nav_menu .last ,.mainNav ul .last a:hover{background: url(../images/navLast-Bg.png) no-repeat 0 bottom !important;}
+.nav_menu .last a:hover{margin: 0}
+
+/* footer */
+.footer{padding:30px 0 20px 0;border-bottom:2px solid #eee;border-top:1px solid #eee;margin-top:20px;}
+.footer-left{float:left;width:70%;}
+.footer-left ul{width:30%;text-align: center;float:left;}
+.footer-left ul li{display: block;}
+.footer h3.foot-title{font-size:16px;color:#666;line-height: 25px;font-weight:bold;margin-bottom:5px;}
+.footer-left ul li a{font-size:14px;line-height: 22px;color:#999;}
+.footer-left ul li a:hover{color:#038bd0;}
+.footer-right{width:20%;margin-left:10%;float:right;}
+.footer-right .erweima{width:120px;height:120px;background: url(../images/ad/erweima.png) no-repeat 0 0;background-size:120px 120px;}
+.copyright{ background: #fff;padding: 25px 0 20px; text-align: center;font-size: 12px;}
+.copyright p{ line-height: 35px; font-family: "宋体";color:#666;}
+.copyright .footP1{font-family: "微软雅黑";color:#666;}
+
+/*标题*/
+.title{height:40px; line-height: 40px;padding: 0 10px; border-bottom:2px solid #b62827; overflow:hidden}
+.title h3{float:left;color: #b62827;font-size: 18px;}
+.title .more{float:right;color: #959494;}
+
+
+/*Sitepage*/
+.sitepage{text-align: center;margin:20px 0;  }
+.page{ overflow: hidden; text-align: center;margin: 0 auto;width:500px;}
+.page a{ display: block; float: left;width:25px; height:25px;line-height: 25px; text-align: center; border:1px solid #bbb; margin-right: 10px; cursor: pointer;}
+.page a:hover{ background: #f36f20; color: white;}
+.page a.Spre,.page a.Snext{width:80px;}
+
+.page strong{display: block; float: left; width: 25px; height:25px;line-height: 25px; text-align: center; margin-right: 10px; background: #f36f20; color: white;}
+
+
+/*广告*/
+
+.Ad span{display: block;line-height:0;}
+.Ad .Ad_item01 img{width:1200px; height:110px;}
+.Ad .Ad_item02 img{width:593px; height:89px;}
+
+/* 网站地图 */
+
+.website {height: 25px;line-height: 25px;color: #999; margin-bottom: 10px;}
+.website a{padding:0 5px;color:#999;}
+
+
+
+
+
+

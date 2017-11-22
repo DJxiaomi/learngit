@@ -1,0 +1,57 @@
+{set: $title = '我要提现';}
+{set:$callback = IUrl::creatUrl('/ucenter/withdraw');}
+{template:'/views/mobile/layouts/header_ucenter_2016.html'}
+<link href="/views/mobile/skin/blue/css/index.css" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _page_count = {$page_count};
+var _curr_page = {$page};
+var _page_size = {$page_size};
+var _loading = false;
+var _ajax_data_url = '{url:/ucenter/get_withdraw_list_ajax}';
+</script>
+
+<div class="order-box">
+  <div class="zhanghu-box w-bg f16 orange">提现记录</div>
+  {foreach:items = $withdraw_list}
+  <ul class="product-con w-bg clearfix" style="margin-top:0;">
+      <h3 class="f12">{$item['time']}</h3>
+      <li class=""><span>收款人姓名：</span>{$item['name']}</li>
+      <li class=""><span>卡号：</span>{$item['cart_no']}</li>
+      <li class=""><span>银行：</span>{$item['bank_name']}</li>
+      <li class=""><span>管理员备注:</span>{$item['re_note']}</li>
+      <li class=""><span>申请提现金额：</span><i class="orange f14">{$item['amount']}</i>元</li>
+      <li class=""><span>状态：</span><i class="orange f14">{echo:AccountLog::getWithdrawStatus($item['status'])}</i></li>
+  </ul>
+  {/foreach}
+
+  {if:!$withdraw_list}
+    <div class="nothing">
+      没有相关信息
+    </div>
+  {/if}
+</div>
+
+<div id="cc"></div>
+
+{template:'/views/mobile/layouts/foot_2016.html'}
+</body>
+
+<script language="javascript">
+var loadi;
+$(window).scroll(function(){
+	var a = $(window).scrollTop();
+	var load_position = $('#cc').offset().top;
+	if( a + $(window).height() > load_position -10 && _loading == false && _curr_page < _page_count )
+	{
+		_loading = true;
+		$('#cc').html("<img src='/views/mobile/skin/new/images/loading2.gif'>&nbsp; 努力加载中...");
+		_curr_page = _curr_page + 1;
+		$.get( _ajax_data_url, {page: _curr_page}, function( result ){
+      //console.log( result );
+			$('.zhanghu-box').append( result );
+			$('#cc').html('');
+			_loading = false;
+		});
+	}
+});
+</script>

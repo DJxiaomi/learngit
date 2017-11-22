@@ -1,0 +1,99 @@
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>会员管理</span><span>></span><span>会员认证申请列表</span></div>
+</div>
+
+<form action="{url:/member/member_reclaim}" method="post" name="member_list" onsubmit="return checkboxCheck('check[]','尚未选中任何记录！')">
+	<div class="content">
+		<table id="list_table" class="list_table">
+			<colgroup>
+				<col width="30px" />
+				<col width="120px" />
+				<col width="120px" />
+				<col width="80px" />
+				<col width="80px" />
+				<col width="50px" />
+				<col width="140px"/>
+        <col width="120px"/>
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>用户名</th>
+					<th>真实姓名</th>
+          <th>电话号码</th>
+          <th>身份证号码</th>
+          <th>详细地址</th>
+          <th>提交日期</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items=$member_list}
+				<tr>
+					<td><input name="check[]" type="checkbox" value="{$item['user_id']}" /></td>
+					<td>{$item['username']}</td>
+					<td>{$item['true_name']}</td>
+					<td>{$item['mobile']}</td>
+					<td>{$item['id_card']}</td>
+          <td>{$item['contact_addr']}</td>
+          <td>{echo:date('Y-m-d',$item['auth_time'])}</td>
+					<td>
+						<a href="{url:/member/member_auth_edit/uid/$item[user_id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	{$page_info}
+</form>
+
+<script language="javascript">
+//预加载
+$(function(){
+	var formObj = new Form('searchuser');
+	formObj.init({'search':'{$search}'});
+})
+
+//预付款管理入口
+function balance_add()
+{
+	if(!checkboxCheck('check[]','请选择要进行预付款操作的用户！'))
+	{
+		return;
+	}
+
+	art.dialog.open("{url:/member/member_balance}",{
+	    title: '预付款管理',
+	    ok:function(iframeWin, topWin)
+	    {
+	    	var formObject = iframeWin.document.forms['balanceForm'];
+	    	formObject.onsubmit();
+
+	    	if($(formObject).find('.invalid-text').length > 0)
+	    	{
+	    		return false;
+	    	}
+
+	    	//进行post提交
+	    	var postData = $('[name="member_list"]').serialize()+'&'+$(formObject).serialize();
+	    	$.post('{url:/member/member_recharge}',postData,function(json){
+	    		if(json.flag == 'success')
+	    		{
+	    			tips('操作成功');
+	    			window.location.reload();
+	    			return false;
+	    		}
+	    		else
+	    		{
+	    			alert(json.message);
+	    			return false;
+	    		}
+	    	},'json');
+	    	return false;
+		}
+	});
+}
+</script>

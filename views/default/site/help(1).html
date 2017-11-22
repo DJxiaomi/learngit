@@ -1,0 +1,68 @@
+{set:$seo_data=array();$site_config=new Config('site_config');}
+{set:$seo_data['title']=$this->help_row['name'].'_'.$site_config->name;}
+<link href="{skin:/css/home.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/help.css}" rel="stylesheet" type="text/css" />
+<script type='text/javascript' src="{theme:javascript/help.js}"></script>
+<script language="javascript">
+var SITE_URL = '{echo:get_host()}';
+</script>
+{set:$cat_id=$this->cat_row['id'];}
+
+<div class="container_2 wrapper clearfix">
+
+	<div class="top_content">
+		<div class="top_menu">
+			<a href="{url:/site/help_list}"><img src="{skin:images/help_menu_2.png}"></a>
+			<a href="tencent://message/?Menu=yes&uin=2821518520&Service=58&SigT=A7F6FEA02730C9881B11E0AE7AF2E2413E3090997F5951E7CFC7F66A8EF4F5D7A3233F568A8EBC2B984019AC21FF99093F241FB5CD7A7DD4C39596B28D63C849FBCF4A5AED55184EFE696F36F9FF6428EEC729D42EF963C0FD5E9BAC2AD18620E7ADFC9387D83C4B46A7B0C2DC4B63341934EE44C822C196"><img src="{skin:images/help_menu_1.png}"></a>
+		</div>
+
+		<div class="search_form" >
+			<div class="help_logo"><a href="{url:/}"><img src="{skin:images/dsk_help_logo.png}" /></a></div>
+			<form name="form1" method="GET" action="{url:/site/help_list}">
+				<div class="help_search">
+		      <input type="text" name="key" placeholder="请输入关键词" /><input type="submit" name="btn" value="搜索">
+		    </div>
+			</form>
+		</div>
+	</div>
+
+	<div class="help_content" >
+		<div class="help_c sidebar f_l" >
+	    <div class="hd" >问题分类</div>
+		{foreach:items=Api::run('getHelpCategoryLeft',10)}
+		<div class="hc_title" show_list="1"><i>{if:$item['show']}+{else:}-{/if}</i><strong>{$item['name']}</strong></div>
+		<ul class="list m_10">
+			{foreach:items=Api::run('getHelpListByCatidAll',array('#cat_id#',$item['id'])) item=$help_row}
+			<li><a href="{url:/site/help/id/$help_row['id']}">{$help_row['name']}</a></li>
+			{/foreach}
+		</ul>
+		{/foreach}
+	</div>
+
+		<div class="main f_r">
+			<div class="box"><div class="hc_title">{$this->help_row['name']}</div></div>
+			<div class="c_box">
+				<div class="textcontent">
+					{echo:str_replace('\n','<br />', $this->help_row['content']);}
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+<script>
+	$('.hc_title').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+	$('.help_c ul.list li a').hover(function(){
+		$(this).addClass('hover');
+	}, function(){
+		$(this).removeClass('hover');
+	});
+	
+</script>
+

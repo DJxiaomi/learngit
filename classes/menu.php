@@ -32,17 +32,6 @@ class Menu
 				'/goods/goods_list' => '课程列表',
 				'/goods/goods_edit_1' => '添加课程'
 			),
-        	'代金券管理'=>array(
-        		'/market/ticket_list'       => '代金券列表',
-				'/market/brand_chit_list'       => '代金券列表2',
-				'/market/brand_chit_list2'       => '短期课列表',
-        	    '/market/brand_zuhe_list' => '短期课套餐组合',
-        	    '/market/brand_chit_list3' => '手册优惠列表',
-        	    '/brand/brand_chit_edit3' => '添加手册优惠',
-        	),
-		    '教育手册'=>array(
-		        '/market/manual_list'       => '手册列表',
-		    ),
         	'促销活动' => array(
 			   '/market/pro_rule_list' => '促销活动列表',
         	   '/market/pro_speed_list' => '限时抢购',
@@ -63,16 +52,12 @@ class Menu
 			'商户管理' => array(
 				'/member/seller_list' => '商户列表',
 				//'/member/seller_edit' => '商户信息',
-				'/member/seller_edit2' => '商户属性',
-				'/member/seller_edit3' => '商户功能',
-				'/member/seller_edit4' => '商户结算',
-				'/member/seller_edit5' => '商户账户',
-				'/member/seller_edit6' => '商户认证',
+				// '/member/seller_edit2' => '商户属性',
+				// '/member/seller_edit3' => '商户功能',
+				// '/member/seller_edit4' => '商户结算',
+				// '/member/seller_edit5' => '商户账户',
+				// '/member/seller_edit6' => '商户认证',
 			),
-		    '教师管理' => array(
-		        '/member/teacher_list' => '老师列表',
-		        '/member/teacher_edit' => '添加老师'
-		    ),
 		),
        '文章资讯'=>array(
 			'文章管理'=>array(
@@ -124,11 +109,9 @@ class Menu
 				//'/market/bill_list' => '结算申请',
 			    '/market/sale_tixian' => '商户提现',
 	     		'/member/withdraw_list' =>'用户提现',
-			    '/market/profit_list' =>'平台收益',
 			),
 		    '推广记录' => array(
 		        '/market/prom_user_list' => '推广用户列表',
-		        '/market/prom_seller_list' => '推广商户列表',
 		        '/market/prom_order_list' => '推广订单列表',
 		     ),
         	'支付交易'=>array(

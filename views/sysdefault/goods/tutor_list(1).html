@@ -1,0 +1,135 @@
+{js:artTemplate}
+
+
+
+<div class="headbar">
+
+	<div class="position"><span>课程</span><span>></span><span>家教管理</span><span>></span><span>家教列表</span></div>
+
+</div>
+
+
+
+<form action="" method="post" name="orderForm">
+
+	<div class="content">
+
+		<table class="list_table">
+
+			<colgroup>
+
+        <col width="40px" />
+
+				<col width="80px" />
+
+				<col width="80px" />
+
+        <col width="120px" />
+
+				<col width="120px" />
+
+				<col width="90px" />
+
+				<col width="80px" />
+
+				<col width="70px" />
+
+				<col width="80px" />
+
+				<col width="70px" />
+
+				<col width="70px" />
+
+				<col width="110px" />
+
+			</colgroup>
+
+
+
+			<thead>
+
+				<tr>
+
+          <th></th>
+
+          <th>用户名</th>
+
+					<th>性别</th>
+
+					<th>年级</th>
+
+        	<th>课程分类</th>
+
+					<th>最近考分</th>
+
+					<th>期望考分</th>
+
+					<th>最低报酬</th>
+
+					<th>最高报酬</th>
+
+					<th>状态</th>
+
+					<th>发布日期</th>
+
+					<th>操作</th>
+
+				</tr>
+
+			</thead>
+
+
+
+			<tbody>
+
+				{foreach:items = $tutor_list}
+
+				<tr>
+
+          <td></td>
+
+					<td>{$item['username']}</td>
+
+					<td>{echo: get_gender_title($item['gender'])}</td>
+
+          <td>{echo:tutor_class::get_grade_title($item['grade_level'], $item['grade'])}</td>
+
+					<td>{$cates_arr[$item['category_id']]}</td>
+
+					<td>{$item['lastest_scores']}</td>
+
+					<td>{$item['expected_scores']}</td>
+
+					<td>{$item['lowest_reward']}</td>
+
+					<td>{$item['highest_reward']}</td>
+
+					<td>{echo:tutor_class::get_tutor_status_title($item['status'], $item['is_sign_contract'])}</td>
+
+					<td>{echo:date('Y-m-d',$item['create_time'])}</td>
+
+					<td>
+
+						<a href="{url:/goods/tutor_edit/id/$item[id]/page/$page}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" /></a>
+
+						<a href="javascript:void(0)" onclick="delModel({link:'{url:/goods/tutor_del/id/$item[id]}'})" ><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+
+						{if:$item['contract_addr']}<a href="{webroot:$item['contract_addr']}" target="_blank">查看合同</a>{/if}
+
+					</td>
+
+				</tr>
+
+				{/foreach}
+
+			</tbody>
+
+		</table>
+
+	</div>
+
+</form>
+
+
+
+{$page_info}

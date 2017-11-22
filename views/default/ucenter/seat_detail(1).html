@@ -1,0 +1,181 @@
+{js:artTemplate}
+<script type='text/javascript' src='{theme:javascript/artTemplate/area_select.js}'></script>
+<link href="{skin:css/ucenter_order_detail.css}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+var _check_trade_passwd_url = '{url:/ucenter/check_trade_password/order_id/$this->order_info[order_id]}';
+var _set_trade_passwd_url = '{url:/ucenter/reset_trade_passwd}';
+var _update_trade_passwd_url = '{url:/ucenter/update_trade_password_ver/order_id/$this->order_id}';
+</script>
+<div class="main f_r">
+	<div class="uc_title m_10">
+		<label class="current"><span>订单详情</span></label>
+	</div>
+
+	<div class="prompt_2 m_10">
+		<div class="t_part">
+			{foreach:items=$this->order_log_list}
+			<p>{$item['addtime']}&nbsp;&nbsp;<span class="black">{echo:order_log_class::read_log($item)}</span></p>
+			{/foreach}
+		</div>
+
+		<p>
+			<b>订单号：</b>{$this->order_info['order_no']}
+			<b>下单日期：</b>{$this->order_info['create_time']}
+			<b>状态：</b>
+			<span class="red2">
+				<b class="orange">{echo:Order_Class::orderStatusText($orderStatus)}</b>
+	        </span>
+					
+        </p>
+        <form action='{url:/ucenter/order_status}' method='post'>
+        <p>
+	        <input type="hidden" name="order_id" value="{$this->order_info['order_id']}" />
+	    	  {if:in_array($orderStatus,array(1,2))}
+	        <label class="btn_orange">
+	        	<input type="hidden" name='op' value='cancel' />
+	        	<input type="submit" value="取消" />
+	        </label>
+	        {/if}
+
+			{if:$orderStatus == 2}
+			<label class="btn_green">
+
+				{if:$is_set_trade_passwd}
+					<input type="button" value="付款" onclick="check_trade_passwd()" />
+				{else:}
+					<input type="button" value="付款" onclick="set_trade_passwd()" />
+				{/if}
+			</label>
+
+			{/if}
+
+	        {if:Order_Class::isRefundmentApply($this->order_info)}
+	        <label class="btn_orange">
+	        	<input type="button" value="申请退款" onclick='javascript:window.location.href="{url:/ucenter/refunds_edit/order_id/$this->order_info['order_id']}"' />
+	        </label>
+	    	  {/if}
+
+	    </p>
+        </form>
+	</div>
+
+	
+
+	<div class="box m_10">
+		<div class="title">
+			<h2><span class="orange">学员信息</span></h2>
+		</div>
+
+		<!--收获信息展示-->
+		<div class="cont clearfix" id="acceptShow">
+			<table class="dotted_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<col width="130px" />
+				<col />
+				<tr>
+					<th>学员姓名：</th>
+					<td>{$this->order_info['accept_name']}</td>
+				</tr>
+				{if:$this->order_info['telphone']}
+				<tr>
+					<th>固定电话：</th>
+					<td>{$this->order_info['telphone']}</td>
+				</tr>
+				{/if}
+				<tr>
+					<th>手机号码：</th>
+					<td>{$this->order_info['mobile']}</td>
+				</tr>
+				<tr class="hide">
+					<th>邮编：</th>
+					<td>{$this->order_info['postcode']}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<!--支付和配送-->
+  <!--发票信息-->
+  {if:$this->order_info['invoice']==1}
+	<div class="box m_10">
+		<div class="title"><h2><span class="orange">发票信息</span></h2></div>
+		<div class="cont clearfix">
+			<table class="dotted_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<col width="129px" />
+				<col />
+				<tr>
+					<th>所需税金：</th>
+					<td>{$this->order_info['taxes']}</td>
+				</tr>
+				<tr>
+					<th>发票抬头：</th>
+					<td>{$this->order_info['invoice_title']}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+  {/if}
+
+	<!--物品清单-->
+	<div class="box m_10">
+		<div class="title"><h2><span class="orange">信息</span></h2></div>
+		<div class="cont clearfix">
+			
+					
+			<table class="list_table f_l" width="100%" cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr>
+						<th>图片</th>
+						<th>名称</th>
+						<th>座位号</th>
+						<th>等级</th>
+						<th>金额</th>
+						<th>时间</th>
+					</tr>
+        	{foreach:items=$seat_list}
+						<tr>
+							<td><a href="{url:/site/products/id/$good['goods_id']}"><img class="pro_pic" src="{webroot:$goods['img']}" width="50px" height="50px" onerror='this.src="{skin:images/front/nopic_100_100.gif}"' /></a></td>
+							<td>{$seat['name']}</td>
+							<td>{$item['rows']}排{$item['cols']}座</td>
+							<td>{$item['info']}</td>
+							<td class="bold"><a href="javascript:void(0);" class="red2">&yen;{$item['price']}</a></td>			<td>{echo:date('Y-m-d H:i:s', $seat['time'])}</td>
+						</tr>
+          {/foreach}
+				</tbody>
+			</table>
+			
+
+		</div>
+	</div>
+
+	<div class="gray_box">
+		<div class="t_part">
+			<p></p>
+			<p>付款总金额：￥{$this->order_info['payable_amount']}</p>
+            {if:$this->order_info['taxes'] > 0}
+            <p>+ 税金：￥{$this->order_info['taxes']}</p>
+            {/if}
+
+            {if:$this->order_info['pay_fee'] > 0}
+            <p>+ 支付手续费：￥{$this->order_info['pay_fee']}</p>
+            {/if}
+
+            {if:$this->order_info['insured'] > 0}
+            <p>+ 保价：￥{$this->order_info['insured']}</p>
+            {/if}
+
+            {if:$seat['buy'] && $seat['give']}
+            <p>订单折扣：买{$seat['buy']}送{$seat['give']}</p>
+            {/if}
+
+            {if:$this->order_info['promotions'] > 0}
+            <p>- 促销优惠金额：￥{$this->order_info['promotions']}</p>
+            {/if}
+		</div>
+
+		<div class="b_part" style="display:none;">
+			<p>订单支付金额：<span class="red2">￥<label>{$this->order_info['order_amount']}</label></span></p>
+		</div>
+	</div>
+
+</div>
+<script type='text/javascript' src="{theme:javascript/ucenter_order_detail.js}"></script>

@@ -1,0 +1,25 @@
+<link href="{skin:css/ucenter_promote.css}" rel="stylesheet" type="text/css" />
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-group"></i>推广个人用户列表</div>
+
+        <div class="">
+            <table class="new-table info">
+                <tr>
+                  <th></th>
+                  <th>用户名</th>
+                  <th>注册时间</th>
+                  <th>消费次数</th>
+                </tr>
+                {foreach:items=$promote_user_list}
+                <tr>
+                  <td></td>
+                  <td>{$item['username']}</td>
+                  <td>{$item['time']}</td>
+                  <td>{$item['pay_count']}</td>
+                </tr>
+                {/foreach}
+            </table>
+        </div>
+    </div>
+</div>

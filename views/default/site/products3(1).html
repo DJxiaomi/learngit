@@ -1,0 +1,71 @@
+<link href="{skin:css/mlmm.css}" rel="stylesheet" type="text/css" />
+<style>
+.free_class_content .free_class_bd li {margin-left:200px;}
+.free_class_content .free_class_bd li, .free_class_content .free_class_bd li .class_image, .free_class_content .free_class_bd li .class_image a {width:800px;height:auto;}
+</style>
+<div class="free_class_content">
+  <div class="free_class_hd">
+    <img src="{skin:images/mlmm_img_1.jpg}" />
+  </div>
+  <div class="free_class_bd">
+    <ul>
+      <li>
+        <div class="class_image">
+          <img data-lazyload="{webroot:$img}" />
+        </div>
+        <div class="class_action">
+          <div class='t-left'>姓名：{$name}</div>
+          <div class='t-right'>排名：{echo:discussion_class::get_vote_range($id)}</div>
+        </div>
+        <div class="class_action">
+          <div class='t-left'>编号：{$sort}</div>
+          <div class='t-right'>票数：{echo:discussion_class::get_vote_count($id)}</div>
+        </div>
+      </li>
+    </ul>
+		<div class="actions">
+			<a href="javascript:void(0);" onclick="vote();">我要投票</a>
+			<a href="#" style="display:none;">我要拉票</a>
+		</div>
+
+		<div class="rules">
+			<img src="/views/default/skin/default/images/mlmm_1.png" />
+			<img src="/views/default/skin/default/images/mlmm_2.png" />
+			<img src="/views/default/skin/default/images/mlmm_3.png" />
+			<img src="/views/default/skin/default/images/mlmm_4.png" />
+			<img src="/views/default/skin/default/images/mlmm_5.png" />
+			<img src="/views/default/skin/default/images/mlmm_6.png" />
+      <img src="/views/default/skin/default/images/mlmm_7.png" />
+		</div>
+  </div>
+</div>
+
+<script language="javascript">
+Lx.common.lazyload();
+var index;
+var _vote_url = '{url:/site/vote/id/$id}';
+function vote()
+{
+  {if:$user_id}
+  show_loading();
+  $.post(_vote_url, {}, function(result){
+    eval("var json="+result);
+    if (json['isError'])
+    {
+      layer.alert(json['message']);
+    } else {
+      layer.alert('投票成功');
+    }
+    layer.close(index)
+  });
+  {else:}
+    location.href = '{url:/simple/login?callback=/site/products3/id/$id}';
+  {/if}
+}
+function show_loading()
+{
+  index = layer.load(1, {
+    shade: [0.7,'#000'] //0.1透明度的白色背景
+  });
+}
+</script>

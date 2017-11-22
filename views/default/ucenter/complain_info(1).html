@@ -1,0 +1,22 @@
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-comment-alt"></i>我的建议<span><a href="{url:/ucenter/complain_info}" class="blue">我要建议</a></span></div>
+        <div class="tabbox">
+            <form action="{url:/ucenter/complain_edit}" method="post" >
+            <dl class="clearfix">
+                <dt>建议标题：</dt>
+                <dd><input name="title" type="text" pattern='required' alt='标题不能为空' class="ntxt" /><label>*标题不能为空</label></dd>
+            </dl>
+            <dl class="normal clearfix">
+                <dt>建议内容：</dt>
+                <dd><textarea name='content' pattern='required' alt='' class="ntxt ntxt-1"></textarea></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>&nbsp;</dt>
+                <dd><label class="btn"><input type="submit" value="我要建议" /></label></dd>
+            </dl>
+            </form>
+        </div>
+    </div>
+</div>
+<script type='text/javascript' src="{theme:javascript/ucenter_complain.js}"></script>

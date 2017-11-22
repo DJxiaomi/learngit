@@ -1,0 +1,148 @@
+<style>
+.list_table a {
+	color: #f7740f;
+}
+</style>
+<div class="headbar">
+	<div class="position">
+		<span>会员</span><span>></span><span>学校管理</span><span>></span><span>教师列表</span>
+	</div>
+	<div class="operating">
+		<div class="search f_r">
+			<form name="searchseller" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='member' />
+				<input type='hidden' name='action' value='teacher_list' />
+				<select class="auto" name="search[like]">
+					<option value="name">教师名称</option>
+				</select>
+				<input class="small" name="search[likeValue]" type="text" value="" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/teacher_edit}'"><span class="addition">添加教师</span></button></a>
+	</div>
+</div>
+
+<form action="{url:/member/teacher_del}" method="post" name="teacher_list" onsubmit="return checkboxCheck('id[]','尚未选中任何记录！')">
+	<div class="content">
+		<table class="list_table">
+			<colgroup>
+				<col width="20px" />
+        <col width="40px" />
+				<col width="140px" />
+				<col width="140px" />
+        <col width="140px" />
+        <col width="100px" />
+				<col width="100px" />
+				<col width="110px" />
+				<col width="110px" />
+				<col width="70px" />
+				<col width="80px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+          <th></th>
+					<th>选择</th>
+					<th>头像</th>
+					<th>教师名称</th>
+					<th>性别</th>
+					<th>电话</th>
+					<th>出生日期</th>
+          <th>所属学校</th>
+					<th>毕业学校</th>
+					<th>学习专业</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items=$teacher_list_info['result'] key=$key}
+				<tr>
+          <td></td>
+					<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
+					<td>{if:$item['icon']}<img src="{webroot:$item['icon']}" width="60" height="60"/>{else:}暂无{/if}</td>
+					<td title="{$item['name']}">{$item['name']}</td>
+					<td><?php echo get_sex( $item['sex'] ); ?></td>
+					<td>{if:$item['mobile']}{$item['mobile']}{else:}暂无{/if}</td>
+					<td>{if:$item['birth_date']}<?php echo date('Y-m-d', $item['birth_date'] ); ?>{else:}暂无{/if}</td>
+					<td><a href="{url:/school/home/id/$item['seller_id']}" target="_blank">{$item['true_name']}</a></td>
+					<td>{if:$item['graduate']}{$item['graduate']}{else:}暂无{/if}</td>
+					<td>{if:$item['major']}{$item['major']}{else:}暂无{/if}</td>
+					<td>
+						<a href="{url:/member/teacher_edit/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+						<a href="javascript:void(0)" onclick="delModel({link:'{url:/member/teacher_del/id/$item[id]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+					</td>
+				</tr>
+				{/foreach}
+        {if: !$teacher_list_info['result']}
+        <tr>
+            <td colspan="11" style="text-align: center;">暂时没有任何教师信息</td>
+        </tr>
+        {/if}
+
+        {if:$teacher_list_info['page_count'] > 1}
+				<tr>
+						<td colspan="11">{$teacher_list_info['page_info']}</td>
+				</tr>
+        {/if}
+			</tbody>
+		</table>
+	</div>
+
+</form>
+
+<script language="javascript">
+//预加载
+$(function(){
+	var searchData = {echo:JSON::encode($search)};
+	for(var index in searchData)
+	{
+		$('[name="search['+index+']"]').val(searchData[index]);
+	}
+})
+
+//商户状态修改
+function changeStatus(sid,obj)
+{
+	var lockVal = obj.value;
+	$.getJSON("{url:/member/ajax_seller_lock}",{"id":sid,"lock":lockVal});
+}
+
+//返利账户管理入口
+function fanli_add()
+{
+	if(!checkboxCheck('id[]','请选择要进行返利账户操作的用户！'))
+	{
+		return;
+	}
+
+	art.dialog.open("{url:/member/member_balance}",{
+	    title: '返利账户管理',
+	    ok:function(iframeWin, topWin)
+	    {
+	    	var formObject = iframeWin.document.forms['balanceForm'];
+	    	formObject.onsubmit();
+	    	if($(formObject).find('.invalid-text').length > 0)
+	    	{
+	    		return false;
+	    	}
+
+	    	//进行post提交
+	    	var postData = $('[name="seller_list"]').serialize()+'&'+$(formObject).serialize();
+	    	$.post('{url:/member/member_caozuo}',postData,function(json){
+	    		if(json.flag == 'success')
+	    		{
+	    			tips('操作成功');
+	    			window.location.reload();
+	    			return false;
+	    		} else {
+	    			alert(json.message);
+	    			return false;
+	    		}
+
+	    	},'json');
+		}
+	});
+}
+</script>

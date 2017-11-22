@@ -1,0 +1,41 @@
+.list_table input[type=text], .list_table select {width: auto;}
+.notice {margin-left:0px;margin-top:15px;}
+.notice b {color:red;font-size:12px;}
+.teaching_time2 {padding-left:3%;font-size:100%;}
+.teaching_time2 select, .teaching_time2 input {width:auto;}
+.teaching_time2 input {border:1px solid #666;height:22px;line-height:22px; width: 80px;}
+.list_table input {height: 25px; padding: 0px; border: 1px solid #ccc;}
+.list_table tr {height: 28px; line-height: 28px;}
+.form_table2 { border-bottom: 1px solid #f4f4f4; margin-bottom: 8px;}
+.form_table2 th {width: 79px;}
+.form_table2 td input {width: 60px; font-size: 100%; text-indent: 3px;}
+
+.mui-content {background-color:#fff;}
+.mui-content-padded {color:#635151;font-size:16px;}
+.mui-card {box-shadow: none;}
+.mui-input-group .mui-input-row:after {height:0px;}
+
+/*.mui-media-header {padding-left: 5%;}*/
+.payments_method {background:url(/views/mobile/skin/blue/images/cellphone_bg.png) 5px center no-repeat;background-size: 22px 27px;height:40px;line-height: 40px;text-indent: 38px;font-size:14px;color:#281c1c;}
+.payments-card .mui-input-row {float:left;clear:none;}
+.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {color:#de4102;}
+.mui-input-group > * {float:left;}
+.mui-input-group > input {margin-top: 5px;margin-right:1%;}
+.mui-input-group > label {margin-right:5%;}
+
+.message {background:url(/views/mobile/skin/blue/images/leave_message_bg.png) 17px center no-repeat;background-size:22px 17px;text-indent:25px;}
+.message label {color:#281c1c;font-size:14px;}
+.total {color:#281c1c;font-size:14px;text-align:right;width:100%;padding-right:2%;padding-bottom:8px;}
+.total .red2  {font-size: 20px;}
+.mui-btn-blue, .mui-btn-primary, input[type=submit] {background:linear-gradient(to right,#ff9638,#ff4b2b);border:0px;}
+
+.mui-card {border-bottom: 1px solid #dcdcdc;margin:0px;padding-left: 5%;}
+.last-card {border-bottom:6px solid #dcdcdc;}
+
+.student_info {background:url(/views/mobile/skin/blue/images/student_info_bg.png) 0 bottom repeat-x;border-bottom: 6px solid #dcdcdc;margin:0px;padding-bottom: 20px;}
+.student_info .mui-input-group .mui-input-row {height:30px;}
+
+
+.mui-btn-block {width: 85%;border-radius:20px;margin-left:10%;margin-top: 30px;}
+.mui-table-view-cell p {line-height: 23px;}
+input[name=message] {font-size:14px;}

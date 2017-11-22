@@ -1,0 +1,253 @@
+<link href="{skin:css/school_show.css}" rel="stylesheet" type="text/css" />
+
+<div class="header" id="home">
+	<div class="container">
+		<div class="navigation">
+				<span class="menu"><img src="{skin:school/images/menu.png}" alt=""/></span>
+				<div class="clearfix"> </div>
+				<a href="http://www.dsanke.com/" class="index_logo">
+					<img src="/views/default/skin/default/school/images/logo.png" alt="" title="" style="">
+				</a>
+				<ul class="nav1">
+					<li><a href=" ">学校首页</a></li>
+					<li><a class="" href="#school_desc">学校简介</a></li>
+					{if:$brand_attr_list}
+						{foreach:items=$brand_attr_list key=$kk}
+							<li><a class="" href="#module_{$kk}">{$item['navtitle']}</a></li>
+						{/foreach}
+					{/if}
+					{if:$goods_list}<li><a class="" href="#school_classes">课程介绍</a></li>{/if}
+					{if:$teacher_list}<li><a class="" href="#school_teachers">教师资质</a></li>{/if}
+					<li><a class="" href="#contact_us">联系我们</a></li>
+				</ul>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+</div>
+
+<div class="header-banner">
+	<!-- Top Navigation -->
+		<div class="slider">
+				   <div class="callbacks_container">
+						 <div class="hd">
+             	<ul>
+								{if:!$ad_list}
+								<li></li>
+								<li></li>
+								<li></li>
+								<li></li>
+								{else:}
+								{foreach:items=$ad_list}
+								<li></li>
+								{/foreach}
+								{/if}
+							</ul>
+						</div>
+            <div class="bd">
+            <ul>
+							{if:!$ad_list}
+	            <li>
+	            	<div class="pic"><img src="/views/default/skin/default/school/images/slide_1.jpg" /></div>
+	            </li>
+	            <li>
+	            	<div class="pic"><img src="/views/default/skin/default/school/images/slide_2.jpg" /></div>
+	            </li>
+	            <li>
+	            	<div class="pic"><img src="/views/default/skin/default/school/images/slide_3.jpg" /></div>
+	            </li>
+	            <li>
+	            	<div class="pic"><img src="/views/default/skin/default/school/images/slide_4.jpg" /></div>
+	            </li>
+							{else:}
+							{foreach:items=$ad_list}
+							<li>
+	            	<div class="pic"><img src="{webroot:$item['content']}" /></div>
+	            </li>
+							{/foreach}
+							{/if}
+            </ul>
+          </div>
+				</div>
+		</div>
+
+		<script type="text/javascript">
+		      jQuery(".callbacks_container").slide( { mainCell:".bd ul",effect:"leftLoop",autoPlay:true, delayTime:500} );
+		</script>
+</div>
+<script type='text/javascript' src="{theme:/javascript/school_show.js}"></script>
+
+<a name="school_desc"></a>
+<div id="about" class="about">
+		<div class="container">
+			<div class="about-top heading">
+				<h3>学校简介</h3>
+			</div>
+			<div class="about-bottom">
+				<div class="about-left">
+					<h4>{$this->seller['true_name']}</h4>
+					<div class="brief">{$seller_info['content']}</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+
+
+			{if:$seller_info['brandimg']}
+
+			{foreach:$items=$seller_info['brandimg']}
+
+			<div class="{$item['class']} imgbrand"><img src="/{$item['imgurl']}" style="width:100%;height:100%"/></div>
+
+			{/foreach}
+
+			{/if}
+		</div>
+
+</div>
+
+{if:$brand_attr_list}
+	{foreach:items=$brand_attr_list key=$key}
+		<a name="module_{$key}"></a>
+		<div class="classList">
+			<div class="container">
+				<h3>{$item['navtitle']}</h3>
+
+					{foreach:items=$item['img'] item=$val key=$kk}
+					{set: $count = sizeof( $val );}
+					<?php
+						if ( $count == 3)
+							$width = 342;
+						else if ( $count == 2 )
+							$width = 513;
+						else
+							$width = 377;
+					?>
+						<ul class="classBox clearfix">
+								{foreach:items=$val item=$vv key=$k}
+								<li class="classCon0{$count} clearfix">
+									<a href="{url:/site/products/id/$val['id']}" class="classList-img"><img src="{url:/pic/thumb/img/$vv/w/$width/h/$width}" alt="{$val['name']}" class=""></a>
+									<div class="classDet clearfix">
+										<h4>{$item['imgtitle'][$kk][$k]}</h4>
+										<p class="f12 c9">{$item['imgbrief'][$kk][$k]}</p>
+									</div>
+								</li>
+								{/foreach}
+							</ul>
+					{/foreach}
+			</div>
+		</div>
+	{/foreach}
+{/if}
+
+{if:$goods_list}
+<a name="school_classes"></a>
+<div class="classList">
+	<div class="container">
+		<h3>课程介绍</h3>
+
+			{foreach:items=$goods_list}
+			{set: $count = sizeof( $item );}
+			<?php
+				if ( $count == 3)
+					$width = 342;
+				else if ( $count == 2 )
+					$width = 513;
+				else
+					$width = 377;
+			?>
+				<ul class="classBox clearfix">
+						{foreach:items=$item item=$val}
+						<li class="classCon0{$count} clearfix">
+							<a href="{url:/site/products/id/$val['id']}" class="classList-img"><img src="{url:/pic/thumb/img/$val[img]/w/$width/h/$width}" alt="{$val['name']}" class=""></a>
+							<div class="classDet clearfix">
+								<h4>{$val['name']}</h4>
+								<p class="f12 c9">{echo:strip_tags($val['content'])}</p>
+								<h2 class="">学费：<span class="blue price">{$val['market_price']}元</span> {if:$val['ks']}<span class="ks">{$val['ks']}个课时</span>{/if}</h2>
+								<a href="{url:/site/products/id/$val['id']}" class="btn-green" title="{$val['name']}">了解详情</a>
+							</div>
+						</li>
+						{/foreach}
+					</ul>
+			{/foreach}
+	</div>
+</div>
+{/if}
+
+{if:$teacher_list}
+<a name="school_teachers"></a>
+<div class="classList">
+	<div class="container">
+		<h3>教师团队</h3>
+			{foreach:items=$teacher_list}
+			{set: $count = sizeof( $item );}
+			<?php
+				if ( $count == 3)
+					$width = 342;
+				else if ( $count == 2 )
+					$width = 513;
+				else
+					$width = 377;
+			?>
+			<ul class="classBox clearfix">
+				{foreach:items=$item item=$val}
+				<li class="classCon0{$count}{if:$count == 1} clearfix{/if}">
+					<img src="{url:/pic/thumb/img/$val[icon]/w/$width/h/$width}" alt=" " class="">
+					<div class="classDet clearfix">
+						<h4>{$val['name']}</h4>
+						<p class="f12 c9">{echo: strip_tags($val['description'])}</p>
+						{if:$val['graduate'] != ''}
+							<p class="f12 c6"><b>毕业于：</b>{$val['graduate']}</p>
+						{/if}
+
+						{if:$val['teaching_direction'] != ''}
+							<p class="f12 c6"><b>授课方向：</b>{$val['teaching_direction']}</p>
+						{/if}
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+			{/foreach}
+	</div>
+</div>
+{/if}
+<!---->
+
+<a name="contact_us"></a>
+<!--services-->
+	  <div class="services" id="services">
+	      <div class="container">
+		   <h3 class="tittle">联系方式</h3>
+		      <div class="serve-top">
+				 <div class="col-md-6 serve-icons">
+					<div class="s-sub">
+						<div class="col-md-2 icon">
+						  <i class="glyphicon glyphicon-hourglass"> </i>
+						</div>
+						<div class="col-md-10 serve-text">
+						 <p> 电话：0731-28308258 </p>
+						</div>
+					     <div class="clearfix"> </div>
+					 </div>
+				 </div>
+				 <div class="col-md-6 serve-icons">
+					<div class="s-sub">
+						<div class="col-md-2 icon">
+						  <i class="glyphicon glyphicon-scale"> </i>
+						</div>
+						<div class="col-md-10 serve-text">
+						 <p> 地址：{echo:join(' ',area::name($this->seller['province'],$this->seller['city'],$this->seller['area']))} {$this->seller['address']}</p>
+						</div>
+					     <div class="clearfix"> </div>
+					 </div>
+					 <div class="addressMap" id="container"></div>
+				 </div>
+				 <div class="clearfix"> </div>
+	     </div>
+	</div>
+</div>
+{if:$this->seller['address']}
+<script type="text/javascript">
+var _shop_address = "{echo:join('',area::name($this->seller['province'],$this->seller['city'],$this->seller['area']))}{$this->seller['address']}";
+</script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=2cd83299402829a3177894489a4cf556" type="text/javascript"></script>
+<script type='text/javascript' src="{theme:/javascript/school_show_map.js}"></script>
+{/if}

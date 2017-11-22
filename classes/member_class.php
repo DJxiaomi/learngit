@@ -9,12 +9,125 @@
  */
 class Member_class
 {
-    /**
-     * 获取单个用户信息
-     * @param int 用户ID
-     * @param string 返回字段, 默认为*
-     * @return array
+    /*
+    *  获取单个用户成长币
+    *  @param int   $user_id:用户ID
+    *  @param int   $type:   成长币类型  
+    *               all:所有成长币
+    *               pass:可提现 
+    *               hold:不可提现
+    */
+    public function get_member_balance($user_id = 0,$type = 0 )
+    {   
+        $member_info = self::check_user_exists($user_id);
+        if ( $member_info === false )
+        {
+            return false;
+        }
+
+        $balance = 0;
+        switch($type)
+        {
+            case 1:
+                $balance = $member_info['balance'];
+                break;
+            case 2:
+                break;
+            case 0:
+                $balance = self::get_member_balance($user_id, 1) + self::get_member_balance($user_id, 2);
+        }
+        
+        return ($balance) ? number_format($balance, 2, '.', '') : 0;
+    }
+     
+    /*添加 
+    用户/代理商 的成长币金额。
+    1.	user_id，用户ID
+    2.	num，金额
+    3.	type,类型，记录所有需要增加用户成长币的类型
+    */
+    private function add_member_balance($user_id = 0, $num = 0, $type = 0)
+    {
+        $member_info = self::check_user_exists($user_id);
+        if ( $member_info === false )
+        {
+            return false;
+        }
+        
+		if ($num <= 0)
+		{
+		    return false;
+		}
+        $member_db = new IQuery('member');
+        $member_db->setData(array('balance' => 'balance + '.$num));
+        $res = $member_db->update("user_id = '$user_id'","balance");
+        if ($res) 
+        {
+            member_balance_logs_class::write_log($user_id,$user_grade_id,$Type,$Number,$content);
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+    
+    /*减少  用户/代理商 的成长币金额。
+     1.	user_id，用户ID
+     2.	num，金额
+     3.	type,类型，记录所有需要增加用户成长币的类型
      */
+    private function reduce_member_balance($user_id = 0, $num = 0, $type = 0)
+    {
+        $member_info = self::check_user_exists($user_id);
+        if ( $member_info === false )
+        {
+            return false;
+        }
+		if ($num<=0)
+		{
+		    return false;
+		}
+        $member_db = new IQuery('member');
+        $member_db->setData(array('balance' => 'balance - '.$num));
+        $res = $member_db->update("user_id = '$user_id'","balance");
+    }
+    
+    
+    public function statistics_member_consume($user_id = 0)
+    {
+        //统计用户消费总额
+    
+    }
+    
+    
+    public function statistics_member_unwithdraw_count($user_id = 0)
+    {
+        //统计代理商不可提现的金额
+        
+    }
+     
+    
+    public function get_member_children_list($user_id = 0, $type = 0)  
+    {
+        /*
+            获取所有下线列表
+        1.	user_id 代理商ID
+        2.	type 默认为0，则显示所有下线，1为显示下线用户，2为显示下线代理商
+        */
+        
+        
+    }
+    
+    
+    public function get_member_recharge_count($user_id = 0)
+    {
+        //获取用户所有充值金额
+        
+        
+    }
+    
+    
+    
     public static function get_member_info( $user_id = 0, $fields = '*' )
     {
         if ( !$user_id )
@@ -35,31 +148,6 @@ class Member_class
         $member_db->where = "mobile = '$mobile'";
         return $member_db->getOne();
     }
-    
-    /**
-     * 获取所有需要返利的用户信息. user_all_fanli > 0 冻结待返回的返利金额大于0
-     * @return array
-     */
-    public static function get_rebate_member_list()
-    {
-        $member_db = new IQuery('member');
-        $member_db->fields = 'user_id, user_real_fanli, user_all_fanli';
-        
-        // 该字段没有设置索引，此操作会引发全表搜索
-        $member_db->where = 'user_all_fanli > 0';
-        return $member_db->find();
-    }
-    
-    // 通过代金券查找所属的用户
-    public static function get_user_info_by_prop_id( $prop_id = 0 )
-    {
-        if ( !$prop_id )
-            return false;
-        
-        $member_db = new IQuery('member');
-        $member_db->where = "FIND_IN_SET($prop_id, prop)";
-        return $member_db->getOne();
-    }        
     
     public static function is_set_trade_passwd($user_id = 0 )    
     {        
@@ -282,6 +370,21 @@ class Member_class
         }
 
         return $promotelist;
+    }
+    
+    /**
+     * 验证用户是否存在
+     * @param unknown $user_id
+     */
+    private function check_user_exists($user_id = 0)
+    {
+        if (!$user_id)
+        {
+            return false;
+        } 
+        
+        $member_info = self::get_member_info($user_id);
+        return ($member_info) ? $member_info : false;
     }
 }
 

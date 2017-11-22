@@ -1,0 +1,36 @@
+<script langauge="javascript">
+	var _receipt_goods_id = {$this->seller_receipt_id};
+	var _seller_discount_list = {if:$seller_discount_list}{$seller_discount_list}{else:}new Array(){/if};
+	var _discount = 0;
+</script>
+<link rel="stylesheet" href="{skin:css/buy_chit.css}">
+<style>
+.mui-content .goods_price input {text-align:left;height:35px;}
+.mui-content .t-left {width:80%;}
+</style>
+<div class="mui-content">
+  <ul>
+    <li class="goods_name">商家：{$seller_info['shortname']}</li>
+    <li class="goods_price">
+      <span class="t-left"><input type="number" name="price" value="" placeholder="请输入支付的费用"/></span>
+      <span class="t-right">元</span>
+    </li>
+		<li class="goods_max_order_chit">
+			<span class="t-left">优惠</span>
+			<span class="t-right"><em>{$brand_chit_info['max_order_chit']}元</em></span>
+		</li>
+		<li class="goods_rest_price">
+			<span class="t-left">实付</span>
+			<span class="t-right"><em>{echo:$goods_info['sell_price'] - $brand_chit_info['max_order_chit']}元</em></span>
+		</li>
+  </ul>
+
+  <ul class="page-footer">
+    <li class="button_info nopadding">
+      <input type="hidden" name="id" value="{$id}" />
+      <button class="mui-btn mui-btn-primary mui-btn-block" id="mui-btn-primary">和学校已确认，立即支付</button>
+    </li>
+  </ul>
+</div>
+
+<script type='text/javascript' src="{theme:javascript/seller_receipt.js}"></script>

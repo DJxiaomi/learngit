@@ -1,0 +1,53 @@
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>代金券管理</span><span>></span><span>代金券组合</span></div>
+	<div class="operating">
+		<a href="javascript:void(0)" onclick="event_link('{url:/market/brand_zuhe_edit_step1}');"><button class="operating_btn" type="button"><span class="addition">添加组合</span></button></a>	</div>
+</div>
+<div class="content">
+	<form method='post' action='#'>
+		<table class="list_table">
+			<colgroup>
+        <col width="40px" />
+				<col width="120px" />
+				<col width="70px" />
+        <col width="70px" />
+				<col width="70px" />
+        <col width="100px" />
+				<col width="70px" />
+				<col width="70px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+			  <th></th>
+				<th>ID</th>
+				<th>名称</th>
+			  <th>价格</th>
+			  <th>状态</th>
+			  <th>操作</th>
+			  </tr>
+		</thead>
+
+			<tbody>
+        {if:$brand_chit_zuhe_list}
+          {foreach:items=$brand_chit_zuhe_list}
+          <tr>
+			  <td></td>
+			  <td>{$item['id']}</td>
+			  <td>{$item['name']}</td>
+			  <td>{$item['price']}</td>
+			  <td>{if:$item['status'] == 1}上架{else:}下架{/if}</td>
+			  <td><a href="{url:/market/brand_zuhe_edit/id/$item['id']}">修改</a>&nbsp; &nbsp; <a href="{url:/market/brand_zuhe_del/id/$item['id']}">下架</a></td>
+          </tr>
+          {/foreach}
+
+          {if:$page_info}
+          <tr>
+            <td colspan="8">{$page_info}</td>
+          </tr>
+          {/if}
+        {/if}
+			</tbody>
+		</table>
+	</form>
+</div>

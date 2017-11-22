@@ -1,0 +1,38 @@
+{set: $title = '我的账户';}
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_account_log.css}" rel="stylesheet" type="text/css" />
+<style>
+.mui-table-view-cell p {width:100%;}
+</style>
+
+<div class="mui-card">
+    <div class="mui-card-content noborder">
+        <div class="mui-card-content-inner">
+      		<div class="ordbigbt-price active">
+						<div class="title">第三课账户余额(元)</div>
+						<div class="desc">{$this->memberRow['balance']}</div>
+					</div>
+					<div class="ordbigbt-price">
+						<div class="title">家教预付账户余额(元)</div>
+						<div class="desc">{$this->memberRow['balance']}</div>
+					</div>
+        </div>
+    </div>
+</div>
+<h5 class="mui-content-padded">交易明细</h5>
+<div class="mui-card">
+    <div class="mui-card-content">
+        {foreach:items = $result_list}
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+							<p>事由：{$item['note']}</p>
+            	<p>
+								<div class='t-left'>余额：{$item['amount_log']}元</div>
+								<div class='t-right'>{$item['time']}</div>
+							</p>
+            </li>
+        </ul>
+		{/foreach}
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<link href="{skin:css/chit.css}" rel="stylesheet" type="text/css" />
+<div class="main f_r">
+
+  <div class="new-box">
+        <div class="nt" style="padding: 10px 0;">学习券购买</div>
+        <table class="new-order-table">
+            <colgroup>
+              <col class="num-col">
+              <col class="student-col">
+              <col class="amount-col">
+              <col class="amount-col">
+              <col class="amount-col">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>学习券</th>
+                    <th>类型</th>
+                    <th>价格</th>
+                    <th>限购</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            {foreach:items = $zuhe_list}
+            <tbody>
+              <tr class="tr-td">
+                <td>
+                  <div class="q">
+                    <div style="position:absolute;top:0;left:10px;">
+                      <div class="qbd">{$item['name']}</div>
+                      <div class="qhd" style="font-size: 22px;">&yen;{$item['price']}</div>
+
+                    </div>
+                  </div>
+
+                  <div class="i">
+                    <div class="hd">{$item['name']}</div>
+                    <div class="bd">0</div>
+                  </div>
+                </td>
+                <td>代金券组合</td>
+                <td>￥{$item['price']}</td>
+                <td>{$item['limitnum']}</td>
+                <td><a href="{url:/simple/cart21/id/5280/num/1/type/product/statement/2/stime/1/ischit/1/zuhe_id/$item['id']}">立即购买</a></td>
+                </tr>
+            </tbody>
+            {/foreach}
+
+
+
+
+
+
+
+
+            {foreach:items = $this->chit_list}
+            <tbody>
+              <tr class="tr-td">
+                <td>
+                  <div class="q">
+                    <div style="position:absolute;top:0;left:10px;">
+                      <div class="qbd">满{$item['amount']}元可用</div>
+                      <div class="qhd" style="font-size: 22px;">&yen;{$item['max_order_chit']}</div>
+                      
+                    </div>
+                  </div>
+
+                  <div class="i">
+                    <div class="hd">{$item['seller_info']['shortname']}</div>
+                    <div class="bd">{$item['limitinfo']}</div>
+                  </div>
+                </td>
+                <td>{if:$item['type'] == 1}通用券{else:}赠送券{/if}</td>
+                <td>￥{$item['max_price']}</td>
+                <td>{$item['limitnum']}</td>
+                <td>
+                  {if:isset($item['pid'])}
+                    <a href="{url:/simple/cart2/id/$item['pid']/num/1/type/product/statement/2/stime/1/dprice/$item['max_price']}">立即购买</a>
+                  {else:}
+                    <a href="{url:/site/chit_show/id/$item['id']}">查看详情</a>
+                  {/if}
+                </td>
+                </tr>
+            </tbody>
+            {/foreach}
+            <tfoot><tr><td colspan="11" class="t_l">{$page_info}</td></tr></tfoot>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+function buy_now_ding_card(id, _input_dprice){
+	var buyNums  = 1;
+	//var type = 'chit';
+	var url = '{url:/simple/cart2/id/5280/num/@buyNums@/type/product/statement/2/ischit/1/chitid/@chitid@}';
+		url = url.replace('@chitid@',id).replace('@buyNums@',buyNums);
+	var _input_stime = 1;
+	url += '/stime/' + _input_stime;
+	url += '/dprice/' + _input_dprice;
+
+	window.location.href = url;
+}
+
+function buy_now_ding_card_zuhe(id) {
+	var buyNums  = 1;
+	var url = '{url:/simple/cart21/id/5280/num/@buyNums@/type/product/statement/2/ischit/1/zuhe_id/@zuhe_id@}';
+		url = url.replace('@zuhe_id@',id).replace('@buyNums@',buyNums);
+	var _input_stime = 1;
+	url += '/stime/' + _input_stime;
+
+	window.location.href = url;
+}
+</script>

@@ -1,0 +1,80 @@
+.free_class_content {
+  width: 100%;
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+.free_class_content .free_class_hd {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  float: left;
+}
+.free_class_content .free_class_hd img {
+  width: 100%;
+  float: left;
+}
+.free_class_content .free_class_bd {
+  width: 100%;
+  float: left;
+  background: url(../images/props_img_2.jpg) 0 0 repeat-y;
+  background-color: #c00025;
+}
+.free_class_content .free_class_bd ul {
+  list-style: none;
+  padding: 0px;
+  width: 96%;
+  margin: 0px auto;
+  padding-top: 12px;
+  overflow: hidden;
+}
+.free_class_content .free_class_bd li {
+  float: left;
+  width: 25%;
+}
+.free_class_content .free_class_bd li:nth-child(4) {
+  width: 25%;
+}
+.free_class_content .free_class_bd li.main {
+  width: 75%;
+}
+.free_class_content .free_class_bd li img {
+  width: 100%;
+}
+/*.free_class_content .free_class_bd li {
+  width: 47%;
+  margin-right: 4%;
+  margin-bottom: 15px;
+  float: left;
+  margin-bottom: 15px;
+}
+.free_class_content .free_class_bd li:nth-child(2n) {
+  margin-right: 0px;
+}
+.free_class_content .free_class_bd li .class_image {
+  width: 100%;
+}
+.free_class_content .free_class_bd li .class_image a {
+  display: block;
+}
+.free_class_content .free_class_bd li .class_image img {
+  max-width: 100%;
+}
+.free_class_content .free_class_bd li .class_action {
+  margin-top: 10px;
+}
+.free_class_content .free_class_bd li .class_action a {
+  width: 45%;
+  float: left;
+}
+.free_class_content .free_class_bd li .class_action a.class_info {
+  margin-left: 2%;
+  margin-top: 3px;
+}
+.free_class_content .free_class_bd li .class_action a.class_register {
+  float: right;
+  margin-right: 2%;
+}
+.free_class_content .free_class_bd li .class_action a img {
+  max-width: 100%;
+}*/

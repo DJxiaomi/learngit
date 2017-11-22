@@ -1,0 +1,11 @@
+.mui-card {box-shadow: none;background-color:#fff;}
+.mui-content {background-color:#fff;}
+.mui-card-header, .ordbigbt-price {color:#383838;}
+.ordbigbt-price em {font-size: 36px;color:#df4102;line-height:80px;margin-left:30px;}
+.ordbigbt-price span {color:#df4102;margin-left: 20px;}
+.mui-content-padded {color:#585858;}
+.mui-card-content {border-top: 1px solid #aaa;}
+.mui-card-content .mui-table-view {border-bottom: 1px solid #aaa;border-radius:0px;}
+.mui-table-view-cell .t-left {float:left;}
+.mui-table-view-cell .t-right {float:right;}
+.mui-table-view-cell, .mui-table-view-cell p {color:#585858;}

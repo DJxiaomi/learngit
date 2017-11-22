@@ -1,0 +1,71 @@
+{set:$seo_data=array(); $site_config=new Config('site_config');}
+{set:$seo_data['title'] = '入住教师列表';}
+{set:$seo_data['title'].="_".$site_config->name}
+{set:$seo_data['keywords']=$this->catRow['keywords']}
+{set:$seo_data['description']=$this->catRow['descript']}
+{set:seo::set($seo_data);}
+<link href="/views/default/skin/default/css/teacher_list.css" rel="stylesheet" type="text/css" />
+
+<div class="position">
+	<span>您当前的位置：</span>
+	<a href="{url:}">首页</a> >> 入住教师列表
+</div>
+
+<div class="wrapper clearfix container_2">
+		<div class="cont">
+
+		<!--商家展示-->
+    <div class="teach_list">
+      {if:$teacher_list}
+      <ul>
+        {foreach:items=$teacher_list}
+        {set: $seller_id = $item['id'];}
+        <li>
+          <a href="{url:/site/seller/id/$seller_id}" target="_blank">
+            <div class="teacher_icon">
+              {if:$item['icon']}<img src="{webroot:$item['icon']}" />{/if}
+            </div>
+          </a>
+          <div class="teacher_info">
+            <div class="hd">
+              <span class="teacher_name"><a href="{url:/site/seller/id/$seller_id}" target="_blank">{$item['true_name']}</a></span>
+              {if:$item['points'] > 0 }
+              <span class="teacher_points">
+                {foreach:items=$item['points']}
+                <img src="/views/default/skin/default/images/new/start.png" />
+                {/foreach}
+              </span>
+              {/if}
+            </div>
+            <div class="bd">
+              <div class="teacher_desc">
+                {if:$item['description']}{$item['description']}{else:}该教师什么也没有说{/if}
+              </div>
+              <div class="teacher_class_list">
+                {if:$item['class_list']}
+                  {foreach:items=$item['class_list']}
+                  <div class="class">
+                    <span class="class_name"><a href="{url:/site/products/id/$item['id']}" target="_blank">{$item['name']}</a></span>
+                    <span class="class_price"><i>&yen;</i>{$item['sell_price']}</span>
+                  </div>
+                  {/foreach}
+                  <div class="more_class">
+                    <a href="{url:/site/seller/id/$seller_id}" target="_blank">更多课程</a>
+                  </div>
+                {/if}
+              </div>
+            </div>
+          </div>
+        </li>
+        {/foreach}
+      </ul>
+
+      <div class="page_info">
+        {$page_info}
+      </div>
+      {/if}
+    </div>
+		<!--商家展示-->
+
+	</div>
+</div>

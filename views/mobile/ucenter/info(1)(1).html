@@ -1,0 +1,59 @@
+{set:$callback = IUrl::creatUrl('/ucenter/index');}
+<link rel="stylesheet" type="text/css" href="{skin:css/ucenter.css}" />
+<link href="{theme:javascript/mui/css/mui.picker.css}" rel="stylesheet" type="text/css" />
+<link href="{theme:javascript/mui/css/mui.poppicker.css}" rel="stylesheet" type="text/css" />
+{set:$user_ico = $this->user['head_ico']}
+<form class="mui-input-group" action="{url:/ucenter/info_edit_act}" method="post" enctype='multipart/form-data'>
+	<div class="mui-input-row">
+		<label>姓名</label>
+		<input type="text" placeholder="姓名" value="{$this->memberRow['true_name']}" name="true_name" />
+	</div>
+	<div class="mui-input-row">
+		<label>邮箱</label>
+		<input type="text" placeholder="邮箱" value="{$this->memberRow['email']}" name="email" />
+	</div>
+	<div class="mui-input-row">
+		<label>手机号</label>
+		<input type="text" placeholder="手机号码" value="{$this->memberRow['mobile']}" name="mobile"{if:$this->memberRow['mobile'] != ''} disabled="disabled"{/if} />
+	</div>
+	<div class="mui-input-row" id="region">
+		<label>地区</label>
+		<span id="province">{if:$this->memberRow['provinceval']}{$this->memberRow['provinceval']}{else:}湖南省{/if}</span>
+		<span id="city">{if:$this->memberRow['cityval']}{$this->memberRow['cityval']}{else:}株洲市{/if}</span>
+		<span id="discrict">{if:$this->memberRow['discrictval']}{$this->memberRow['discrictval']}{else:}市辖区{/if}</span>
+		<input type="hidden" name="province" id="provinceval" value="{if:$this->memberRow['areas'][0]}{$this->memberRow['areas'][0]}{else:}430000{/if}" />
+		<input type="hidden" name="city" id="cityval" value="{if:$this->memberRow['areas'][1]}{$this->memberRow['areas'][0]}{else:}430200{/if}" />
+		<input type="hidden" name="area" id="discrictval" value="{if:$this->memberRow['areas'][2]}{$this->brandRow['areas'][2]}{else:}430201{/if}" />
+		<i class="icon-angle-right"></i>
+	</div>
+	<div class="mui-input-row">
+		<label>街道地址</label>
+		<input type="text" name="contact_addr" value="{$this->memberRow['contact_addr']}" placeholder="请填写街道地址" />
+	</div>
+	<div class="mui-content-padded">
+        <button type="submit" class="mui-btn mui-btn-primary mui-btn-block">提交</button>
+    </div>
+</form>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.picker.js}"></script>
+<script type="text/javascript" src="{theme:javascript/mui/js/mui.poppicker.js}"></script>
+<script type="text/javascript">
+mui.ready(function(){
+	var regionPicker = new mui.PopPicker({
+		layer: 3
+	});
+	regionPicker.setData({$regiondata});
+	regionPicker.pickers[0].setSelectedValue(430000, 0);
+	regionPicker.pickers[1].setSelectedValue(430200, 1);
+	var PickerButton = document.getElementById('region');
+	PickerButton.addEventListener('tap', function(event) {
+		regionPicker.show(function(items) {
+			$('#provinceval').val(items[0].value);
+			$('#province').text(items[0].text);
+			$('#cityval').val(items[1].value);
+			$('#city').text(items[1].text);
+			$('#discrictval').val(items[2].value);
+			$('#discrict').text(items[2].text);
+		});
+	}, false);
+});
+</script>

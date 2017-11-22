@@ -10,9 +10,9 @@ class signup_class
 
         //微信快捷登陆
         $wechat = new wechat_class();
-        $wechat->token = 'y53na1qnxJ6o1qj1';
-        $wechat->appid = 'wx72fc7befef40f55a';
-        $wechat->appSecret = '8446dfd26a915aa506567d436ac9db52';
+        $wechat->token = 'xiaomi';
+        $wechat->appid = 'wx8abf4e0a55305daf';
+        $wechat->appSecret = '567e2efd51a3aff5e99c7e59c2206824';
         
         $wechat->valid();
 
@@ -84,7 +84,6 @@ class signup_class
             } else {
                 die("<script>alert('获取用户信息失败，请关闭当前页面重新进入！');</script>");
             }
-
            //$this->redirect('bind_user');
         } 
          

@@ -1,0 +1,97 @@
+{set:
+$site_config=new Config('site_config');
+}
+<div class="main f_r">
+    <div class="new-box">
+        <div class="nt"><i class="icon-share-alt"></i>发布转让<span></span></div>
+        <div class="tabbox">
+            <form action="{url:/ucenter/order_transfer_info}" method="post" enctype='multipart/form-data'>
+            {if:$order_id}
+            <dl class="clearfix">
+                <dt>课程名称：</dt>
+                <dd><a class="blue" href="{url:/site/products/id/$goods['id']}" target='_blank'>{$goods['name']}</a></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>学校名称：</dt>
+                <dd><a class="blue" href="{url:/site/seller/id/$goods['seller']['id']}" target='_blank'>{$goods['seller']['true_name']}</a></dd>
+            </dl>
+            {else:}
+            <dl class="clearfix">
+                <dt>转让名称：</dt>
+                <dd><input name="transfername" id="transfername"type="text" pattern='required' alt='名称不能为空' class="ntxt" /> <label>*名称不能为空</label></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>缩略图：</dt>
+                <dd><input name="transferpic" type="file" /> <label></label></dd>
+            </dl>
+            {/if}
+            <dl class="clearfix">
+                <dt>总课时：</dt>
+                <dd><input name="totaltime" type="text" pattern='required' class="ntxt" alt='总课时不能为空' /> <label>*如：32节课/一学期等</label></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>剩余课时：</dt>
+                <dd><input name="minustime" type="text" pattern='required' class="ntxt" alt='剩余课时不能为空' /> <label>*如：剩余10节课/半学期等</label></dd>
+            </dl>
+            {if:!$order_id}
+            <dl class="clearfix">
+                <dt>原价：</dt>
+                <dd><input name="sellerprice" id="sellerprice" type="text" pattern='required' alt='价格不能为空' class="ntxt" /> <label>*价格不能为空</label></dd>
+            </dl>
+            {/if}
+            <dl class="clearfix">
+                <dt>转让价格：</dt>
+                <dd><input name="transprice" id="transprice" onkeyup="getCommission(this)" type="text" pattern='required' alt='价格不能为空' class="ntxt" /> <label>*价格不能为空</label></dd>
+            </dl>
+
+            <dl class="clearfix">
+                <dt>手续费：</dt>
+                <dd><span class="orange" id="commission">0</span></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>&nbsp;</dt>
+                <dd><span class="orange">收取{$site_config->tcommission}%的手续费</span></dd>
+            </dl>
+            <!-- <dl class="clearfix">
+                <dt>支付方式：</dt>
+                <dd>
+                    {set:$paymentList=Api::run('getPaymentList')}
+                    {foreach:items = $paymentList}
+                    <label style="color:#f60;"><input type="radio" name="payment" value="{$item['id']}" paytype="{$item['name']}" onclick="setPayType(this)">{$item['name']}</label>
+                    {/foreach}
+                    <input type="hidden" name="paytype" id="paytype" value="">
+                </dd>
+            </dl> -->
+            <dl class="normal clearfix">
+                <dt>描述：</dt>
+                <dd><textarea name='content' pattern='required' alt='' class="ntxt ntxt-1"></textarea></dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>&nbsp;</dt>
+                <dd><input type="checkbox" name="istalk" value="1"> 是否与商家沟通好</dd>
+            </dl>
+            <dl class="clearfix">
+                <dt>&nbsp;</dt>
+                <dd>
+                    <label class="btn"><input type="submit" value="我要转让" /></label>
+                    <input type="hidden" name="order_id" value="{$order_id}">
+                    <input type="hidden" name="seller_id" value="{$goods['seller']['id']}">
+                    <input type="hidden" name="goods_id" value="{$goods['id']}">
+                </dd>
+            </dl>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function getCommission(obj){
+    var price = Number($(obj).val());
+    var commission = Number('{$site_config->tcommission}') / 100;
+
+    $('#commission').text((price * commission).toFixed(2));
+}
+
+function setPayType(obj){
+    $('#paytype').val($(obj).attr('paytype'));
+}
+</script>

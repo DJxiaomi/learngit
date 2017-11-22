@@ -1,0 +1,19 @@
+{set:
+    $title = '订单详情';
+    if ($this->order_info['statement'] != 2 )
+      $callback = IUrl::creatUrl('/ucenter/order');
+    else
+      $callback = IUrl::creatUrl('/ucenter/redpacket');
+}
+
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+<style>
+  body,html {height: 100%;background-color:#fff;}
+  .mui-content {text-align:center;background-color: #fff;}
+  .mui-content img {width: 80%;margin-top: 40px;}
+  .mui-content .notice {width: 80%;margin: 0px auto;font-size: .8rem;color: red;margin-top: 10px;}
+</style>
+<div class='mui-content'>
+  <img src="http://{echo:get_host()}/plugins/phpqrcode/index.php?data=http://{echo:get_host()}/site/order_confirm/id/{$id}" />
+  <div class="notice">请让工作人员扫描此二维码</div>
+</div>

@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="{rs:}/scripts/layer/skin/layer.css"/>
+<script type="text/javascript" src="{rs:}/scripts/layer/layer.js"></script>
+
+<div class="headbar">
+	<div class="position"><span>用户</span><span>></span><span>股权分配</span><span>></span><span>股权分配列表</span></div>
+	
+</div>
+<style>
+	.cont tr td{padding:10px 0;}
+</style>
+<div class="content_box">
+
+	<h3>股权信息：</h3>
+
+	<div class='cont'>
+
+		<table width="100%">
+			
+			<tr>
+				
+				<td>剩余可分配股权：<a href="javascript:void(0);" style="color:#3F9F00">{$total_equity}%</a></td>
+				<td>剩余可分配股权份额：<a href="javascript:void(0);" style="color:#3F9F00">{$total_share}份</a></td>
+				<td>正在分配的股权需要的成交金额：<a href="javascript:void(0);" style="color:#3F9F00">{$stall_price}</a></td>
+				<td>正在分配的股权需要的成交人数：<a href="javascript:void(0);" style="color:#3F9F00">{$stall_num}</a></td>
+
+
+			</tr>
+
+			<tr>
+				<td>参与分配的商家数：<a href="javascript:void(0);" style="color:#3F9F00">{$seller_num}</a></td>
+				<td>推广人数：<a href="javascript:void(0);" style="color:#3F9F00">{$user_num}</a></td>
+				
+
+			</tr>
+
+		</table>
+
+	</div>
+
+</div>
+
+<!-- <div class="content">
+	<table id="list_table" class="list_table">
+
+		<thead>
+			<tr>
+				<th width="40">ID</th>
+				<th>名称</th>
+				<th>状态</th>
+				<th>类型</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{if:$this->list != null}
+				
+			{foreach:items=$this->list}
+			<tr>
+				<td class="id">{$item['id']}</td>
+				<td><a href="javascript:void(0);">{$item['name']}</a></td>
+				<td>
+				{if:$item['is_equity'] == 1 }
+				<font style="color:#3F9F00">正常</font>
+				{elseif:$item['is_equity'] == -1}
+				<font style="color:#f00">申请中</font>
+				{elseif:$item['is_equity'] == -2}
+				<font style="color:#ccc">已拒绝</font>
+				{/if}</td>
+				<td>{if:$item['type'] == 1}商家{else:}个人用户{/if}</td>
+				<td>
+					<input type="hidden" name="type" value="{$item['type']}"/>
+					{if:$item['is_equity'] == -1}
+					<a href="javascript:void(0);" class="audit"><i class="icon-ok"></i> 同意</a>
+					<a href="javascript:void(0);" class="refuse">拒绝</a>
+					{else:}
+					<a href="javascript:void(0);" style="color:#ccc"><i class="icon-ok"></i> 同意</a>
+					<a href="javascript:void(0);" style="color:#ccc">拒绝</a>
+					{/if}
+				</td>
+			</tr>
+			{/foreach}
+{else:}
+			<tr>
+					<td colspan="5">暂无股权申请信息！</td>
+				</tr>
+			
+
+			{/if}
+			<tr>
+					<td colspan="5">{$page_info}</td>
+			</tr>
+		</tbody>
+	</table>
+</div> -->
+
+
+
+
+<script language="javascript">
+//排序
+$(function(){
+	$('.audit').on('click',function(){		
+		var id = $(this).parent('td').siblings('.id').text();
+		var type = $(this).siblings('input').val();
+		if(id){
+			$.ajax({
+				type:'post',
+				data:'id='+id+'&type='+type+'&status=1',
+				url:'{url:member/equity_audit}',
+				success:function(data){
+					var parseData = $.parseJSON(data);
+					if(parseData.status == 1){
+						layer.alert(parseData.info,{icon:1},function(){
+							location.reload();
+						});
+					}else{
+						layer.alert(parseData.info,{icon:2});
+					}
+				}
+			})
+		}else{
+			layer.alert("ID错误0！",{icon:2});
+		}
+	})
+
+	$('.refuse').on('click',function(){		
+		var id = $(this).parent('td').siblings('.id').text();
+		var type = $(this).siblings('input').val();
+		if(id){
+			$.ajax({
+				type:'post',
+				data:'id='+id+'&type='+type+'&status=0',
+				url:'{url:member/equity_audit}',
+				success:function(data){
+					var parseData = $.parseJSON(data);
+					if(parseData.status == 1){
+						layer.alert(parseData.info,{icon:1},function(){
+							location.reload();
+						});
+					}else{
+						layer.alert(parseData.info,{icon:2});
+					}
+				}
+			})
+		}else{
+			layer.alert("ID错误0！",{icon:2});
+		}
+	})
+})
+</script>

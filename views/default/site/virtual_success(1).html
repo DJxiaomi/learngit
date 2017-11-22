@@ -1,0 +1,95 @@
+<div class="wrapper clearfix">
+
+	<div class="wrap_box">
+
+		<div class="error box clearfix">
+
+			<table class="form_table prompt_3">
+
+				<colgroup>
+
+					<col width="320px" />
+
+					<col />
+
+				</colgroup>
+
+
+
+				<tbody>
+
+					<tr>
+
+						<th><img src="{skin:images/front/right.gif}" width="48px" height="51px" /></th>
+
+						<td>
+
+							<strong class="f14">
+
+							{echo:IReq::get('message') ? IFilter::act(IReq::get('message'),'text') : '操作成功！'}
+
+							</strong>
+
+						</td>
+
+					</tr>
+
+
+
+					<tr>
+
+						<th></th>
+
+						<td>
+
+							<!-- <div style="font-size: 16px;">您订购的{$accounts['true_name']}【{$accounts['name']}】为：<span style="color:#f00;font-weight:bold;">{$accounts['accounts']}</span>，请妥善保存！</div> -->
+							<div style="font-size: 16px;">您订购的【{$accounts['name']}】为：<span style="color:#f00;font-weight:bold;">NO.{$acc_pic[0]} NO.{$acc_pic[1]}</span>，请将以下会员卡照片上传至三只熊官方公众号激活！</div>
+							<div class="ticket_pic">
+								{foreach:items=$acc_pic}
+								<img src="{rs:}/hdImg/threeBear/{$item}.jpg">
+								{/foreach}
+							</div>
+							{set:$callback = IFilter::act(IReq::get('callback'),'text')}
+
+							{if:$callback}
+
+							<a class="blue" href="{url:$callback}">继续操作 >></a>
+
+							{/if}
+
+
+
+							{if:$this->user['user_id']}
+
+							<a class="blue" href="{url:/ucenter/index}">个人中心 >></a>
+
+							{/if}
+
+
+
+							{set:$email = IFilter::act(IReq::get('email'))}
+
+							{if:$email}
+
+							<a class="blue" href="{url:/simple/send_check_mail/email/$email}">重新发送验证邮件 >></a>
+
+							{/if}
+
+
+
+							<a class="blue" href="{url:/site/index}">网站首页 >></a>
+
+						</td>
+
+					</tr>
+
+				</tbody>
+
+			</table>
+
+		</div>
+
+	</div>
+
+</div>
+

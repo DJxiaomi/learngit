@@ -1,0 +1,48 @@
+<!-- Footer S -->
+<div class="footer Wrap">
+
+    <!--up -->
+    <div class="footer-left">
+        <?php
+          $navigation_list = navigation_class::get_navigation_list(2,0);
+          if ( $navigation_list )
+          {
+            foreach( $navigation_list as $kk => $vv )
+            {
+              echo "<ul>";
+                echo '<h3 class="foot-title">' . $vv['name'] .'</h3>';
+                if ( $vv['child'] )
+                {
+                  foreach( $vv['child'] as $k => $v )
+                  {
+                    echo '<li><a href="' . $v['link'] .'" target="_blank">' . $v['name'] . '</a></li>';
+                  }
+                }
+              echo "</ul>";
+            }
+          }
+        ?>
+    </div>
+					<div class="tubbiao">
+	<!-- <a href="http://webscan.360.cn/index/checkwebsite/url/www.dsanke.com"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/a1f20bc445d31538899515dd5b5ff053"/></a> -->
+  <a href="http://webscan.360.cn/index/checkwebsite/url/www.dsanke.com"><img src="/views/default/skin/default/images/t013365a715435676e8.jpg"/></a>
+		 </div>
+	
+    <div class="footer-right">
+        <h3 class="foot-title">扫一扫，课程优惠</h3>
+        <div class="erweima"><a href="javascript:void(0);"><img src="/views/default/skin/default/wx_erweima.jpg" data="http://www.dsanke.com/views/default/skin/default/wx_erweima.jpg" /></a></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+	<!-- copyright -->
+    <div class="copyright">
+        <div class="Wrap">
+
+            <p clas="footP1">Powered by 乐享生活</p>
+            <p class="footP1">Copyright©2014-2016&nbsp;<a class="copyys" target="_blank" href="http://www.miibeian.gov.cn/">湘ICP备15005945号-1</a> &nbsp;版权所有</p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer E -->

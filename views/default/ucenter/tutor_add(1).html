@@ -1,0 +1,365 @@
+{js:artTemplate}
+{js:kindeditor}
+{js:my97date}
+<link href="{skin:css/ucenter_article_add.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_tutor.css}" rel="stylesheet" type="text/css" />
+
+<script language="javascript">
+var _tutor_cate_list = {if:$tutor_cate_list_json}{$tutor_cate_list_json}{else:}new Array(){/if};
+</script>
+
+<form name="form1" method="post" action="{url:/ucenter/tutor_update}">
+<div class="main f_r">
+    <div class="uc_title m_10">
+        <label class="current"><span>{if:$id}修改{else:}发表{/if}家教需求信息</span></label>
+    </div>
+
+    <div class="box m_10">
+        <table class="list_table" width="100%" cellpadding="0" cellspacing="0">
+
+          <tr>
+            <td class="tt">性别：</td>
+            <td>
+              <input type="radio" name="gender" value="1" checked id="gender_1" /><label for="gender_1">男</label>
+              <input type="radio" name="gender" value="2" id="gender_2" {if:$tutor_info['gender'] == 2}checked{/if} /><label for="gender_2">女</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">年龄：</td>
+            <td><input name="age" type="text" pattern='int' empty alt='请输入年龄' class="normal small" value="{$tutor_info['age']}" />岁</td>
+          </tr>
+
+          <tr>
+            <td class="tt">年级：</td>
+            <td>
+              <select name="grade_level" class="grade_level" pattern="required" alt="请选择年级">
+                <option value="">请选择分类</option>
+                {foreach:items=$tutor_cate_list}
+                  <option value="{$item['id']}" {if:$tutor_info['grade_level'] == $item['id']}selected{/if}>{$item['name']}</option>
+                {/foreach}
+              </select>
+              <select name="grade" class="grade" pattern="required" alt="请选择分类">
+                {foreach:items=$tutor_cate_list}
+                  {if:$item['id'] == $tutor_info['grade_level']}
+                    {foreach:items=$item['child'] item=$it}
+                      <option value="{$it['id']}" {if:$tutor_info['grade'] == $it['id']}selected{/if}>{$it['name']}</option>
+                    {/foreach}
+                  {/if}
+                {/foreach}
+              </select>
+              <select name="category_id[]" class="cate_id">
+										{foreach:items=$tutor_cate_list}
+											{if:$item['id'] == $tutor_info['grade_level']}
+												{foreach:items=$item['child'] item=$it}
+													{if:$it['id'] == $tutor_info['grade']}
+														{foreach:items=$it['child'] item=$i}
+															<option value="{$i['id']}" {if:$tutor_info['category_id'] == $i['id']}selected{/if}>{$i['name']}</option>
+														{/foreach}
+													{/if}
+												{/foreach}
+											{/if}
+										{/foreach}
+							</select>
+              <select name="category_id2[]" class="cate_id2">
+                {foreach:items=$tutor_cate_list}
+                  {if:$item['id'] == $tutor_info['grade_level']}
+                    {foreach:items=$item['child'] item=$it}
+                      {if:$it['id'] == $tutor_info['grade']}
+                        {foreach:items=$it['child'] item=$i}
+                            {if:$i['id'] == $tutor_info['category_id']}
+                              {foreach:items=$i['child'] item=$t}
+                                <option value="{$t['id']}" {if:$tutor_info['category_id2'] == $t['id']}selected{/if}>{$t['name']}</option>
+                              {/foreach}
+                            {/if}
+                        {/foreach}
+                      {/if}
+                    {/foreach}
+                  {/if}
+                {/foreach}
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">现考试成绩：</td>
+            <td><input name="lastest_scores" type="text" pattern='float' empty alt='请输入现考试成绩' class="normal small" value="{$tutor_info['lastest_scores']}" /></td>
+          </tr>
+          <tr>
+            <td class="tt">愿支付的基本报酬：</td>
+            <td><input name="lowest_reward" type="text" pattern='float' alt='请输入愿支付的基本报酬' class="normal small" value="{$tutor_info['lowest_reward']}" /> 元/课时</td>
+          </tr>
+          <tr>
+            <td class="tt">期望的成绩：</td>
+            <td><input name="expected_scores" type="text" pattern='float' empty alt='请输入期望的成绩' class="normal small" value="{$tutor_info['expected_scores']}" /></td>
+          </tr>
+          <tr>
+            <td class="tt">达到期望目标的报酬：</td>
+            <td><input name="highest_reward" type="text" pattern='float' empty alt='请输入最高报酬' class="normal small" value="{$tutor_info['highest_reward']}" /> 元/课时</td>
+          </tr>
+          <tr>
+            <td class="tt">预计补课的课时数：</td>
+            <td>
+              <input name="expected_hours" type="text" pattern='int' alt='请输入预计补课的课时' class="normal small" value="{$tutor_info['expected_hours']}" /> 时
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">计划补课的时间：</td>
+            <td><a href="javascript:void(0);" class="add_teaching_time">增加一行</a><br /></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>
+              <table border="0" class="add_teaching_time_td">
+      					{foreach:items=$tutor_info['teaching_time'] item=$it}
+      					<tr>
+      						<td>
+      							<select name="time1[]">
+      								{foreach:items=$teaching_time_arr key=$key}
+      									<option value="{$key}" {if:$it['time1'] == $key}selected{/if}>{$item}</option>
+      								{/foreach}
+      							</select>
+
+      							从<select name="time2[]">
+      								{foreach:items=$teaching_time_arr3 key=$key}
+      									<option value="{$key}" {if:$it['time2'] == $key}selected{/if}>{$item}</option>
+      								{/foreach}
+      							</select>点至
+      							<select name="time3[]">
+      								{foreach:items=$teaching_time_arr3 key=$key}
+      									<option value="{$key}" {if:$it['time3'] == $key}selected{/if}>{$item}</option>
+      								{/foreach}
+      							</select>点
+      							&nbsp; <a href="javascript:void(0);" class="del_teaching_time">删除</a>
+      						</td>
+      					</tr>
+      					{/foreach}
+      				</table>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">是否提供交通费用：</td>
+            <td>
+              <input type="radio" name="is_provide_transportation_fee" value="1" checked id="transportation_fee_1" /><label for="transportation_fee_1">是</label>
+              <input type="radio" name="is_provide_transportation_fee" value="0" {if:$tutor_info['is_provide_transportation_fee'] == 0}checked{/if} id="transportation_fee_0" /><label for="transportation_fee_0">否</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">是否提供就餐：</td>
+            <td>
+              <input type="radio" name="is_provide_repast" value="1" checked id="is_provide_repast_1" /><label for="is_provide_repast_1">是</label>
+              <input type="radio" name="is_provide_repast" value="0" {if:$tutor_info['is_provide_repast'] == 0}checked{/if} id="is_provide_repast_0" /><label for="is_provide_repast_0">否</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt">补课地址：</td>
+            <td>
+                <select name="region_id" pattern="required">
+                  {foreach:items=$region_list}
+                    <option value="{$item['area_id']}" {if:$tutor_info['region_id'] == $item['area_id']}selected{/if}>{$item['area_name']}</option>
+                  {/foreach}
+                </select>
+                <input type="text" name="address" value="{$tutor_info['address']}" class="normal big" />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt"><b style="color:red">奖励机制</b>：</td>
+            <td>
+              <a href="javascript:void(0);" class="add_test">增加一行</a>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tt"></td>
+            <td class="test_table">
+              <table border="0" class="test_row">
+                    <tr>
+                        <th width="106">关键考试时间</th>
+                        <th width="110">关键考试类型</th>
+                        <th width="128">关键考试的分数</th>
+                        <th width="118">关键考试的奖金</th>
+                        <th width="67"></th>
+                    </tr>
+              </table>
+              {foreach:items=$tutor_info['test_reward']}
+              <table border="0" class="test_row">
+                    <tr>
+                        <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small" value="{$item['test_time']}"/></td>
+                        <td><input type="text" name="test_type[]" class="normal small" value="{$item['test_type']}" /></td>
+                        <td><input type="text" name="test_condition[]" class="normal small" value="{$item['test_condition']}" />分</td>
+                        <td><input type="text" name="test_money[]" class="normal small" value="{$item['test_money']}" />元</td>
+                        <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+                    </tr>
+              </table>
+              {/foreach}
+              {if:!$tutor_info['test_reward']}
+              <table border="0" class="test_row">
+                    <tr>
+                        <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small"/></td>
+                        <td><input type="text" name="test_type[]" class="normal small"/></td>
+                        <td><input type="text" name="test_condition[]" class="normal small" />分</td>
+                        <td><input type="text" name="test_money[]" class="normal small"/>元</td>
+                        <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+                    </tr>
+              </table>
+              {/if}
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>
+              {if:$id}<input type="hidden" name="id" value="{$id}"  />{/if}
+              <label class="btn"><input type="submit" value=" 保 存 " class="save_btn"></label>&nbsp; &nbsp;
+              <label class="btn"><input type="reset" value=" 重 置 "></label>
+            </td>
+          </tr>
+
+        </table>
+    </div>
+</div>
+</form>
+
+<div class="add_test_html" style="display:none;">
+  <table border="0" class="test_row">
+      <tr>
+          <td><input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="test_time[]" class="normal small"/></td>
+          <td><input type="text" name="test_type[]" class="normal small"/></td>
+          <td><input type="text" name="test_condition[]" class="normal small" />分</td>
+          <td><input type="text" name="test_money[]" class="normal small"/>元</td>
+          <td><a href="javascript:void(0);" class="del_test">删除</a></td>
+      </tr>
+  </table>
+</div>
+
+<table class="add_teaching_time_html" style="display:none;">
+	<tr>
+		<td>
+			<select name="time1[]">
+				{foreach:items=$teaching_time_arr key=$key}
+					<option value="{$key}">{$item}</option>
+				{/foreach}
+			</select>
+
+			从<select name="time2[]">
+				{foreach:items=$teaching_time_arr3 key=$key}
+					<option value="{$key}">{$item}</option>
+				{/foreach}
+			</select>点至
+			<select name="time3[]">
+				{foreach:items=$teaching_time_arr3 key=$key}
+					<option value="{$key}">{$item}</option>
+				{/foreach}
+			</select>点
+			&nbsp; <a href="javascript:void(0);" class="del_teaching_time">删除</a>
+		</td>
+	</tr>
+</table>
+
+<script type='text/javascript' src="{theme:javascript/ucenter_article_add.js}"></script>
+
+<script language="javascript">
+$(document).ready(function(){
+  $(document).on('change', '.grade_level',function(){
+    set_category($(this),$(this).val());
+  });
+  $(document).on('change','.grade',function(){
+    var _grade_level = $(this).parent().parent().find(".grade_level").val();
+    set_category($(this), _grade_level, $(this).val());
+  });
+  $(document).on('change','.cate_id',function(){
+    var _grade_level = $(this).parent().parent().find(".grade_level").val();
+    var _grade = $(this).parent().parent().find(".grade").val();
+    set_category($(this), _grade_level, _grade, $(this).val());
+  })
+
+  $('.add_teaching_time').click(function(){
+		var _html = $('.add_teaching_time_html').html();
+		$('.add_teaching_time_td').append(_html);
+	})
+
+  $(document).on('click', '.del_teaching_time', function(){
+    $(this).parent().parent().remove();
+  })
+
+  {if:!$tutor_info['teaching_time']}
+    $('.add_teaching_time').click();
+  {/if}
+
+  $('.add_test').click(function(){
+    var _html = $('.add_test_html').html();
+    $('.test_table').html( $('.test_table').html() + _html );
+  });
+
+  $(document).on('click', '.del_test', function(){
+    $(this).parent().parent().parent().parent().remove();
+  });
+})
+
+function set_category(obj, grade_level, grade, cate_id, cate_id2)
+{
+	var _grade_html = "<option value=''>请选择年级</option>";
+	var _cate_id_html = "<option value=''>请选择课程</option>";
+	var _cate_id2_html = "<option value=''>请选择课程</option>";
+	if ( obj && grade_level )
+	{
+			for( var i in _tutor_cate_list )
+			{
+				if ( _tutor_cate_list[i]['id'] == grade_level && _tutor_cate_list[i]['child'] )
+				{
+						for( var j in _tutor_cate_list[i]['child'] )
+						{
+							var _selected = (grade && _tutor_cate_list[i]['child'][j]['id'] == grade ) ? 'selected' : '';
+							_grade_html += "<option value='" + _tutor_cate_list[i]['child'][j]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['name'] + "</option>";
+
+							if ( _tutor_cate_list[i]['child'][j]['id'] == grade && _tutor_cate_list[i]['child'][j]['child'])
+							{
+								for ( var k in _tutor_cate_list[i]['child'][j]['child'] )
+								{
+									var _selected = (cate_id && _tutor_cate_list[i]['child'][j]['child'][k]['id'] == cate_id ) ? 'selected' : '';
+									_cate_id_html += "<option value='" + _tutor_cate_list[i]['child'][j]['child'][k]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['child'][k]['name'] + "</option>";
+
+									if ( _tutor_cate_list[i]['child'][j]['child'][k]['id']  == cate_id && _tutor_cate_list[i]['child'][j]['child'][k]['child'] )
+									{
+										for ( var m in _tutor_cate_list[i]['child'][j]['child'][k]['child'] )
+										{
+											var _selected = (cate_id2 && _tutor_cate_list[i]['child'][j]['child'][k]['child'][m]['id'] == cate_id2 ) ? 'selected' : '';
+											_cate_id2_html += "<option value='" + _tutor_cate_list[i]['child'][j]['child'][k]['child'][m]['id'] + "' " + _selected + ">"  + _tutor_cate_list[i]['child'][j]['child'][k]['child'][m]['name'] + "</option>";
+										}
+										obj.parent().find('.cate_id2').html(_cate_id2_html);
+										obj.parent().find('.cate_id2').show();
+									}
+								}
+								obj.parent().find('.cate_id').html(_cate_id_html);
+								obj.parent().find('.cate_id').show();
+							}
+						}
+						obj.parent().find(".grade").html(_grade_html);
+						obj.parent().find(".grade").show();
+				}
+			}
+	}
+}
+</script>
+
+<style>
+{if:!$id}
+.grade, .cate_id, .cate_id2 {display:none;}
+{else:}
+  {if:!$tutor_info['category_id2']}
+    .cate_id2 {display:none;}
+  {/if}
+  {if:!$tutor_info['category_id']}
+    .cate_id {display:none;}
+  {/if}
+  {if:!$tutor_info['grade']}
+    .grade {display:none;}
+  {/if}
+{/if}
+</style>

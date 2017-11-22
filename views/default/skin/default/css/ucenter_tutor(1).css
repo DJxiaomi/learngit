@@ -1,0 +1,8 @@
+.m_10 input[type=radio],.m_10 input[type=checkbox],.m_10 label {cursor: pointer;vertical-align: middle;}
+.m_10 label {margin-right: 15px;}
+.m_10 select {border: 1px solid #7f9db9;height:29px;line-height: 29px;}
+.m_10 select.grade {margin-left: 10px;}
+.m_10 td.tt {width: 130px;text-align: right;}
+.m_10 input[type=text].small {width: 80px;}
+.m_10 input[type=text].big {width: 250px;}
+.m_10 textarea {width:400px;height:180px;}

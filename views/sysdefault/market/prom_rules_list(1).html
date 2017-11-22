@@ -1,0 +1,60 @@
+<div class="headbar">
+	<div class="position"><span>营销</span><span>></span><span>推广设置</span><span>></span><span>推广提成列表</span></div>
+	<div class="operating">
+		<a href="javascript:;" onclick="event_link('{url:/market/prom_rules_edit}')"><button class="operating_btn" type="button"><span class="addition">添加规则</span></button></a>
+	</div>
+</div>
+<div class="content">
+	<form method='post' action='{url:/market/pro_rule_del}'>
+		<table class="list_table">
+			<colgroup>
+				<col width="40px" />
+				<col width="60px" />
+				<col width="260px" />
+				<col width="120px" />
+				<col width="120px" />
+				<col width="120px" />
+				<col width="120px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>推广人级别</th>
+					<th>总提成</th>
+					<th>用户提成</th>
+					<th>商户提成</th>
+					<th>订单提成</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items=$prom_rules_list}
+				<tr>
+					<td><input type='checkbox' name='id[]' value='{$item['id']}' /></td>
+					<td>{$item['level']}级推广人</td>
+					<td>{$item['title']}</td>
+					<td>{$item['user_value']}%</td>
+					<td>{$item['seller_value']}%</td>
+					<td>{$item['order_value']}%</td>
+					<td>
+						<a href='{url:/market/prom_rules_edit/id/$item[id]}'>
+							<img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" title="修改" />
+						</a>
+
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/market/prom_rules_del/id/$item[id]}'});">
+							<img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" />
+						</a>
+					</td>
+				</tr>
+				{/foreach}
+				{if:!$prom_rules_list}
+					<tr>
+							<td colspan="5" style="text-align: center;">暂无任何记录</td>
+					</tr>
+				{/if}
+			</tbody>
+		</table>
+	</form>
+</div>

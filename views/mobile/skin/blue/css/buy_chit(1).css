@@ -1,0 +1,97 @@
+body,.mui-content {
+  background-color: #fff;
+}
+.mui-content ul {
+  width: 90%;
+  margin: 0px auto;
+  margin-top: 15px;
+}
+.mui-content li {
+  color:#0e050a;
+  font-size: 1rem;
+  width: 100%;
+  height: 44px;
+  line-height: 36px;
+  overflow: hidden;
+  border-bottom: 1px solid #c4c3c3;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 32px;
+}
+.mui-content .t-left {
+  float: left;
+}
+.mui-content .t-right {
+  float: right;
+  text-align: right;
+}
+.mui-content .t-right em {
+  color: #ff0000;
+}
+.mui-content .goods_name {
+  background:url(/views/mobile/skin/blue/images/buy_chit_icon.png) 3px 10px no-repeat;
+  background-size: 27px;
+}
+.mui-content .goods_price {
+  background:url(/views/mobile/skin/blue/images/buy_chit_icon.png) 6px -28px no-repeat;
+  background-size: 26px;
+}
+.mui-content .goods_max_order_chit {
+  background:url(/views/mobile/skin/blue/images/buy_chit_icon.png) 1px -60px no-repeat;
+  background-size: 24px;
+}
+.mui-content .goods_rest_price {
+  background:url(/views/mobile/skin/blue/images/buy_chit_icon.png) 1px -100px no-repeat;
+  background-size: 23px;
+}
+.mui-content .goods_price input {
+  width: 80%;
+  border: 0px;
+  height:30px;
+  line-height:30px;
+  margin: 0px;
+  padding: 0px;
+  text-align:right;
+  margin-right: 3px;
+}
+
+.mui-content ul.page-footer {
+  position: absolute;
+  bottom: 55px;
+  left: 5%;
+  width: 90%;
+  border-top: 1px solid #c4c3c3;
+  margin: 0px;
+}
+.mui-content ul.page-footer li {
+  height: 31px;
+  border: 0px;
+  margin-top: 0px;
+}
+.page-footer .chit_info {
+  text-align: right;
+  background:url(/views/mobile/skin/blue/images/buy_chit_icon.png) 46% -171px no-repeat;
+  background-size: 28px;
+}
+.page-footer .chit_info em {
+  margin-left: 25px;
+  color: #ff0000;
+}
+.mui-content ul.page-footer .button_info {
+  height: auto;
+  margin-bottom: 0px;
+}
+.page-footer .notice {
+  font-size: .9rem;
+}
+.page-footer .notice a {
+  color:#000;
+  text-decoration: underline;
+  display:inline-block;
+}
+.page-footer .notice em {
+  color: #d55435;
+}
+.mui-content li.nopadding {
+  padding-left: 0px;
+}

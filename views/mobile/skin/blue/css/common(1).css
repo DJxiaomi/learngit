@@ -1,0 +1,52 @@
+html{padding: 0; margin: 0;}
+body{font-family: "Microsort YaHei", "微软雅黑"; color: #666;}
+.clearfix:after{content:"."; display:block; height:0; clear:both;visibility:hidden;}
+*html{background-image:url(about:blank);background-attachment:fixed;}
+*html .clearfix{height:1%;}
+*+html .clearfix{height:1%;}
+ul,li{ list-style: none; padding: 0; margin: 0; }
+i,em{ font-style: normal; }
+.mui-bar .mui-btn-link{ color: #fff; }
+.mui-bar .mui-icon-my{ font-size: 1.2rem; position: relative;top: 3px;width: 24px;height: 24px;padding-top: 0;padding-bottom: 0;font-style: normal;line-height: 1;z-index: 20;}
+.mui-bar-tab .mui-tab-item .mui-icon-my~.mui-tab-label {font-size: 14px;display: block;overflow: hidden;text-overflow: ellipsis;}
+.mui-bar-tab .mui-tab-item.mui-hot{ color: #ff3c00; }
+.mui-bar-tab .mui-tab-item.mui-hot.mui-active{ color: #08c; }
+.mui-bar-tab {padding-top:3px;}
+.mui-bar-nav{ background:-webkit-linear-gradient(left,#ff9638,#ff4b2b);background:-o-linear-gradient(right,#ff9638,#ff4b2b);background:-moz-linear-gradient(right,#ff9638,#ff4b2b);background:linear-gradient(to right,#ff9638,#ff4b2b); color: #fff; box-shadow: none; }
+.mui-bar-nav a.mui-action-back{ color: #fff; }
+.mui-bar-nav .mui-title{ color: #fff; }
+.mui-scroll-wrapper{ top: 50px; bottom: 51px; }
+.mui-input-row label{font-family: "Microsort YaHei", "微软雅黑", 'Helvetica Neue',Helvetica,sans-serif; color: #666; font-size: .875rem;}
+.mui-btn-block{ padding: 8px 0; }
+.mui-checkbox input[type=checkbox],.mui-radio input[type=radio]{top: 10px;width: 20px;height: 20px;}
+.mui-checkbox input[type=checkbox]:before,.mui-radio input[type=radio]:before{ font-size: 1.2rem; }
+.mui-checkbox.mui-left label,.mui-radio.mui-left label{ padding-left: 38px; }
+.mui-checkbox.mui-left input[type=checkbox],.mui-radio.mui-left input[type=radio]{left: 14px;}
+.mui-textarea-row{ margin: 10px; }
+.mui-table-view .mui-media-object{height: 80px;line-height: 80px;max-width: 80px;width: 80px;}
+
+.lx-loading{ position: fixed; top: 50%; left: 50%; z-index: 999; width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; border-radius: 10px;background: rgba(23, 23, 23, 0.6); text-align: center; line-height: 80px; }
+.lx-loading i{ font-size: 2rem; color: #fff; }
+
+.article-content{ padding-bottom: 40px; }
+.reply-box{background-color: #ccc;padding: 8px 13px;position: fixed;bottom: 50px;left: 0px;z-index: 9999;width: 100%;}
+.reply-box input[type=text] {width: 60%;border-radius: 8px;border: 0px;height: 25px;line-height: 25px;text-indent: 8px;outline: none;}
+.reply-box input[type=submit]{height: 25px;line-height: 25px;color: #fff;background-color: #0093dd;text-align: center;padding: 0 15px;border: 0px;margin-left: 12px;border-radius: 5px;}
+.mui-icon-my {width:45px;height:45px;display:block;text-align:center;}
+.mui-tab-item {padding-top: 28px;padding-bottom: 2px;font-size:15px;}
+.mui-bar-tab .home {background:url(/views/mobile/skin/blue/images/index_menu_home_0.png) center 3px no-repeat;background-size:22px 22px;}
+.mui-bar-tab .gift {background:url(/views/mobile/skin/blue/images/index_menu_coupon_0.png) center 3px no-repeat;background-size:22px 22px;}
+.mui-bar-tab .brand {background:url(/views/mobile/skin/blue/images/index_menu_brand_0.png) center -3px no-repeat;background-size:33px 35px;}
+.mui-bar-tab .money {background:url(/views/mobile/skin/blue/images/index_menu_props_0.png) center 3px no-repeat;background-size:22px 22px;}
+.mui-bar-tab .user {background:url(/views/mobile/skin/blue/images/index_menu_user_0.png) center 3px no-repeat;background-size:22px 22px;}
+.mui-bar-tab .service {background:url(/views/mobile/skin/blue/images/index_menu_service_0.png) center 3px no-repeat;background-size:22px 22px;}
+.mui-bar .mui-icon-my {margin-bottom:5px;}
+.mui-bar-tab .mui-hot-home {background:url(/views/mobile/skin/blue/images/index_menu_home_1.png) center 3px no-repeat;background-size: 22px 22px;}
+.mui-bar-tab .mui-hot-gift {background:url(/views/mobile/skin/blue/images/index_menu_coupon_1.png) center 3px no-repeat;background-size: 22px 22px;}
+.mui-bar-tab .mui-hot-brand {background:url(/views/mobile/skin/blue/images/index_menu_brand_1.png) center -3px no-repeat;background-size: 33px 35px;}
+.mui-bar-tab .mui-hot-money {background:url(/views/mobile/skin/blue/images/index_menu_props_1.png) center 3px no-repeat;background-size: 22px 22px;}
+.mui-bar-tab .mui-hot-user {background:url(/views/mobile/skin/blue/images/index_menu_user_1.png) center 3px no-repeat;background-size: 22px 22px;}
+.mui-bar-tab .mui-hot-service {background:url(/views/mobile/skin/blue/images/index_menu_service_1.png) center 3px no-repeat;background-size: 22px 22px;}
+.mui-bar-tab .mui-hot-home, .mui-bar-tab .mui-hot-gift, .mui-bar-tab .mui-hot-money, .mui-bar-tab .mui-hot-user,.mui-bar-tab .mui-hot-service {
+  color: #ff3c00;
+}

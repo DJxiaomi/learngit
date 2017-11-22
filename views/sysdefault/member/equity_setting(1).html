@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="{rs:}/scripts/layer/skin/layer.css"/>
+<script type="text/javascript" src="{rs:}/scripts/layer/layer.js"></script>
+
+<div class="headbar">
+	<div class="position"><span>用户</span><span>></span><span>股权分配</span><span>></span><span>股权分配列表</span></div>
+	
+</div>
+<style>
+	.cont tr td{padding:10px 0;}
+	.items{padding:10px 0;}
+	.submit{padding:2px 20px;}
+</style>
+<div class="content_box">
+
+	<h3>股权信息：</h3>
+
+	<div class='cont'>
+		<h4>请选择参与股权分配的商户或用户:</h3>
+		<form action="{url:/member/equity_setting_submit}" method="post" name="setForm">
+			<div class="items">
+				<label for="seller">商户</label>
+				<select name="seller_id" id="seller">
+					<option value="">请选择商户</option>
+					{foreach:items=$seller_list}
+					<option value="{$item['id']}">{$item['true_name']}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="items">
+				<label for="user">用户</label>
+				<select name="user_id" id="user">
+					<option value="">请选择用户</option>
+					{foreach:items=$user_list}
+					<option value="{$item['id']}">{$item['username']}</option>
+					{/foreach}
+				</select>
+			</div>
+			<input type="submit" class="submit" value="提交">
+		</form>
+	</div>
+
+</div>
+
+<script language="javascript">
+//排序
+$(function(){
+	$('.submit').on('click',function(){
+		$(this).parent('form[name=setForm]').submit(function(){
+			return false;
+		})
+		var seller_id = $('select[name=seller_id]').val();
+		var user_id = $('select[name=user_id]').val();
+
+		if(seller_id == '' && user_id == ''){
+			layer.alert("请选择一个商户或用户！",{icon:2});
+			return false;
+		}
+
+		$.getJSON('{url:member/equity_setting_submit}',{'seller_id':seller_id,'user_id':user_id},function(content){
+			if(content.status == 1){
+				layer.alert(content.info,{icon:1},function(){
+					location.reload();
+				});
+			}else{
+				layer.alert(content.info,{icon:2});
+			}
+		})
+	})
+	
+})
+</script>

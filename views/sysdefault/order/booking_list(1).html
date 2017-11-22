@@ -1,0 +1,87 @@
+<style>
+.hide { display: none;}
+.price { color: #ff5500;font-family:"Arial";font-size: 12px;font-weight: 700;}
+.t-right {margin-left: 20px;margin-top: 3px;}
+</style>
+{js:my97date}
+
+<div class="headbar">
+	<div class="position">订单<span>></span><span>单据管理</span><span>></span><span>订单预定列表</span></div>
+</div>
+
+<form name="orderForm" id="orderForm" action="{url:/order/order_del}" method="post">
+	<div>
+		<table class="list_table">
+			<colgroup>
+				<col width="30px" />
+				<col width="110px" />
+				<col width="130px" />
+				<col width="60px" />
+				<col width="70px" />
+				<col width="70px" />
+				<col width="140px" />
+				<col width="75px" />
+        <col width="75px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>用户名</th>
+					<th>真实姓名</th>
+					<th>商户名</th>
+					<th>课程名</th>
+					<th>预计下单日期</th>
+					<th>发布日期</th>
+					<th>发布账户</th>
+					<th>是否匹配到订单</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach:items = $booking_list}
+				<tr>
+					<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
+					<td>{$item['username']}</td>
+					<td>{$item['true_name']}</td>
+					<td>{$item['seller_name']}</td>
+					<td>{$item['goods_name']}</td>
+					<td>{echo:date('Y-m-d',$item['date'])}之前</td>
+					<td>{echo:date('Y-m-d',$item['add_time'])}</td>
+					<td>{$item['user_username']}</td>
+					<td>{if:$item['order_id'] > 0}有{else:}无{/if}</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	{$page_info}
+</form>
+
+<script type='text/javascript'>
+//DOM加载结束
+$(function(){
+	var searchData = {echo:JSON::encode($this->search)};
+	for(var index in searchData)
+	{
+		$('[name="search['+index+']"]').val(searchData[index]);
+	}
+
+	//高亮色彩
+	$('[name="payStatusColor1"]').addClass('green');
+	$('[name="disStatusColor1"]').addClass('green');
+	$('[name="orderStatusColor3"]').addClass('red');
+	$('[name="orderStatusColor4"]').addClass('red');
+	$('[name="orderStatusColor5"]').addClass('green');
+});
+function changeAction(excel)
+{
+	if (excel){
+		$("input[name=\"action\"]").val("order_report");
+		$("form[name=\"order_list\"]").attr("target", "_blank");
+	}else{
+		$("input[name=\"action\"]").val("order_list");
+		$("form[name=\"order_list\"]").attr("target", "_self");
+	}
+}
+</script>

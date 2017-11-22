@@ -1,0 +1,17 @@
+{set:$callback = IUrl::creatUrl('/ucenter/message');}
+<link href="{skin:css/ucenter.css}" rel="stylesheet" type="text/css" />
+
+<h5 class="mui-content-padded">
+    查看短消息
+</h5>
+
+  <div class="mui-card">
+      <div class="mui-card-content">
+          <div class="mui-card-content-inner">
+              <p class="ordbigbt"><span>标题：</span>{$message_info['title']}</p>
+              <p class="ordbigbt"><span>发送时间：</span>{$message_info['time']}</p>
+              <p class="ordbigbt"><span>状态：</span>{if:$message_info['is_read']}已读{else:}未读{/if}</p>
+              <p class="ordbigbt"><span>内容：</span>{$message_info['content']}</p>
+          </div>
+      </div>
+  </div>

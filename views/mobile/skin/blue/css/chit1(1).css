@@ -1,0 +1,58 @@
+body,.mui-content {background-color:#fff;font-family:"微软雅黑"}
+.mui-content {width:96%;margin: 0px auto;}
+.mui-content .hd {width:100%;height:45px;padding-top: 12px;overflow:hidden;}
+.mui-content .hd .category {float: left;width: 30%; border: 1px solid #312010; border-radius: 12px;text-align:left;font-size:.8rem;color:#6a3503; height:30px;line-height:30px; background:url(/views/mobile/skin/blue/images/select_icon.png) 93% center no-repeat;background-size: 16px;text-indent:5%;}
+.mui-content .hd .search_form {float:right;width:67%;position: relative;}
+.mui-content .hd .search_form input[name=keyword] {border: 1px solid #312010; border-radius: 12px; width: 90%; height: 30px; line-height:30px;padding: 0px;text-indent:35px;}
+.mui-content .hd .search_form input[name=button] {position:absolute;left:4px;top:2px;width: 26px;height:26px;background:url(/views/mobile/skin/blue/images/search_icon.png) 0 3px no-repeat;background-size: 20px;border:0px;}
+.mui-content .hd .search_form i {width: 18px;height:17px;float:right;background:url(/views/mobile/skin/blue/images/delete_icon.png) 0 0 no-repeat;background-size: 18px 17px;margin-top: 7px;}
+.mui-content .bd {overflow:hidden;}
+.mui-content .bd {width: 96%;margin:0px auto;}
+.mui-content .bd li {margin-bottom: 0px;float: left;width:98%;margin-left:1%;}
+.mui-content .bd .mui-scroll {background-color:#fff;}
+.mui-card-header.mui-card-media {overflow:hidden;padding:0px;}
+.mui-card-header>img:first-child {width:auto;height:auto;max-width:100%;}
+.mui-card-header {position:relative;}
+.mui-card-header .mui-card-bg {position:absolute;left:0px;bottom:0px;width:100%;height:40px;line-height:40px;background-color:#000;opacity:.5;z-index:2;}
+.mui-card-header .mui-card-info {position:absolute;left:3%;bottom:0px;width:94%;height:40px;line-height:40px;z-index:2;font-size:.8rem;}
+.mui-card-header .mui-card-info .t-left {float:left;}
+.mui-card-header .mui-card-info .t-right {float:right;font-size:1.4rem;}
+.mui-card-header .mui-card-info .t-right i {font-size:.8rem;}
+.mui-card-header .mui-card-info span {margin-right: 10px;text-decoration: line-through;font-size:.8rem;}
+.mui-card-content {width:100%;height:68px;color:#312010;font-size:.95rem;text-align:center;margin-bottom: 8px;margin-top:8px;}
+.mui-card-content .t-left {float:left;width:17%;margin-left:3%;border:1px solid #c2c2c2;}
+.mui-card-content .t-left img {max-width:100%;}
+.mui-card-content .t-right {float:right;width:76%;padding-right:3%;}
+.mui-card-content .t-right div {text-align:left;height:20px;overflow:hidden;font-size:.7rem;color:#472300;}
+.mui-card-content .t-right .goods-name {color:#0b2956;font-size:.9rem;margin-bottom:2px;}
+.mui-card-footer:before, .mui-card-header:after {height:0px;}
+.mui-scroll-wrapper {top:90px;}
+.dqk_cart {width: 32px;height:32px;margin-top: 6px;}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #6a3503; opacity:1;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #6a3503;opacity:1;
+}
+
+input:-ms-input-placeholder{
+    color: #6a3503;opacity:1;
+}
+
+input::-webkit-input-placeholder{
+    color: #6a3503;opacity:1;
+}
+
+.manual {width: 100%;height:45px;position:fixed;left:0px;bottom:55px;z-index:998;}
+.manual .manual_bg {width:100%;height:45px;background-color:#000;opacity:.5;}
+.manual .manual_info {width:100%;height:100%;position: absolute;top:0px;left:0px;}
+.manual .manual_info > div {float:left;}
+.manual .manual_info .manual_logo {margin-left:10px;margin-top:8px;width:43px;height:43px;background:url(/upload/2017/09/13/2017091304161617788.jpg) 0 0 no-repeat;background-size:100%;}
+.manual .manual_info .manual_desc {width:45%;height:100%;font-size:.7rem;color:#fff;margin-left:10px;}
+.manual .manual_info .manual_desc .hd {height:auto;padding-top:0px;font-size:.9rem;width:96%;margin:0px auto;}
+.manual .manual_info .manual_open {margin-left: 5%;}
+.manual .manual_info .manual_open a {margin-top:5px;padding: 0 20px;width:auto;height:35px;line-height:35px;background-color:#ff424b;color:#fff;text-align:center;border-radius:5px;display:block;font-size:.7rem;letter-spacing: 2px;}
+.manual .manual_info .manual_close {float:right;width:35px;height:45px;display:none;}
+.manual .manual_info .manual_close a {width:50%;height:100%;display:block;background:url(/views/mobile/skin/blue/images/banner_ic_close.png) 50% no-repeat;}

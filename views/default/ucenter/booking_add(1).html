@@ -1,0 +1,50 @@
+{js:artTemplate}
+{js:my97date}
+<link href="{skin:css/ucenter_article_add.css}" rel="stylesheet" type="text/css" />
+<link href="{skin:css/ucenter_tutor.css}" rel="stylesheet" type="text/css" />
+
+<div class="main f_r">
+    <div class="uc_title m_10">
+        <label class="current"><span>{if:$id}修改{else:}发表{/if}预定信息</span></label>
+    </div>
+
+    <div class="box m_10">
+        <table class="list_table" width="100%" cellpadding="0" cellspacing="0">
+          <form name="form1" method="post" action="{url:/ucenter/booking_update}" enctype='multipart/form-data'>
+
+          <tr>
+            <td class="tt">用户名：</td>
+            <td><input name="username" type="text" pattern='required' alt='请输入用户名' class="normal" value="{$booking_info['username']}" /></td>
+          </tr>
+
+          <tr>
+            <td class="tt">真实姓名：</td>
+            <td><input name="true_name" type="text" pattern='required' alt='请输入真实姓名' class="normal" value="{$booking_info['true_name']}" /></td>
+          </tr>
+
+          <tr>
+            <td class="tt">手机号码：</td>
+            <td><input name="mobile" type="text" pattern='required' alt='请输入手机号码' class="normal" value="{$booking_info['mobile']}" /></td>
+          </tr>
+
+          <tr>
+            <td class="tt">商户名：</td>
+            <td><input name="seller_name" type="text" pattern='required' alt='请输入商户名' class="normal" value="{$booking_info['seller_name']}" /></td>
+          </tr>
+
+          <tr>
+            <td class="tt">课程名称：</td>
+            <td><input name="goods_name" type="text" pattern='required' alt='请输入课程名' class="normal" value="{$booking_info['goods_name']}" /></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>
+              {if:$id}<input type="hidden" name="id" value="{$id}"  />{/if}
+              <label class="btn"><input type="submit" value=" 发 布 "></label>
+            </td>
+          </tr>
+          </form>
+        </table>
+    </div>
+</div>
